@@ -1,0 +1,91 @@
+
+
+                <div class="row bg-img "  id="eachRow" *ngFor="let search of invitationsDetails"  >
+                    <div class="col-2 col-sm-2">
+                      
+                        <img *ngIf="search.gender=='men'" src="/assets/img/Saathidaar_PNG_logo/m-final.jpeg" class="mr-3"
+                        alt="...">
+                    <img *ngIf="search.gender=='women'" src="/assets/img/Saathidaar_PNG_logo/w-final.jpeg" class="mr-3"
+                        alt="...">
+                    </div>
+ 
+                    <div class="col-8 col-sm-8" >
+                        <div class="feature">
+
+                            <div class="name" id="padding-class" >
+                        
+                                {{search.first_name}} {{search.last_name}}
+                            </div>
+                            
+                            <div class="age-height" id="padding-class">
+                       
+                                Age: {{search.mage}} yrs
+                            </div>
+                            <div class="city-state" id="padding-class">
+                       
+                                Religion: {{search.religion}}
+                            </div>
+                            <div class="expectations" id="padding-class">
+                                marital status: {{search.maritalStatus}}
+                               
+                            </div>
+                            <div class="city-state" id="padding-class">
+                               
+                                Profession:
+
+                            </div>
+                            <div class="city-state" id="padding-class">
+                              
+                                Income: {{search.income}}
+                                <a [routerLink]="" (click)="singleViewMemberDetails(search.member_id)"
+                                    style="color: blue;">read more...</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-2 col-sm-2 buttonlogo">
+                  
+                            
+                         <tr>
+                            <th>
+                             <button  type="button" (click)="acceptMemberRequests(search.member_id)" >  <i class="fa fa-check-circle" aria-hidden="true"></i></button> 
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+                            <strong>Accept</strong>
+                            </th>
+                        </tr>
+   
+                        <tr>
+                            <th>
+                                <button type="button"  (click)="deletedMemberRequests(search.member_id)" >  <i class="fa fa-check-circle" aria-hidden="true"></i></button> 
+                            </th>
+                        </tr>
+                        
+                        <tr>
+                            <th>
+                        <strong>Decline</strong>
+                    </th>
+                </tr>
+              
+                        </div>
+                    </div>
+
+                <div style="border: 1px solid #742041;" class="row  Requests-hide" *ngIf="invitationsDetails.length == 0">
+                    <div class="col-4">
+                        </div>
+
+                    <div  class="col-4">
+                        <img src="/assets/img/sad-image.jpg" alt="">
+                        <p style="color:skyblue">
+                            There are no Invitations<br>
+                            <a href="">View My Matches</a>
+                        </p>
+                    </div>
+                    <div class="col-4">
+                    </div>
+                </div>
+
+          
+    

@@ -1,0 +1,177 @@
+<!-- 
+<div class="row">
+    <div class="col-3">
+
+ </div>
+
+ <div class="col-9">
+     <h3>Deleted Invitations</h3>
+    <div class="container">
+    
+    
+        <div class="row media col-12 position-relative colorbg1 shadow-lg" id="eachRow"
+        *ngFor="let search of rejectedDetails">
+        <div class="col-2">
+            <img *ngIf="search.gender=='men'" src="/assets/img/Saathidaar_PNG_logo/m-final.jpeg" class="mr-3"
+                alt="...">
+            <img *ngIf="search.gender=='women'" src="/assets/img/Saathidaar_PNG_logo/w-final.jpeg" class="mr-3"
+                alt="...">
+        </div>
+
+        <div class="col-sm-7 br" style="color:white;">
+            <div class="feature">
+
+                <div class="name" id="padding-class" style="font-size:30px;padding-top: 10px;">
+                 
+                    {{search.first_name}} {{search.last_name}}
+                </div>
+                <hr style="width:50%;margin-left: 100px;">
+                <div class="age-height" id="padding-class">
+                
+                    Age: {{search.mage}} yrs
+                </div>
+                <div class="city-state" id="padding-class">
+          
+                    Religion: {{search.religion}}
+                </div>
+                <div class="expectations" id="padding-class">
+                    marital status: {{search.maritalStatus}}
+                   
+                </div>
+                <div class="city-state" id="padding-class">
+                   
+                    Profession:
+                  
+                </div>
+                <div class="city-state" id="padding-class">
+                
+                    Income: {{search.income}}
+                    <a [routerLink]="" (click)="singleViewMemberDetails(search.member_id)"
+                        style="color: blue;">read more...</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-3 logo-3">
+            <div class="col-8"><a class="btn" href="#" role="button"><i class="fa-solid fa-phone"></i>Call</a>
+            </div>
+            <div class="col-8"><a class="btn" href="#" role="button"><i
+                        class="fa-solid fa-whatsapp-square"></i>Whatsapp</a></div>
+            <div class="col-8"><a class="btn" href="#" role="button"><i
+                        class="fa-solid fa-comment"></i>Saathidar</a></div>
+        </div>
+    </div>
+
+    <div class="row  Requests-hide" *ngIf="rejectedDetails.length == 0">
+        <div class="col-4">
+        </div>
+        <div class="col-4">
+            <img src="/assets/img/Requests1-pic.jpg" alt="">
+            <p>Deleted Invitations<br>
+            <a href="">View My Matches</a>
+            </p>
+        </div>
+        <div class="col-4">
+        </div>
+    </div>
+                </div>
+
+ </div>
+
+
+ 
+   </div>
+ -->
+<!-- =================================new============================= -->
+
+
+<div class="row bg-img "  id="eachRow"  *ngFor="let search of rejectedDetails"  >
+    <div class="col-2 col-sm-2">
+      
+        <img *ngIf="search.gender=='men'" src="/assets/img/Saathidaar_PNG_logo/m-final.jpeg" class="mr-3"
+        alt="...">
+    <img *ngIf="search.gender=='women'" src="/assets/img/Saathidaar_PNG_logo/w-final.jpeg" class="mr-3"
+        alt="...">
+    </div>
+
+    <div class="col-8 col-sm-8" >
+        <div class="feature">
+
+            <div class="name" id="padding-class" >
+        
+                {{search.first_name}} {{search.last_name}}
+            </div>
+            
+            <div class="age-height" id="padding-class">
+       
+                Age: {{search.mage}} yrs
+            </div>
+            <div class="city-state" id="padding-class">
+       
+                Religion: {{search.religion}}
+            </div>
+            <div class="expectations" id="padding-class">
+                marital status: {{search.maritalStatus}}
+               
+            </div>
+            <div class="city-state" id="padding-class">
+               
+                Profession:
+
+            </div>
+            <div class="city-state" id="padding-class">
+              
+                Income: {{search.income}}
+                <a [routerLink]="" (click)="singleViewMemberDetails(search.member_id)"
+                    style="color: blue;">read more...</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-2 col-sm-2 buttonlogo">
+  
+            
+         <tr>
+            <th>
+             <button  type="button"  > </button> 
+            </th>
+        </tr>
+        <tr>
+            <th>
+             <button  type="button"  ><i class="fa fa-check-circle" aria-hidden="true"></i>
+             </button> 
+            </th>
+        </tr>
+        
+
+        <tr>
+            <th>
+                <button type="button"  ></button> 
+            </th>
+        </tr>
+        
+        <tr>
+     <th>
+  
+     </th>
+</tr>
+
+        </div>
+    </div>
+
+<div class="row  Requests-hide"*ngIf="rejectedDetails.length == 0">
+    <div class="col-4">
+    </div>
+    <div class="col-4">
+        <img  src="/assets/img/sad-image.jpg" alt="">
+        <p style="color:darkcyan ;">
+            There are no accepted invitations<br>
+            <a href="">View My Matches</a>
+        </p>
+    </div>
+    <div class="col-4">
+    </div>
+</div>
+
+
+

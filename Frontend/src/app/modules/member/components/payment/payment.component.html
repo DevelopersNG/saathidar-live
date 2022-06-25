@@ -1,0 +1,132 @@
+<form id="msform">
+    <nav class="navbar navbar-light bg-light" style="background-color: #ffffff!important;">
+        <a class="navbar-brand"></a>
+    </nav>
+
+    <div class="alert alert-success" id="pay-success" style="display:none;">
+        <strong>Payment Completed Successfully</strong>
+    </div>
+    <div class="container bgmain">
+        <div class="col-12 ">
+
+            <h1 style="text-align:left; margin: auto;background-color: #742041;padding: 10px; color: #fff;">
+                <b>Saathidaar Membership</b></h1>
+            <hr>
+            <div class="pop">
+                <h3 style="text-align:left; margin: auto;"><b>{{plan_name}}</b><b style="float: right;">₹
+                        {{plan_amount}}</b></h3>
+                <hr>
+                <br>
+                <p> <i class="fa-solid fa-caret-right" style="margin:10px"></i>Dedicated Relationship Manager</p>
+                <p> <i class="fa-solid fa-caret-right" style="margin:10px"></i>Discreet and Confidential service</p>
+                <p> <i class="fa-solid fa-caret-right" style="margin:10px"></i>You are part of Elite Matrimony till you
+                    get married!
+                </p>
+                <p><i class="fa-solid fa-caret-right" style="margin:10px"></i>Relationship Manager confirms the
+                    prospect's interest
+                    to
+                    save
+                    your valuable time </p>
+                <p><i class="fa-solid fa-caret-right" style="margin:10px"></i>Our Relationship Managers go the extra
+                    mile to source
+                    profiles
+                    from different avenues</p>
+                <p><i class="fa-solid fa-caret-right" style="margin:10px"></i>A Senior Relationship Manager with
+                    extensive
+                    experience
+                    will
+                    look for the perfect match for you</p>
+            </div>
+            <hr>
+            <h3 style="text-align:left; margin: auto;"><b>Total Amount Payable</b><b style="float: right;">₹
+                    {{plan_amount}}</b></h3>
+
+            <hr>
+
+        </div>
+
+
+        <div class="vs">
+            <button  (click)="initPay()">Pay</button>
+            <!-- <button id="rzp-button1">Pay</button> -->
+            <!-- <button type="button" class="btn btn-primary" id="rzp-button1" style="margin-top:-2px">Pay</button> -->
+        </div>
+        <div style="color:red">
+            {{message}}
+        </div>
+    </div>
+</form>
+<!-- razorpay -->
+
+
+<!-- <script type="text/javascript">
+
+    function doPost(path, requestObject, isAsync) {
+        var resp;
+        $.ajax({
+            url: path,
+            type: 'POST',
+            data: requestObject,
+            contentType: "application/json; charset=UTF-8",
+            async: isAsync,
+            success: function (data) {
+                resp = JSON.parse(data)
+            }
+        })
+        return resp;
+    }
+
+
+</script> -->
+
+<script>
+    var resp = null;
+
+    /**
+        Manual Checkout for Razor Pay
+    **/
+
+    var options = {
+        "key": "YOUR_KEY_ID", // Enter the Key ID generated from the Dashboard
+        "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "Acme Corp",
+        "description": "Test Transaction",
+        "image": "https://example.com/your_logo",
+        "order_id": "order_IluGWxBm9U8zJ8", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "handler": function (response) {
+            alert(response.razorpay_payment_id);
+            alert(response.razorpay_order_id);
+            alert(response.razorpay_signature)
+        },
+        "prefill": {
+            "name": "Gaurav Kumar",
+            "email": "gaurav.kumar@example.com",
+            "contact": "9999999999"
+        },
+        "notes": {
+            "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response){
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+});
+
+    document.getElementById('rzp-button1').onclick = function(e){
+    alert("f");
+    rzp1.open();
+    e.preventDefault();
+}
+
+</script>

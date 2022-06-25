@@ -1,0 +1,301 @@
+#control12{
+    margin-left: 112px;
+}
+.navbar-brand img:hover
+{
+    background-color: none;
+}
+
+
+
+
+
+#model1{
+   
+    width: 354px;
+   height: 620px;
+    margin-left: 562px;
+    top: -6px
+}
+
+#akash{
+    margin-left: 60px;
+}
+
+.buttons {
+    margin: 10%;
+    text-align: center;
+    margin-left: 80px;
+   
+}
+
+
+
+
+
+
+
+
+
+  .navMenu a:hover {
+    color: #742041;
+  }
+  .nav-link{
+      font-size: 20px;
+  }
+
+
+
+
+
+
+
+
+img{
+    max-width: 100%;
+}
+a{
+    text-decoration: none;
+}
+ul{
+    padding-left: 0;
+}
+
+input:focus{
+    outline: none;
+}
+a:hover,
+a:focus{
+    text-decoration: none;
+    outline: none;
+    color: #ffffff;
+}
+
+
+.footer{ 
+    background: black;
+    padding-top: 70px;
+}
+.footer-about{
+    margin-bottom: 30px;
+}
+.footer-about .footer-logo{
+    margin-bottom: 30px;
+}
+.footer-about p{
+    color: #b7b7b7;
+    margin-bottom: 30px;
+}
+.footer-widget{
+    margin-bottom: 30px;
+}
+.footer-widget h6{
+    color:  #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+.footer-widget ul li{
+    line-height: 36px;
+    list-style: none;
+}
+.footer-widget ul li a{
+    color: #fff;
+    font-size: 15px;
+}
+
+.footer-widget .footer-newslatter p{
+    color: #b7b7b7;
+}
+.footer-widget .footer-newslatter form{
+    position: relative;
+}
+.footer-widget .footer-newslatter form input{
+    width: 100%;
+    font-size: 15px;
+    color: #ffffff;
+    background: transparent;
+    border: none;
+    padding: 15px 0;
+    border-bottom: 2px solid #ffffff;
+}
+
+
+.footer-copyright-text{
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px 0;
+    margin-top: 40px;
+}
+.footer-copyright-text p{
+    color: #b7b7b7;
+    margin-bottom: 0;
+}
+.footer-copyright-text p i{
+    color: #e53637;
+}
+.footer-copyright-text p a{
+    color: #e53637;
+}
+/* 
+/* width: 100px;height: 100px;border-radius: 20px; */
+
+
+  /* .btn-cont:hover {
+    background-position: left bottom;
+  }
+
+  .btn {
+    font-family: "Lato";
+    text-transform: uppercase;
+    font-weight: 300;
+    border-radius: 2px;
+    background-color: transparent;
+    border: 3px solid #333;
+    padding: 6px 12px;
+    transition: all 0.5s ease;
+    cursor:pointer;
+    margin-left: 30px;
+  }
+  .btn:hover,
+  button:hover {
+    outline: 0;
+    color: #fff;
+  }
+  .btn:active,
+  button:active {
+    outline: 0;
+    color: #fff;
+  }  */
+ 
+  .pop{
+      color: white;
+  }
+
+
+
+
+  .card {
+    width: 350px;
+    padding: 10px;
+    border-radius: 20px;
+    background: #fff;
+    border: none;
+    height: 350px;
+    position: relative;
+    box-shadow: 0 0 11px rgb(33, 33, 33); 
+
+  }
+  
+ 
+  
+  .mobile-text {
+    color: #989696b8;
+    font-size: 15px;
+  }
+  
+  .form-control {
+    margin-right: 12px;
+  }
+  
+ 
+  .cursor {
+    cursor: pointer;
+  }
+
+
+
+  #zoom {
+   
+    transition: transform .2s;
+  
+  }
+  
+  #zoom:hover {
+    -ms-transform: scale(1.1); /* IE 9 */
+    -webkit-transform: scale(1.1); /* Safari 3-8 */
+    transform: scale(1.1); 
+    color: #111;
+  }
+
+
+
+  #space1{
+      width: 197x;
+  }
+
+
+  .button {
+    border-radius: 4px;
+    background-color: #742041;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 28px;
+    padding: 20px;
+    width: 200px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+  }
+  
+  .btn span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .btn span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+  .btn:hover span {
+    padding-right: 25px;
+  }
+  
+  .btn:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+  #btn12{
+      margin-top: 40px;
+      /* margin-left:-150px; */
+  }
+ 
+
+#id2{
+    color: #00ffd5;
+}
+
+.modal-header {
+
+  padding: 0rem 1rem;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
+    background: #fff;
+    font-weight: normal;
+    color: #000;
+}
+active:hover {
+    background: #fff;
+    font-weight: normal;
+    color: #000;
+}
+
+
+
+
+
+
+
+
+
+

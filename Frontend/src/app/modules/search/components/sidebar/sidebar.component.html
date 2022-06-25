@@ -1,0 +1,504 @@
+<body>
+  <!-- <div class="container">
+        <div class="row">
+
+            <div class="col-3 refine-bg"> -->
+  <h3>Refine Search</h3>
+  <p>Matches</p>
+
+  <div class="form-check">
+    <input class="form-check-input position-static" type="checkbox" name="All" value="all"
+      (change)="selectCheckBox_MatchesAll($event,'matches/all')">
+    <label class="form-check-label" for="exampleRadios1">
+      ALL
+    </label>
+  </div>
+
+
+  <p>Recently Joined</p>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="recentlyJoined" value="recently-all-joined"
+      (change)="selectCheckBox_RecentlyJoined($event,'recently-joined/all')">
+    <label class="form-check-label" for="exampleRadios1">
+      All
+    </label>
+  </div>
+
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="recentlyJoined" value="Within a day"
+      (change)="selectCheckBox_RecentlyJoined($event,'recently-joined/within-a-day')">
+    <label class="form-check-label" for="exampleRadios1">
+      Within a Day
+    </label>
+  </div>
+
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="recentlyJoined" value="Within a week"
+      (change)="selectCheckBox_RecentlyJoined($event,'recently-joined/within-a-week')">
+    <label class="form-check-label" for="exampleRadios1">
+      Within a Week
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="recentlyJoined" value="Within a month"
+      (change)="selectCheckBox_RecentlyJoined($event,'recently-joined/within-a-month')">
+    <label class="form-check-label" for="exampleRadios1">
+      Within a Month
+    </label>
+  </div>
+
+
+  <p>Annual Income</p>
+  <div class="ScrollStyle">
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" name="All-Annual-Income" value="All"
+        (change)="selectCheckBox_AnnualIncome($event,'annual-income/all')">
+      <label class="form-check-label" for="exampleRadios1">
+        ALL
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" name="Upto INR 1 Lakh" value="Upto INR 1 Lakh"
+        (change)="selectCheckBox_AnnualIncome($event,'annual-income/upto-inr-1-lakh')">
+      <label class="form-check-label" for="exampleRadios1">
+        Upto INR 1 Lakh
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="INR 1 Lakh to 2 Lakh"
+        (change)="selectCheckBox_AnnualIncome($event,'annual-income/inr-1-lakh-to-2-lakh')">
+      <label class="form-check-label" for="exampleRadios2">
+        INR 1 Lakh to 2 Lakh
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="INR 2 Lakh to 4 Lakh"
+        (change)="selectCheckBox_AnnualIncome($event,'annual-income/inr-2-lakh-to-4-lakh')">
+      <label class="form-check-label" for="exampleRadios1">
+        INR 2 Lakh to 4 Lakh
+      </label>
+    </div>
+
+
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="INR 4 Lakh to 7 Lakh"
+        (change)="selectCheckBox_AnnualIncome($event,'annual-income/inr-4-lakh-to-7-lakh')">
+      <label class="form-check-label" for="exampleRadios1">
+        INR 4 Lakh to 7 Lakh
+      </label>
+    </div>
+
+
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="INR 7 Lakh to 10 Lakh"
+        (change)="selectCheckBox_AnnualIncome($event,'annual-income/inr-7-lakh-to-10-lakh')">
+      <label class="form-check-label" for="exampleRadios1">
+        INR 7 Lakh to 10 Lakh
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="INR 10 Lakh to 15 Lakh"
+        (change)="selectCheckBox_AnnualIncome($event,'annual-income/inr-10-lakh-to-15-lakh')">
+      <label class="form-check-label" for="exampleRadios1">
+        INR 10 Lakh to 15 Lakh
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="INR 15 Lakh to 20 Lakh"
+        (change)="selectCheckBox_AnnualIncome($event,'annual-income/inr-15-lakh-to-20-lakh')">
+      <label class="form-check-label" for="exampleRadios1">
+        INR 15 Lakh to 20 Lakh
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="INR 20 Lakh to 30 Lakh"
+        (change)="selectCheckBox_AnnualIncome($event,'annual-income/inr-20-lakh-to-30-lakh')">
+      <label class="form-check-label" for="exampleRadios1">
+        INR 20 Lakh to 30 Lakh
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="INR 30 Lakh to 50 Lakh"
+        (change)="selectCheckBox_AnnualIncome($event,'annual-income/inr-30-lakh-to-50-lakh')">
+      <label class="form-check-label" for="exampleRadios1">
+        INR 30 Lakh to 50 Lakh
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="INR 50 Lakh to 75 Lakh"
+        (change)="selectCheckBox_AnnualIncome($event,'annual-income/inr-50-lakh-to-75-lakh')">
+      <label class="form-check-label" for="exampleRadios1">
+        INR 50 Lakh to 75 Lakh
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="INR 75 Lakh to 1 Crore"
+        (change)="selectCheckBox_AnnualIncome($event,'annual-income/inr-75-lakh-to-1-crore')">
+      <label class="form-check-label" for="exampleRadios1">
+        INR 75 Lakh to 1 Crore
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="INR 1 Crore above"
+        (change)="selectCheckBox_AnnualIncome($event,'annual-income/inr-1-crore-above')">
+      <label class="form-check-label" for="exampleRadios1">
+        INR 1 Crore Above
+      </label>
+    </div>
+    <br>
+  </div>
+
+  <p>Marital Status</p>
+  <div class="ScrollStyle">
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="All"
+        (change)="selectCheckBox_MaritalStatus($event,'marital-status/all')">
+      <label class="form-check-label" for="exampleRadios1">
+        ALL
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Never Married"
+        (change)="selectCheckBox_MaritalStatus($event,'marital-status/never-married')">
+      <label class="form-check-label" for="exampleRadios1">
+        Never Married
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Divorced"
+        (change)="selectCheckBox_MaritalStatus($event,'marital-status/divorced')">
+      <label class="form-check-label" for="exampleRadios2">
+        Divorced
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Awaiting Divor"
+        (change)="selectCheckBox_MaritalStatus($event,'marital-status/awaiting-divor')">
+      <label class="form-check-label" for="exampleRadios1">
+        Awaiting Divor
+      </label>
+    </div>
+
+
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Widowed"
+        (change)="selectCheckBox_MaritalStatus($event,'marital-status/widowed')">
+      <label class="form-check-label" for="exampleRadios1">
+        Widowed
+      </label>
+    </div>
+  </div>
+
+
+  <p>Religion</p>
+  <div class="ScrollStyle">
+    <ul>
+      <li *ngFor="let relName of religionName">
+        <input class="form-check-input position-static" type="checkbox" id="blankCheckbox"
+          name="{{relName.religion_name}}" value="{{relName.religion_name}}"
+          (change)="selectCheckBox_Religion($event,'religion')">
+        <span class="form-check-label" for="exampleRadios1">{{relName.religion_name}}</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- <p>Community</p>
+              <div class="form-check">
+                <input  class="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option1" >
+                <label class="form-check-label" for="exampleRadios1">
+                    ALL
+                </label>
+              </div>
+              <div class="form-check">
+                <input  class="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option1" >
+                <label class="form-check-label" for="exampleRadios1">
+                    Kayastha
+                </label>
+              </div>
+              <div class="form-check">
+                <input  class="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option2">
+                <label class="form-check-label" for="exampleRadios2">
+                    Rajput
+
+                </label>
+              </div>
+              <div class="form-check">
+                <input  class="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option1" >
+                <label class="form-check-label" for="exampleRadios1">
+                    Brahmin - Othe...(1000+)
+
+                </label>
+              </div>
+
+
+              <div class="form-check">
+                <input  class="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option1" >
+                <label class="form-check-label" for="exampleRadios1">
+                    Baniya(1000+)
+                </label>
+              </div>
+                   
+
+              <div class="form-check">
+                <input  class="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option1" >
+                <label class="form-check-label" for="exampleRadios1">
+                    Agarwal(1000+)
+                </label>
+              </div>
+              <a href="">More<i class="fa-solid fa-caret-right"></i></a><br> -->
+
+
+  <p>Country Living in</p>
+  <div class="ScrollStyle">
+    <ul>
+      <li *ngFor="let countryName of countryList">
+        <input class="form-check-input position-static" type="checkbox" id="blankCheckbox"
+          name="{{countryName.country_name}}" value="{{countryName.country_name}}"
+          (change)="selectCheckBox_Country($event,'country-living-in')">
+        <span class="form-check-label" for="exampleRadios1">{{countryName.country_name}}</span>
+      </li>
+    </ul>
+  </div>
+
+
+  <p>State Living in</p>
+  <div class="ScrollStyle">
+    <ul>
+      <li *ngFor="let statelist of stateList">
+        <input class="form-check-input position-static" name="{{statelist.state_name}}" type="checkbox"
+          id="blankCheckbox" value="{{statelist.state_name}}" (change)="selectCheckBox_State($event,'state-living-in')">
+        <span class="form-check-label" for="exampleRadios1">{{statelist.state_name}}</span>
+      </li>
+    </ul>
+  </div>
+
+
+
+  <p>Working With</p>
+  <div class="ScrollStyle">
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="All"
+        (change)="selectCheckBox_WorkingWith($event,'working-with/widowed')">
+      <label class="form-check-label" for="exampleRadios1">
+        ALL
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Private Company"
+        (change)="selectCheckBox_WorkingWith($event,'working-with/private-company')">
+      <label class="form-check-label" for="exampleRadios1">
+        Private Company
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Government / Public Sector"
+        (change)="selectCheckBox_WorkingWith($event,'working-with/government-public-sector')">
+      <label class="form-check-label" for="exampleRadios2">
+        Government / Public Sector
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Business / Self Employed"
+        (change)="selectCheckBox_WorkingWith($event,'working-with/business-self-employed')">
+      <label class="form-check-label" for="exampleRadios1">
+        Business / Self Employed
+      </label>
+    </div>
+
+
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Not Working"
+        (change)="selectCheckBox_WorkingWith($event,'working-with/not-working')">
+      <label class="form-check-label" for="exampleRadios1">
+        Non Working
+      </label>
+    </div>
+
+
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Defense / Civil Service"
+        (change)="selectCheckBox_WorkingWith($event,'working-with/defense-civil-service')">
+      <label class="form-check-label" for="exampleRadios1">
+        Defense / Civil Service
+      </label>
+    </div>
+  </div>
+
+  <p>Profile Created by</p>
+  <div class="ScrollStyle">
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="All"
+        (change)="selectCheckBox_ProfileCreatedBy($event,'profile-created-by/defense-civil-service')">
+      <label class="form-check-label" for="exampleRadios1">
+        ALL
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Parents"
+        (change)="selectCheckBox_ProfileCreatedBy($event,'profile-created-by/parents')">
+      <label class="form-check-label" for="exampleRadios1">
+        Parents
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Self"
+        (change)="selectCheckBox_ProfileCreatedBy($event,'profile-created-by/self')">
+      <label class="form-check-label" for="exampleRadios2">
+        Self
+
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Sibling"
+        (change)="selectCheckBox_ProfileCreatedBy($event,'profile-created-by/sibling')">
+      <label class="form-check-label" for="exampleRadios1">
+        Sibling
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Other"
+        (change)="selectCheckBox_ProfileCreatedBy($event,'profile-created-by/other')">
+      <label class="form-check-label" for="exampleRadios1">
+        Other
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Friends"
+        (change)="selectCheckBox_ProfileCreatedBy($event,'profile-created-by/friends')">
+      <label class="form-check-label" for="exampleRadios1">
+        Friends
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Relatives"
+        (change)="selectCheckBox_ProfileCreatedBy($event,'profile-created-by/relatives')">
+      <label class="form-check-label" for="exampleRadios1">
+        Relatives
+      </label>
+    </div>
+  </div>
+
+
+
+
+
+  <p>Eating habits</p>
+  <div class="ScrollStyle">
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="All"
+        (change)="selectCheckBox_LifeStyles($event,'eating-habits/all')">
+      <label class="form-check-label" for="exampleRadios1">
+        ALL
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Veg"
+        (change)="selectCheckBox_LifeStyles($event,'eating-habits/veg')">
+      <label class="form-check-label" for="exampleRadios1">
+        Veg
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Non-veg"
+        (change)="selectCheckBox_LifeStyles($event,'eating-habits/non-veg')">
+      <label class="form-check-label" for="exampleRadios2">
+        Non-veg
+
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Occasionally Non-Veg"
+        (change)="selectCheckBox_LifeStyles($event,'eating-habits/occasionally-non-veg')">
+      <label class="form-check-label" for="exampleRadios1">
+        Occasionally Non-Veg
+      </label>
+    </div>
+
+
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Jain"
+        (change)="selectCheckBox_LifeStyles($event,'eating-habits/jain')">
+      <label class="form-check-label" for="exampleRadios1">
+        Jain
+      </label>
+    </div>
+  </div>
+
+
+  <p>Education Level</p>
+  <div class="ScrollStyle">
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="ALL"
+        (change)="selectCheckBox_EducationalLevel($event,'education-level/all')">
+      <label class="form-check-label" for="exampleRadios1">
+        ALL
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Bachelor"
+        (change)="selectCheckBox_EducationalLevel($event,'education-level/bachelor')">
+      <label class="form-check-label" for="exampleRadios1">
+        Bachelor
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Master"
+        (change)="selectCheckBox_EducationalLevel($event,'education-level/master')">
+      <label class="form-check-label" for="exampleRadios2">
+        Master
+
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Honours"
+        (change)="selectCheckBox_EducationalLevel($event,'education-level/honours')">
+      <label class="form-check-label" for="exampleRadios1">
+
+        Honours
+
+      </label>
+    </div>
+
+
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Diploma"
+        (change)="selectCheckBox_EducationalLevel($event,'education-level/diploma')">
+      <label class="form-check-label" for="exampleRadios1">
+        Diploma
+      </label>
+    </div>
+
+
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Doctorate"
+        (change)="selectCheckBox_EducationalLevel($event,'education-level/doctorate')">
+      <label class="form-check-label" for="exampleRadios1">
+        Doctorate
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input position-static" type="checkbox" value="Associate"
+        (change)="selectCheckBox_EducationalLevel($event,'education-level/associate')">
+      <label class="form-check-label" for="exampleRadios1">
+        Associate
+      </label>
+    </div>
+  </div>
+
+
+
+
+  <div class="col-9"></div>
+</body>

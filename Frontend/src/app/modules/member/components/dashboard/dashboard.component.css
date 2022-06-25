@@ -1,0 +1,211 @@
+
+* {
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.navbar {
+    background-color: #742041;
+}
+
+.btn:not(:disabled):not(.disabled) {
+    color: #fff;
+}
+
+.navbar a {
+    color: #fff;
+
+}
+
+.card input {
+    margin-top: 10px;
+    border: 1px #742041 solid;
+}
+
+.card {
+    border: 1px #742041 solid;
+    background-color: #742041;
+
+}
+
+.card {
+    margin-top: 10px;
+}
+
+
+
+
+.Notifications {
+    margin-top: 50px;
+}
+
+
+
+.badge {
+    float: right;
+}
+.btn99
+{
+    background-color: #742041;
+}
+
+
+
+.bgcolor {
+    padding: 5px;
+    background: seashell;
+}
+
+
+.media img {
+    width: 79px;
+    border-radius: 50%;
+    margin:9px ;
+}
+
+.media {
+    border: 2px #742041 solid;
+
+    box-shadow: 0 0 11px rgba(33, 33, 33, 0.964); 
+
+}
+
+
+.media ul {
+    float: right;
+    overflow: hidden;
+}
+
+.stretched-link {
+    float: right;
+    color: #fff;
+  
+   
+  
+ 
+    font-size: 10px;
+}
+span
+{
+    margin-left: 5px;
+}
+.badge-light
+{
+    background-color: #fff;padding: 5px;color: black;
+}
+
+a {
+  margin-top:10px ;padding-right: 5px;
+}
+
+.stretched-link:hover {
+    background-color: #742041;
+    color: #fff;
+}
+.bgCard
+{
+  background-color: #742041;
+}
+
+
+.media li {
+    float: left;
+    color: #fff;
+    padding-left: 0px;
+    padding-right: 30px;
+    font-size: 12px;
+    overflow: hidden;
+    margin-top: -3px;
+}
+
+.Expectation {
+    width: 100px;
+    height: auto;
+}
+
+
+span[_ngcontent-dkq-c81]
+{
+    background-color: black;
+}
+.span[_ngcontent-soi-c81] {
+    margin-left: 0px;
+    background-color: black;
+}
+
+.top {
+  margin: 10px;
+}
+.carousel-control-prev-icon 
+{
+    background-color: #742041;border-radius: 50%;
+    
+}
+.carousel-control-next-icon
+{
+    background-color: #742041;border-radius: 50%;  
+}
+
+
+/* footer */
+
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif
+}
+
+footer {
+    height: 150px;
+    width: 100%;
+    text-align: center;
+    margin: auto;
+    background-color: #742041
+}
+
+
+li {
+    float: right;
+    padding-left: 35px;
+    padding-top: 10px;
+    color: #fff;
+}
+
+ul {
+    float: left;
+    list-style: none;
+}
+
+footer ul {
+    float: left;
+    list-style: none;
+    padding: 50px;
+}
+
+.fa-brands {
+    color: #fff;
+    font-size: 30px;
+}
+#button1 button
+{
+    background-color: #742041;padding: 10px;margin: 3px;
+}
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled)
+{
+    background: transparent;border: none;
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) { 
+
+
+
+    
+
+
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) { 
+    
+  
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+
+}
