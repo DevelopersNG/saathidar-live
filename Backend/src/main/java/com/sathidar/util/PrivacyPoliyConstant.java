@@ -1,38 +1,36 @@
 package com.sathidar.util;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.springframework.context.annotation.ComponentScan;
 
+@ComponentScan
 public class PrivacyPoliyConstant {
 	
 	
-	HashMap<Integer,String> lst_Phone = getPhoneList();
+	public HashMap<Integer,String> lst_Phone = getPhoneList();
 	
-	HashMap<Integer,String> lst_Email = getEmailList();
+	public HashMap<Integer,String> lst_Email = getEmailList();
 
-	HashMap<Integer,String> lst_Photo = getPhotoList();
+	public HashMap<Integer,String> lst_Photo = getPhotoList();
 
-	HashMap<Integer,String> lst_DOB = getDOBList();
+	public HashMap<Integer,String> lst_DOB = getDOBList();
 	
-	HashMap<Integer,String> lst_Annual_Income = getAnnualIncomeList();
+	public HashMap<Integer,String> lst_Annual_Income = getAnnualIncomeList();
 
-	HashMap<Integer,String> lst_Horoscope = getHoroscopeList();
+	public HashMap<Integer,String> lst_Horoscope = getHoroscopeList();
 
-	HashMap<Integer,String> lst_VisitorsSettings = getVisitorsSettingsList();
+	public HashMap<Integer,String> lst_VisitorsSettings = getVisitorsSettingsList();
 	
-	HashMap<Integer,String> lst_ShortlistSettings = getShortlistSettingsList();
+	public HashMap<Integer,String> lst_ShortlistSettings = getShortlistSettingsList();
 	
-	HashMap<Integer,String> lst_ProfilePrivacy = getProfilePrivacyList();
+	public HashMap<Integer,String> lst_ProfilePrivacy = getProfilePrivacyList();
 
-	
 	private HashMap<Integer, String> getPhoneList() {
 		HashMap<Integer, String> map=new HashMap<Integer, String>();
 		map.put(1,"Only Premium Members");
 		map.put(2,"Only Premium Members you like");
 		map.put(3,"No one (Matches won't be able to call you)");
-		map.put(4,"Only visible to all your Matches (Expires with Membership) ");
+		map.put(4,"Only visible to all your Matches (Expires with Membership)");
 		return map;
 	}
 	
@@ -48,7 +46,7 @@ public class PrivacyPoliyConstant {
 	private HashMap<Integer, String> getPhotoList() {
 		HashMap<Integer, String> map=new HashMap<Integer, String>();
 		map.put(1,"Visible to all Member");
-		map.put(2,"Visible to Members I like and to all Premium Members ");
+		map.put(2,"Visible to Members I like and to all Premium Members");
 		return map;
 	}
 	
@@ -83,8 +81,8 @@ public class PrivacyPoliyConstant {
 	
 	private HashMap<Integer, String> getShortlistSettingsList() {
 		HashMap<Integer, String> map=new HashMap<Integer, String>();
-		map.put(1,"Let other Members know that I have shortlisted their Profile ");
-		map.put(2,"Do not let other Members know that I have shortlisted their Profile ");
+		map.put(1,"Let other Members know that I have shortlisted their Profile");
+		map.put(2,"Do not let other Members know that I have shortlisted their Profile");
 		return map;
 	}
 	

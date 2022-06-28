@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="")
@@ -25,6 +26,95 @@ public class PrivacyOptionsModel {
 	private Integer visitors_setting;
 	private Integer shortlist_setting;
 	private Integer profile_privacy;
+	private Integer member_id;
+	
+	@Transient
+	private String valPhone;
+	
+	@Transient
+	private String valEmail;
+	
+	@Transient
+	private String valPhoto;
+	
+	@Transient
+	private String valDob;
+	
+	@Transient
+	private String valAnnual_income;
+	
+	@Transient
+	private String valHoroscope;
+	
+	@Transient
+	private String valVisitors_setting;
+	
+	@Transient
+	private String valShortlist_setting;
+	
+	@Transient
+	private String valProfile_privacy;
+	
+	public String getValPhone() {
+		return valPhone;
+	}
+	public void setValPhone(String valPhone) {
+		this.valPhone = valPhone;
+	}
+	public String getValEmail() {
+		return valEmail;
+	}
+	public void setValEmail(String valEmail) {
+		this.valEmail = valEmail;
+	}
+	public String getValPhoto() {
+		return valPhoto;
+	}
+	public void setValPhoto(String valPhoto) {
+		this.valPhoto = valPhoto;
+	}
+	public String getValDob() {
+		return valDob;
+	}
+	public void setValDob(String valDob) {
+		this.valDob = valDob;
+	}
+	public String getValAnnual_income() {
+		return valAnnual_income;
+	}
+	public void setValAnnual_income(String valAnnual_income) {
+		this.valAnnual_income = valAnnual_income;
+	}
+	public String getValHoroscope() {
+		return valHoroscope;
+	}
+	public void setValHoroscope(String valHoroscope) {
+		this.valHoroscope = valHoroscope;
+	}
+	public String getValVisitors_setting() {
+		return valVisitors_setting;
+	}
+	public void setValVisitors_setting(String valVisitors_setting) {
+		this.valVisitors_setting = valVisitors_setting;
+	}
+	public String getValShortlist_setting() {
+		return valShortlist_setting;
+	}
+	public void setValShortlist_setting(String valShortlist_setting) {
+		this.valShortlist_setting = valShortlist_setting;
+	}
+	public String getValProfile_privacy() {
+		return valProfile_privacy;
+	}
+	public void setValProfile_privacy(String valProfile_privacy) {
+		this.valProfile_privacy = valProfile_privacy;
+	}
+	public Integer getMember_id() {
+		return member_id;
+	}
+	public void setMember_id(Integer member_id) {
+		this.member_id = member_id;
+	}
 	public Integer getId() {
 		return id;
 	}
