@@ -179,4 +179,55 @@ public class PrivacyOptionsController {
 		 	 }	
 			 return jsObject.put("Data", map).toString();
 	}
+	
+	@GetMapping(value="/privacy/get/all/{member_id}")
+	private String GetAllPrivacy(@PathVariable String member_id ) {
+		JSONArray jsonResultsArray=new JSONArray();
+		JSONObject jsObject=new JSONObject();
+		jsonResultsArray= privacyOptionsService.GetAllPrivacy(member_id);
+		 if(jsonResultsArray==null) {
+			 jsObject.put("data",jsonResultsArray);
+			 jsObject.put("results","0");
+			 jsObject.put("message","something wrong ! record not fetch...");
+		 }else {
+			 jsObject.put("data",jsonResultsArray);
+			 jsObject.put("results","1");
+		 }
+		return jsObject.toString();
+	}
+	
+//	*****************************  code for email sms alert *******************************
+	
+	@PostMapping(value = "/alert/update/email-sms")
+	public String updateEmailSMSSetting(@Validated @RequestBody PrivacyOptionsModel privacyOptionsModel) {
+		 JSONObject jsObject = new JSONObject();
+		 HashMap<String,String> map= new HashMap<String, String>(); 
+		 int status=privacyOptionsService.updateEmailSMSSetting(privacyOptionsModel);
+		 if(status>0) {
+			 map.put("results",""+1);
+			 map.put("message","Email-SMS Alert Updated");
+		 }
+		 	 else
+		 	 {
+		 		map.put("results",""+0);
+		 		map.put("message","Something wrong ! phone privacy not updated");
+		 	 }	
+			 return jsObject.put("Data", map).toString();
+	}
+	
+	@GetMapping(value="/alert/get/email-sms/{member_id}")
+	private String GetAllEmailSMSSetting(@PathVariable String member_id ) {
+		JSONArray jsonResultsArray=new JSONArray();
+		JSONObject jsObject=new JSONObject();
+		jsonResultsArray= privacyOptionsService.GetAllEmailSMSSetting(member_id);
+		 if(jsonResultsArray==null) {
+			 jsObject.put("data",jsonResultsArray);
+			 jsObject.put("results","0");
+			 jsObject.put("message","something wrong ! record not fetch...");
+		 }else {
+			 jsObject.put("data",jsonResultsArray);
+			 jsObject.put("results","1");
+		 }
+		return jsObject.toString();
+	}
 }

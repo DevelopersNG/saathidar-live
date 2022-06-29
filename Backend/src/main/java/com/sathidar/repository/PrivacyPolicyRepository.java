@@ -1,5 +1,6 @@
 package com.sathidar.repository;
 
+import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -115,5 +116,29 @@ public interface PrivacyPolicyRepository extends JpaRepository<PrivacyOptionsMod
 	@Modifying
 	@Query(value="insert into privacy_options (profile_privacy,member_id) value (:keyCode,:member_id)",nativeQuery = true)
 	int insertProfileePrivacy(Integer member_id, int keyCode);
+
+	@Query(value="select phone,email,photo,dob,annual_income,horoscope,visitors_setting,shortlist_setting,profile_privacy from privacy_options where member_id= :member_id",nativeQuery = true)
+	List<Object[]> getAllPrivacy(String member_id);
+
+	@Query(value="select count(*) from email_sms_alert where member_id= :member_id",nativeQuery = true)
+	int findByMember_Id_SMS_ALERT(Integer member_id);
+
+//	***************************** update email/sms alert ********************************
+	
+	@Transactional
+	@Modifying
+	@Query(value="update email_sms_alert set premium_match_mail= :premium_match_mail,recent_visitors_email= :recent_visitors_email,"
+			+ "contact_alert= :contact_alert,sms_alert= :sms_alert,message_received_alert= :message_received_alert  where member_id=:member_id",nativeQuery = true)
+	int updateeEmailSMS(Integer member_id, String premium_match_mail, String recent_visitors_email,
+			String contact_alert, String sms_alert, String message_received_alert);
+
+	@Transactional
+	@Modifying
+	@Query(value="insert into email_sms_alert (premium_match_mail,recent_visitors_email,contact_alert,sms_alert,message_received_alert,member_id) value (:premium_match_mail,:recent_visitors_email,:contact_alert,:sms_alert,:message_received_alert,:member_id)",nativeQuery = true)
+	int inserteEmailSMS(Integer member_id, String premium_match_mail, String recent_visitors_email,
+			String contact_alert, String sms_alert, String message_received_alert);
+
+	@Query(value="select premium_match_mail,recent_visitors_email,contact_alert,sms_alert,message_received_alert from email_sms_alert where member_id= :member_id",nativeQuery = true)
+	List<Object[]> GetAllEmailSMSSetting(String member_id);
 
 }
