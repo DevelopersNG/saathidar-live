@@ -55,6 +55,54 @@ public class PrivacyOptionsModel {
 	@Transient
 	private String valProfile_privacy;
 	
+	
+//	************* for email alert ********************************
+
+	@Transient
+	private String premium_match_mail;
+	
+	@Transient
+	private String recent_visitors_email;
+	
+	@Transient
+	private String contact_alert;
+	
+	@Transient
+	private String sms_alert;
+	
+	@Transient
+	private String message_received_alert;
+	
+	public String getPremium_match_mail() {
+		return premium_match_mail;
+	}
+	public void setPremium_match_mail(String premium_match_mail) {
+		this.premium_match_mail = premium_match_mail;
+	}
+	public String getRecent_visitors_email() {
+		return recent_visitors_email;
+	}
+	public void setRecent_visitors_email(String recent_visitors_email) {
+		this.recent_visitors_email = recent_visitors_email;
+	}
+	public String getContact_alert() {
+		return contact_alert;
+	}
+	public void setContact_alert(String contact_alert) {
+		this.contact_alert = contact_alert;
+	}
+	public String getSms_alert() {
+		return sms_alert;
+	}
+	public void setSms_alert(String sms_alert) {
+		this.sms_alert = sms_alert;
+	}
+	public String getMessage_received_alert() {
+		return message_received_alert;
+	}
+	public void setMessage_received_alert(String message_received_alert) {
+		this.message_received_alert = message_received_alert;
+	}
 	public String getValPhone() {
 		return valPhone;
 	}
