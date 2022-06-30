@@ -31,7 +31,6 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 
 	@PersistenceContext
 	private EntityManager em;
-
 	
 	@Override
 	public JSONArray SendRequestToMember(RequestMemberModel requestMemberModel) {
@@ -46,13 +45,18 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			String request_status = requestMemberModel.getRequest_status().trim();
 			requestMemberObject = requestMemberRepository.sendRequestToMember(request_from_id, request_to_id,
 					request_status);
-			json.put("message", "request are send..");
-			json.put("results", "1");
-
+			
+			
 			if (requestMemberObject == null) {
 				json.put("message", "request not send..");
 				json.put("results", "0");
 //				throw new BadRequestException("request not send..");
+			}else {
+				json.put("message", "request are send..");
+				json.put("results", "1");
+				// send the email/sms to other member
+				
+				
 			}
 
 			resultArray.put(json);
@@ -410,4 +414,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		}
 				return ids;
 	}
+
+	
+
 }

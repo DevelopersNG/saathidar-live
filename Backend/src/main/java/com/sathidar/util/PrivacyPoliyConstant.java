@@ -6,7 +6,6 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan
 public class PrivacyPoliyConstant {
 	
-	
 	public HashMap<Integer,String> lst_Phone = getPhoneList();
 	
 	public HashMap<Integer,String> lst_Email = getEmailList();
@@ -27,26 +26,35 @@ public class PrivacyPoliyConstant {
 
 	private HashMap<Integer, String> getPhoneList() {
 		HashMap<Integer, String> map=new HashMap<Integer, String>();
-		map.put(1,"Only Premium Members");
-		map.put(2,"Only Premium Members you like");
-		map.put(3,"No one (Matches won't be able to call you)");
-		map.put(4,"Only visible to all your Matches (Expires with Membership)");
+		map.put(1,"Visible to all Member");
+		map.put(2,"Visible to all Premium Members");
+		map.put(3,"Keep this private");
+//		map.put(1,"Only Premium Members");
+//		map.put(2,"Only Premium Members you like");
+//		map.put(3,"No one (Matches won't be able to call you)");
+//		map.put(4,"Only visible to all your Matches (Expires with Membership)");
 		return map;
 	}
 	
 	private HashMap<Integer, String> getEmailList() {
 		HashMap<Integer, String> map=new HashMap<Integer, String>();
-		map.put(1,"Visible to all Premium Members");
-		map.put(2,"Visible to Premium Members you wish to connect to");
-		map.put(3,"Hide my Email Address");
-		map.put(4,"Visible to all your Matches (Expires with Membership)");
+		map.put(1,"Visible to all Member");
+		map.put(2,"Visible to all Premium Members");
+		map.put(3,"Keep this private");
+//		map.put(1,"Visible to all Premium Members");
+//		map.put(2,"Visible to Premium Members you wish to connect to");
+//		map.put(3,"Hide my Email Address");
+//		map.put(4,"Visible to all your Matches (Expires with Membership)");
 		return map;
 	}
 	
 	private HashMap<Integer, String> getPhotoList() {
 		HashMap<Integer, String> map=new HashMap<Integer, String>();
 		map.put(1,"Visible to all Member");
-		map.put(2,"Visible to Members I like and to all Premium Members");
+		map.put(2,"Visible to all Premium Members");
+		map.put(3,"Keep this private");
+//		map.put(1,"Visible to all Member");
+//		map.put(2,"Visible to Members I like and to all Premium Members");
 		return map;
 	}
 	
@@ -59,19 +67,27 @@ public class PrivacyPoliyConstant {
 	
 	private HashMap<Integer, String> getAnnualIncomeList() {
 		HashMap<Integer, String> map=new HashMap<Integer, String>();
-		map.put(1,"Visible to all Members");
-		map.put(2,"Keep this private");
+		map.put(1,"Visible to all Member");
+		map.put(2,"Visible to all Premium Members");
+		map.put(3,"Keep this private");
+//		map.put(1,"Visible to all Members");
+//		map.put(2,"Keep this private");
 		return map;
 	}
 	
 	private HashMap<Integer, String> getHoroscopeList() {
 		HashMap<Integer, String> map=new HashMap<Integer, String>();
-		map.put(1,"Visible to all Members");
-		map.put(2,"Visible to contacted and accepted Members");
-		map.put(3,"Hide from all");
+		map.put(1,"Visible to all Member");
+		map.put(2,"Visible to all Premium Members");
+		map.put(3,"Keep this private");
+//		map.put(1,"Visible to all Members");
+//		map.put(2,"Visible to contacted and accepted Members");
+//		map.put(3,"Hide from all");
 		return map;
 	}
 	
+	
+//	************* this part do latter **********************************
 	private HashMap<Integer, String> getVisitorsSettingsList() {
 		HashMap<Integer, String> map=new HashMap<Integer, String>();
 		map.put(1,"Let other Members know that I have visited their Profile");

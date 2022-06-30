@@ -27,6 +27,9 @@ public interface PrivacyPolicyRepository extends JpaRepository<PrivacyOptionsMod
 	@Query(value="update privacy_options set phone= :keyCode where member_id=:member_id",nativeQuery = true)
 	int updatePhonePrivacy(Integer member_id, int keyCode);
 
+	@Query(value="select phone from privacy_options where member_id=:member_id",nativeQuery = true)
+	String getPhoneRecords(Integer member_id);
+	
 	//email
 	@Transactional
 	@Modifying
@@ -38,6 +41,10 @@ public interface PrivacyPolicyRepository extends JpaRepository<PrivacyOptionsMod
 	@Query(value="insert into privacy_options (email,member_id) value (:keyCode,:member_id)",nativeQuery = true)
 	int insertEmailPrivacy(Integer member_id, int keyCode);
 
+	@Query(value="select email from privacy_options where member_id=:member_id",nativeQuery = true)
+	String getEmailRecords(int member_id);
+
+	
 	//Photo
 	@Transactional
 	@Modifying
@@ -62,6 +69,10 @@ public interface PrivacyPolicyRepository extends JpaRepository<PrivacyOptionsMod
 	@Query(value="insert into privacy_options (dob,member_id) value (:keyCode,:member_id)",nativeQuery = true)
 	int insertDOBPrivacy(Integer member_id, int keyCode);
 
+	@Query(value="select dob from privacy_options where member_id=:member_id",nativeQuery = true)
+	String getDateOfBirthRecords(int member_id);
+	
+	
 	// annual income
 	@Transactional
 	@Modifying
@@ -73,6 +84,9 @@ public interface PrivacyPolicyRepository extends JpaRepository<PrivacyOptionsMod
 	@Query(value="insert into privacy_options (annual_income,member_id) value (:keyCode,:member_id)",nativeQuery = true)
 	int insertAnnualIncomePrivacy(Integer member_id, int keyCode);
 
+	@Query(value="select annual_income from privacy_options where member_id=:member_id",nativeQuery = true)
+	String getAnnualIncomeRecords(int member_id);
+	
 	// horoscope
 	@Transactional
 	@Modifying
@@ -83,7 +97,7 @@ public interface PrivacyPolicyRepository extends JpaRepository<PrivacyOptionsMod
 	@Modifying
 	@Query(value="insert into privacy_options (horoscope,member_id) value (:keyCode,:member_id)",nativeQuery = true)
 	int insertHoroscopePrivacy(Integer member_id, int keyCode);
-
+	
 	// visitors_setting
 	@Transactional
 	@Modifying
@@ -141,4 +155,10 @@ public interface PrivacyPolicyRepository extends JpaRepository<PrivacyOptionsMod
 	@Query(value="select premium_match_mail,recent_visitors_email,contact_alert,sms_alert,message_received_alert from email_sms_alert where member_id= :member_id",nativeQuery = true)
 	List<Object[]> GetAllEmailSMSSetting(String member_id);
 
+	
+
+	
+
+
+	
 }
