@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="member_request")
@@ -25,6 +26,40 @@ public class RequestMemberModel {
 	private Integer block_by_id;
 	
 	private String block_status;
+	
+//	*********** for sms ****************************
+	@Transient
+	private String phone_number;
+	
+	@Transient
+	private String message;
+	
+	@Transient
+	private String sender_id;
+	
+	public String getPhone_number() {
+		return phone_number;
+	}
+
+	public void setPhone_number(String phone_number) {
+		this.phone_number = phone_number;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getSender_id() {
+		return sender_id;
+	}
+
+	public void setSender_id(String sender_id) {
+		this.sender_id = sender_id;
+	}
 
 	public Integer getId() {
 		return id;

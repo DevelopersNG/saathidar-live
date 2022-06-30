@@ -156,5 +156,4 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 			+ " where member_id= :id  ", nativeQuery = true)
 	Object updateLocationOfGroom(int countryID, int stateID, int cityID, String methnic_corigin, String mpincode);
 
-
 }

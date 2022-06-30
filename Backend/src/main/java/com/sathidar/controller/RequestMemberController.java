@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sathidar.model.RequestMemberModel;
 import com.sathidar.service.RequestMemberService;
 import com.sathidar.util.SendSMSAction;
+import com.sathidar.util.TextLocalSMSSetting;
 
 @CrossOrigin(origins = "http://localhost:4200" , methods = {RequestMethod.OPTIONS, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}, allowedHeaders = "*", allowCredentials = "true")
 @RestController
@@ -111,6 +112,26 @@ public class RequestMemberController {
 			jsObject.put("results","0");
 		}
 		return jsObject.toString();
+	}
+	
+//	**************** send sms ***********************************************
+	@PostMapping(value="/member/send-sms")
+	private String sendSMSVIATextLocal(@Validated @RequestBody RequestMemberModel requestMemberModel) {
+		TextLocalSMSSetting textLocalSMSSetting=new TextLocalSMSSetting();
+		
+		String messgeBody="Hi, you have received i nterest from REG ID : 25666\r\n" + 
+				"If i t sounds good then take the follow up.\r\n" + 
+				"Regards,\r\n" + 
+				"Saathidaar.com";
+		
+		
+//		String messgeBody="Your Verification Code is 12315\r\n" + 
+//				"MyMealDabba.com";
+		
+		String response=textLocalSMSSetting.POSTSendSMS(requestMemberModel.getPhone_number(), "SMMSG", messgeBody);
+		System.out.println("sms resonse - " +response);
+		
+		return response;
 	}
 	
 }
