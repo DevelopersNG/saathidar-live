@@ -22,15 +22,18 @@ public class SchedulerUnHideProfile {
 	private SendSMSAction sendSMSAction;
 	
 	
-//	@Transactional
+	@Transactional
 //	@Scheduled(initialDelay = 5000, fixedDelay = 9000) 
-//	@Scheduled(cron = "0 0 14:45 * * ?")  for daily once
+//	@Scheduled(cron = "0 0 00:00 * * ?") //  for daily once
 	public void scheduledMethod() {
 		
+		
+		// status=0 for hide member
+		// status=1 for un-hide member
 		int statusCount=0;
 		try {
 			Query q = em.createNativeQuery(
-					"select  group_concat(member_id) from hide_member where status=0 and date(created_date)=curdate()");
+					"select  group_concat(member_id) from hide_member where status=0 and date(unhide_period_time)=curdate()");
 			String result = q.getSingleResult().toString();
 			
 			if(result!=null && !result.equals("")) {
@@ -54,6 +57,8 @@ public class SchedulerUnHideProfile {
 							String contactNumber= String.valueOf(obj[j]);
 							String contactEmail= String.valueOf(obj[++j]);
 						
+							// here we will sent email
+							
 							String smsMessage = "Your Profile is unhide  , Saathidaar.com";
 							String sender = "SDMOTP";
 							String phoneNo = "91" + contactNumber.trim();
@@ -63,12 +68,11 @@ public class SchedulerUnHideProfile {
 						}
 					}
 				}
-			
 			}
 			
 			
 			Query query = em.createNativeQuery(
-					"update hide_member set status=1 where status=0 and date(created_date)=curdate()");
+					"update hide_member set status=1 where member_id in ('"+result+"') and status=0");
 			statusCount = query.executeUpdate();
 		}catch (Exception e) {
 			e.printStackTrace();

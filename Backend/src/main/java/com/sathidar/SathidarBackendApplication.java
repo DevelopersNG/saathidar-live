@@ -16,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @ComponentScan({ "com.sathidar.*" }) 
 @SpringBootApplication
 @EnableAutoConfiguration
-
 public class SathidarBackendApplication extends SpringBootServletInitializer{
 
 	@Bean

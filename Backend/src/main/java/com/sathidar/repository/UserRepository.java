@@ -39,13 +39,17 @@ public interface UserRepository extends JpaRepository<User, Integer>  {
 
 	@Transactional
 	@Modifying    
-	@Query(value="update hide_member set status= :getStatus, hide_period_time= :hide_period_time where member_id= :member_id",nativeQuery = true)
-	int updatehideMemberForPeriodTime(int getStatus, int member_id,String hide_period_time);
+	@Query(value="update hide_member set status= :getStatus, hide_period_time_month= :hide_period_time, unhide_period_time= :unhide_period_time, created_date=current_date where member_id= :member_id",nativeQuery = true)
+	int updatehideMemberForPeriodTime(int getStatus, int member_id,String hide_period_time,String unhide_period_time);
 
 	@Transactional
 	@Modifying    
-	@Query(value="insert into hide_member (member_id,hide_period_time,status) values (:member_id,:hide_period_time,:getStatus)",nativeQuery = true)
-	int savehideMemberForPeriodTime(int getStatus, int member_id,String hide_period_time);
+	@Query(value="insert into hide_member (member_id,hide_period_time_month,status,unhide_period_time) values (:member_id,:hide_period_time,:getStatus,:unhide_period_time)",nativeQuery = true)
+	int savehideMemberForPeriodTime(int getStatus, int member_id,String hide_period_time,String unhide_period_time);
 
+	@Transactional
+	@Modifying    
+	@Query(value="update hide_member set status= :getStatus, hide_period_time_month= :hide_period_time, unhide_period_time=current_date, created_date=current_date where member_id= :member_id",nativeQuery = true)
+	int updateunhideMemberForPeriodTime(int getStatus, int member_id, String hide_period_time);
 
 }

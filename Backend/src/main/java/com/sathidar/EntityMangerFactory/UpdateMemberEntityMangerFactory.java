@@ -30,7 +30,7 @@ public class UpdateMemberEntityMangerFactory {
 
 	@Autowired
 	public MatchesConstant matchesConstants;
-	
+
 	@Autowired
 	public MembersDetailsAction MembersDetailsAction;
 
@@ -113,26 +113,26 @@ public class UpdateMemberEntityMangerFactory {
 			if (getMembersHideIDs != null && !getMembersHideIDs.equals("")) {
 				query = query + " and md.member_id not in (" + getMembersHideIDs + ") ";
 			}
-			
-			String query1="SELECT count(*) FROM premium_member where member_id= :id and deleteflag='N'";
+
+			String query1 = "SELECT count(*) FROM premium_member where member_id= :id and deleteflag='N'";
 			Query q1 = em.createNativeQuery(query1);
 			q1.setParameter("id", id);
-			int premiumStatus=Integer.parseInt(q1.getSingleResult().toString());
+			int premiumStatus = Integer.parseInt(q1.getSingleResult().toString());
 			System.out.println("************* premiun status - " + premiumStatus);
-			
+
 			Query q = em.createNativeQuery(query);
 //			System.out.println(q);
-			String contact_number="",email_id="";
+			String contact_number = "", email_id = "";
 			q.setParameter("id", id);
 			boolean status = false;
 			List<Object[]> results = q.getResultList();
 			if (results != null) {
 				for (Object[] obj : results) {
 					int i = 0;
-					String thisMemberID= convertNullToBlank(String.valueOf(obj[i]));
-					
+					String thisMemberID = convertNullToBlank(String.valueOf(obj[i]));
+
 					// first row
-					map.put("member_id",thisMemberID);
+					map.put("member_id", thisMemberID);
 					map.put("native", convertNullToBlank(String.valueOf(obj[++i])));
 					String height = convertNullToBlank(String.valueOf(obj[++i]));
 					map.put("height", height);
@@ -152,27 +152,26 @@ public class UpdateMemberEntityMangerFactory {
 
 					// second row
 					// check contact privacy
-				    contact_number = convertNullToBlank(String.valueOf(obj[++i]));
-				    map.put("profile_contact_number", contact_number);
-				    contact_number=MembersDetailsAction.getPhonePrivacy(premiumStatus,thisMemberID,contact_number);
+					contact_number = convertNullToBlank(String.valueOf(obj[++i]));
+					map.put("profile_contact_number", contact_number);
+					contact_number = MembersDetailsAction.getPhonePrivacy(premiumStatus, thisMemberID, contact_number);
 					map.put("contact_number", contact_number);
-					
 
 					// check email privacy
-				    email_id = convertNullToBlank(String.valueOf(obj[++i]));
-				    map.put("profile_email_id", email_id);
-				    email_id=MembersDetailsAction.getEmailPrivacy(premiumStatus,thisMemberID,email_id);
-				    map.put("email_id", email_id);
+					email_id = convertNullToBlank(String.valueOf(obj[++i]));
+					map.put("profile_email_id", email_id);
+					email_id = MembersDetailsAction.getEmailPrivacy(premiumStatus, thisMemberID, email_id);
+					map.put("email_id", email_id);
 
 					map.put("profilecreatedby", convertNullToBlank(String.valueOf(obj[++i])));
 					String marital_status = convertNullToBlank(String.valueOf(obj[++i]));
 					map.put("marital_status", marital_status);
 					map.put("no_of_children", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("mother_tounge", convertNullToBlank(String.valueOf(obj[++i])));
-					
+
 					// dob privacy
-					String dob=convertNullToBlank(String.valueOf(obj[++i]));
-					dob=MembersDetailsAction.getDateOfBirthPrivacy(premiumStatus, thisMemberID, dob);
+					String dob = convertNullToBlank(String.valueOf(obj[++i]));
+					dob = MembersDetailsAction.getDateOfBirthPrivacy(premiumStatus, thisMemberID, dob);
 					map.put("date_of_birth", dob);
 
 					// third row
@@ -267,10 +266,11 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("working_with", workingWith);
 					map.put("working_as", workingAs);
 					map.put("employer_name", employerName);
-					
+
 					// check annual income privacy
-					String annualIncome=convertNullToBlank(String.valueOf(obj[++i]));
-					annualIncome=MembersDetailsAction.getAnnualIncomePrivacy(premiumStatus, thisMemberID, annualIncome);
+					String annualIncome = convertNullToBlank(String.valueOf(obj[++i]));
+					annualIncome = MembersDetailsAction.getAnnualIncomePrivacy(premiumStatus, thisMemberID,
+							annualIncome);
 					map.put("annual_income", annualIncome);
 
 					// 14th row
@@ -280,12 +280,10 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("time_status", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("city_of_birth", convertNullToBlank(String.valueOf(obj[++i])));
 
-
 					map.put("working_details", getCareerDetails);
 					map.put("FamilyDetails", getFamilyDetailsString);
 
 					// send sms/mail to visitors ids
-				
 
 					status = true;
 				}
@@ -439,7 +437,7 @@ public class UpdateMemberEntityMangerFactory {
 		}
 		return ids;
 	}
-	
+
 	private String getRecentlyVisitorsID(int member_id) {
 		String ids = "";
 		try {
@@ -454,8 +452,6 @@ public class UpdateMemberEntityMangerFactory {
 		return ids;
 	}
 
-	
-	
 	private String getViewedID(int member_id) {
 		String ids = "";
 		try {
@@ -470,10 +466,22 @@ public class UpdateMemberEntityMangerFactory {
 		return ids;
 	}
 
-	
-	public JSONArray getRecentVisitorsFilter(UpdateMember updateMember, int id,String status) {
+	public JSONArray getRecentVisitorsFilter(UpdateMember updateMember, int id, String status) {
 		JSONArray resultArray = new JSONArray();
 		try {
+			
+//			********************** begin check premium status *********************************
+
+				String query1 = "SELECT count(*) FROM premium_member where member_id= :id and deleteflag='N'";
+				Query q1 = em.createNativeQuery(query1);
+				q1.setParameter("id", id);
+				int premiumStatus = Integer.parseInt(q1.getSingleResult().toString());
+				System.out.println("************* premiun status - " + premiumStatus);
+
+				
+//			********************** begin column names *********************************
+			
+			
 			String columnName = "first_name,last_name, m.member_id, height,lifestyles,md.age,"
 					+ "md.marital_status as maritalStatus,mother_tounge,gender,"
 					+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :member_id )) as country_name,country_id,"
@@ -482,40 +490,40 @@ public class UpdateMemberEntityMangerFactory {
 					+ "(select religion_name from religion where religion_id=(select religion_id from memberdetails where member_id= :member_id)) as religion,religion_id,"
 					+ "(select cast_name from cast where cast_id=(select cast_id from memberdetails where member_id= :member_id )) as caste,cast_id,"
 					+ "edu.highest_qualification as highest_qualification,edu.working_with as working_with,edu.working_as as working_as,edu.annual_income as annual_income";
-		
+
 			String whereClause = setWhereClauseForGetAllMember(updateMember);
-			
-			String visitorsIDs="",viewToIDs="";
-			if(status.equals("Recently_Visitors")) {
-				 visitorsIDs=getRecentlyVisitorsID(id);
+
+			String visitorsIDs = "", viewToIDs = "";
+			if (status.equals("Recently_Visitors")) {
+				visitorsIDs = getRecentlyVisitorsID(id);
 			}
-			if(status.equals("View_To")) {
-				viewToIDs=getViewedID(id);
+			if (status.equals("View_To")) {
+				viewToIDs = getViewedID(id);
 			}
-		
-			System.out.println("visitors ids -" +visitorsIDs);
-			System.out.println("viewToIDs ids -" +viewToIDs);
-			
-			String l_strQuery="SELECT " + columnName + "  FROM memberdetails as md " + " join member as m on md.member_id=m.member_id"
+
+			System.out.println("visitors ids -" + visitorsIDs);
+			System.out.println("viewToIDs ids -" + viewToIDs);
+
+			String l_strQuery = "SELECT " + columnName + "  FROM memberdetails as md "
+					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
-					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + whereClause+"";
-			
-			if(!visitorsIDs.equals("")) {
-				l_strQuery=l_strQuery+ " and md.member_id in ("+ visitorsIDs+")";
-			}else if(!viewToIDs.equals("")) {
-				l_strQuery=l_strQuery+ " and md.member_id in ("+ viewToIDs+")";
-			}else {
-				l_strQuery=l_strQuery+ " and md.member_id in ('')";
+					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + whereClause + "";
+
+			if (!visitorsIDs.equals("")) {
+				l_strQuery = l_strQuery + " and md.member_id in (" + visitorsIDs + ")";
+			} else if (!viewToIDs.equals("")) {
+				l_strQuery = l_strQuery + " and md.member_id in (" + viewToIDs + ")";
+			} else {
+				l_strQuery = l_strQuery + " and md.member_id in ('')";
 			}
-			
-			System.out.println("query - "+l_strQuery);
-			
+
+			System.out.println("query - " + l_strQuery);
+
 			Query q = em.createNativeQuery(l_strQuery);
 
-			
 			q.setParameter("member_id", id);
 			String first_name = "", last_name = "";
-			
+
 			List<Object[]> results = q.getResultList();
 			if (results != null) {
 				for (Object[] obj : results) {
@@ -545,7 +553,7 @@ public class UpdateMemberEntityMangerFactory {
 					String myWorkingWith = convertNullToBlank(String.valueOf(obj[++i]));
 					String myWorkingAs = convertNullToBlank(String.valueOf(obj[++i]));
 					String myAnnualIncome = convertNullToBlank(String.valueOf(obj[++i]));
-						
+
 					json.put("first_name", first_name);
 					json.put("last_name", last_name);
 					if (!myAge.equals(""))
@@ -553,17 +561,21 @@ public class UpdateMemberEntityMangerFactory {
 					json.put("mage", myAge);
 					json.put("religion", myReligionName);
 					json.put("maritalStatus", myMaritalStatus);
+					
+					myAnnualIncome = MembersDetailsAction.getAnnualIncomePrivacy(premiumStatus, memberID,
+							myAnnualIncome);
+
 					json.put("income", myAnnualIncome);
 					json.put("member_id", memberID);
 					json.put("request_status", "");
 					json.put("block_status", "");
-					
+
 					// check request are sent to other member
 					Query query = em.createNativeQuery(
 							"SELECT request_status,block_status FROM member_request where  request_from_id= :member_from_id and request_to_id= :member_to_id");
 					query.setParameter("member_from_id", id);
 					query.setParameter("member_to_id", memberID);
-					
+
 					JSONArray resultRequest = new JSONArray();
 					List<Object[]> result = query.getResultList();
 					if (results != null) {
@@ -585,233 +597,238 @@ public class UpdateMemberEntityMangerFactory {
 		return resultArray;
 	}
 
-
 	public JSONArray getAllMemberByFilter(UpdateMember updateMember, int id, String matches_status) {
+		JSONArray resultArray = new JSONArray();
+		try {
 
-		String requestedIds = getRequestedIDForMember(id);
-		String shortlistIds = getShortListIDForMember(id);
-		String requestIdQuery = "", shortListIdQuery = "", matches_id = "";
-		if (!requestedIds.equals("")) {
-			requestIdQuery = " and m.member_id not in (" + requestedIds + ")";
-		}
-		if (!shortlistIds.equals("")) {
-			shortListIdQuery = " and m.member_id not in (" + shortlistIds + ")";
-		}
-
-		String ids = "";
-		if (matches_status.equals("NEW_MATCHES") || matches_status.equals("MY_MATCHES")
-				|| matches_status.equals("TODAYS_MATCHES")) {
-			ids = getMemberIDForMatches(id, matches_status);
-
-			if (!ids.equals("")) {
-				matches_id = " and m.member_id in (" + ids + ")";
+			matchesConstants.getMemberMatchPartnerPreference(id);
+			String requestedIds = getRequestedIDForMember(id);
+			String shortlistIds = getShortListIDForMember(id);
+			String requestIdQuery = "", shortListIdQuery = "", matches_id = "";
+			if (!requestedIds.equals("")) {
+				requestIdQuery = " and m.member_id not in (" + requestedIds + ")";
 			}
-		}
-		// start get hide member ids for not showing ids
-		String getMembersHideIDs = getMembersHideIDs();
-		String hideMemberIdsQuery="";
-		if (getMembersHideIDs != null && !getMembersHideIDs.equals("")) {
-			hideMemberIdsQuery = hideMemberIdsQuery + " and md.member_id not in (" + getMembersHideIDs + ") ";
-		}
-		// end get hide member ids for not showing ids
-		
-		matchesConstants.getMemberMatchPartnerPreference(id);
+			if (!shortlistIds.equals("")) {
+				shortListIdQuery = " and m.member_id not in (" + shortlistIds + ")";
+			}
+
+			String ids = "";
+			if (matches_status.equals("NEW_MATCHES") || matches_status.equals("MY_MATCHES")
+					|| matches_status.equals("TODAYS_MATCHES")) {
+				ids = getMemberIDForMatches(id, matches_status);
+
+				if (!ids.equals("")) {
+					matches_id = " and m.member_id in (" + ids + ")";
+				}
+			}
+
+//		********************** begin check premium status *********************************
+
+			String query1 = "SELECT count(*) FROM premium_member where member_id= :id and deleteflag='N'";
+			Query q1 = em.createNativeQuery(query1);
+			q1.setParameter("id", id);
+			int premiumStatus = Integer.parseInt(q1.getSingleResult().toString());
+			System.out.println("************* premiun status - " + premiumStatus);
+
+//		********************** begin check member profile is hide or not , gets ids *********************************
+
+			String getMembersHideIDs = getMembersHideIDs();
+			String hideMemberIdsQuery = "";
+			if (getMembersHideIDs != null && !getMembersHideIDs.equals("")) {
+				hideMemberIdsQuery = hideMemberIdsQuery + " and md.member_id not in (" + getMembersHideIDs + ") ";
+			}
+
 //		******************************Column Name*************************************************************************
-//		String columnName = "m.member_id as member_id,height,lifestyles,known_languages,first_name,last_name,"
-//				+ "gender,md.age,contact_number,profilecreatedby,md.marital_status,mother_tounge,"
-//				+ "date_of_birth,mec.annual_income,country_id,cast_id,subcaste_id,religion_id,state_id,city_id";
-		String columnName = "first_name,last_name, m.member_id, height,lifestyles,md.age,"
-				+ "md.marital_status as maritalStatus,mother_tounge,gender,"
-				+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :member_id )) as country_name,country_id,"
-				+ "(select state_name from states where state_id=(select state_id from memberdetails where member_id= :member_id)) as state,state_id,"
-				+ "(select city_name from city where city_id=(select city_id from memberdetails where member_id= :member_id)) as city,city_id,"
-				+ "(select religion_name from religion where religion_id=(select religion_id from memberdetails where member_id= :member_id)) as religion,religion_id,"
-				+ "(select cast_name from cast where cast_id=(select cast_id from memberdetails where member_id= :member_id )) as caste,cast_id,"
-				+ "edu.highest_qualification as highest_qualification,edu.working_with as working_with,edu.working_as as working_as,edu.annual_income as annual_income";
+			String columnName = "first_name,last_name, m.member_id, height,lifestyles,md.age,"
+					+ "md.marital_status as maritalStatus,mother_tounge,gender,"
+					+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :member_id )) as country_name,country_id,"
+					+ "(select state_name from states where state_id=(select state_id from memberdetails where member_id= :member_id)) as state,state_id,"
+					+ "(select city_name from city where city_id=(select city_id from memberdetails where member_id= :member_id)) as city,city_id,"
+					+ "(select religion_name from religion where religion_id=(select religion_id from memberdetails where member_id= :member_id)) as religion,religion_id,"
+					+ "(select cast_name from cast where cast_id=(select cast_id from memberdetails where member_id= :member_id )) as caste,cast_id,"
+					+ "edu.highest_qualification as highest_qualification,edu.working_with as working_with,edu.working_as as working_as,edu.annual_income as annual_income";
 
-//		******************************Filter Data*************************************************************************
-		String whereClause = setWhereClauseForGetAllMember(updateMember);
+//		******************************begin refine search Filter Data*************************************************************************
+			String whereClause = setWhereClauseForGetAllMember(updateMember);
 
-		String refineWhereClause = "";
-		if (matches_status.equals("REFINE-SEARCH")) {
-			refineWhereClause = setWhereClauseForGetAllMemberByRefineFilter(updateMember);
-		}
-		String likeClause = setLikeClauseForGetAllMember(updateMember);
+			String refineWhereClause = "";
+			if (matches_status.equals("REFINE-SEARCH")) {
+				refineWhereClause = setWhereClauseForGetAllMemberByRefineFilter(updateMember);
+			}
+			String likeClause = setLikeClauseForGetAllMember(updateMember);
 
 //		******************************Query*************************************************************************
-//		Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
-//				+ " join member as m on md.member_id=m.member_id"
-//				+ " join member_education_career as mec on m.member_id=mec.member_id " + " where m.status='ACTIVE' "
-//				+ whereClause + " and md.member_id!= :member_id " + matches_id + requestIdQuery + shortListIdQuery);
 
-		Query q = em.createNativeQuery(
-				"SELECT " + columnName + "  FROM memberdetails as md " + " join member as m on md.member_id=m.member_id"
-						+ " join member_education_career as edu on m.member_id=edu.member_id "
-						+ " where md.member_id!= :member_id and m.status='ACTIVE' " + refineWhereClause + matches_id
-						+ requestIdQuery + shortListIdQuery +hideMemberIdsQuery );
+			Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
+					+ " join member as m on md.member_id=m.member_id"
+					+ " join member_education_career as edu on m.member_id=edu.member_id "
+					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + refineWhereClause + matches_id
+					+ requestIdQuery + shortListIdQuery + hideMemberIdsQuery);
 
-		System.out.println(
-				"SELECT *  FROM memberdetails as md " + " join member as m on md.member_id=m.member_id"
-						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where m.status='ACTIVE' " + whereClause + " and md.member_id!= :member_id "
-						+ refineWhereClause + matches_id + requestIdQuery + shortListIdQuery +hideMemberIdsQuery);
+			System.out.println("SELECT *  FROM memberdetails as md " + " join member as m on md.member_id=m.member_id"
+					+ " join member_education_career as mec on m.member_id=mec.member_id " + " where m.status='ACTIVE' "
+					+ whereClause + " and md.member_id!= :member_id " + refineWhereClause + matches_id + requestIdQuery
+					+ shortListIdQuery + hideMemberIdsQuery);
 //		
 
-		q.setParameter("member_id", id);
-		String first_name = "", last_name = "";
-		JSONArray resultArray = new JSONArray();
-		List<Object[]> results = q.getResultList();
-		if (results != null) {
-			for (Object[] obj : results) {
-				JSONObject json = new JSONObject();
-				int i = 0;
-				boolean matchesStatus = false;
-				first_name = convertNullToBlank(String.valueOf(obj[i]));
-				last_name = convertNullToBlank(String.valueOf(obj[++i]));
-				String memberID = convertNullToBlank(String.valueOf(obj[++i]));
-				String myHeight = convertNullToBlank(String.valueOf(obj[++i]));
+			q.setParameter("member_id", id);
+			String first_name = "", last_name = "";
 
-				if (!myHeight.equals("")) {
-					String[] splitArrayMyHeight = myHeight.split("-");
-					String fromMyHeightString = splitArrayMyHeight[1];
-					int numberMyHeight = Integer.parseInt(fromMyHeightString.replaceAll("[^0-9]", ""));
+			List<Object[]> results = q.getResultList();
+			if (results != null) {
+				for (Object[] obj : results) {
+					JSONObject json = new JSONObject();
+					int i = 0;
+					boolean matchesStatus = false;
+					first_name = convertNullToBlank(String.valueOf(obj[i]));
+					last_name = convertNullToBlank(String.valueOf(obj[++i]));
+					String memberID = convertNullToBlank(String.valueOf(obj[++i]));
+					String myHeight = convertNullToBlank(String.valueOf(obj[++i]));
 
-					if (matchesConstants.FROM_HEIGHT <= numberMyHeight
-							&& matchesConstants.TO_HEIGHT >= numberMyHeight) {
-						matchesStatus = true;
+					if (!myHeight.equals("")) {
+						String[] splitArrayMyHeight = myHeight.split("-");
+						String fromMyHeightString = splitArrayMyHeight[1];
+						int numberMyHeight = Integer.parseInt(fromMyHeightString.replaceAll("[^0-9]", ""));
+
+						if (matchesConstants.FROM_HEIGHT <= numberMyHeight
+								&& matchesConstants.TO_HEIGHT >= numberMyHeight) {
+							matchesStatus = true;
+						}
 					}
-				}
 
-				String myLifeStyles = convertNullToBlank(String.valueOf(obj[++i]));
+					String myLifeStyles = convertNullToBlank(String.valueOf(obj[++i]));
 
-				String myAge = convertNullToBlank(String.valueOf(obj[++i]));
-				if (!myAge.equals("")) {
-					int age = Integer.parseInt(myAge);
-					if (matchesConstants.FROM_AGE <= age && matchesConstants.TO_AGE >= age) {
-						matchesStatus = true;
+					String myAge = convertNullToBlank(String.valueOf(obj[++i]));
+					if (!myAge.equals("")) {
+						int age = Integer.parseInt(myAge);
+						if (matchesConstants.FROM_AGE <= age && matchesConstants.TO_AGE >= age) {
+							matchesStatus = true;
+						}
 					}
-				}
 
-				String myMaritalStatus = convertNullToBlank(String.valueOf(obj[++i]));
-				if (!myMaritalStatus.equals("")) {
-					if (matchesConstants.MARITAL_STATUS.contains(myMaritalStatus)) {
-						matchesStatus = true;
+					String myMaritalStatus = convertNullToBlank(String.valueOf(obj[++i]));
+					if (!myMaritalStatus.equals("")) {
+						if (matchesConstants.MARITAL_STATUS.contains(myMaritalStatus)) {
+							matchesStatus = true;
+						}
 					}
-				}
 
-				String myMotherTongue = convertNullToBlank(String.valueOf(obj[++i]));
-				if (!myMotherTongue.equals("")) {
-					if (matchesConstants.MOTHER_TONGUE.contains(myMotherTongue)) {
-						matchesStatus = true;
+					String myMotherTongue = convertNullToBlank(String.valueOf(obj[++i]));
+					if (!myMotherTongue.equals("")) {
+						if (matchesConstants.MOTHER_TONGUE.contains(myMotherTongue)) {
+							matchesStatus = true;
+						}
 					}
-				}
 
-				String myGender = convertNullToBlank(String.valueOf(obj[++i]));
+					String myGender = convertNullToBlank(String.valueOf(obj[++i]));
 
-				String myCountryName = convertNullToBlank(String.valueOf(obj[++i]));
-				String myCountryID = convertNullToBlank(String.valueOf(obj[++i]));
-				if (!myCountryName.equals("")) {
-					if (matchesConstants.COUNTRY.contains(myCountryID)) {
-						matchesStatus = true;
+					String myCountryName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myCountryID = convertNullToBlank(String.valueOf(obj[++i]));
+					if (!myCountryName.equals("")) {
+						if (matchesConstants.COUNTRY.contains(myCountryID)) {
+							matchesStatus = true;
+						}
 					}
-				}
 
-				String myStateName = convertNullToBlank(String.valueOf(obj[++i]));
-				String myStateID = convertNullToBlank(String.valueOf(obj[++i]));
-				if (!myStateID.equals("")) {
-					if (matchesConstants.STATE.contains(myStateName)) {
-						matchesStatus = true;
+					String myStateName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myStateID = convertNullToBlank(String.valueOf(obj[++i]));
+					if (!myStateID.equals("")) {
+						if (matchesConstants.STATE.contains(myStateName)) {
+							matchesStatus = true;
+						}
 					}
-				}
 
-				String myCityName = convertNullToBlank(String.valueOf(obj[++i]));
-				String myCityID = convertNullToBlank(String.valueOf(obj[++i]));
-				if (!myCityID.equals("")) {
-					if (matchesConstants.CITY.contains(myCityName)) {
-						matchesStatus = true;
+					String myCityName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myCityID = convertNullToBlank(String.valueOf(obj[++i]));
+					if (!myCityID.equals("")) {
+						if (matchesConstants.CITY.contains(myCityName)) {
+							matchesStatus = true;
+						}
 					}
-				}
 
-				String myReligionName = convertNullToBlank(String.valueOf(obj[++i]));
-				String myReligionID = convertNullToBlank(String.valueOf(obj[++i]));
-				if (!myReligionID.equals("")) {
-					if (matchesConstants.RELIGIONS.contains(myReligionName)) {
-						matchesStatus = true;
+					String myReligionName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myReligionID = convertNullToBlank(String.valueOf(obj[++i]));
+					if (!myReligionID.equals("")) {
+						if (matchesConstants.RELIGIONS.contains(myReligionName)) {
+							matchesStatus = true;
+						}
 					}
-				}
 
-				String myCastID = convertNullToBlank(String.valueOf(obj[++i]));
-				String myCastName = convertNullToBlank(String.valueOf(obj[++i]));
-				if (!myCastID.equals("")) {
-					if (matchesConstants.CAST.contains(myCastName)) {
-						matchesStatus = true;
+					String myCastID = convertNullToBlank(String.valueOf(obj[++i]));
+					String myCastName = convertNullToBlank(String.valueOf(obj[++i]));
+					if (!myCastID.equals("")) {
+						if (matchesConstants.CAST.contains(myCastName)) {
+							matchesStatus = true;
+						}
 					}
-				}
 
-				String myQualifications = convertNullToBlank(String.valueOf(obj[++i]));
-				if (!myQualifications.equals("")) {
-					if (matchesConstants.QUALIFICATIONS.contains(myQualifications)) {
-						matchesStatus = true;
+					String myQualifications = convertNullToBlank(String.valueOf(obj[++i]));
+					if (!myQualifications.equals("")) {
+						if (matchesConstants.QUALIFICATIONS.contains(myQualifications)) {
+							matchesStatus = true;
+						}
 					}
-				}
 
-				String myWorkingWith = convertNullToBlank(String.valueOf(obj[++i]));
-				if (!myWorkingWith.equals("")) {
-					if (matchesConstants.WORKING_WITH.contains(myWorkingWith)) {
-						matchesStatus = true;
+					String myWorkingWith = convertNullToBlank(String.valueOf(obj[++i]));
+					if (!myWorkingWith.equals("")) {
+						if (matchesConstants.WORKING_WITH.contains(myWorkingWith)) {
+							matchesStatus = true;
+						}
 					}
-				}
 
-				String myWorkingAs = convertNullToBlank(String.valueOf(obj[++i]));
+					String myWorkingAs = convertNullToBlank(String.valueOf(obj[++i]));
 
-				String myAnnualIncome = convertNullToBlank(String.valueOf(obj[++i]));
-				if (!myAnnualIncome.equals("")) {
-					if (matchesConstants.ANNUAL_INCOME.contains(myAnnualIncome)) {
-						matchesStatus = true;
+					String myAnnualIncome = convertNullToBlank(String.valueOf(obj[++i]));
+					if (!myAnnualIncome.equals("")) {
+						if (matchesConstants.ANNUAL_INCOME.contains(myAnnualIncome)) {
+							matchesStatus = true;
+						}
 					}
-				}
 
-				if (matchesStatus) {
-					json.put("first_name", first_name);
-					json.put("last_name", last_name);
-					if (!myAge.equals(""))
-						myAge = myAge + "yrs";
-					json.put("mage", myAge);
-					json.put("religion", myReligionName);
-					json.put("maritalStatus", myMaritalStatus);
-					json.put("income", myAnnualIncome);
-					json.put("member_id", memberID);
-					json.put("request_status", "");
-					json.put("block_status", "");
+					if (matchesStatus) {
+						json.put("first_name", first_name);
+						json.put("last_name", last_name);
+						if (!myAge.equals(""))
+							myAge = myAge + "yrs";
+						json.put("mage", myAge);
+						json.put("religion", myReligionName);
+						json.put("maritalStatus", myMaritalStatus);
+
+						myAnnualIncome = MembersDetailsAction.getAnnualIncomePrivacy(premiumStatus, memberID,
+								myAnnualIncome);
+
+						json.put("income", myAnnualIncome);
+						json.put("member_id", memberID);
+						json.put("request_status", "");
+						json.put("block_status", "");
+						resultArray.put(json);
+					}
+					// check request are sent to other member
+					Query query = em.createNativeQuery(
+							"SELECT request_status,block_status FROM member_request where  request_from_id= :member_from_id and request_to_id= :member_to_id");
+					query.setParameter("member_from_id", id);
+					query.setParameter("member_to_id", memberID);
+					JSONArray resultRequest = new JSONArray();
+					List<Object[]> result = query.getResultList();
+					if (results != null) {
+						for (Object[] objRequest : result) {
+							int j = 0;
+							json.put("request_status", convertNullToBlank(String.valueOf(objRequest[j])));
+							json.put("block_status", convertNullToBlank(String.valueOf(objRequest[++j])));
+						}
+					} else {
+						json.put("request_status", "");
+						json.put("block_status", "");
+					}
 					resultArray.put(json);
 				}
-				// check request are sent to other member
-				Query query = em.createNativeQuery(
-						"SELECT request_status,block_status FROM member_request where  request_from_id= :member_from_id and request_to_id= :member_to_id");
-				query.setParameter("member_from_id", id);
-				query.setParameter("member_to_id", memberID);
-				JSONArray resultRequest = new JSONArray();
-				List<Object[]> result = query.getResultList();
-				if (results != null) {
-					for (Object[] objRequest : result) {
-						int j = 0;
-						json.put("request_status", convertNullToBlank(String.valueOf(objRequest[j])));
-						json.put("block_status", convertNullToBlank(String.valueOf(objRequest[++j])));
-					}
-				} else {
-					json.put("request_status", "");
-					json.put("block_status", "");
-				}
-				resultArray.put(json);
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return resultArray;
 	}
 
-	
-	
-	
-	
 	private String getCityNameByID(String cityID) {
 		String result = "";
 		try {
@@ -1365,8 +1382,8 @@ public class UpdateMemberEntityMangerFactory {
 					json.put("plan_price", convertNullToBlank(String.valueOf(obj[++i])));
 					resultArray.put(json);
 				}
-			}else {
-				resultArray=null;
+			} else {
+				resultArray = null;
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -1666,7 +1683,7 @@ public class UpdateMemberEntityMangerFactory {
 				}
 			}
 			if (status == false) {
-				map=null;
+				map = null;
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -2261,6 +2278,5 @@ public class UpdateMemberEntityMangerFactory {
 		}
 		return resultArray;
 	}
-
 
 }

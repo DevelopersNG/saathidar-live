@@ -73,6 +73,15 @@ public class PrivacyOptionsModel {
 	@Transient
 	private String message_received_alert;
 	
+	@Transient
+	private String today_match_email;
+	
+	public String getToday_match_email() {
+		return today_match_email;
+	}
+	public void setToday_match_email(String today_match_email) {
+		this.today_match_email = today_match_email;
+	}
 	public String getPremium_match_mail() {
 		return premium_match_mail;
 	}

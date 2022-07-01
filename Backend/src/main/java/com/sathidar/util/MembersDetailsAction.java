@@ -2,14 +2,21 @@ package com.sathidar.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
+
+import org.hibernate.jpa.TypedParameterValue;
+import org.hibernate.type.StandardBasicTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.sathidar.repository.PrivacyPolicyRepository;
+import com.sathidar.service.EmailService;
 
 @Service
 public class MembersDetailsAction {
@@ -20,7 +27,6 @@ public class MembersDetailsAction {
 	@PersistenceContext
 	private EntityManager em;
 
-//	map.put(1,"Visible to all Member");
 //	map.put(2,"Visible to all Premium Members");
 //	map.put(3,"Keep this private");
 	
@@ -138,5 +144,66 @@ public class MembersDetailsAction {
 			e.printStackTrace();
 		}
 		return "";
+	}
+
+	@Transactional
+	public List getDetailsMemberByMember_id(Integer request_from_id) {
+		List lstAdd=new ArrayList();
+//		try {
+//			String columnName = "email_id,first_name,last_name, m.member_id, height,md.age,md.marital_status as maritalStatus,edu.highest_qualification as highest_qualification,edu.working_with as working_with";
+//
+//			List<Object[]> results = privacyPolicyRepository.getMemberDeyailsForMail(""+request_from_id);
+//			if (results != null) {
+//				for (Object[] obj : results) {
+//				int i=0;
+//				String email_id = convertNullToBlank(String.valueOf(obj[i]));
+//				String first_name = convertNullToBlank(String.valueOf(obj[++i]));
+//				String last_name = convertNullToBlank(String.valueOf(obj[++i]));
+//				String member_id = convertNullToBlank(String.valueOf(obj[++i]));
+//				String height = convertNullToBlank(String.valueOf(obj[++i]));
+//				String age = convertNullToBlank(String.valueOf(obj[++i]));
+//				String marital_status = convertNullToBlank(String.valueOf(obj[++i]));
+//				String education = convertNullToBlank(String.valueOf(obj[++i]));
+//				String profession = convertNullToBlank(String.valueOf(obj[++i]));
+//				
+//				lstAdd.add(email_id);
+//				lstAdd.add(first_name);
+//				lstAdd.add(last_name);
+//				lstAdd.add(member_id);
+//				lstAdd.add(height);
+//				lstAdd.add(age);
+//				lstAdd.add(marital_status);
+//				lstAdd.add(education);
+//				lstAdd.add(profession);
+//				
+//				}
+//			}
+//			return lstAdd;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		// TODO Auto-generated method stub
+		return lstAdd;
+	}
+	
+	public String convertNullToBlank(String value) {
+		if (value != null && !value.equals("") && !value.equals("null")) {
+			return value;
+		}
+		return "";
+	}
+
+	public String getEmailId(Integer request_to_id) {
+		String response="";
+		try {  
+			//member_number
+			Query q = em.createNativeQuery("SELECT email_id FROM member "
+					+ " where member_id= :member_id");
+			q.setParameter("member_id", ""+request_to_id);
+			response = q.getSingleResult().toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return response;
 	}
 }
