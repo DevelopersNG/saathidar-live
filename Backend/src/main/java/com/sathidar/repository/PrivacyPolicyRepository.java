@@ -143,23 +143,16 @@ public interface PrivacyPolicyRepository extends JpaRepository<PrivacyOptionsMod
 	@Transactional
 	@Modifying
 	@Query(value="update email_sms_alert set premium_match_mail= :premium_match_mail,recent_visitors_email= :recent_visitors_email,"
-			+ "contact_alert= :contact_alert,sms_alert= :sms_alert,message_received_alert= :message_received_alert  where member_id=:member_id",nativeQuery = true)
+			+ "contact_alert= :contact_alert,sms_alert= :sms_alert,message_received_alert= :message_received_alert,today_match_email= :today_match_email  where member_id=:member_id",nativeQuery = true)
 	int updateeEmailSMS(Integer member_id, String premium_match_mail, String recent_visitors_email,
-			String contact_alert, String sms_alert, String message_received_alert);
+			String contact_alert, String sms_alert, String message_received_alert,String today_match_email);
 
 	@Transactional
 	@Modifying
-	@Query(value="insert into email_sms_alert (premium_match_mail,recent_visitors_email,contact_alert,sms_alert,message_received_alert,member_id) value (:premium_match_mail,:recent_visitors_email,:contact_alert,:sms_alert,:message_received_alert,:member_id)",nativeQuery = true)
+	@Query(value="insert into email_sms_alert (premium_match_mail,recent_visitors_email,contact_alert,sms_alert,message_received_alert,member_id,today_match_email) value (:premium_match_mail,:recent_visitors_email,:contact_alert,:sms_alert,:message_received_alert,:member_id,:today_match_email)",nativeQuery = true)
 	int inserteEmailSMS(Integer member_id, String premium_match_mail, String recent_visitors_email,
-			String contact_alert, String sms_alert, String message_received_alert);
+			String contact_alert, String sms_alert, String message_received_alert,String today_match_email);
 
-	@Query(value="select premium_match_mail,recent_visitors_email,contact_alert,sms_alert,message_received_alert from email_sms_alert where member_id= :member_id",nativeQuery = true)
+	@Query(value="select premium_match_mail,recent_visitors_email,contact_alert,sms_alert,message_received_alert,today_match_email from email_sms_alert where member_id= :member_id",nativeQuery = true)
 	List<Object[]> GetAllEmailSMSSetting(String member_id);
-
-	
-
-	
-
-
-	
 }

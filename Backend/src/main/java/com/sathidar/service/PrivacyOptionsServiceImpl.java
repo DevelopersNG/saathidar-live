@@ -426,14 +426,15 @@ public class PrivacyOptionsServiceImpl implements PrivacyOptionsService {
 		String contact_alert = convertNullToBlank(privacyOptionsModel.getContact_alert());
 		String sms_alert = convertNullToBlank(privacyOptionsModel.getSms_alert());
 		String message_received_alert = convertNullToBlank(privacyOptionsModel.getMessage_received_alert());
+		String today_match_email = convertNullToBlank(privacyOptionsModel.getToday_match_email());
 		if (getStatus > 0) {
 			// update
 			return privacyPolicyRepository.updateeEmailSMS(privacyOptionsModel.getMember_id(), premium_match_mail,
-					recent_visitors_email, contact_alert, sms_alert, message_received_alert);
+					recent_visitors_email, contact_alert, sms_alert, message_received_alert,today_match_email);
 		} else {
 			// insert
 			return privacyPolicyRepository.inserteEmailSMS(privacyOptionsModel.getMember_id(), premium_match_mail,
-					recent_visitors_email, contact_alert, sms_alert, message_received_alert);
+					recent_visitors_email, contact_alert, sms_alert, message_received_alert,today_match_email);
 		}
 	}
 
@@ -451,6 +452,7 @@ public class PrivacyOptionsServiceImpl implements PrivacyOptionsService {
 					json.put("contact_alert", convertNullToBlank(String.valueOf(obj[++i])));
 					json.put("sms_alert", convertNullToBlank(String.valueOf(obj[++i])));
 					json.put("message_received_alert", convertNullToBlank(String.valueOf(obj[++i])));
+					json.put("today_match_email", convertNullToBlank(String.valueOf(obj[++i])));
 					resultArray.put(json);
 				}
 			}

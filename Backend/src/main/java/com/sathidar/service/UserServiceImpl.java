@@ -377,6 +377,7 @@ public class UserServiceImpl implements UserService {
 								map.put("enabled",""+ user.getEnabled());
 								map.put("result","1");
 								map.put("message","Member Registered...");
+							
 								String to=user.getEmail();
 								String subject="Registration Confirmation";
 								
@@ -442,14 +443,24 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int savehideMemberForPeriodTime(int getStatus, int memberID, String hide_period_time) {
-		return userRepository.savehideMemberForPeriodTime(getStatus,memberID,hide_period_time);
+	public int savehideMemberForPeriodTime(int getStatus, int memberID, String hide_period_time,String unhide_period_time) {
+		return userRepository.savehideMemberForPeriodTime(getStatus,memberID,hide_period_time,unhide_period_time);
 	}
 
 	@Override
-	public int updatehideMemberForPeriodTime(int getStatus, int memberID, String hide_period_time) {
-		return userRepository.updatehideMemberForPeriodTime(getStatus,memberID,hide_period_time);
+	public int updatehideMemberForPeriodTime(int getStatus, int memberID, String hide_period_time,String unhide_period_time) {
+		return userRepository.updatehideMemberForPeriodTime(getStatus,memberID,hide_period_time,unhide_period_time);
 
+	}
+
+	@Override
+	public String getDateIntervalForHideProfile(String hide_period_time) {
+		return userEntityManagerFactory.getDateIntervalForHideProfile(hide_period_time);
+	}
+
+	@Override
+	public int updateunhideMemberForPeriodTime(int getStatus, int memberID, String hide_period_time) {
+		return userRepository.updateunhideMemberForPeriodTime(getStatus,memberID,hide_period_time);
 	}
 
 //	@Override

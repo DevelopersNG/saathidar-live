@@ -1,10 +1,12 @@
 package com.sathidar.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,6 +18,7 @@ import com.sathidar.EntityMangerFactory.RequestBlockMemberEntityManagerFactory;
 import com.sathidar.exception.BadRequestException;
 import com.sathidar.model.RequestMemberModel;
 import com.sathidar.repository.RequestMemberRepository;
+import com.sathidar.util.MembersDetailsAction;
 
 @Service
 public class RequestMemberServiceImpl implements RequestMemberService {
@@ -32,6 +35,9 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 	@PersistenceContext
 	private EntityManager em;
 	
+	@Autowired
+	private EmailService mailSender;
+
 	@Override
 	public JSONArray SendRequestToMember(RequestMemberModel requestMemberModel) {
 
@@ -46,6 +52,16 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			requestMemberObject = requestMemberRepository.sendRequestToMember(request_from_id, request_to_id,
 					request_status);
 			
+			MembersDetailsAction membersDetailsAction=new MembersDetailsAction();
+			// send email and sms to other member
+			List lst=new ArrayList();
+			lst= getDetailsMemberByMember_id(requestMemberModel.getRequest_from_id());
+			String emailId_to=requestMemberRepository.getEmailId(requestMemberModel.getRequest_to_id());
+			String response="";
+			if(lst!=null) {
+				 response=sentInvitationsByEmail(lst,emailId_to);
+			}
+			System.out.println("response  -  "+ response);
 			
 			if (requestMemberObject == null) {
 				json.put("message", "request not send..");
@@ -55,8 +71,6 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				json.put("message", "request are send..");
 				json.put("results", "1");
 				// send the email/sms to other member
-				
-				
 			}
 
 			resultArray.put(json);
@@ -65,6 +79,227 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		}
 
 		return resultArray;
+	}
+	
+//	public String getEmailId(Integer request_to_id) {
+//		String response="";
+//		try {  
+//			//member_number
+//			Query q = em.createNativeQuery("SELECT email_id FROM member where member_id= :member_id");
+//			q.setParameter("member_id", ""+request_to_id);
+//			response = q.getSingleResult().toString();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return response;
+//	}
+	
+	private String sentInvitationsByEmail(List lst, String emailId_to) {
+		String respons="";
+		try {
+				String email_id = convertNullToBlank(lst.get(0).toString());
+				String first_name = convertNullToBlank(lst.get(1).toString());
+				String last_name = convertNullToBlank(lst.get(2).toString());
+				String member_id = convertNullToBlank(lst.get(3).toString());
+				String height = convertNullToBlank(lst.get(4).toString());
+				String age = convertNullToBlank(lst.get(5).toString());
+				String marital_status = convertNullToBlank(lst.get(6).toString());
+				String education = convertNullToBlank(lst.get(7).toString());
+				String profession = convertNullToBlank(lst.get(8).toString());
+				
+				
+				String email_body1="<head>\r\n" + 
+						"    <meta charset=\"UTF-8\">\r\n" + 
+						"    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n" + 
+						"    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n" + 
+						"    <style>\r\n" + 
+						"\r\n" + 
+						"        .container\r\n" + 
+						"        {\r\n" + 
+						"           height: 150px; width: 400px;border: #742041 1px solid ;margin-top: 5px;\r\n" + 
+						"        }\r\n" + 
+						"       \r\n" + 
+						"        table {\r\n" + 
+						"  font-family: arial, sans-serif;\r\n" + 
+						"  border-collapse: collapse;\r\n" + 
+						"  width: 100%;\r\n" + 
+						"}\r\n" + 
+						"\r\n" + 
+						"td, th {\r\n" + 
+						" font-size: 12px;\r\n" + 
+						"  text-align: left;\r\n" + 
+						"  padding: 8px;\r\n" + 
+						"}\r\n" + 
+						"       img\r\n" + 
+						"       {\r\n" + 
+						"        height: 150px;\r\n" + 
+						"       }\r\n" + 
+						"       .bg\r\n" + 
+						"       {\r\n" + 
+						"        background-color: #742041;\r\n" + 
+						"       }\r\n" + 
+						"       button\r\n" + 
+						"       {\r\n" + 
+						"        background-color: #742041;color: #ffff;margin: 5px;\r\n" + 
+						"       }\r\n" + 
+						"    </style>\r\n" + 
+						"       \r\n" + 
+						"</head>\r\n" + 
+						"\r\n" + 
+						"<body style=\"width: 400px;\">\r\n" + 
+						"    <div style=\"background-color: #742041;\"><img style=\"width:300px ;\" src=\"www.saathidaar.com/assets/images/logo_eng.png\" alt=\"\"></div>\r\n" + 
+						" <div class=\"image\">\r\n" + 
+						"   <h4 style=\"text-align: center;color: #742041;\">Invitation to become your Saathidar!!!\r\n" + 
+						"</h4>\r\n" + 
+						"<p style=\"float: left;\">Hi</p><br>\r\n" + 
+						"<p>"+first_name+" "+last_name+" has invited you to connect. Let’s Respond</p>\r\n" + 
+						"   <table style=\"width: 100%;border: #742041 1px solid;\" class=\"table\">\r\n" + 
+						"    <thead>\r\n" + 
+						"      <tr >\r\n";
+				
+				
+				if(!age.equals("")) {
+					email_body1=email_body1 +"        <th  scope=\"col\">Age  :</th>\r\n" + 
+						"        <th  scope=\"col\">"+age+"  </th>\r\n" + 
+						"      </tr>\r\n";} 
+				
+				
+				email_body1=email_body1 +"      <tr >\r\n"; 
+				
+				
+				if(!height.equals("")) {
+					email_body1=email_body1 +"        <th  scope=\"col\"> Height :</th>\r\n" + 
+						"        <th  scope=\"col\"> "+height+"</th>\r\n" + 
+						"      </tr>\r\n";} 
+				
+				
+				email_body1=email_body1 +"      <tr>\r\n" + 
+						"        <th scope=\"col\">Marital Status :</th>\r\n" + 
+						"        <th scope=\"col\">"+marital_status+"</th>\r\n" + 
+						"      </tr>\r\n";
+				
+				
+				if(!education.equals("")){
+					email_body1=email_body1 +"      <tr >\r\n" + 
+						"        <th  scope=\"col\">Education :</th>\r\n" + 
+						"        <th  scope=\"col\">"+education+"</th>\r\n" + 
+						"      </tr>\r\n"; } 
+				
+				
+				if(!profession.equals("")){
+				
+				email_body1=email_body1 +	"      <tr>\r\n" + 
+						"        <th scope=\"col\">Profession :</th>\r\n" + 
+						"        <th scope=\"col\">"+profession+"</th>\r\n" + 
+						"      </tr>\r\n";}
+				
+				
+				email_body1=email_body1 +		"    </thead>\r\n" + 
+						"  </table>\r\n" + 
+						"  <button type=\"button\">ACCEPT</button><button type=\"button\">DECLINE</button>\r\n" + 
+						" </div>\r\n" + 
+						" <div class=\"details\"></div>\r\n" + 
+						"\r\n" + 
+						"  </body>";
+				
+				String email_body = "<head>\r\n" + 
+						"    <meta charset=\"UTF-8\">\r\n" + 
+						"    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n" + 
+						"    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n" + 
+						"    <style>\r\n" + 
+						"\r\n" + 
+						"        .container\r\n" + 
+						"        {\r\n" + 
+						"           height: 150px; width: 400px;border: #742041 1px solid ;margin-top: 5px;\r\n" + 
+						"        }\r\n" + 
+						"       \r\n" + 
+						"        table {\r\n" + 
+						"  font-family: arial, sans-serif;\r\n" + 
+						"  border-collapse: collapse;\r\n" + 
+						"  width: 100%;\r\n" + 
+						"}\r\n" + 
+						"\r\n" + 
+						"td, th {\r\n" + 
+						" font-size: 12px;\r\n" + 
+						"  text-align: left;\r\n" + 
+						"  padding: 8px;\r\n" + 
+						"}\r\n" + 
+						"       img\r\n" + 
+						"       {\r\n" + 
+						"        height: 150px;\r\n" + 
+						"       }\r\n" + 
+						"       .bg\r\n" + 
+						"       {\r\n" + 
+						"        background-color: #742041;\r\n" + 
+						"       }\r\n" + 
+						"       button\r\n" + 
+						"       {\r\n" + 
+						"        background-color: #742041;color: #ffff;margin: 5px;\r\n" + 
+						"       }\r\n" + 
+						"    </style>\r\n" + 
+						"       \r\n" + 
+						"</head>\r\n" + 
+						"\r\n" + 
+						"<body style=\"width: 400px;\">\r\n" + 
+						"    <div style=\"background-color: #742041;\"><img style=\"width:300px ;\" src=\"www.saathidaar.com/assets/images/logo_eng.png\" alt=\"\"></div>\r\n" + 
+						" <div class=\"image\">\r\n" + 
+						"   <h4 style=\"text-align: center;color: #742041;\">Invitation to become your Saathidar!!!\r\n" + 
+						"</h4>\r\n" + 
+						"<p style=\"float: left;\">Hi</p><br>\r\n" + 
+						"<p>"+first_name+" "+last_name+" has invited you to connect. Let’s Respond</p>\r\n" + 
+						"   <table style=\"width: 100%;border: #742041 1px solid;\" class=\"table\">\r\n" + 
+						"    <thead>\r\n";
+				
+							if(!age.equals("")) {
+								email_body=email_body +"<tr >\r\n" + 
+										"        <th  scope=\"col\">Age  :</th>\r\n" + 
+										"        <th  scope=\"col\">"+age+" </th>\r\n" + 
+										"      </tr>\r\n";
+							}
+							
+							if(!height.equals("")) {
+								email_body=email_body+ "<tr >\r\n" + 
+										"        <th  scope=\"col\"> Height :</th>\r\n" + 
+										"        <th  scope=\"col\"> "+email_body+"</th>\r\n" + 
+										"      </tr>\r\n";
+							}
+							
+							if(!marital_status.equals("")){
+								email_body=email_body+"<tr>\r\n" + 
+										"        <th scope=\"col\">Marital Status :</th>\r\n" + 
+										"        <th scope=\"col\">"+marital_status+"</th>\r\n" + 
+										"      </tr>\r\n" ;
+							}
+							
+							if(!education.equals("")){
+								email_body=email_body+"      <tr >\r\n" + 
+										"        <th  scope=\"col\">Education :</th>\r\n" + 
+										"        <th  scope=\"col\">"+education+"</th>\r\n" + 
+										"      </tr>\r\n" ;
+							}
+						
+							if(!profession.equals("")){
+								email_body=email_body+"      <tr>\r\n" + 
+										"        <th scope=\"col\">Profession :</th>\r\n" + 
+										"        <th scope=\"col\">"+profession+"</th>\r\n" + 
+										"      </tr>\r\n";
+							}
+						
+						
+							email_body=email_body+"    </thead>\r\n" + 
+						"  </table>\r\n" + 
+						"  <button type=\"button\">ACCEPT</button><button type=\"button\">DECLINE</button>\r\n" + 
+						" </div>\r\n" + 
+						" <div class=\"details\"></div>\r\n" + 
+						"\r\n" + 
+						"  </body>";
+			
+			
+							mailSender.send(emailId_to, "Saathidaar Invitations", email_body1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return respons;
 	}
 
 	@Override
@@ -415,6 +650,44 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				return ids;
 	}
 
-	
+	@Transactional
+	private List getDetailsMemberByMember_id(Integer request_from_id) {
+		List lstAdd=new ArrayList();
+		try {
+			String columnName = "email_id,first_name,last_name, m.member_id, height,md.age,md.marital_status as maritalStatus,edu.highest_qualification as highest_qualification,edu.working_with as working_with";
+
+			List<Object[]> results = requestMemberRepository.getMemberDeyailsForMail(""+request_from_id);
+			if (results != null) {
+				for (Object[] obj : results) {
+				int i=0;
+				String email_id = convertNullToBlank(String.valueOf(obj[i]));
+				String first_name = convertNullToBlank(String.valueOf(obj[++i]));
+				String last_name = convertNullToBlank(String.valueOf(obj[++i]));
+				String member_id = convertNullToBlank(String.valueOf(obj[++i]));
+				String height = convertNullToBlank(String.valueOf(obj[++i]));
+				String age = convertNullToBlank(String.valueOf(obj[++i]));
+				String marital_status = convertNullToBlank(String.valueOf(obj[++i]));
+				String education = convertNullToBlank(String.valueOf(obj[++i]));
+				String profession = convertNullToBlank(String.valueOf(obj[++i]));
+				
+				lstAdd.add(email_id);
+				lstAdd.add(first_name);
+				lstAdd.add(last_name);
+				lstAdd.add(member_id);
+				lstAdd.add(height);
+				lstAdd.add(age);
+				lstAdd.add(marital_status);
+				lstAdd.add(education);
+				lstAdd.add(profession);
+				
+				}
+			}
+			return lstAdd;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// TODO Auto-generated method stub
+		return lstAdd;
+	}
 
 }

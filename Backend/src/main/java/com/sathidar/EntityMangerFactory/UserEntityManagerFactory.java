@@ -297,4 +297,16 @@ public class UserEntityManagerFactory {
 		return id;
 	}
 
+	public String getDateIntervalForHideProfile(String hide_period_time) {
+		String id="";
+		try {
+			Query q = em.createNativeQuery("SELECT DATE_ADD(curdate(), INTERVAL :hide_period_time month) as hide_period_time");
+			q.setParameter("hide_period_time", hide_period_time);
+			id = q.getSingleResult().toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return id;
+	}
+
 }

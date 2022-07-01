@@ -33,9 +33,13 @@ public interface UserService {
 
 	int getHideMemberStatus(int parseInt);
 
-	int savehideMemberForPeriodTime(int getStatus, int i,String hide_period_time);
+	int savehideMemberForPeriodTime(int getStatus, int member_id,String hide_period_time,String unhide_period_time);
 
-	int updatehideMemberForPeriodTime(int getStatus, int parseInt, String hide_period_time);
+	int updatehideMemberForPeriodTime(int getStatus, int member_id, String hide_period_time,String unhide_period_time);
+
+	String getDateIntervalForHideProfile(String hide_period_time);
+
+	int updateunhideMemberForPeriodTime(int getStatus, int parseInt, String hide_period_time);
 
 //	User logoutUser(User user);
 }

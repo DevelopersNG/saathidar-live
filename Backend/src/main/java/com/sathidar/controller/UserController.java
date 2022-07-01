@@ -210,22 +210,33 @@ public class UserController {
 	public HashMap<String,String> hideMemberForPeriodTime(@Validated @RequestBody User user,@PathVariable("member_id") String member_id) {
 		HashMap<String,String> map=new HashMap<String, String>();
 		int check=userService.isAvaialbeHideMember(Integer.parseInt(member_id));
-//		status=0 hide / status = 1 unhide
-		String hide_period_time=checkNullValue(user.getHide_period_time());
+	
+		String hide_period_time=checkNullValue(user.getHide_period_time_month());
 		int getStatus=0;
 		int count=0;
+		
+		// get next month interval
+		System.out.println("hide_period_time - "+hide_period_time );
+		
+		String unhide_period_time="";
+		if(hide_period_time.equals("unhide")) {
+			getStatus=1;
+			unhide_period_time="current_date";
+		}else {
+			 unhide_period_time=userService.getDateIntervalForHideProfile(hide_period_time);
+		}
+		// status=0 hide / status = 1 unhide
 		if(check >0) {
 			// update
-			 getStatus=userService.getHideMemberStatus(Integer.parseInt(member_id));
-			if(getStatus==0)
-				getStatus=1;
-			else
-				getStatus=0;
-			count=userService.updatehideMemberForPeriodTime(getStatus,Integer.parseInt(member_id),hide_period_time);
+			if(getStatus==1) {
+				count=userService.updateunhideMemberForPeriodTime(getStatus,Integer.parseInt(member_id),hide_period_time);
+			}else {
+				count=userService.updatehideMemberForPeriodTime(getStatus,Integer.parseInt(member_id),hide_period_time,unhide_period_time);	
+			}
 		}else {
 			// insert
 			System.out.println("*********** "+ getStatus + "," + hide_period_time + "," + member_id);
-			count=userService.savehideMemberForPeriodTime(getStatus,Integer.parseInt(member_id),hide_period_time);
+			count=userService.savehideMemberForPeriodTime(getStatus,Integer.parseInt(member_id),hide_period_time,unhide_period_time);
 		}
 		if(count>0) {
 			map.put("result", "1");

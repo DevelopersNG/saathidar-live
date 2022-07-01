@@ -51,7 +51,7 @@ public class User extends AuditModel{
 	private String newPassword;
 	
 	@Transient
-	private String hide_period_time;
+	private String hide_period_time_month;
 	
 	@Transient
 	private String otp;
@@ -236,15 +236,13 @@ public class User extends AuditModel{
 	public void setOtp(String otp) {
 		this.otp = otp;
 	}
-	
-	
 
-	public String getHide_period_time() {
-		return hide_period_time;
+	public String getHide_period_time_month() {
+		return hide_period_time_month;
 	}
 
-	public void setHide_period_time(String hide_period_time) {
-		this.hide_period_time = hide_period_time;
+	public void setHide_period_time_month(String hide_period_time_month) {
+		this.hide_period_time_month = hide_period_time_month;
 	}
 
 	public String getOldPassword() {

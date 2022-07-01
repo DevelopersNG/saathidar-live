@@ -37,6 +37,41 @@ public class RequestMemberModel {
 	@Transient
 	private String sender_id;
 	
+//	*********** for email ****************************	
+	
+	@Transient
+	private String email_to;
+	
+	@Transient
+	private String email_subject;
+	
+	@Transient
+	private String email_body;
+	
+	public String getEmail_to() {
+		return email_to;
+	}
+
+	public void setEmail_to(String email_to) {
+		this.email_to = email_to;
+	}
+
+	public String getEmail_subject() {
+		return email_subject;
+	}
+
+	public void setEmail_subject(String email_subject) {
+		this.email_subject = email_subject;
+	}
+
+	public String getEmail_body() {
+		return email_body;
+	}
+
+	public void setEmail_body(String email_body) {
+		this.email_body = email_body;
+	}
+
 	public String getPhone_number() {
 		return phone_number;
 	}

@@ -248,26 +248,21 @@ public class UpdateMemberController {
 	}
 	
 		@PostMapping(path = "/member/horoscope/update/{member_id}")
-		public String updateHoroscopeDetails(@Validated @RequestBody UpdateMember updateMember,@PathVariable("member_id") int member_id) {
+		public Map<String, String> updateHoroscopeDetails(@Validated @RequestBody UpdateMember updateMember,@PathVariable("member_id") int member_id) {
 			  HashMap<String, String> map = new HashMap<>();
 			  JSONObject jsObject = new JSONObject();  
 			if(updateMemberService.updateHoroscopeDetails(updateMember,member_id)!=null) {
 				map=updateMemberEntityMangerFactory.getHoroscopeDetails(member_id);
 				 if(map==null) {
-					 jsObject.put("data",map);
-					 jsObject.put("results","0");
-					 jsObject.put("message","something wrong ! record not fetch...");
+					 map.put("results","0");
 				 }else {
-					 jsObject.put("data",map);
-					 jsObject.put("results","1");
+					 map.put("results","1");
 				 }
-				 return jsObject.toString();
+				 return map;
 			}else {
-				 jsObject.put("data",map);
-				 jsObject.put("results","1");
-				 jsObject.put("message","something wrong ! record not fetch...");
+				 map.put("results","0");
 			}
-			return jsObject.toString();
+			return map;
 		}
 	
 //	@GetMapping(value = "/member/horoscope/get/{member_id}")
@@ -278,20 +273,18 @@ public class UpdateMemberController {
 //	}
 
 	@GetMapping(value = "/member/horoscope/get/{id}")
-	public String getHoroscopeDetails(@PathVariable("id") int id) {
+	public Map<String, String> getHoroscopeDetails(@PathVariable("id") int id) {
 		 HashMap<String, String> map = new HashMap<>();
 		 JSONObject jsObject = new JSONObject();  
 		 map=updateMemberEntityMangerFactory.getHoroscopeDetails(id);
 		 
 		 if(map==null) {
-			 jsObject.put("data",map);
-			 jsObject.put("results","1");
+			 map.put("results","1");
 			 jsObject.put("message","something wrong ! record not fetch...");
 		 }else {
-			 jsObject.put("data",map);
-			 jsObject.put("results","1");
+			 map.put("results","1");
 		 }
-		 return jsObject.toString();
+		 return map;
 	}
 	
 	// match partner - preference
