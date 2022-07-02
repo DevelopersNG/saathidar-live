@@ -21,13 +21,10 @@ public class SchedulerUnHideProfile {
 	@Autowired
 	private SendSMSAction sendSMSAction;
 	
-	
 	@Transactional
 //	@Scheduled(initialDelay = 5000, fixedDelay = 9000) 
 //	@Scheduled(cron = "0 0 00:00 * * ?") //  for daily once
 	public void scheduledMethod() {
-		
-		
 		// status=0 for hide member
 		// status=1 for un-hide member
 		int statusCount=0;
