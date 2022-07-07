@@ -408,6 +408,37 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 	}
 
 
+	@Override
+	public int activateMember(UpdateMember updateMember) {
+		int result=0;
+		try {
+			int res=updateMemberRepository.isMemberAvailable(updateMember.getMember_id());
+			if(res>0) {
+				 result=updateMemberRepository.updateMemberCurrentStatus(updateMember.getMember_id(),updateMember.getActivate_id());
+			}else {
+				 result=updateMemberRepository.insertMemberCurrentStatus(updateMember.getMember_id(),updateMember.getActivate_id());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public int getActivateMember(int member_id) {
+		int result=1;
+		try {
+			int res=updateMemberRepository.isMemberAvailable(member_id);
+			if(res>0) {
+				 result=updateMemberRepository.getActivateMember(member_id);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+
 
 	
 

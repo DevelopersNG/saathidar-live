@@ -1,11 +1,21 @@
 package com.sathidar.model;
 
+import java.sql.Blob;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.Type;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="member_photo")
@@ -13,17 +23,30 @@ public class UploadImagesModel {
 
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 	
 	@Transient
 	private String[] image_base_urls;
+	
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
+	private byte[] image_url;
+	
+	public byte[] getImage_url() {
+		return image_url;
+	}
+
+	public void setImage_url(byte[] image_url) {
+		this.image_url = image_url;
+	}
 	
 	private Integer member_id;
 
 	private String image_path;
 	
 	private String image_name;
+	
 
 	public Integer getId() {
 		return id;
@@ -79,6 +102,7 @@ public class UploadImagesModel {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
 	
 	
 	

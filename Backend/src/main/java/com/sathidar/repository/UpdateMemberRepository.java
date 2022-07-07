@@ -156,4 +156,26 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 			+ " where member_id= :id  ", nativeQuery = true)
 	Object updateLocationOfGroom(int countryID, int stateID, int cityID, String methnic_corigin, String mpincode);
 
+
+	@Query(value="SELECT count(*) FROM member_activated where member_id= :member_id",nativeQuery=true)
+	int isMemberAvailable(Integer member_id);
+
+
+	@Transactional
+	@Modifying
+	@Query(value = "update member_activated set "
+			+ "  activate_id= :activate_id where member_id= :member_id  ", nativeQuery = true)
+	int updateMemberCurrentStatus(Integer member_id, Integer activate_id);
+
+	@Query(value="SELECT activate_id FROM member_activated where member_id= :member_id",nativeQuery=true)
+	int getActivateMember(Integer member_id);
+
+	@Transactional
+	@Modifying
+	@Query(value = "insert into member_activated (member_id,activate_id)"
+			+ "values ("
+			+ ":member_id,:activate_id"
+			+ ")", nativeQuery = true)
+	int insertMemberCurrentStatus(Integer member_id, Integer activate_id);
+
 }

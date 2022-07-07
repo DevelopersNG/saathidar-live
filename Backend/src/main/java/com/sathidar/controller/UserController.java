@@ -83,8 +83,8 @@ public class UserController {
 		if (messageStatus.equals("success")) {
 			String otp = this.getOTP();
 //			String smsMessage = "Your Verification Code is " + otp + " Saathidaar.com";
-			String smsMessage = "Welcome to Saathidar.com. " + otp + "  is your OTP to login and start finding your soulmate here.\r\n" + 
-					"www.Saathidar.com";
+			String smsMessage = "Welcome to Saathidar.com. " + otp
+					+ "  is your OTP to login and start finding your soulmate here.\r\n" + "www.Saathidar.com";
 			String sender = "SDMREG";
 			String phoneNo = "91" + user.getPhone().trim();
 			String response = sendSMSAction.SendOtpSms(phoneNo, sender, smsMessage);
@@ -97,9 +97,10 @@ public class UserController {
 				if (type.equals("success")) {
 					map.put("message", "success");
 					map.put("result", "1");
-				}else if (type.equals("error")) {
+				} else if (type.equals("error")) {
 					map.put("message", "error");
-					map.put("result", "0");}
+					map.put("result", "0");
+				}
 			} else {
 				map.put("message", "error");
 				map.put("result", "0");
@@ -151,14 +152,13 @@ public class UserController {
 //		}
 		return message;
 	}
-	
-	
+
 	@GetMapping(path = "/check/profile/id/available/{profile_id}")
-	public HashMap<String,String> isUserAvailableOrNot(@PathVariable("profile_id") String profile_id, User user) {
-		HashMap<String,String> map=new HashMap<String, String>();
+	public HashMap<String, String> isUserAvailableOrNot(@PathVariable("profile_id") String profile_id, User user) {
+		HashMap<String, String> map = new HashMap<String, String>();
 		if (userEntityManagerFactory.isUserAvailableOrNot(profile_id)) {
 			map.put("message", "success");
-		}else {
+		} else {
 			map.put("message", "profile id not found");
 		}
 //		}
@@ -166,9 +166,9 @@ public class UserController {
 	}
 
 	@PostMapping(path = "/users/login")
-	public HashMap<String,String> login(@Validated @RequestBody User user) {
-		HashMap<String,String> map=new HashMap<String, String>();
-		map= userService.loginUser(user);
+	public HashMap<String, String> login(@Validated @RequestBody User user) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map = userService.loginUser(user);
 		return map;
 	}
 
@@ -178,9 +178,9 @@ public class UserController {
 	}
 
 	@PostMapping(path = "/users/changepwd")
-	public HashMap<String,String> changePassword(@Validated @RequestBody User user) {
-		HashMap<String,String> map=new HashMap<String, String>();
-		map= userService.changeUserPassword(user);
+	public HashMap<String, String> changePassword(@Validated @RequestBody User user) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map = userService.changeUserPassword(user);
 		return map;
 	}
 
@@ -204,57 +204,66 @@ public class UserController {
 //	public User logout(@Validated @RequestBody User user) {
 //		return userService.logoutUser(user);
 //	}
-	
-	
+
 	@PostMapping(path = "/member/hide/{member_id}")
-	public HashMap<String,String> hideMemberForPeriodTime(@Validated @RequestBody User user,@PathVariable("member_id") String member_id) {
-		HashMap<String,String> map=new HashMap<String, String>();
-		int check=userService.isAvaialbeHideMember(Integer.parseInt(member_id));
-	
-		String hide_period_time=checkNullValue(user.getHide_period_time_month());
-		int getStatus=0;
-		int count=0;
-		
+	public HashMap<String, String> hideMemberForPeriodTime(@Validated @RequestBody User user,
+			@PathVariable("member_id") String member_id) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		int check = userService.isAvaialbeHideMember(Integer.parseInt(member_id));
+
+		String hide_period_time = checkNullValue(user.getHide_period_time_month());
+		int getStatus = 0;
+		int count = 0;
+
 		// get next month interval
-		System.out.println("hide_period_time - "+hide_period_time );
-		
-		String unhide_period_time="";
-		if(hide_period_time.equals("unhide")) {
-			getStatus=1;
-			unhide_period_time="current_date";
-		}else {
-			 unhide_period_time=userService.getDateIntervalForHideProfile(hide_period_time);
+		System.out.println("hide_period_time - " + hide_period_time);
+
+		String unhide_period_time = "";
+		if (hide_period_time.equals("unhide")) {
+			getStatus = 1;
+			unhide_period_time = "current_date";
+		} else {
+			unhide_period_time = userService.getDateIntervalForHideProfile(hide_period_time);
 		}
 		// status=0 hide / status = 1 unhide
-		if(check >0) {
+		if (check > 0) {
 			// update
-			if(getStatus==1) {
-				count=userService.updateunhideMemberForPeriodTime(getStatus,Integer.parseInt(member_id),hide_period_time);
-			}else {
-				count=userService.updatehideMemberForPeriodTime(getStatus,Integer.parseInt(member_id),hide_period_time,unhide_period_time);	
+			if (getStatus == 1) {
+				count = userService.updateunhideMemberForPeriodTime(getStatus, Integer.parseInt(member_id),
+						hide_period_time);
+			} else {
+				count = userService.updatehideMemberForPeriodTime(getStatus, Integer.parseInt(member_id),
+						hide_period_time, unhide_period_time);
 			}
-		}else {
+		} else {
 			// insert
-			System.out.println("*********** "+ getStatus + "," + hide_period_time + "," + member_id);
-			count=userService.savehideMemberForPeriodTime(getStatus,Integer.parseInt(member_id),hide_period_time,unhide_period_time);
+			System.out.println("*********** " + getStatus + "," + hide_period_time + "," + member_id);
+			count = userService.savehideMemberForPeriodTime(getStatus, Integer.parseInt(member_id), hide_period_time,
+					unhide_period_time);
 		}
-		if(count>0) {
+		if (count > 0) {
 			map.put("result", "1");
 			map.put("message", "Profile is updated");
-		}else {
+		} else {
 			map.put("result", "0");
 			map.put("message", "Profile not getting hide");
 		}
 		return map;
 	}
-	
-public String checkNullValue(String value) {
-		
-		if(value!=null && !value.equals("null")) {
-			return value;
-		}
 
-	return "";
+	@GetMapping(path = "/member/get/hide/{member_id}")
+	public Map<String, String> getHideProfileStatus(@PathVariable("member_id") int member_id) {
+		HashMap<String, String> map = new HashMap<>();
+		String status = userService.getHideProfileStatus(member_id);
+		map.put("months", status);
+		map.put("results", "1");
+		return map;
 	}
 	
+	public String checkNullValue(String value) {
+		if (value != null && !value.equals("null")) {
+			return value;
+		}
+		return "";
+	}
 }

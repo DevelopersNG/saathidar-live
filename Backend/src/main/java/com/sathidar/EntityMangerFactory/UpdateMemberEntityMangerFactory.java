@@ -100,19 +100,21 @@ public class UpdateMemberEntityMangerFactory {
 				+ "mh.manglik,mh.nakshatra,mh.time_of_birth,mh.time_status,mh.city_of_birth ";
 		try {
 
-			// get hide member ids for not showing ids
-			String getMembersHideIDs = getMembersHideIDs();
-
+			
 			String query = "SELECT " + columnName + "  FROM memberdetails as md "
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_family_details as fd on m.member_id=fd.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
 					+ " join member_horoscope as mh on m.member_id=mh.member_id "
-					+ " where md.member_id= :id and m.status='ACTIVE' ";
-
-			if (getMembersHideIDs != null && !getMembersHideIDs.equals("")) {
-				query = query + " and md.member_id not in (" + getMembersHideIDs + ") ";
-			}
+					+ " where md.member_id= :id";
+//			+ " where md.member_id= :id and m.status='ACTIVE' ";
+			
+			// get hide member ids for not showing ids
+//			String getMembersHideIDs = getMembersHideIDs();
+//
+//			if (getMembersHideIDs != null && !getMembersHideIDs.equals("")) {
+//				query = query + " and md.member_id not in (" + getMembersHideIDs.replaceFirst(",", "") + ") ";
+//			}
 
 			String query1 = "SELECT count(*) FROM premium_member where member_id= :id and deleteflag='N'";
 			Query q1 = em.createNativeQuery(query1);
@@ -477,10 +479,8 @@ public class UpdateMemberEntityMangerFactory {
 				q1.setParameter("id", id);
 				int premiumStatus = Integer.parseInt(q1.getSingleResult().toString());
 				System.out.println("************* premiun status - " + premiumStatus);
-
 				
 //			********************** begin column names *********************************
-			
 			
 			String columnName = "first_name,last_name, m.member_id, height,lifestyles,md.age,"
 					+ "md.marital_status as maritalStatus,mother_tounge,gender,"
@@ -600,16 +600,15 @@ public class UpdateMemberEntityMangerFactory {
 	public JSONArray getAllMemberByFilter(UpdateMember updateMember, int id, String matches_status) {
 		JSONArray resultArray = new JSONArray();
 		try {
-
 			matchesConstants.getMemberMatchPartnerPreference(id);
 			String requestedIds = getRequestedIDForMember(id);
 			String shortlistIds = getShortListIDForMember(id);
 			String requestIdQuery = "", shortListIdQuery = "", matches_id = "";
 			if (!requestedIds.equals("")) {
-				requestIdQuery = " and m.member_id not in (" + requestedIds + ")";
+				requestIdQuery = " and m.member_id not in (" + requestedIds.replaceFirst(",", "") + ")";
 			}
 			if (!shortlistIds.equals("")) {
-				shortListIdQuery = " and m.member_id not in (" + shortlistIds + ")";
+				shortListIdQuery = " and m.member_id not in (" + shortlistIds.replaceFirst(",", "") + ")";
 			}
 
 			String ids = "";
@@ -618,7 +617,7 @@ public class UpdateMemberEntityMangerFactory {
 				ids = getMemberIDForMatches(id, matches_status);
 
 				if (!ids.equals("")) {
-					matches_id = " and m.member_id in (" + ids + ")";
+					matches_id = " and m.member_id in (" + ids.replaceFirst(",", "") + ")";
 				}
 			}
 
@@ -635,7 +634,7 @@ public class UpdateMemberEntityMangerFactory {
 			String getMembersHideIDs = getMembersHideIDs();
 			String hideMemberIdsQuery = "";
 			if (getMembersHideIDs != null && !getMembersHideIDs.equals("")) {
-				hideMemberIdsQuery = hideMemberIdsQuery + " and md.member_id not in (" + getMembersHideIDs + ") ";
+				hideMemberIdsQuery = hideMemberIdsQuery + " and md.member_id not in (" + getMembersHideIDs.replaceFirst(",", "") + ") ";
 			}
 
 //		******************************Column Name*************************************************************************
@@ -784,7 +783,7 @@ public class UpdateMemberEntityMangerFactory {
 							matchesStatus = true;
 						}
 					}
-
+					matchesStatus=true;
 					if (matchesStatus) {
 						json.put("first_name", first_name);
 						json.put("last_name", last_name);
@@ -801,26 +800,30 @@ public class UpdateMemberEntityMangerFactory {
 						json.put("member_id", memberID);
 						json.put("request_status", "");
 						json.put("block_status", "");
-						resultArray.put(json);
-					}
-					// check request are sent to other member
-					Query query = em.createNativeQuery(
-							"SELECT request_status,block_status FROM member_request where  request_from_id= :member_from_id and request_to_id= :member_to_id");
-					query.setParameter("member_from_id", id);
-					query.setParameter("member_to_id", memberID);
-					JSONArray resultRequest = new JSONArray();
-					List<Object[]> result = query.getResultList();
-					if (results != null) {
-						for (Object[] objRequest : result) {
-							int j = 0;
-							json.put("request_status", convertNullToBlank(String.valueOf(objRequest[j])));
-							json.put("block_status", convertNullToBlank(String.valueOf(objRequest[++j])));
+					
+					
+						// check request are sent to other member
+						Query query = em.createNativeQuery(
+								"SELECT request_status,block_status FROM member_request where  request_from_id= :member_from_id and request_to_id= :member_to_id");
+						query.setParameter("member_from_id", id);
+						query.setParameter("member_to_id", memberID);
+						JSONArray resultRequest = new JSONArray();
+						List<Object[]> result = query.getResultList();
+						if (results != null) {
+							for (Object[] objRequest : result) {
+								int j = 0;
+								json.put("request_status", convertNullToBlank(String.valueOf(objRequest[j])));
+								json.put("block_status", convertNullToBlank(String.valueOf(objRequest[++j])));
+							}
+						} else {
+							json.put("request_status", "");
+							json.put("block_status", "");
+							
 						}
-					} else {
-						json.put("request_status", "");
-						json.put("block_status", "");
+						resultArray.put(json);
+					}else{
+						resultArray=null;
 					}
-					resultArray.put(json);
 				}
 			}
 		} catch (Exception e) {
@@ -1329,40 +1332,49 @@ public class UpdateMemberEntityMangerFactory {
 	}
 
 	@Transactional
-	public int activateMember(String contact_number, String email_id) {
+	public int activateMember(UpdateMember updateMember) {
 		int statusCount = 0;
 		try {
 			int result = 0;
-			Query q = em.createNativeQuery(
-					"SELECT id FROM users where phone= :contact_number and username= :email_id and status='Deactivate' ");
-			q.setParameter("contact_number", contact_number);
-			q.setParameter("email_id", email_id);
+			Query q = em.createNativeQuery("SELECT user_id FROM member where member_id= :member_id");
+			q.setParameter("member_id", updateMember.getMember_id());
 			int userID = Integer.parseInt(q.getSingleResult().toString());
 
-			if (userID > 0) {
+			String Status="status='ACTIVE'";
+			if(updateMember.getActivate_id()==0) 
+				Status="status='DE-ACTIVE'";
+			
 
 //				********** send otp on mobile number****************
 //				********** send otp on email************************		  
 //				if phone otp and email otp are correct then activate member account
 
 				Query queryMemberNumber = em.createNativeQuery(
-						"update users set status='ACTIVE' where phone= :contact_number and username= :email_id and status='Deactivate'");
-				queryMemberNumber.setParameter("contact_number", contact_number);
-				queryMemberNumber.setParameter("email_id", email_id);
+						"update users set "+Status+" where id= :userID");
+				queryMemberNumber.setParameter("userID", userID);
 				statusCount = queryMemberNumber.executeUpdate();
 
 				Query queryMemberDeativate = em.createNativeQuery(
-						"update member set status='ACTIVE' where user_id= :userID and status='Deactivate'");
+						"update member set "+Status+" where user_id= :userID and member_id= :member_id");
+				queryMemberDeativate.setParameter("member_id", updateMember.getMember_id());
 				queryMemberDeativate.setParameter("userID", userID);
 				statusCount = queryMemberDeativate.executeUpdate();
 
-			}
 			em.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return statusCount;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	public JSONArray getMembersPlanDetails() {
 		JSONArray resultArray = new JSONArray();
@@ -1714,7 +1726,7 @@ public class UpdateMemberEntityMangerFactory {
 					+ " join member_family_details as fd on m.member_id=fd.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
 					+ " join member_horoscope as mh on m.member_id=mh.member_id "
-					+ " where md.member_id= :login_id and m.status='ACTIVE'");
+					+ " where md.member_id= :login_id");
 
 			q.setParameter("login_id", login_id);
 			boolean status = false;
@@ -1750,7 +1762,7 @@ public class UpdateMemberEntityMangerFactory {
 							"SELECT partner_marital_status, partner_mother_tongue, partner_qualification, partner_working_with, "
 									+ "partner_religions, partner_cast, partner_country, partner_state, partner_city, partner_from_age, partner_to_age, "
 									+ " partner_from_height, partner_to_height,partner_annual_income "
-									+ "  FROM member_preference where member_id= :member_id and status='ACTIVE'");
+									+ "  FROM member_preference where member_id= :member_id");
 
 					queryPartner.setParameter("member_id", member_id);
 					List<Object[]> resultsPartner = queryPartner.getResultList();
@@ -2109,11 +2121,11 @@ public class UpdateMemberEntityMangerFactory {
 		try {
 			String myQuery = "";
 			if (matches_status.equals("NEW_MATCHES")) {
-				myQuery = "SELECT group_concat(member_id) FROM member where  member_id!= :member_id  and user_id in (select id from users where enabled=1 and MONTH(datetime) >= MONTH(CURRENT_DATE - INTERVAL 1 MONTH))";
+				myQuery = "SELECT group_concat(member_id) FROM member where  member_id!= :member_id  and user_id in (select id from users where enabled=1 and MONTH(creation_date) >= MONTH(CURRENT_DATE - INTERVAL 1 MONTH))";
 			} else if (matches_status.equals("MY_MATCHES")) {
 				myQuery = "SELECT group_concat(member_id) FROM member where  member_id!= :member_id  and user_id in (select id from users where enabled=1)";
 			} else if (matches_status.equals("TODAYS_MATCHES")) {
-				myQuery = "SELECT group_concat(member_id) FROM member where  member_id!= :member_id  and user_id in (select id from users where enabled=1 and DATE(datetime)= CURDATE())";
+				myQuery = "SELECT group_concat(member_id) FROM member where  member_id!= :member_id  and user_id in (select id from users where enabled=1 and DATE(creation_date)= CURDATE())";
 			}
 			Query query = em.createNativeQuery(myQuery);
 			query.setParameter("member_id", member_id);
@@ -2277,6 +2289,208 @@ public class UpdateMemberEntityMangerFactory {
 			e.printStackTrace();
 		}
 		return resultArray;
+	}
+
+	public HashMap<String, String> getMyProfileMember(int id) {
+		HashMap<String, String> map = new HashMap<>();
+
+		String columnName = "m.member_id, membernative,height,weight,lifestyles,known_languages,education,job,income,hobbies,expectations,first_name,last_name,gender,md.age,"
+				+ "contact_number,email_id,profilecreatedby,md.marital_status as maritalStatus,no_of_children,mother_tounge,date_of_birth,"
+				+ "health_info,blood_group,gothra,ethnic_corigin,pincode,about_ourself,"
+				+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :id )) as country_name,country_id,"
+				+ "sub_caste_name,"
+				+ "(select cast_name from cast where cast_id=(select cast_id from memberdetails where member_id= :id )) as caste,cast_id,"
+				+ "(select subcast_name from subcasts where subcast_id=(select subcaste_id from memberdetails where member_id= :id)) as subcaste,"
+				+ "(select religion_name from religion where religion_id=(select religion_id from memberdetails where member_id= :id)) as religion,religion_id,"
+				+ "(select state_name from states where state_id=(select state_id from memberdetails where member_id= :id)) as state,state_id,"
+				+ "(select city_name from city where city_id=(select city_id from memberdetails where member_id= :id)) as city,city_id,"
+				+ "fd.father_status as father_status,fd.father_company_name as father_company_name,fd.father_designation as father_designation,fd.father_business_name as father_business_name,"
+				+ "fd.mother_status as mother_status, fd.mother_company_name as mother_company_name,fd.mother_designation as mother_designation,fd.mother_business_name as mother_business_name,"
+				+ "fd.family_location as family_location,fd.native_place as native_place,fd.family_type as family_type,fd.family_values as family_values,fd.family_affluence as family_affluence,"
+				+ "fd.married_male as married_male,fd.unmarried_male as unmarried_male,fd.married_female as married_female,fd.unmarried_female as unmarried_female,"
+				+ "edu.highest_qualification as highest_qualification,edu.college_attended as college_attended,edu.working_with as working_with,edu.working_as as working_as,edu.employer_name as employer_name,edu.annual_income as annual_income,"
+				+ "mh.manglik,mh.nakshatra,mh.time_of_birth,mh.time_status,mh.city_of_birth ";
+		try {
+
+
+			String query = "SELECT " + columnName + "  FROM memberdetails as md "
+					+ " join member as m on md.member_id=m.member_id"
+					+ " join member_family_details as fd on m.member_id=fd.member_id"
+					+ " join member_education_career as edu on m.member_id=edu.member_id "
+					+ " join member_horoscope as mh on m.member_id=mh.member_id "
+					+ " where md.member_id= :id and m.status='ACTIVE' ";
+
+			Query q = em.createNativeQuery(query);
+//			System.out.println(q);
+			String contact_number = "", email_id = "";
+			q.setParameter("id", id);
+			boolean status = false;
+			List<Object[]> results = q.getResultList();
+			if (results != null) {
+				for (Object[] obj : results) {
+					int i = 0;
+					String thisMemberID = convertNullToBlank(String.valueOf(obj[i]));
+
+					// first row
+					map.put("member_id", thisMemberID);
+					map.put("native", convertNullToBlank(String.valueOf(obj[++i])));
+					String height = convertNullToBlank(String.valueOf(obj[++i]));
+					map.put("height", height);
+					map.put("weight", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("lifestyles", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("known_languages", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("education", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("job", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("income", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("hobbies", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("expectations", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("first_name", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("last_name", convertNullToBlank(String.valueOf(obj[++i])));
+					String gender = convertNullToBlank(String.valueOf(obj[++i]));
+					map.put("gender", gender);
+					map.put("age", convertNullToBlank(String.valueOf(obj[++i])));
+
+					// second row
+					// check contact privacy
+					contact_number = convertNullToBlank(String.valueOf(obj[++i]));
+					map.put("contact_number", contact_number);
+
+					// check email privacy
+					email_id = convertNullToBlank(String.valueOf(obj[++i]));
+					map.put("email_id", email_id);
+
+					map.put("profilecreatedby", convertNullToBlank(String.valueOf(obj[++i])));
+					String marital_status = convertNullToBlank(String.valueOf(obj[++i]));
+					map.put("marital_status", marital_status);
+					map.put("no_of_children", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("mother_tounge", convertNullToBlank(String.valueOf(obj[++i])));
+
+					// dob privacy
+					String dob = convertNullToBlank(String.valueOf(obj[++i]));
+					map.put("date_of_birth", dob);
+
+					// third row
+					map.put("health_info", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("blood_group", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("gothra", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("ethnic_corigin", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("pincode", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("about_ourself", convertNullToBlank(String.valueOf(obj[++i])));
+
+					// forth row
+//					String val= convertNullToBlank(String.valueOf(obj[++i]);
+					map.put("country_name", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("country_id", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("sub_caste_name", convertNullToBlank(String.valueOf(obj[++i])));
+
+					// fifth,sixth,seven,eight,nine row
+					map.put("caste", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("cast_id", convertNullToBlank(String.valueOf(obj[++i])));
+
+					map.put("subcaste", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("religion_name", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("religion_id", convertNullToBlank(String.valueOf(obj[++i])));
+
+					map.put("state", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("state_id", convertNullToBlank(String.valueOf(obj[++i])));
+
+					map.put("city", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("city_id", convertNullToBlank(String.valueOf(obj[++i])));
+
+					// 10th row
+					// get family details
+
+					String father_status = convertNullToBlank(String.valueOf(obj[++i]));
+					String father_company_name = convertNullToBlank(String.valueOf(obj[++i]));
+					String father_designation = convertNullToBlank(String.valueOf(obj[++i]));
+					String father_business_name = convertNullToBlank(String.valueOf(obj[++i]));
+
+					// 11th row
+					String mother_status = convertNullToBlank(String.valueOf(obj[++i]));
+					String mother_company_name = convertNullToBlank(String.valueOf(obj[++i]));
+					String mother_designation = convertNullToBlank(String.valueOf(obj[++i]));
+					String mother_business_name = convertNullToBlank(String.valueOf(obj[++i]));
+
+					// 12th row
+					String family_location = convertNullToBlank(String.valueOf(obj[++i]));
+					String native_place = convertNullToBlank(String.valueOf(obj[++i]));
+					String family_type = convertNullToBlank(String.valueOf(obj[++i]));
+					String familyValues = convertNullToBlank(String.valueOf(obj[++i]));
+					String family_affluence = convertNullToBlank(String.valueOf(obj[++i]));
+
+					map.put("father_status", father_status);
+					map.put("father_company_name", father_company_name);
+					map.put("father_designation", father_designation);
+					map.put("father_business_name", father_business_name);
+					map.put("mother_status", mother_status);
+					map.put("mother_company_name", mother_company_name);
+					map.put("mother_designation", mother_designation);
+					map.put("mother_business_name", mother_business_name);
+					map.put("family_location", family_location);
+					map.put("native_place", native_place);
+					map.put("family_type", family_type);
+					map.put("familyValues", familyValues);
+					map.put("family_affluence", family_affluence);
+
+					// 13th row
+					map.put("married_male", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("unmarried_male", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("married_female", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("unmarried_female", convertNullToBlank(String.valueOf(obj[++i])));
+					String mGender = "";
+					if (gender.equals("male")) {
+						mGender = "his";
+					}
+					if (gender.equals("female")) {
+						mGender = "her";
+					}
+					String getFamilyDetailsString = getFamilyDetailsInOneStatement(mGender, father_status,
+							father_company_name, father_designation, father_business_name, mother_status,
+							mother_company_name, mother_designation, mother_business_name, family_location,
+							native_place, family_type, familyValues, family_affluence);
+
+					// get edyucation and qualifications details
+					map.put("highest_qualification", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("college_attended", convertNullToBlank(String.valueOf(obj[++i])));
+
+					String workingWith = convertNullToBlank(String.valueOf(obj[++i]));
+					String workingAs = convertNullToBlank(String.valueOf(obj[++i]));
+					String employerName = convertNullToBlank(String.valueOf(obj[++i]));
+					String getCareerDetails = getEducationAndCareerDetails(workingWith, workingAs, employerName);
+
+					map.put("working_with", workingWith);
+					map.put("working_as", workingAs);
+					map.put("employer_name", employerName);
+
+					// check annual income privacy
+					String annualIncome = convertNullToBlank(String.valueOf(obj[++i]));
+					map.put("annual_income", annualIncome);
+
+					// 14th row
+					map.put("manglik", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("nakshatra", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("time_of_birth", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("time_status", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("city_of_birth", convertNullToBlank(String.valueOf(obj[++i])));
+
+					map.put("working_details", getCareerDetails);
+					map.put("FamilyDetails", getFamilyDetailsString);
+
+					// send sms/mail to visitors ids
+
+					status = true;
+				}
+			}
+
+			if (status == false) {
+				map.put("message", "record not found");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return map;
 	}
 
 }

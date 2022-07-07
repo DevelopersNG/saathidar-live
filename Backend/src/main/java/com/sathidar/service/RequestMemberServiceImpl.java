@@ -641,40 +641,42 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 
 	@Override
 	public JSONArray GetAcceptedDetails(String member_id) {
-		
-//		******************************Column Name*************************************************************************
-		 String columnName=getCommonColumnForSearch();
-//		******************************Query*************************************************************************
-		 String getAcceptedIDS=getAcceptedIDS(member_id);
-		 String initationsQuery="";
-			JSONArray resultArray = new JSONArray();
-		 if( getAcceptedIDS!=null && !getAcceptedIDS.equals("")) {
-			 initationsQuery=" and md.member_id in ("+getAcceptedIDS+")";
-			 
-			 Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
-						+ " join member as m on md.member_id=m.member_id"
-						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where m.status='ACTIVE' and md.member_id!= :member_id"+initationsQuery);
-				
-				System.out.println(" invitations -  SELECT " + columnName + "  FROM memberdetails as md "
-						+ " join member as m on md.member_id=m.member_id"
-						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where m.status='ACTIVE' and md.member_id!= :member_id"+initationsQuery);
-				
-				q.setParameter("member_id", member_id);
+		JSONArray resultArray = new JSONArray();
+		try {
+//			******************************Column Name*************************************************************************
+			 String columnName=getCommonColumnForSearch();
+//			******************************Query*************************************************************************
+			 String getAcceptedIDS=getAcceptedIDS(member_id);
+			 String initationsQuery="";
 			
-			
-				List<Object[]> results = q.getResultList();
-				if (results != null) {  
-					for (Object[] obj : results) {
-						JSONObject json = new JSONObject();
-						json=getCommonJsonOutout(obj,member_id,"Accepted");		
-						resultArray.put(json);
+			 if( getAcceptedIDS!=null && !getAcceptedIDS.equals("")) {
+				 initationsQuery=" and md.member_id in ("+getAcceptedIDS+")";
+				 
+				 Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
+							+ " join member as m on md.member_id=m.member_id"
+							+ " join member_education_career as mec on m.member_id=mec.member_id "
+							+ " where m.status='ACTIVE' and md.member_id!= :member_id"+initationsQuery);
+					
+					System.out.println(" invitations -  SELECT " + columnName + "  FROM memberdetails as md "
+							+ " join member as m on md.member_id=m.member_id"
+							+ " join member_education_career as mec on m.member_id=mec.member_id "
+							+ " where m.status='ACTIVE' and md.member_id!= :member_id"+initationsQuery);
+					
+					q.setParameter("member_id", member_id);
+				
+				
+					List<Object[]> results = q.getResultList();
+					if (results != null) {  
+						for (Object[] obj : results) {
+							JSONObject json = new JSONObject();
+							json=getCommonJsonOutout(obj,member_id,"Accepted");		
+							resultArray.put(json);
+						}
 					}
-				}
-		 }
-		 
-		
+			 }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return resultArray;
 	}
 

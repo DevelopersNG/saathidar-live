@@ -526,6 +526,20 @@ public class UserServiceImpl implements UserService {
 		return userRepository.updateunhideMemberForPeriodTime(getStatus,memberID,hide_period_time);
 	}
 
+	@Override
+	public String getHideProfileStatus(int member_id) {
+		String res="unhide";
+		try {
+			int results=userRepository.isAvaialbeHideMember(member_id);
+			if(results>0) {
+				res=userRepository.getActivateMember(member_id);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
 //	@Override
 //	public User logoutUser(User user) {
 //		
