@@ -52,4 +52,10 @@ public interface UserRepository extends JpaRepository<User, Integer>  {
 	@Query(value="update hide_member set status= :getStatus, hide_period_time_month= :hide_period_time, unhide_period_time=current_date, created_date=current_date where member_id= :member_id",nativeQuery = true)
 	int updateunhideMemberForPeriodTime(int getStatus, int member_id, String hide_period_time);
 
+	@Query(value="SELECT count(*) FROM hide_member WHERE member_id = :member_id",nativeQuery = true)
+	int isMemberAvailable(int member_id);
+
+	@Query(value="SELECT hide_period_time_month FROM hide_member WHERE member_id = :member_id",nativeQuery = true)
+	String getActivateMember(int member_id);
+
 }

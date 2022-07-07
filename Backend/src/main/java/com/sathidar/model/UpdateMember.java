@@ -63,6 +63,10 @@ public class UpdateMember {
 	
 	private String unmarried_female;
 
+	private Integer member_id;
+	
+	private Integer activate_id;
+
 	
 //	------- 23-3-2022 start------------
 
@@ -194,7 +198,22 @@ public class UpdateMember {
 	private String time;
 	private String nakshatra;
 	
-	
+	public Integer getActivate_id() {
+		return activate_id;
+	}
+
+	public void setActivate_id(Integer activate_id) {
+		this.activate_id = activate_id;
+	}
+
+	public Integer getMember_id() {
+		return member_id;
+	}
+
+	public void setMember_id(Integer member_id) {
+		this.member_id = member_id;
+	}
+
 	public String getNakshatra() {
 		return nakshatra;
 	}

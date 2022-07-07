@@ -17,5 +17,9 @@ public interface UpdateMemberService {
 
 	Object updateAppProfessionalDetailsMember(UpdateMember updateMember, int id);
 
+	int activateMember(UpdateMember updateMember);
+
+	int getActivateMember(int member_id);
+
 
 }

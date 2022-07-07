@@ -41,5 +41,7 @@ public interface UserService {
 
 	int updateunhideMemberForPeriodTime(int getStatus, int parseInt, String hide_period_time);
 
+	String getHideProfileStatus(int member_id);
+
 //	User logoutUser(User user);
 }
