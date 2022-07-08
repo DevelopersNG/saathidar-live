@@ -90,18 +90,16 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 			List<UploadImagesModel> post = uploadImagesRepository.getByMember_Id(member_id);
 			if(post!=null) {
 				for(int i=0;i<post.size();i++) {
-//					JSONObject jsonObj=new JSONObject();
-					HashMap<String,String> map=new HashMap<String, String>();
+					JSONObject jsonObj=new JSONObject();
 					byte[] encodeBase64 = Base64.getEncoder().encode(post.get(i).getImage_url());
 					String base64Encoded = new String(encodeBase64, "UTF-8");					
-					map.put("member_images","data:image/jpeg;base64,"+ base64Encoded);
+					jsonObj.put("member_images","data:image/jpeg;base64,"+ base64Encoded);
 //					jsonObj.put("member_images",""+ base64Encoded);
-					map.put("image_id",""+post.get(i).getId());
-					resultArray.put(map);
+					jsonObj.put("image_id",""+post.get(i).getId());
+					resultArray.put(jsonObj);
 				}
 			}
 			
-			System.out.println("print ******************** " + resultArray);
 			
 			
 			
@@ -133,5 +131,10 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 			e.printStackTrace();
 		}
 		return resultArray;
+	}
+
+	@Override
+	public int deleteImagesById(UploadImagesModel uploadImagesModel) {
+		return uploadImagesRepository.deleteByPhotoID(uploadImagesModel.getId());
 	}
 }

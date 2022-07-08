@@ -25,4 +25,9 @@ public interface UploadImagesRepository extends JpaRepository<UploadImagesModel,
 
 	@Query(value="select *  from member_photo where member_id= :member_id",nativeQuery = true)
 	List<UploadImagesModel> getByMember_Id(String member_id);
+
+	@Transactional
+	@Modifying
+	@Query(value="delete from member_photo where id= :id",nativeQuery = true)
+	int deleteByPhotoID(Integer id);
 }

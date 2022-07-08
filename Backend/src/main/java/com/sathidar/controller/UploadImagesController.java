@@ -53,6 +53,17 @@ public class UploadImagesController {
 		return map;
 	}
 	
+	@PostMapping(path = "/member/delete/photo")
+	public HashMap<String, String> deleteImages(@Validated @RequestBody UploadImagesModel uploadImagesModel) {
+		HashMap<String, String> map = new HashMap<>();
+		 int results=uploadImagesService.deleteImagesById(uploadImagesModel);
+		 if(results>0) {
+			 map.put("results", "1");
+		 }else {
+			 map.put("results", "0");
+		 }
+		return map;
+	}
 
 	@SuppressWarnings("unchecked")
 	@GetMapping(value="/member/get/photo/{member_id}")
