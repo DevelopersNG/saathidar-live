@@ -260,10 +260,70 @@ public class UserController {
 		return map;
 	}
 	
+	@PostMapping(path = "/member/forgot/password/otp")
+	public Map<String, String> forgotPasswordOTP(@Validated @RequestBody User user) {
+		HashMap<String, String> map = new HashMap<>();
+		try {
+			String otp = this.getOTP();
+//			String smsMessage = "Your Verification Code is " + otp + " Saathidaar.com";
+			// send email
+			String smsMessage = "Welcome to Saathidar.com. " + otp
+					+ "  is your OTP to forgot password.\r\n" + "www.Saathidar.com";
+			String sender = "SDMREG";
+			String phoneNo = "91" + user.getPhone().trim();
+			String response = sendSMSAction.SendOtpSms(phoneNo, sender, smsMessage);
+
+			final JSONObject obj = new JSONObject(response);
+			obj.toString();
+			String type = obj.getString("type");
+
+			if (response != null) {
+				if (type.equals("success")) {
+					map.put("message", "success");
+					map.put("result", "1");
+				} else if (type.equals("error")) {
+					map.put("message", "error");
+					map.put("result", "0");
+				}
+			} else {
+				map.put("message", "error");
+				map.put("result", "0");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	@PostMapping(path = "/member/forgot/password/update")
+	public Map<String, String> updateForgotPassword(@Validated @RequestBody User user) {
+		HashMap<String, String> map = new HashMap<>();
+		try {
+			String status = userService.updateForgotPassword(user);
+			if(!status.equals("")) {
+				map.put("message", "password send to email");
+				map.put("results", "1");
+			}else {
+				map.put("message", "something wrong !!! , forgot password not send...");
+				map.put("results", "0");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	
+	
 	public String checkNullValue(String value) {
 		if (value != null && !value.equals("null")) {
 			return value;
 		}
 		return "";
 	}
+	
+	
+	
 }

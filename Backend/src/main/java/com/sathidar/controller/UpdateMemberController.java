@@ -22,6 +22,7 @@ import com.sathidar.EntityMangerFactory.UpdateMemberEntityMangerFactory;
 import com.sathidar.model.UpdateMember;
 import com.sathidar.model.User;
 import com.sathidar.service.UpdateMemberService;
+import com.sathidar.service.UploadImagesService;
 
 @CrossOrigin(origins = "http://localhost:4200", methods = { RequestMethod.OPTIONS, RequestMethod.GET,
 		RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE }, allowedHeaders = "*", allowCredentials = "true")
@@ -31,6 +32,7 @@ public class UpdateMemberController {
 
 	@Autowired
 	private UpdateMemberService updateMemberService;
+	
 
 	@Autowired
 	private UpdateMemberEntityMangerFactory updateMemberEntityMangerFactory;
@@ -346,7 +348,7 @@ public class UpdateMemberController {
 		UpdateMember updateMember = new UpdateMember();
 		jsonResultArray = updateMemberEntityMangerFactory.getAllMemberByFilter(updateMember, Integer.parseInt(id),
 				"NEW_MATCHES");
-//		 jsonResultArray=updateMemberEntityMangerFactory.getNewMatches(Integer.parseInt(id),"NEW_MATCHES");
+//		 jsonResultArray=updateMemberEntityMangerFactory.getNewMatches(Integer.parseInt(id),"NEW_MATCHES");	
 		if (jsonResultArray != null) {
 			jsObject.put("data", jsonResultArray);
 			jsObject.put("results", "1");
@@ -354,6 +356,7 @@ public class UpdateMemberController {
 			jsObject.put("data", jsonResultArray);
 			jsObject.put("results", "0");
 		}
+//		System.out.println("data"+jsObject.toString());
 		return jsObject.toString();
 	}
 

@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.sathidar.model.UpdateMember;
+import com.sathidar.service.UploadImagesService;
 import com.sathidar.util.MatchesConstant;
 import com.sathidar.util.MembersDetailsAction;
 import com.sathidar.util.SendSMSAction;
@@ -37,6 +38,10 @@ public class UpdateMemberEntityMangerFactory {
 	@Autowired
 	private SendSMSAction sendSMSAction;
 
+
+	@Autowired
+	private UploadImagesService uploadImagesService;
+	
 	public HashMap<String, String> getMemberIdByUserLoginId(int id) {
 		HashMap<String, String> map = new HashMap<>();
 		try {
@@ -588,6 +593,11 @@ public class UpdateMemberEntityMangerFactory {
 						json.put("request_status", "");
 						json.put("block_status", "");
 					}
+					
+					// get images of member id
+					JSONArray jsonResultsImageArray= uploadImagesService.getMemberPhotos(memberID);
+					json.put("images", jsonResultsImageArray);
+					
 					resultArray.put(json);
 				}
 			}
@@ -820,11 +830,18 @@ public class UpdateMemberEntityMangerFactory {
 							json.put("block_status", "");
 							
 						}
+						
+						
+						// get images of member id
+						JSONArray jsonResultsImageArray= uploadImagesService.getMemberPhotos(memberID);
+						json.put("images", jsonResultsImageArray);
 						resultArray.put(json);
 					}else{
 						resultArray=null;
 					}
 				}
+				
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

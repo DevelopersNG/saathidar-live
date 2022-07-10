@@ -27,10 +27,10 @@ public class User extends AuditModel{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "username", nullable = false, unique = true)
+	@Column(name = "username")
 	private String username;
 
-	@Column(name = "password", nullable = false)
+	@Column(name = "password")
 	private String password;
 
 	private String firstName;
@@ -61,13 +61,13 @@ public class User extends AuditModel{
 	
 	private String profilecreatedby;
 	
-	@Column(name = "email", nullable = false)
+	@Column(name = "email")
 	private String email;
 
-	@Column(name = "role", nullable = false)
+	@Column(name = "role")
 	private String role;
 
-	@Column(name = "enabled", nullable = false)
+	@Column(name = "enabled")
 	private boolean enabled;
 
 	private String confirmationToken;
@@ -261,20 +261,20 @@ public class User extends AuditModel{
 		this.newPassword = newPassword;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-
-		if (o == this) {
-			return true;
-		}
-
-		if (!(o instanceof User)) {
-			return false;
-		}
-
-		User u = (User) o;
-
-		return u.getUsername().equals(this.getUsername()) && u.getEmail().equals(this.getEmail())
-				&& u.getRole().equals(this.getRole()) && (u.getEnabled() == this.getEnabled());
-	}
+//	@Override
+//	public boolean equals(Object o) {
+//
+//		if (o == this) {
+//			return true;
+//		}
+//
+//		if (!(o instanceof User)) {
+//			return false;
+//		}
+//
+//		User u = (User) o;
+//
+//		return u.getUsername().equals(this.getUsername()) && u.getEmail().equals(this.getEmail())
+//				&& u.getRole().equals(this.getRole()) && (u.getEnabled() == this.getEnabled());
+//	}
 }
