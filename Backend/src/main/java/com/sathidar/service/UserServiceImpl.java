@@ -9,7 +9,10 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.tomcat.util.json.JSONParser;
 import org.hibernate.Session;
 import org.json.simple.JSONObject;
@@ -93,9 +96,11 @@ public class UserServiceImpl implements UserService {
 		// Generate random 36-character string token for confirmation link
 		user.setConfirmationToken(UUID.randomUUID().toString());
 		user.setUsername(user.getEmail());  // set username to email by default
-		User tempUser = userRepository.save(user);
+//		User tempUser = userRepository.save(user);
+		int tempUser = userRepository.saveToUser(user.getFirstName(),user.getLastName(),user.getEmail(),user.getRole(),
+				user.getGender(),user.getPhone(),user.getProfilecreatedby(),user.getConfirmationToken(),user.getPassword(),user.getUsername(),user.getEnabled());
 		int getLastInsertedID = userEntityManagerFactory.getLastInsertedID();
-		if (tempUser == null) {
+		if (tempUser == 0) {
 			throw new BadRequestException(user.getUsername() + " is not registered.");
 		} else {
 			int getRoleID = userEntityManagerFactory.getRoleID(user.getRole());
@@ -540,6 +545,107 @@ public class UserServiceImpl implements UserService {
 		return res;
 	}
 
+	@Override
+	public String updateForgotPassword(User user) {
+		String res="";
+		try {
+			List<User> getUser=userRepository.getEmailByPhoneNumber(user.getPhone());
+			if(getUser!=null) {
+				for(int i=0;i<getUser.size();i++) {
+				String generatePassword=generatePassword();
+				System.out.println("password is - " +generatePassword);
+				
+				System.out.println(getUser.get(i).getId()+"-"+getUser.get(i).getFirstName() + " - "+getUser.get(i).getLastName()+ " - "+getUser.get(i).getEmail()+ " - "+getUser.get(i).getPhone());
+				// update the password
+				String encodedPassword = encoder.encode(generatePassword);
+				int status=userRepository.updatePassword(getUser.get(i).getId(),encodedPassword);
+				this.sendEmailTOUserForForgotPassword(getUser.get(i).getFirstName(),getUser.get(i).getLastName(),getUser.get(i).getEmail(),getUser.get(i).getPhone(),generatePassword);
+				res="true";
+
+			}
+		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	
+
+	public String generatePassword() {
+	    String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@!#$%&";
+	    String password = RandomStringUtils.random( 8, characters );
+
+	    String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@!#$%&])(?=\\S+$).{8,}$";
+	    Pattern pattern = Pattern.compile( regex );
+	    Matcher matcher = pattern.matcher( password );
+
+	    if (matcher.matches()) {
+	        return password;
+	    } else {
+	        return generatePassword(); // recursion
+	    }
+	}
+	
+	private void sendEmailTOUserForForgotPassword(String firstName, String lastName, String email, String phone,String generatePassword) {
+		try {
+			String email_body="<head>\r\n" + 
+					"    <meta charset=\"UTF-8\">\r\n" + 
+					"    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n" + 
+					"    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n" + 
+					"    <style>\r\n" + 
+					"        .container{height: 150px; width: 400px;border: #742041 1px solid ;margin-top: 5px;}\r\n" + 
+					"        .image{float: left;}\r\n" + 
+					"        .details {float: right;}\r\n"
+					+ "		 table{border-collapse: collapse;}" + 
+					"       table tr th {text-align: left;border:1px solid}\r\n" + 
+					"       table tr td { text-align: left;}\r\n" + 
+					"       img{height: 150px;}\r\n" + 
+					"       .bg{background-color: #742041;}\r\n" + 
+					"    </style>\r\n" + 
+					"</head>"
+					+ "<body style=\"width: 400px;\">"
+					+ "<div style=\"background-color: #742041;\"><img style=\"width:300px ;\" src=\"www.saathidaar.com/assets/images/logo_eng.png\" alt=\"\"></div>"
+					+ " <div class=\"image\">\r\n" + 
+					"    <p style=\"float: left;\">Hi</p><br>\r\n" + 
+					"   <h4 style=\"text-align: center;\">your new password is "+generatePassword+" on <strong>saathidaar.com</strong></h4>\r\n" + 
+					"   <table style=\"width: 100%;border: #742041 1px solid;\" class=\"table\">\r\n" + 
+					"    <thead>\r\n" + 
+					"      <tr >\r\n" + 
+					"        <th scope=\"col\">User Email</th>\r\n" + 
+					"        <th scope=\"col\">"+email+"</th>\r\n" + 
+					"      </tr>\r\n" + 
+					"      <tr>\r\n" + 
+					"        <th scope=\"col\">User Password</th>\r\n" + 
+					"        <th scope=\"col\">"+generatePassword+"</th>\r\n" + 
+					"      </tr>\r\n" + 
+					"      <tr>\r\n" + 
+					"        <th scope=\"col\">First Name </th>\r\n" + 
+					"        <th scope=\"col\">"+firstName+"</th>\r\n" + 
+					"      </tr>\r\n" + 
+					"      <tr>\r\n" + 
+					"        <th scope=\"col\">Last Name</th>\r\n" + 
+					"        <th scope=\"col\">"+lastName+"</th>\r\n" + 
+					"      </tr>\r\n" + 
+					"    </thead>\r\n" + 
+					"  </table>\r\n" + 
+					" </div>\r\n" + 
+					" <div class=\"details\">"
+					+ "</div>\r\n"
+					+ "<br>"
+					+ "<div style=\"margin-top: 15px;\">If you wish to make any changes please visit the My account page on the website.\r\n" + 
+					"May you find your soulmate here! Thank You!\r</div>\n" + 
+					"" + 
+					"  </body>";
+			
+			
+			mailSender.send(email, "Saathidar-Registrations", email_body);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 //	@Override
 //	public User logoutUser(User user) {
 //		

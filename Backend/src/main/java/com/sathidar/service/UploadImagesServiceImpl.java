@@ -27,18 +27,20 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 //		return uploadImagesRepository.save(uploadImagesModel) ;
 		int response = 0;
 		try {
-			int member_id = uploadImagesModel.getMember_id();
-			String image_name = uploadImagesModel.getImage_name();
+			int member_id = 0;
+			String image_name = "dsf.png";
+			
+//			int member_id = uploadImagesModel.getMember_id();
+//			String image_name = uploadImagesModel.getImage_name();
 			String[] strArray = uploadImagesModel.getImage_base_urls();
 
 			for (int i = 0; i < strArray.length; i++) {
 				String base64Image = strArray[i].toString().split(",")[1];
+				System.out.println("base64Image - "+ base64Image);
 				byte[] data = java.util.Base64.getDecoder().decode(base64Image);
 				uploadImagesModel.setImage_url(data);
 				uploadImagesModel.setImage_name(i + ".jpg");
 				
-				member_id = uploadImagesModel.getMember_id();
-				image_name = uploadImagesModel.getImage_name();
 				byte[] image_blob = uploadImagesModel.getImage_url();
 				response = uploadImagesRepository.savePhoto(member_id, image_name, image_blob);
 			}
@@ -99,7 +101,7 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 					resultArray.put(jsonObj);
 				}
 			}
-			
+			System.out.println("  member id- "+ member_id);
 			
 			
 			

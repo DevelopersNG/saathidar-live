@@ -43,5 +43,7 @@ public interface UserService {
 
 	String getHideProfileStatus(int member_id);
 
+	String updateForgotPassword(User user);
+
 //	User logoutUser(User user);
 }
