@@ -62,7 +62,7 @@ public class MatchesConstant {
 							String temp_from_age=convertNullToBlank(String.valueOf(objPartner[++j]));
 							String temp_to_age=convertNullToBlank(String.valueOf(objPartner[++j]));
 						
-							if(!temp_from_age.equals("") && !temp_to_age.equals("") ) {
+							if(!temp_from_age.equals("") && !temp_to_age.equals("") && !temp_from_age.equals("null")) {
 								FROM_AGE=Integer.parseInt(temp_from_age);
 								TO_AGE=Integer.parseInt(temp_to_age);
 							}
@@ -72,7 +72,7 @@ public class MatchesConstant {
 							
 							String temp_from_height=convertNullToBlank(String.valueOf(objPartner[++j]));
 							String temp_to_height=convertNullToBlank(String.valueOf(objPartner[++j]));
-						if(!temp_from_height.equals("")  && !temp_to_height.equals("")) {
+						if(!temp_from_height.equals("")  && !temp_to_height.equals("") && !temp_from_age.equals("null")) {
 							
 							String[] splitArrayFromHeight=temp_from_height.split("-");
 							String fromHeightString=splitArrayFromHeight[1];

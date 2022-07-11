@@ -23,9 +23,15 @@ public interface DashboardRepository extends JpaRepository<DashboardModel, Integ
 	@Query(value="SELECT count(request_from_id) FROM member_request where  request_to_id= :member_id and block_by_id= :member_id and block_status= :blocksStatus",nativeQuery = true)
 	int getTotalBlockSentRequest(String member_id, String blocksStatus);
 
-	
+	@Transactional
+	@Query(value="SELECT count(request_from_id) FROM member_request where  request_to_id= :member_id and request_status= :deleteStatus",nativeQuery = true)
+	int getTotalDeletedSentRequest(String member_id, String deleteStatus);
+
 	@Transactional
 	@Query(value="SELECT count(member_id) FROM recently_visitors where  visit_to_id= :member_id and date(visitdatetime) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)",nativeQuery = true)
 	int getRecentVisitorsCount(String member_id);
 
+	@Transactional
+	@Query(value="SELECT count(*) FROM memberdetails as md join member as m on md.member_id=m.member_id join member_education_career as edu on m.member_id=edu.member_id where md.member_id!= :member_id and m.status='ACTIVE' and md.member_id in (:ids)",nativeQuery = true)
+	int getMatchesCount(String member_id, String ids);
 }

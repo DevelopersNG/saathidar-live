@@ -310,7 +310,7 @@ public class UpdateMemberEntityMangerFactory {
 			}
 
 			if (status == false) {
-				map.put("message", "record not found");
+				map=null;
 			}
 
 		} catch (Exception e) {
@@ -600,6 +600,8 @@ public class UpdateMemberEntityMangerFactory {
 					
 					resultArray.put(json);
 				}
+			}else {
+				resultArray=null;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -609,6 +611,7 @@ public class UpdateMemberEntityMangerFactory {
 
 	public JSONArray getAllMemberByFilter(UpdateMember updateMember, int id, String matches_status) {
 		JSONArray resultArray = new JSONArray();
+		boolean status=false;
 		try {
 			matchesConstants.getMemberMatchPartnerPreference(id);
 			String requestedIds = getRequestedIDForMember(id);
@@ -836,12 +839,15 @@ public class UpdateMemberEntityMangerFactory {
 						JSONArray jsonResultsImageArray= uploadImagesService.getMemberPhotos(memberID);
 						json.put("images", jsonResultsImageArray);
 						resultArray.put(json);
+						status=true;
 					}else{
 						resultArray=null;
 					}
 				}
-				
-				
+			}
+			
+			if(status==false) {
+				resultArray=null;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1028,53 +1034,60 @@ public class UpdateMemberEntityMangerFactory {
 	}
 
 	public JSONArray getAllMembers(int id) {
-
-		String whereClause = "";
-		String genderName = "";
-//		if(!this.getGenderByID(id).equals(""))
-//		{
-//			if(this.getGenderByID(id).equals("male")) {
-//				genderName="female";
-//				whereClause += " m.gender ='"+genderName+"'";
-//			}else if(this.getGenderByID(id).equals("female")) {
-//				genderName="male";
-//				whereClause += " m.gender ='"+genderName+"'";
-//			}
-//		}
-//		******************************Column Name*************************************************************************
-		String columnName = " md.member_id,membernative,height,weight,lifestyles,known_languages,education,job,income,hobbies,expectations,first_name,last_name,gender,md.age as mage,"
-				+ "contact_number,email_id,profilecreatedby,md.marital_status as maritalStatus,no_of_children,mother_tounge,date_of_birth,"
-				+ "cast_id,subcaste_id,religion_id,state_id,city_id";
-
-//		******************************Filter Data*************************************************************************
-
-//		******************************Preference-Recommdations-In-Where-Clause*************************************************************************
-//      if recommodations are given in the table then that details are come in where clause
-
-//		******************************Query*************************************************************************
-		Query q = em.createNativeQuery("SELECT " + columnName
-				+ "  FROM memberdetails as md join member as m on md.member_id=m.member_id where md.member_id!= :id");
-
-		// System.out.println("SELECT " + columnName +" FROM memberdetails as md join
-		// member as m on md.member_id=m.member_id where "+whereClause+ " and
-		// md.member_id!= :id and m.status='ACTIVE'");
-		q.setParameter("id", id);
-
 		JSONArray resultArray = new JSONArray();
-		List<Object[]> results = q.getResultList();
-		if (results != null) {
-			for (Object[] obj : results) {
-				JSONObject getJson = new JSONObject();
-				int member_id = Integer.parseInt(convertNullToBlank(String.valueOf(obj[0])));
-				String fieldName = this.getHideContent(member_id);
-				if (fieldName != null && !fieldName.equals("")) {
-					getJson = this.setHideContent(fieldName, obj);
-				} else {
-					getJson = this.setContent(obj);
+		try {
+			String whereClause = "";
+			String genderName = "";
+//			if(!this.getGenderByID(id).equals(""))
+//			{
+//				if(this.getGenderByID(id).equals("male")) {
+//					genderName="female";
+//					whereClause += " m.gender ='"+genderName+"'";
+//				}else if(this.getGenderByID(id).equals("female")) {
+//					genderName="male";
+//					whereClause += " m.gender ='"+genderName+"'";
+//				}
+//			}
+//			******************************Column Name*************************************************************************
+			String columnName = " md.member_id,membernative,height,weight,lifestyles,known_languages,education,job,income,hobbies,expectations,first_name,last_name,gender,md.age as mage,"
+					+ "contact_number,email_id,profilecreatedby,md.marital_status as maritalStatus,no_of_children,mother_tounge,date_of_birth,"
+					+ "cast_id,subcaste_id,religion_id,state_id,city_id";
+
+//			******************************Filter Data*************************************************************************
+
+//			******************************Preference-Recommdations-In-Where-Clause*************************************************************************
+//	      if recommodations are given in the table then that details are come in where clause
+
+//			******************************Query*************************************************************************
+			Query q = em.createNativeQuery("SELECT " + columnName
+					+ "  FROM memberdetails as md join member as m on md.member_id=m.member_id where md.member_id!= :id");
+
+			// System.out.println("SELECT " + columnName +" FROM memberdetails as md join
+			// member as m on md.member_id=m.member_id where "+whereClause+ " and
+			// md.member_id!= :id and m.status='ACTIVE'");
+			q.setParameter("id", id);
+
+			
+			List<Object[]> results = q.getResultList();
+			if (results != null) {
+				for (Object[] obj : results) {
+					JSONObject getJson = new JSONObject();
+					int member_id = Integer.parseInt(convertNullToBlank(String.valueOf(obj[0])));
+					String fieldName = this.getHideContent(member_id);
+					if (fieldName != null && !fieldName.equals("")) {
+						getJson = this.setHideContent(fieldName, obj);
+					} else {
+						getJson = this.setContent(obj);
+					}
+					resultArray.put(getJson);
 				}
-				resultArray.put(getJson);
+			}else {
+				resultArray=null;
 			}
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
+		
 		return resultArray;
 	}
 
@@ -1722,6 +1735,7 @@ public class UpdateMemberEntityMangerFactory {
 
 	public HashMap<String, String> getMatchPartnerPreference(int member_id, int login_id) {
 		HashMap<String, String> map = new HashMap<String, String>();
+		boolean status=false;
 		String columnName = " height,lifestyles,md.age," + "md.marital_status as maritalStatus,mother_tounge,gender,"
 				+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :login_id )) as country_name,country_id,"
 				+ "(select state_name from states where state_id=(select state_id from memberdetails where member_id= :login_id)) as state,state_id,"
@@ -1746,7 +1760,6 @@ public class UpdateMemberEntityMangerFactory {
 					+ " where md.member_id= :login_id");
 
 			q.setParameter("login_id", login_id);
-			boolean status = false;
 			List<Object[]> results = q.getResultList();
 			if (results != null) {
 				for (Object[] obj : results) {
@@ -2055,12 +2068,15 @@ public class UpdateMemberEntityMangerFactory {
 
 							map.put("title", title);
 							map.put("gender_preference", gender_preference);
-
+							status=true;
 						}
 
 					}
 
 				}
+			}
+			if(status==false) {
+				map=null;
 			}
 
 //			System.out.println(q);
@@ -2329,13 +2345,12 @@ public class UpdateMemberEntityMangerFactory {
 				+ "mh.manglik,mh.nakshatra,mh.time_of_birth,mh.time_status,mh.city_of_birth ";
 		try {
 
-
 			String query = "SELECT " + columnName + "  FROM memberdetails as md "
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_family_details as fd on m.member_id=fd.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
 					+ " join member_horoscope as mh on m.member_id=mh.member_id "
-					+ " where md.member_id= :id and m.status='ACTIVE' ";
+					+ " where md.member_id= :id ";
 
 			Query q = em.createNativeQuery(query);
 //			System.out.println(q);
@@ -2500,7 +2515,7 @@ public class UpdateMemberEntityMangerFactory {
 			}
 
 			if (status == false) {
-				map.put("message", "record not found");
+				map=null;
 			}
 
 		} catch (Exception e) {
