@@ -22,7 +22,7 @@ public class UserEntityManagerFactory {
 	public int getRoleID(String roleName) {
 		int ans = 0;
 		try {
-			Query q = em.createNativeQuery("select role_id from roles where name=:RoleName and role_status='active'");
+			Query q = em.createNativeQuery("select role_id from roles where name=:RoleName and role_status='ACTIVE'");
 			q.setParameter("RoleName", roleName);
 			ans = Integer.parseInt(q.getSingleResult().toString());
 		} catch (Exception e) {
@@ -127,6 +127,10 @@ public class UserEntityManagerFactory {
 			queryMemberEducationCareer.setParameter("MemberID",id);
 			statsCount= queryMemberEducationCareer.executeUpdate();
 			
+			Query queryHoroscopeCareer = em.createNativeQuery(
+					"insert into member_horoscope(member_id) values(:MemberID)");
+			queryHoroscopeCareer.setParameter("MemberID",id);
+			statsCount= queryHoroscopeCareer.executeUpdate();
 			// em.getTransaction().commit();
 			em.close();
 			memberStatus=1;

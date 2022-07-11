@@ -80,7 +80,7 @@ public class UserController {
 		HashMap<String, String> map = new HashMap<>();
 
 		String messageStatus = userService.isUserAlreadyRegister(user);
-		if (messageStatus.equals("success")) {
+//		if (messageStatus.equals("success")) {
 			String otp = this.getOTP();
 //			String smsMessage = "Your Verification Code is " + otp + " Saathidaar.com";
 			String smsMessage = "Welcome to Saathidar.com. " + otp
@@ -105,10 +105,10 @@ public class UserController {
 				map.put("message", "error");
 				map.put("result", "0");
 			}
-		} else {
-			map.put("message", messageStatus);
-			map.put("result", "0");
-		}
+//		} else {
+//			map.put("message", messageStatus);
+//			map.put("result", "0");
+//		}
 
 		return map;
 	}
@@ -131,8 +131,10 @@ public class UserController {
 
 		if (otpVerifyStatus != null) {
 			map.put("message", message);
+			map.put("results", "1");
 		} else {
 			map.put("message", null);
+			map.put("results", "0");
 		}
 		return map;
 	}

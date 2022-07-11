@@ -45,9 +45,14 @@ public class UpdateMemberController {
 		if (updateMemberService.UpdateMemberDetails(updateMember, id) != null) {
 			int login_id = 0;
 			map = updateMemberEntityMangerFactory.getMember(id, login_id);
-			jsObject.put("data", map);
-			jsObject.put("results", "1");
-			jsObject.put("message", "Member Updated...");
+			if(map!=null) {
+				jsObject.put("data", map);
+				jsObject.put("results", "1");
+				jsObject.put("message", "Member Updated...");
+			}else {
+				jsObject.put("results", "0");
+				jsObject.put("message", "records not found");
+			}
 		} else {
 			jsObject.put("results", "0");
 			jsObject.put("message", "Something wrong , please try again...");
@@ -64,9 +69,14 @@ public class UpdateMemberController {
 		if (updateMemberService.UpdateBasicLifeCycleMemberDetails(updateMember, id) != null) {
 			int login_id = 0;
 			map = updateMemberEntityMangerFactory.getMyProfileMember(id);
-			jsObject.put("data", map);
-			jsObject.put("results", "1");
-			jsObject.put("message", "Basic Lifestyles Updated...");
+			if(map!=null) {
+				jsObject.put("data", map);
+				jsObject.put("results", "1");
+				jsObject.put("message", "Basic Lifestyles Updated...");
+			}else {
+				jsObject.put("results", "0");
+				jsObject.put("message", "records not found...");
+			}
 		} else {
 			jsObject.put("results", "0");
 			jsObject.put("message", "Something wrong , please try again...");
@@ -82,9 +92,14 @@ public class UpdateMemberController {
 		if (updateMemberService.updateAppFamilyDetailsMember(updateMember, id) != null) {
 			int login_id = 0;
 			map = updateMemberEntityMangerFactory.getMyProfileMember(id);
+			if(map!=null) {
 			jsObject.put("data", map);
 			jsObject.put("results", "1");
 			jsObject.put("message", "Family Details Updated...");
+			}else {
+				jsObject.put("results", "0");
+				jsObject.put("message", "records not found...");
+			}
 		} else {
 			jsObject.put("results", "0");
 			jsObject.put("message", "Something wrong , please try again...");
@@ -100,9 +115,14 @@ public class UpdateMemberController {
 		if (updateMemberService.updateAppProfessionalDetailsMember(updateMember, id) != null) {
 			int login_id = 0;
 			map = updateMemberEntityMangerFactory.getMyProfileMember(id);
+			if(map!=null) {
 			jsObject.put("data", map);
 			jsObject.put("results", "1");
-			jsObject.put("message", "Family Details Updated...");
+			jsObject.put("message", "Professional Details Updated...");
+			}else {
+				jsObject.put("results", "0");
+				jsObject.put("message", "records not found...");
+			}
 		} else {
 			jsObject.put("results", "0");
 			jsObject.put("message", "Something wrong , please try again...");
@@ -134,8 +154,8 @@ public class UpdateMemberController {
 		map = updateMemberEntityMangerFactory.getMember(id, login_id);
 		if (map == null) {
 			jsObject.put("data", map);
-			jsObject.put("results", "1");
-			jsObject.put("message", "something wrong ! record not fetch...");
+			jsObject.put("results", "0");
+			jsObject.put("message", "record not fetch...");
 //			 map.put("message","something wrong ! record not fetch...");
 		} else {
 			jsObject.put("data", map);
@@ -151,8 +171,8 @@ public class UpdateMemberController {
 		map = updateMemberEntityMangerFactory.getMyProfileMember(id);
 		if (map == null) {
 			jsObject.put("data", map);
-			jsObject.put("results", "1");
-			jsObject.put("message", "something wrong ! record not fetch...");
+			jsObject.put("results", "0");
+			jsObject.put("message", "record not fetch...");
 //			 map.put("message","something wrong ! record not fetch...");
 		} else {
 			jsObject.put("data", map);
@@ -168,8 +188,8 @@ public class UpdateMemberController {
 		map = updateMemberEntityMangerFactory.getMember(id, 0);
 		if (map == null) {
 			jsObject.put("data", map);
-			jsObject.put("results", "1");
-			jsObject.put("message", "something wrong ! record not fetch...");
+			jsObject.put("results", "0");
+			jsObject.put("message", "record not fetch...");
 //			 map.put("message","something wrong ! record not fetch...");
 		} else {
 			jsObject.put("data", map);
@@ -318,10 +338,10 @@ public class UpdateMemberController {
 		map = updateMemberEntityMangerFactory.getHoroscopeDetails(id);
 
 		if (map == null) {
-			map.put("results", "1");
-			jsObject.put("message", "something wrong ! record not fetch...");
-		} else {
 			map.put("results", "0");
+			map.put("message", "something wrong ! record not fetch...");
+		} else {
+			map.put("results", "1");
 		}
 		return map;
 	}
@@ -333,6 +353,7 @@ public class UpdateMemberController {
 		HashMap<String, String> map = new HashMap<>();
 		map = updateMemberEntityMangerFactory.getMatchPartnerPreference(member_id, login_id);
 		if (map == null) {
+			map.put("results", "0");
 			map.put("message", "something wrong ! record not fetch...");
 		}
 		return map;

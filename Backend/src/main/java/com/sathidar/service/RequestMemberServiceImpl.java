@@ -254,8 +254,6 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					}
 				}
 				
-				
-				
 				getBackupDatabase();
 				
 				sendEmailToUser(lst,fullName,emailId_to,request_to_id);

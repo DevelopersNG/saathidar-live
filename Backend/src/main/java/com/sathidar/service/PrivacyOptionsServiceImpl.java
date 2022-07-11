@@ -402,6 +402,8 @@ public class PrivacyOptionsServiceImpl implements PrivacyOptionsService {
 					json.put("profile_privacy", val_profile_privacy);
 					resultArray.put(json);
 				}
+			}else {
+				resultArray=null;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

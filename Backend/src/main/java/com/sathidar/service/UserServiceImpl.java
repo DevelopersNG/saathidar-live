@@ -477,7 +477,6 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	@Override
 	public String isUserAlreadyRegister(User user) {
 		String message="";
 //		String password = user.getPassword();
