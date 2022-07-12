@@ -606,7 +606,7 @@ public class UserServiceImpl implements UserService {
 					+ "<body style=\"width: 400px;\">"
 					+ "<div style=\"background-color: #742041;\"><img style=\"width:300px ;\" src=\"www.saathidaar.com/assets/images/logo_eng.png\" alt=\"\"></div>"
 					+ " <div class=\"image\">\r\n" + 
-					"    <p style=\"float: left;\">Hi</p><br>\r\n" + 
+					"    <p style=\"float: left;\">Hi "+firstName+ " " +lastName+"</p><br>\r\n" + 
 					"   <h4 style=\"text-align: center;\">your new password is "+generatePassword+" on <strong>saathidaar.com</strong></h4>\r\n" + 
 					"   <table style=\"width: 100%;border: #742041 1px solid;\" class=\"table\">\r\n" + 
 					"    <thead>\r\n" + 

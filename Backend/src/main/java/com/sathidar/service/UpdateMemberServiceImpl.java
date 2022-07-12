@@ -184,7 +184,8 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 			mcollege_attended=checkNullValue(updateMember.getCollege_attended().trim());
 			mworking_with=checkNullValue(updateMember.getWorking_with().trim());
 			mworking_as=checkNullValue(updateMember.getWorking_as().trim());
-			memployer_name=checkNullValue(updateMember.getEmployer_name().trim());
+//			memployer_name=checkNullValue(updateMember.getEmployer_name().trim());
+			memployer_name="";
 			mannual_income=checkNullValue(updateMember.getAnnual_income().trim());
 			
 			Object memberEducationCareer=updateMemberRepository.UpdatememberEducationCareerDetails(id,mhighest_qualification,mcollege_attended,mworking_with,
