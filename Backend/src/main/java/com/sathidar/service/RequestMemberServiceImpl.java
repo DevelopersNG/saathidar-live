@@ -685,7 +685,34 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					Query query = em.createNativeQuery("SELECT group_concat(request_from_id) FROM member_request where  request_to_id= :member_to_id and request_status= :member_request_status");
 					query.setParameter("member_to_id", member_id);
 					query.setParameter("member_request_status", "Accepted");
-					ids = query.getSingleResult().toString();
+					try {
+						List results = query.getResultList();
+						if (results.isEmpty() || results==null) System.out.println("blank");
+						else if (results.size() == 1) ids= results.get(0).toString();
+					} catch (Exception e) {
+					}
+					
+					try {
+						// for show other member informations also
+						String otherProfilesIds="";
+						query = em.createNativeQuery("SELECT group_concat(member_to_id) FROM member_request where  request_from_id= :request_from_id and request_status= :member_request_status");
+						query.setParameter("request_from_id", member_id);
+						query.setParameter("member_request_status", "Accepted");
+						List results = query.getResultList();
+						if (results.isEmpty()  || results==null) System.out.println("blank");
+						else if (results.size() == 1) otherProfilesIds= results.get(0).toString();
+						
+						if(!ids.equals("")) {
+							if(!otherProfilesIds.equals("")) {
+								ids=ids + "," + otherProfilesIds;
+							}
+						}
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+					
+					System.out.println("ids - " + ids);
+					
 		} catch (Exception e) {
 		e.printStackTrace();
 		}
