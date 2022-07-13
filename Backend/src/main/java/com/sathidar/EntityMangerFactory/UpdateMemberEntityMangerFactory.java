@@ -46,14 +46,15 @@ public class UpdateMemberEntityMangerFactory {
 		HashMap<String, String> map = new HashMap<>();
 		try {
 			Query q = em.createNativeQuery(
-					"SELECT member_id,user_id,email_id FROM member where  user_id= :UserID and status='ACTIVE'");
+					"SELECT member_number,member_id,user_id,email_id FROM member where  user_id= :UserID and status='ACTIVE'");
 			q.setParameter("UserID", id);
 			List<Object[]> results = q.getResultList();
 			boolean status = false;
 			if (results != null) {
 				for (Object[] obj : results) {
 					int i = 0;
-					map.put("member_id", convertNullToBlank(String.valueOf(obj[i])));
+					map.put("profile_id", convertNullToBlank(String.valueOf(obj[i])));
+					map.put("member_id", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("user_login_id", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("email", convertNullToBlank(String.valueOf(obj[++i])));
 					status = true;
@@ -87,7 +88,7 @@ public class UpdateMemberEntityMangerFactory {
 	public HashMap<String, String> getMember(int id, int login_id) {
 		HashMap<String, String> map = new HashMap<>();
 
-		String columnName = "m.member_id, membernative,height,weight,lifestyles,known_languages,education,job,income,hobbies,expectations,first_name,last_name,gender,md.age,"
+		String columnName = "member_number,m.member_id, membernative,height,weight,lifestyles,known_languages,education,job,income,hobbies,expectations,first_name,last_name,gender,md.age,"
 				+ "contact_number,email_id,profilecreatedby,md.marital_status as maritalStatus,no_of_children,mother_tounge,date_of_birth,"
 				+ "health_info,blood_group,gothra,ethnic_corigin,pincode,about_ourself,"
 				+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :id )) as country_name,country_id,"
@@ -136,9 +137,11 @@ public class UpdateMemberEntityMangerFactory {
 			if (results != null) {
 				for (Object[] obj : results) {
 					int i = 0;
-					String thisMemberID = convertNullToBlank(String.valueOf(obj[i]));
+					String profileID = convertNullToBlank(String.valueOf(obj[i]));
+					String thisMemberID = convertNullToBlank(String.valueOf(obj[++i]));
 
 					// first row
+					map.put("profile_id", profileID);
 					map.put("member_id", thisMemberID);
 					map.put("native", convertNullToBlank(String.valueOf(obj[++i])));
 					String height = convertNullToBlank(String.valueOf(obj[++i]));
@@ -620,9 +623,9 @@ public class UpdateMemberEntityMangerFactory {
 			if (!requestedIds.equals("")) {
 				requestIdQuery = " and m.member_id not in (" + requestedIds.replaceFirst(",", "") + ")";
 			}
-			if (!shortlistIds.equals("")) {
-				shortListIdQuery = " and m.member_id not in (" + shortlistIds.replaceFirst(",", "") + ")";
-			}
+//			if (!shortlistIds.equals("")) {
+//				shortListIdQuery = " and m.member_id not in (" + shortlistIds.replaceFirst(",", "") + ")";
+//			}
 
 			String ids = "";
 			if (matches_status.equals("NEW_MATCHES") || matches_status.equals("MY_MATCHES")
@@ -675,12 +678,12 @@ public class UpdateMemberEntityMangerFactory {
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
 					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + refineWhereClause + matches_id
-					+ requestIdQuery + shortListIdQuery + hideMemberIdsQuery);
+					+ requestIdQuery  + hideMemberIdsQuery);
 
 			System.out.println("SELECT *  FROM memberdetails as md " + " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as mec on m.member_id=mec.member_id " + " where m.status='ACTIVE' "
 					+ whereClause + " and md.member_id!= :member_id " + refineWhereClause + matches_id + requestIdQuery
-					+ shortListIdQuery + hideMemberIdsQuery);
+					+ hideMemberIdsQuery);
 //		
 
 			q.setParameter("member_id", id);
@@ -2327,7 +2330,7 @@ public class UpdateMemberEntityMangerFactory {
 	public HashMap<String, String> getMyProfileMember(int id) {
 		HashMap<String, String> map = new HashMap<>();
 
-		String columnName = "m.member_id, membernative,height,weight,lifestyles,known_languages,education,job,income,hobbies,expectations,first_name,last_name,gender,md.age,"
+		String columnName = "member_number,m.member_id, membernative,height,weight,lifestyles,known_languages,education,job,income,hobbies,expectations,first_name,last_name,gender,md.age,"
 				+ "contact_number,email_id,profilecreatedby,md.marital_status as maritalStatus,no_of_children,mother_tounge,date_of_birth,"
 				+ "health_info,blood_group,gothra,ethnic_corigin,pincode,about_ourself,"
 				+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :id )) as country_name,country_id,"
@@ -2361,9 +2364,11 @@ public class UpdateMemberEntityMangerFactory {
 			if (results != null) {
 				for (Object[] obj : results) {
 					int i = 0;
-					String thisMemberID = convertNullToBlank(String.valueOf(obj[i]));
+					String profileID = convertNullToBlank(String.valueOf(obj[i]));
+					String thisMemberID = convertNullToBlank(String.valueOf(obj[++i]));
 
 					// first row
+					map.put("profile_id", profileID);
 					map.put("member_id", thisMemberID);
 					map.put("native", convertNullToBlank(String.valueOf(obj[++i])));
 					String height = convertNullToBlank(String.valueOf(obj[++i]));

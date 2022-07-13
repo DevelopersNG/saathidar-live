@@ -37,7 +37,6 @@ public class PrivacyOptionsServiceImpl implements PrivacyOptionsService {
 			}
 
 			if (keyCode > 0) {
-
 				if (getStatus > 0) {
 					// update
 					return privacyPolicyRepository.updatePhonePrivacy(privacyOptionsModel.getMember_id(), keyCode);

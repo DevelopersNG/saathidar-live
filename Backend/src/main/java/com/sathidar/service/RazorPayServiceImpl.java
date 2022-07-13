@@ -75,7 +75,7 @@ public class RazorPayServiceImpl implements RazorPayService {
 						"<body style=\"width: 400px;\">\r\n" + 
 						"    <div style=\"background-color: #742041;\"><img style=\"width:300px ;\" src=\"www.saathidaar.com/assets/images/logo_eng.png\" alt=\"\"></div>\r\n" + 
 						"    <p ><strong>Dear "+fullName+", </strong> </p>\r\n" + 
-						"    <p style=\"color: #742041;\">Thanks you purchasing <strong>"+plan_name+"</strong> from <a href=\"saathidaar.com\">saathidaar.com</a> \r\n" + 
+						"    <p style=\"color: #742041;\">Thanks you purchasing <strong>"+plan_name+" Membership</strong> from <a href=\"saathidaar.com\">saathidaar.com</a> \r\n" + 
 						"    </p>\r\n" + 
 						" <div class=\"image\">\r\n" + 
 						"<p>\r\n" + 
@@ -89,13 +89,13 @@ public class RazorPayServiceImpl implements RazorPayService {
 						"\r\n" + 
 						"      </tr>\r\n" + 
 						"      <tr>\r\n" + 
-						"        <th scope=\"col\">"+plan_name+"</th>\r\n" + 
+						"        <th scope=\"col\">"+plan_name+" Membership</th>\r\n" + 
 						"        <th scope=\"col\">"+plan_amount+"</th>\r\n" + 
 						"      </tr>\r\n" + 
 						"    </thead>\r\n" + 
 						"  </table>\r\n" + 
 						" </div>\r\n" + 
-						" <div class=\"details\" style=\"margin-top: 15px;\">Your <strong>"+plan_name+"</strong> of <strong>Rs."+plan_amount+"</strong> is for the duration of <strong>"+plan_durations+"</strong> months starting from today.\r\n" + 
+						" <div class=\"details\" style=\"margin-top: 15px;\">Your <strong>"+plan_name+" Membership</strong> of <strong>Rs."+plan_amount+"</strong> is for the duration of <strong>"+plan_durations+"</strong> months starting from today.\r\n" + 
 						" <br> If you have any questions please visit our pages - <a href=\"\">HELP</a>, <a href=\"\">Privacy Policy</a>, <a href=\"\">T&C</a>, <a href=\"\">Customer Support</a>. \r\n" + 
 						"  </div>\r\n" + 
 						"  </body>";

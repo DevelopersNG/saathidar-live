@@ -310,14 +310,11 @@ public class UserController {
 				map.put("message", "something wrong !!! , forgot password not send...");
 				map.put("results", "0");
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return map;
 	}
-	
-	
 	
 	public String checkNullValue(String value) {
 		if (value != null && !value.equals("null")) {
