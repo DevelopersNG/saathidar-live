@@ -19,7 +19,9 @@ import com.sathidar.model.PrivacyOptionsModel;
 import com.sathidar.service.PrivacyOptionsService;
 import com.sathidar.util.PrivacyPoliyConstant;
 
-@CrossOrigin(origins = "http://localhost:4200" , methods = {RequestMethod.OPTIONS, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}, allowedHeaders = "*", allowCredentials = "true")
+//@CrossOrigin(origins = "http://localhost:4200" , methods = {RequestMethod.OPTIONS, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}, allowedHeaders = "*", allowCredentials = "true")
+
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api")
 public class PrivacyOptionsController {

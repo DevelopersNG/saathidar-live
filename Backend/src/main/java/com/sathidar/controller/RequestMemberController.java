@@ -21,8 +21,10 @@ import com.sathidar.service.RequestMemberService;
 import com.sathidar.util.SendSMSAction;
 import com.sathidar.util.TextLocalSMSSetting;
 
-@CrossOrigin(origins = "http://localhost:4200", methods = { RequestMethod.OPTIONS, RequestMethod.GET,
-		RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE }, allowedHeaders = "*", allowCredentials = "true")
+//@CrossOrigin(origins = "http://localhost:4200", methods = { RequestMethod.OPTIONS, RequestMethod.GET,
+//		RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE }, allowedHeaders = "*", allowCredentials = "true")
+
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api")
 public class RequestMemberController {
@@ -57,6 +59,21 @@ public class RequestMemberController {
 		return jsonResultsArray.toString();
 	}
 
+	@GetMapping(value = "/member/get/block-member/{member_id}")
+	private String getBlockMember(@PathVariable String member_id) {
+		JSONArray jsonResultsArray = new JSONArray();
+		JSONObject jsObject = new JSONObject();
+		jsonResultsArray = requestMemberService.getBlockMember(member_id);
+		if (jsonResultsArray != null) {
+			jsObject.put("data", jsonResultsArray);
+			jsObject.put("results", "1");
+		} else {
+			jsObject.put("data", jsonResultsArray);
+			jsObject.put("results", "0");
+		}
+		return jsObject.toString();
+	}
+	
 	@GetMapping(value = "/request/sent/get/all/{member_id}")
 	private String GetSentRequestDetails(@PathVariable String member_id) {
 		JSONArray jsonResultsArray = new JSONArray();

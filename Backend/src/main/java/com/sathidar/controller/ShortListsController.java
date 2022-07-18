@@ -17,7 +17,9 @@ import com.google.gson.JsonObject;
 import com.sathidar.model.ShortListsModel;
 import com.sathidar.service.ShortListService;
 
-@CrossOrigin(origins = "http://localhost:4200" , methods = {RequestMethod.OPTIONS, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}, allowedHeaders = "*", allowCredentials = "true")
+//@CrossOrigin(origins = "http://localhost:4200" , methods = {RequestMethod.OPTIONS, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}, allowedHeaders = "*", allowCredentials = "true")
+
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api")
 public class ShortListsController {

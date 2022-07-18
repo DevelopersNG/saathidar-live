@@ -20,4 +20,6 @@ public interface RequestMemberService {
 
 	JSONArray GetRejectedDetails(String member_id);
 
+	JSONArray getBlockMember(String member_id);
+
 }
