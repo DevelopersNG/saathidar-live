@@ -434,6 +434,22 @@ public class UpdateMemberEntityMangerFactory {
 		return ids;
 	}
 
+
+	private int getCountRequestedIDForMember(int member_id) {
+		int ids = 0;
+//		try {
+//			// check request are sent to other member
+//			Query query = em.createNativeQuery(
+//					"SELECT count(request_to_id) FROM member_request where  request_from_id= :member_from_id");
+//			query.setParameter("member_from_id", member_id);
+////			ids = query.getSingleResult().toString();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+		return ids;
+	}
+	
+	
 	private String getShortListIDForMember(int member_id) {
 		String ids = "";
 		try {
@@ -620,9 +636,9 @@ public class UpdateMemberEntityMangerFactory {
 			String requestedIds = getRequestedIDForMember(id);
 			String shortlistIds = getShortListIDForMember(id);
 			String requestIdQuery = "", shortListIdQuery = "", matches_id = "";
-			if (!requestedIds.equals("")) {
-				requestIdQuery = " and m.member_id not in (" + requestedIds.replaceFirst(",", "") + ")";
-			}
+//			if (!requestedIds.equals("")) {
+//				requestIdQuery = " and m.member_id not in (" + requestedIds.replaceFirst(",", "") + ")";
+//			}
 //			if (!shortlistIds.equals("")) {
 //				shortListIdQuery = " and m.member_id not in (" + shortlistIds.replaceFirst(",", "") + ")";
 //			}
@@ -678,7 +694,7 @@ public class UpdateMemberEntityMangerFactory {
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
 					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + refineWhereClause + matches_id
-					+ requestIdQuery  + hideMemberIdsQuery);
+				    + hideMemberIdsQuery);
 
 			System.out.println("SELECT *  FROM memberdetails as md " + " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as mec on m.member_id=mec.member_id " + " where m.status='ACTIVE' "

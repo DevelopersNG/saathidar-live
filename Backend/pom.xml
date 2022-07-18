@@ -13,7 +13,10 @@
 	<artifactId>SathidarBackend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>SathidarBackend</name>
-
+	
+	
+	<!-- for depoying on tomcat-->
+	<packaging>war</packaging>
 	<!-- for depoying on tomcat <packaging>war</packaging> -->
 
 	<description>Sathidar.com website</description>
@@ -22,11 +25,15 @@
 	</properties>
 	<dependencies>
 
-		<!-- start for depoying on tomcat -->
-		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-tomcat</artifactId> 
-			<scope>provided</scope> </dependency> -->
-		<!--end for depoying on tomca t -->
-
+		
+		<!-- start for depoying on tomcat-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!--end for depoying on tomcat-->
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -133,6 +140,7 @@
 	</dependencies>
 
 	<build>
+	<finalName>saathidaar_backend</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

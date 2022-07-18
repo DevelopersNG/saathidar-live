@@ -20,14 +20,24 @@ public interface UploadImagesRepository extends JpaRepository<UploadImagesModel,
 	@Query(value="insert into member_photo (member_id,image_name,image_url) values (:member_id,:image_name,:image_blob)",nativeQuery=true)
 	int savePhoto(int member_id, String image_name, byte[] image_blob);
 
-	@Query(value="select image_url from member_photo where member_id= :member_id",nativeQuery = true)
+	@Query(value="select image_url from member_photo where member_id= :member_id and deleteflag='N'",nativeQuery = true)
 	List getMemberPhotos(String member_id);
 
-	@Query(value="select *  from member_photo where member_id= :member_id",nativeQuery = true)
+	@Query(value="select *  from member_photo where member_id= :member_id and deleteflag='N'",nativeQuery = true)
 	List<UploadImagesModel> getByMember_Id(String member_id);
 
 	@Transactional
 	@Modifying
-	@Query(value="delete from member_photo where id= :id",nativeQuery = true)
+	@Query(value="delete from member_photo where id= :id and deleteflag='N'",nativeQuery = true)
 	int deleteByPhotoID(Integer id);
+
+	@Transactional
+	@Modifying
+	@Query(value="insert into member_photo (member_id,image_name,image_path) values (:member_id,:image_name,:image_path)",nativeQuery=true)
+	int saveMemberPhotos(String image_name, String image_path, Integer member_id);
+
+	@Transactional
+	@Modifying
+	@Query(value="update member_photo set deleteflag='Y' where id= :id ",nativeQuery = true)
+	int deleteByPhotoIDDeleteFlagY(Integer id);
 }

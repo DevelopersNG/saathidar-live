@@ -27,6 +27,7 @@ public class SathidarBackendApplication extends SpringBootServletInitializer{
 		SpringApplication.run(SathidarBackendApplication.class, args);
 	}
 	
+	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(SathidarBackendApplication.class);
 	}

@@ -29,8 +29,10 @@ import com.sathidar.service.UserService;
 import com.sathidar.util.SendSMSAction;
 
 //@CrossOrigin(maxAge = 3600) // https://spring.io/guides/gs/rest-service-cors/
-@CrossOrigin(origins = "http://localhost:4200", methods = { RequestMethod.OPTIONS, RequestMethod.GET,
-		RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE }, allowedHeaders = "*", allowCredentials = "true")
+//@CrossOrigin(origins = "http://localhost:4200", methods = { RequestMethod.OPTIONS, RequestMethod.GET,
+//		RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE }, allowedHeaders = "*", allowCredentials = "true")
+
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api")
 public class UserController {

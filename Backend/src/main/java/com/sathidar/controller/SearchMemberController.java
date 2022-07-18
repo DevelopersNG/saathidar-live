@@ -20,7 +20,9 @@ import com.sathidar.model.MemberPreferenceModel;
 import com.sathidar.model.SearchMembersModel;
 import com.sathidar.service.SearchMemberService;
 
-@CrossOrigin(origins = "http://localhost:4200" , methods = {RequestMethod.OPTIONS, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}, allowedHeaders = "*", allowCredentials = "true")
+//@CrossOrigin(origins = "http://localhost:4200" , methods = {RequestMethod.OPTIONS, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}, allowedHeaders = "*", allowCredentials = "true")
+
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api")
 public class SearchMemberController {

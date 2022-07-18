@@ -1,5 +1,7 @@
 package com.sathidar.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Blob;
 import java.util.Base64;
 import java.util.HashMap;
@@ -12,9 +14,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.sathidar.model.UploadImagesModel;
 import com.sathidar.repository.UploadImagesRepository;
+import com.sathidar.util.FileUploadUtil;
+import com.sathidar.util.Constant;
 
 @Service
 public class UploadImagesServiceImpl implements UploadImagesService {
@@ -29,25 +35,22 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 		try {
 			int member_id = 0;
 			String image_name = "dsf.png";
-			
+
 //			int member_id = uploadImagesModel.getMember_id();
 //			String image_name = uploadImagesModel.getImage_name();
 			String[] strArray = uploadImagesModel.getImage_base_urls();
 
 			for (int i = 0; i < strArray.length; i++) {
 				String base64Image = strArray[i].toString().split(",")[1];
-				System.out.println("base64Image - "+ base64Image);
+				System.out.println("base64Image - " + base64Image);
 				byte[] data = java.util.Base64.getDecoder().decode(base64Image);
 				uploadImagesModel.setImage_url(data);
 				uploadImagesModel.setImage_name(i + ".jpg");
-				
+
 				byte[] image_blob = uploadImagesModel.getImage_url();
 				response = uploadImagesRepository.savePhoto(member_id, image_name, image_blob);
 			}
 
-			
-			
-            
 //            String directory=
 //            ************************ new code *******************************
 //            try( OutputStream stream = new FileOutputStream("d:/saathidar_images"+i+".jpg") ) 
@@ -80,31 +83,49 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 		return response;
 	}
 
+
+	@Override
+	public JSONArray getMemberAppPhotos(String member_id) {
+		JSONArray resultArray = new JSONArray();
+		try {
+			JSONObject json = new JSONObject();
+			List<UploadImagesModel> post = uploadImagesRepository.getByMember_Id(member_id);
+			if (post != null) {
+				for (int i = 0; i < post.size(); i++) {
+					JSONObject jsonObj = new JSONObject();
+					jsonObj.put("member_images", post.get(i).getImage_path());
+					jsonObj.put("image_id", "" + post.get(i).getId());
+					resultArray.put(jsonObj);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultArray;
+	}
+	
 	@Override
 	public JSONArray getMemberPhotos(String member_id) {
 		JSONArray resultArray = new JSONArray();
 		try {
-			
+
 			JSONObject json = new JSONObject();
 //			Optional<UploadImagesModel> post = uploadImagesRepository.getByMember_Id(member_id);
-			
-			
+
 			List<UploadImagesModel> post = uploadImagesRepository.getByMember_Id(member_id);
-			if(post!=null) {
-				for(int i=0;i<post.size();i++) {
-					JSONObject jsonObj=new JSONObject();
+			if (post != null) {
+				for (int i = 0; i < post.size(); i++) {
+					JSONObject jsonObj = new JSONObject();
 					byte[] encodeBase64 = Base64.getEncoder().encode(post.get(i).getImage_url());
-					String base64Encoded = new String(encodeBase64, "UTF-8");					
-					jsonObj.put("member_images","data:image/jpeg;base64,"+ base64Encoded);
+					String base64Encoded = new String(encodeBase64, "UTF-8");
+					jsonObj.put("member_images", "data:image/jpeg;base64," + base64Encoded);
 //					jsonObj.put("member_images",""+ base64Encoded);
-					jsonObj.put("image_id",""+post.get(i).getId());
+					jsonObj.put("image_id", "" + post.get(i).getId());
 					resultArray.put(jsonObj);
 				}
 			}
-			System.out.println("  member id- "+ member_id);
-			
-			
-			
+			System.out.println("  member id- " + member_id);
+
 //			System.out.println("member_id- " + member_id);
 //			List results=uploadImagesRepository.getMemberPhotos(member_id);
 //			if(results.isEmpty() || results.get(0) instanceof Object[]) {
@@ -139,4 +160,44 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 	public int deleteImagesById(UploadImagesModel uploadImagesModel) {
 		return uploadImagesRepository.deleteByPhotoID(uploadImagesModel.getId());
 	}
+
+	@Override
+	public UploadImagesModel uploadImages(UploadImagesModel uploadImagesModel, MultipartFile multipartFile) {
+		
+		Constant constant=new Constant();
+		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+		uploadImagesModel.setImage_name(fileName);
+		String uploadDir = constant.image_path  + "/" + uploadImagesModel.getMember_id();
+		uploadDir = System.getProperty("catalina.base") +"/webapps";
+		String saveFolderPath="/member_images/"+uploadImagesModel.getMember_id()+"/"+fileName;
+		uploadImagesModel.setImage_path(saveFolderPath);
+//		System.out.println("tomcat path "+uploadDir );
+		int status = uploadImagesRepository.saveMemberPhotos(uploadImagesModel.getImage_name(),saveFolderPath,uploadImagesModel.getMember_id());
+		uploadDir=uploadDir+"/member_images/"+uploadImagesModel.getMember_id()+"";
+		if (status != 0) {
+			FileUploadUtil fileUploadUtil = new FileUploadUtil();
+			try {
+				
+				File theDir = new File(uploadDir);
+				if (!theDir.exists()){
+				    theDir.mkdirs();
+				}
+				
+				fileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+				uploadImagesModel = null;
+			}
+		}else {
+			uploadImagesModel = null;
+		}
+		return uploadImagesModel;
+	}
+
+
+	@Override
+	public int deleteImages(UploadImagesModel uploadImagesModel) {
+		return uploadImagesRepository.deleteByPhotoIDDeleteFlagY(uploadImagesModel.getId());
+	}
+
 }

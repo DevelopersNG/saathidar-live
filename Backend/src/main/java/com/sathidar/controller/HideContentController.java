@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sathidar.model.HideContentModel;
 import com.sathidar.service.HideContentService;
 
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
+
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api")
 public class HideContentController {
