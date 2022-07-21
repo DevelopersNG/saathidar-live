@@ -1,7 +1,9 @@
 package com.sathidar.service;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Blob;
 import java.util.Base64;
 import java.util.HashMap;
@@ -33,23 +35,66 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 //		return uploadImagesRepository.save(uploadImagesModel) ;
 		int response = 0;
 		try {
-			int member_id = 0;
-			String image_name = "dsf.png";
-
-//			int member_id = uploadImagesModel.getMember_id();
+			int member_id = uploadImagesModel.getMember_id();
 //			String image_name = uploadImagesModel.getImage_name();
 			String[] strArray = uploadImagesModel.getImage_base_urls();
-
 			for (int i = 0; i < strArray.length; i++) {
-				String base64Image = strArray[i].toString().split(",")[1];
-				System.out.println("base64Image - " + base64Image);
-				byte[] data = java.util.Base64.getDecoder().decode(base64Image);
-				uploadImagesModel.setImage_url(data);
-				uploadImagesModel.setImage_name(i + ".jpg");
-
-				byte[] image_blob = uploadImagesModel.getImage_url();
-				response = uploadImagesRepository.savePhoto(member_id, image_name, image_blob);
+			Constant constant=new Constant();
+			String uploadDir = constant.image_path  + "/" + uploadImagesModel.getMember_id();
+			uploadDir = System.getProperty("catalina.base") +"/webapps";
+			String saveFolderPath="/member_images/"+uploadImagesModel.getMember_id()+"/abc"+i+".jpg";
+			uploadDir=uploadDir+"/member_images/"+uploadImagesModel.getMember_id()+"";
+			
+			File theDir = new File(uploadDir);
+			if (!theDir.exists()){
+			    theDir.mkdirs();
 			}
+			
+			String base64Image = strArray[i].toString().split(",")[1];
+			byte[] data = java.util.Base64.getDecoder().decode(base64Image);
+			try (OutputStream stream = new FileOutputStream(saveFolderPath)) {
+			    stream.write(data);
+			}
+			
+			
+//			********** New Code not worked**********************			
+//          JSONObject jsonObject = new JSONObject();
+//          jsonObject.put("image_code", base64Image);
+//          
+//         String data1=jsonObject.toString();
+//         String yourURL = "http://www.saathidaar.com/assets/images";
+//          URL url = new URL(yourURL);
+//          HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//          connection.setDoOutput(true);
+//          connection.setDoInput(true);
+//          connection.setRequestMethod("POST");
+//          connection.setFixedLengthStreamingMode(base64Image.getBytes().length);
+//          connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+//          OutputStream out = new BufferedOutputStream(connection.getOutputStream());
+//          BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
+//          writer.write(data1);
+//          writer.flush();
+//          writer.close();
+//          out.close();
+//          connection.connect();
+			
+			
+			
+			
+			response=1;
+		}
+			// working code base64
+//			for (int i = 0; i < strArray.length; i++) {
+//				String base64Image = strArray[i].toString().split(",")[1];
+//				System.out.println("base64Image - " + base64Image);
+//				byte[] data = java.util.Base64.getDecoder().decode(base64Image);
+//				uploadImagesModel.setImage_url(data);
+//				uploadImagesModel.setImage_name(i + ".jpg");
+//				
+//				byte[] image_blob = uploadImagesModel.getImage_url();
+//				response = uploadImagesRepository.savePhoto(member_id, image_name, image_blob);
+//
+//			}
 
 //            String directory=
 //            ************************ new code *******************************
@@ -167,12 +212,15 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 		Constant constant=new Constant();
 		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 		uploadImagesModel.setImage_name(fileName);
+		
 		String uploadDir = constant.image_path  + "/" + uploadImagesModel.getMember_id();
 		uploadDir = System.getProperty("catalina.base") +"/webapps";
 		String saveFolderPath="/member_images/"+uploadImagesModel.getMember_id()+"/"+fileName;
+		
 		uploadImagesModel.setImage_path(saveFolderPath);
 //		System.out.println("tomcat path "+uploadDir );
 		int status = uploadImagesRepository.saveMemberPhotos(uploadImagesModel.getImage_name(),saveFolderPath,uploadImagesModel.getMember_id());
+		
 		uploadDir=uploadDir+"/member_images/"+uploadImagesModel.getMember_id()+"";
 		if (status != 0) {
 			FileUploadUtil fileUploadUtil = new FileUploadUtil();

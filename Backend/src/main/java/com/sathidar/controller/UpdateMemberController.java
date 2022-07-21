@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.sql.Update;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,8 @@ public class UpdateMemberController {
 	@Autowired
 	private UpdateMemberService updateMemberService;
 	
+	@Autowired
+	private UploadImagesService uploadImagesService;
 
 	@Autowired
 	private UpdateMemberEntityMangerFactory updateMemberEntityMangerFactory;
@@ -49,6 +52,9 @@ public class UpdateMemberController {
 			map = updateMemberEntityMangerFactory.getMember(id, login_id);
 			if(map!=null) {
 				jsObject.put("data", map);
+				JSONArray jsonResultsArray = new JSONArray();
+				jsonResultsArray = uploadImagesService.getMemberAppPhotos(""+id);
+				jsObject.put("images",jsonResultsArray);
 				jsObject.put("results", "1");
 				jsObject.put("message", "Member Updated...");
 			}else {
@@ -72,7 +78,11 @@ public class UpdateMemberController {
 			int login_id = 0;
 			map = updateMemberEntityMangerFactory.getMyProfileMember(id);
 			if(map!=null) {
+				
 				jsObject.put("data", map);
+				JSONArray jsonResultsArray = new JSONArray();
+				jsonResultsArray = uploadImagesService.getMemberAppPhotos(""+id);
+				jsObject.put("images",jsonResultsArray);
 				jsObject.put("results", "1");
 				jsObject.put("message", "Basic Lifestyles Updated...");
 			}else {
@@ -96,6 +106,9 @@ public class UpdateMemberController {
 			map = updateMemberEntityMangerFactory.getMyProfileMember(id);
 			if(map!=null) {
 			jsObject.put("data", map);
+			JSONArray jsonResultsArray = new JSONArray();
+			jsonResultsArray = uploadImagesService.getMemberAppPhotos(""+id);
+			jsObject.put("images",jsonResultsArray);
 			jsObject.put("results", "1");
 			jsObject.put("message", "Family Details Updated...");
 			}else {
@@ -119,6 +132,9 @@ public class UpdateMemberController {
 			map = updateMemberEntityMangerFactory.getMyProfileMember(id);
 			if(map!=null) {
 			jsObject.put("data", map);
+			JSONArray jsonResultsArray = new JSONArray();
+			jsonResultsArray = uploadImagesService.getMemberAppPhotos(""+id);
+			jsObject.put("images",jsonResultsArray);
 			jsObject.put("results", "1");
 			jsObject.put("message", "Professional Details Updated...");
 			}else {
@@ -161,6 +177,9 @@ public class UpdateMemberController {
 //			 map.put("message","something wrong ! record not fetch...");
 		} else {
 			jsObject.put("data", map);
+			JSONArray jsonResultsArray = new JSONArray();
+			jsonResultsArray = uploadImagesService.getMemberAppPhotos(""+id);
+			jsObject.put("images",jsonResultsArray);
 			jsObject.put("results", "1");
 		}
 		return jsObject.toString();
@@ -178,6 +197,9 @@ public class UpdateMemberController {
 //			 map.put("message","something wrong ! record not fetch...");
 		} else {
 			jsObject.put("data", map);
+			JSONArray jsonResultsArray = new JSONArray();
+			jsonResultsArray = uploadImagesService.getMemberAppPhotos(""+id);
+			jsObject.put("images",jsonResultsArray);
 			jsObject.put("results", "1");
 		}
 		return jsObject.toString();

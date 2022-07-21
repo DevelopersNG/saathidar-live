@@ -17,13 +17,13 @@ public class RequestMemberModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	private Integer request_from_id;
+	private String request_from_id;
 	
-	private Integer request_to_id;
+	private String request_to_id;
 	
 	private String request_status;
 	
-	private Integer block_by_id;
+	private String block_by_id;
 	
 	private String block_status;
 	
@@ -104,36 +104,12 @@ public class RequestMemberModel {
 		this.id = id;
 	}
 
-	public Integer getRequest_from_id() {
-		return request_from_id;
-	}
-
-	public void setRequest_from_id(Integer request_from_id) {
-		this.request_from_id = request_from_id;
-	}
-
-	public Integer getRequest_to_id() {
-		return request_to_id;
-	}
-
-	public void setRequest_to_id(Integer request_to_id) {
-		this.request_to_id = request_to_id;
-	}
-
 	public String getRequest_status() {
 		return request_status;
 	}
 
 	public void setRequest_status(String request_status) {
 		this.request_status = request_status;
-	}
-
-	public Integer getBlock_by_id() {
-		return block_by_id;
-	}
-
-	public void setBlock_by_id(Integer block_by_id) {
-		this.block_by_id = block_by_id;
 	}
 
 	public String getBlock_status() {
@@ -151,20 +127,34 @@ public class RequestMemberModel {
 				+ ", block_status=" + block_status + "]";
 	}
 
-	public RequestMemberModel(Integer id, Integer request_from_id, Integer request_to_id, String request_status,
-			Integer block_by_id, String block_status) {
-		super();
-		this.id = id;
+	public String getRequest_from_id() {
+		return request_from_id;
+	}
+
+	public void setRequest_from_id(String request_from_id) {
 		this.request_from_id = request_from_id;
+	}
+
+	public String getRequest_to_id() {
+		return request_to_id;
+	}
+
+	public void setRequest_to_id(String request_to_id) {
 		this.request_to_id = request_to_id;
-		this.request_status = request_status;
+	}
+
+	public String getBlock_by_id() {
+		return block_by_id;
+	}
+
+	public void setBlock_by_id(String block_by_id) {
 		this.block_by_id = block_by_id;
-		this.block_status = block_status;
 	}
 
 	public RequestMemberModel() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 	
 }

@@ -28,6 +28,8 @@ public class ShortListServiceImpl implements ShortListService {
 	@PersistenceContext
 	private EntityManager em;
 
+	@Autowired
+	private UploadImagesService uploadImagesService;
 	
 	@Override
 	public JSONArray AddToShortLists(ShortListsModel shortListsModel) {
@@ -136,6 +138,11 @@ public class ShortListServiceImpl implements ShortListService {
 			json.put("religion", getNameByIDMangerFactory.getReligionNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
 			json.put("state", getNameByIDMangerFactory.getStateNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
 			json.put("city", convertNullToBlank(getNameByIDMangerFactory.getCityNameByID(convertNullToBlank(String.valueOf(obj[++i])))));
+		
+			JSONArray jsonResultsArray = new JSONArray();
+			jsonResultsArray = uploadImagesService.getMemberAppPhotos(""+memberID);
+			json.put("images",jsonResultsArray);
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

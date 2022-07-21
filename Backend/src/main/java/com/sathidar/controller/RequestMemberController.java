@@ -54,9 +54,16 @@ public class RequestMemberController {
 
 	@PostMapping(value = "/member/block-member")
 	private String BlockMember(@Validated @RequestBody RequestMemberModel requestMemberModel) {
-		JSONArray jsonResultsArray = new JSONArray();
-		jsonResultsArray = requestMemberService.blockMember(requestMemberModel);
-		return jsonResultsArray.toString();
+		JSONObject jsObject = new JSONObject();
+		int status = requestMemberService.blockMember(requestMemberModel);
+		if (status > 0) {
+			jsObject.put("message", "Member is blocked...");
+			jsObject.put("results", "1");
+		} else {
+			jsObject.put("message", "Member is not block...");
+			jsObject.put("results", "0");
+		}
+		return jsObject.toString();
 	}
 
 	@GetMapping(value = "/member/get/block-member/{member_id}")

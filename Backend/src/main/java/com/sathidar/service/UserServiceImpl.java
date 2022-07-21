@@ -259,7 +259,8 @@ public class UserServiceImpl implements UserService {
 		}
 		int userID=userExists.getId();
 		String memberID=userEntityManagerFactory.getMemberIDByUserID(userID);
-		
+		String profile_id=userEntityManagerFactory.getMemberNumbersIDBy(userID);
+		String gender=userEntityManagerFactory.getMemberGenderIDBy(userID);
 		
 		map.put("id",""+ userExists.getId());
 		map.put("firstName", userExists.getFirstName());
@@ -267,6 +268,8 @@ public class UserServiceImpl implements UserService {
 		map.put("username", userExists.getUsername());
 		map.put("phone", userExists.getPhone());
 		map.put("member_id", memberID);
+		map.put("gender", gender);
+		map.put("profile_id", profile_id);
 		map.put("email", userExists.getEmail());
 		map.put("enabled",""+ userExists.getEnabled());
 		map.put("results", "1");

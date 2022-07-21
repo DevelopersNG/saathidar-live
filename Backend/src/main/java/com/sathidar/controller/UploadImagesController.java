@@ -88,7 +88,6 @@ public class UploadImagesController {
 		}
 		return jsObject.toString();
 	}
-
 	
 //	below api for mobile application
 	

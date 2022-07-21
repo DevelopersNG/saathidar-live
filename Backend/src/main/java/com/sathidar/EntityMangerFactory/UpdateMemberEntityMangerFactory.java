@@ -293,8 +293,6 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("working_details", getCareerDetails);
 					map.put("FamilyDetails", getFamilyDetailsString);
 
-					// send sms/mail to visitors ids
-
 					status = true;
 				}
 			}
@@ -594,6 +592,10 @@ public class UpdateMemberEntityMangerFactory {
 					json.put("request_status", "");
 					json.put("block_status", "");
 
+					JSONArray jsonResultsArray = new JSONArray();
+					jsonResultsArray = uploadImagesService.getMemberAppPhotos(""+id);
+					json.put("images",jsonResultsArray);
+					
 					// check request are sent to other member
 					Query query = em.createNativeQuery(
 							"SELECT request_status,block_status FROM member_request where  request_from_id= :member_from_id and request_to_id= :member_to_id");
@@ -628,13 +630,31 @@ public class UpdateMemberEntityMangerFactory {
 		return resultArray;
 	}
 
+	private String getBlockedIDS(String member_id) {
+		String ids = "";
+		try {
+			Query query = em.createNativeQuery(
+					"SELECT group_concat(request_from_id) FROM member_request where  request_to_id= :member_id and block_by_id= :member_id and block_status= :member_request_status");
+			query.setParameter("member_id", member_id);
+			query.setParameter("member_request_status", "Block");
+				List results = query.getResultList();
+				if (results.isEmpty() || results == null)
+					System.out.println("blank");
+				else if (results.size() == 1)
+					ids = results.get(0).toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ids;
+	}
+	
 	public JSONArray getAllMemberByFilter(UpdateMember updateMember, int id, String matches_status) {
 		JSONArray resultArray = new JSONArray();
 		boolean status=false;
 		try {
 			matchesConstants.getMemberMatchPartnerPreference(id);
 			String requestedIds = getRequestedIDForMember(id);
-			String shortlistIds = getShortListIDForMember(id);
+//			String shortlistIds = getShortListIDForMember(id);
 			String requestIdQuery = "", shortListIdQuery = "", matches_id = "";
 //			if (!requestedIds.equals("")) {
 //				requestIdQuery = " and m.member_id not in (" + requestedIds.replaceFirst(",", "") + ")";
@@ -668,6 +688,14 @@ public class UpdateMemberEntityMangerFactory {
 			if (getMembersHideIDs != null && !getMembersHideIDs.equals("")) {
 				hideMemberIdsQuery = hideMemberIdsQuery + " and md.member_id not in (" + getMembersHideIDs.replaceFirst(",", "") + ") ";
 			}
+			
+//		********************** begin check member  is block or not , gets ids *********************************
+				
+				String getBlockedMemberQuery="";
+				String getMembersBlockIDs = getBlockedIDS(""+id);
+				if (getMembersBlockIDs != null && !getMembersBlockIDs.equals("")) {
+					getBlockedMemberQuery = getBlockedMemberQuery + " and md.member_id not in (" + getMembersBlockIDs.replaceFirst(",", "") + ") ";
+				}			
 
 //		******************************Column Name*************************************************************************
 			String columnName = "first_name,last_name, m.member_id, height,lifestyles,md.age,"
@@ -694,12 +722,12 @@ public class UpdateMemberEntityMangerFactory {
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
 					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + refineWhereClause + matches_id
-				    + hideMemberIdsQuery);
+				    + hideMemberIdsQuery + getBlockedMemberQuery);
 
 			System.out.println("SELECT *  FROM memberdetails as md " + " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as mec on m.member_id=mec.member_id " + " where m.status='ACTIVE' "
 					+ whereClause + " and md.member_id!= :member_id " + refineWhereClause + matches_id + requestIdQuery
-					+ hideMemberIdsQuery);
+					+ hideMemberIdsQuery + getBlockedMemberQuery);
 //		
 
 			q.setParameter("member_id", id);
@@ -832,8 +860,11 @@ public class UpdateMemberEntityMangerFactory {
 						json.put("member_id", memberID);
 						json.put("request_status", "");
 						json.put("block_status", "");
-					
-					
+						
+						JSONArray jsonResultsArray = new JSONArray();
+						jsonResultsArray = uploadImagesService.getMemberAppPhotos(memberID);
+						json.put("images",jsonResultsArray);
+						
 						// check request are sent to other member
 						Query query = em.createNativeQuery(
 								"SELECT request_status,block_status FROM member_request where  request_from_id= :member_from_id and request_to_id= :member_to_id");
@@ -853,16 +884,15 @@ public class UpdateMemberEntityMangerFactory {
 							
 						}
 						
-						
-						// get images of member id
-						JSONArray jsonResultsImageArray= uploadImagesService.getMemberPhotos(memberID);
-						json.put("images", jsonResultsImageArray);
 						resultArray.put(json);
+						
 						status=true;
 					}else{
 						resultArray=null;
 					}
 				}
+			}else{
+				resultArray=null;
 			}
 			
 			if(status==false) {
@@ -2014,7 +2044,7 @@ public class UpdateMemberEntityMangerFactory {
 								map.put("partner_age", "");
 								map.put("my_age", "BLANK");
 							}
-
+							
 							// height
 							String p_from_height = convertNullToBlank(String.valueOf(objPartner[++j]));
 							String p_to_height = convertNullToBlank(String.valueOf(objPartner[++j]));
@@ -2529,6 +2559,9 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("working_details", getCareerDetails);
 					map.put("FamilyDetails", getFamilyDetailsString);
 
+					
+					
+					
 					// send sms/mail to visitors ids
 
 					status = true;
