@@ -292,7 +292,7 @@ public class UserEntityManagerFactory {
 	public String getMemberIDByUserID(int userID) {
 		String id="";
 		try {
-			Query q = em.createNativeQuery("SELECT member_id FROM member where user_id= :UserID and status='ACTIVE'");
+			Query q = em.createNativeQuery("SELECT member_id FROM member where user_id= :UserID");
 			q.setParameter("UserID", userID);
 			id = q.getSingleResult().toString();
 		} catch (Exception e) {
@@ -301,6 +301,30 @@ public class UserEntityManagerFactory {
 		return id;
 	}
 
+	public String getMemberNumbersIDBy(int userID) {
+		String id="";
+		try {
+			Query q = em.createNativeQuery("SELECT member_number FROM member where user_id= :UserID");
+			q.setParameter("UserID", userID);
+			id = q.getSingleResult().toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return id;
+	}
+	
+	public String getMemberGenderIDBy(int userID) {
+		String id="";
+		try {
+			Query q = em.createNativeQuery("SELECT gender FROM member where user_id= :UserID");
+			q.setParameter("UserID", userID);
+			id = q.getSingleResult().toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return id;
+	}
+	
 	public String getDateIntervalForHideProfile(String hide_period_time) {
 		String id="";
 		try {

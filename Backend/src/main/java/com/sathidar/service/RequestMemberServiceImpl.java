@@ -37,6 +37,9 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 
 	@Autowired
 	private EmailService mailSender;
+	
+	@Autowired
+	private UploadImagesService uploadImagesService;
 
 	@Override
 	public JSONArray SendRequestToMember(RequestMemberModel requestMemberModel) {
@@ -46,8 +49,8 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 
 		try {
 			JSONObject json = new JSONObject();
-			int request_from_id = requestMemberModel.getRequest_from_id();
-			int request_to_id = requestMemberModel.getRequest_to_id();
+			int request_from_id = Integer.parseInt(requestMemberModel.getRequest_from_id());
+			int request_to_id = Integer.parseInt(requestMemberModel.getRequest_to_id());
 			String request_status = requestMemberModel.getRequest_status().trim();
 			requestMemberObject = requestMemberRepository.sendRequestToMember(request_from_id, request_to_id,
 					request_status);
@@ -55,11 +58,11 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			MembersDetailsAction membersDetailsAction = new MembersDetailsAction();
 			// send email and sms to other member
 			List lst = new ArrayList();
-			lst = getDetailsMemberByMember_id(requestMemberModel.getRequest_from_id());
+			lst = getDetailsMemberByMember_id(Integer.parseInt(requestMemberModel.getRequest_from_id()));
 //			String emailId_to=requestMemberRepository.getEmailId(requestMemberModel.getRequest_to_id());
 
 			String fullName = "", emailId_to = "";
-			List<Object[]> results = requestMemberRepository.getUserNameEmailId(requestMemberModel.getRequest_to_id());
+			List<Object[]> results = requestMemberRepository.getUserNameEmailId(Integer.parseInt(requestMemberModel.getRequest_to_id()));
 			if (results != null) {
 				for (Object[] obj : results) {
 					int i = 0;
@@ -73,7 +76,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 
 			String response = "";
 			if (lst != null) {
-				response = sentInvitationsByEmail(lst, emailId_to, fullName, requestMemberModel.getRequest_from_id());
+				response = sentInvitationsByEmail(lst, emailId_to, fullName, Integer.parseInt(requestMemberModel.getRequest_from_id()));
 			}
 			System.out.println("response  -  " + response);
 
@@ -203,8 +206,8 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 
 		try {
 			JSONObject json = new JSONObject();
-			int request_from_id = requestMemberModel.getRequest_from_id();
-			int request_to_id = requestMemberModel.getRequest_to_id();
+			int request_from_id = Integer.parseInt(requestMemberModel.getRequest_from_id());
+			int request_to_id = Integer.parseInt(requestMemberModel.getRequest_to_id());
 			String request_status = requestMemberModel.getRequest_status().trim();
 			requestMemberObject = requestMemberRepository.requestAcceptedAndRejected(request_from_id, request_to_id,
 					request_status);
@@ -214,11 +217,11 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 
 			if (request_status.equals("Accepted")) {
 				List lst = new ArrayList();
-				lst = getDetailsMemberByMember_id(requestMemberModel.getRequest_from_id());
+				lst = getDetailsMemberByMember_id(Integer.parseInt(requestMemberModel.getRequest_from_id()));
 
 				String fullName = "", emailId_to = "";
 				List<Object[]> results = requestMemberRepository
-						.getUserNameEmailId(requestMemberModel.getRequest_to_id());
+						.getUserNameEmailId(Integer.parseInt(requestMemberModel.getRequest_to_id()));
 				if (results != null) {
 					for (Object[] obj : results) {
 						int i = 0;
@@ -228,7 +231,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					}
 				}
 
-				getBackupDatabase();
+//				getBackupDatabase();
 
 				sendEmailToUser(lst, fullName, emailId_to, request_to_id);
 			}
@@ -358,47 +361,52 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
-	public JSONArray blockMember(RequestMemberModel requestMemberModel) {
-		Object requestMemberObject = null;
-		JSONArray resultArray = new JSONArray();
-
+	public int blockMember(RequestMemberModel requestMemberModel) {
+		int status=0;
 		try {
 			JSONObject json = new JSONObject();
-			int request_from_id = requestMemberModel.getRequest_from_id();
-			int request_to_id = requestMemberModel.getRequest_to_id();
-			int block_by_id = requestMemberModel.getBlock_by_id();
+			int request_from_id = Integer.parseInt(requestMemberModel.getRequest_from_id());
+			int request_to_id =Integer.parseInt( requestMemberModel.getRequest_to_id());
+			int block_by_id = Integer.parseInt(requestMemberModel.getBlock_by_id());
 			String block_status = requestMemberModel.getBlock_status().trim();
-
-			List<Object[]> objResults = requestBlockMemberEntityManagerFactory
-					.getFromRequestAndToRequest(request_from_id, request_to_id);
-			if (objResults != null) {
-				for (Object[] obj : objResults) {
-					int from_id = (int) obj[0];
-					int to_id = (int) obj[1];
-
-					requestMemberObject = requestMemberRepository.requestBlockToMember(from_id, to_id, block_by_id,
-							block_status);
-					if (requestMemberObject != null)
-						json.put("message", "request is " + block_status + "..");
+			
+//			List<Object[]> objResults = requestBlockMemberEntityManagerFactory
+//					.getFromRequestAndToRequest(request_from_id, request_to_id);
+//			if (objResults != null) {
+//				for (Object[] obj : objResults) {
+//					int from_id = (int) obj[0];
+//					int to_id = (int) obj[1];
+//					
+//					if(block_status.equals("Block")) {
+//						requestMemberObject = requestMemberRepository.requestBlockToMember(from_id, to_id, block_by_id,
+//								block_status);
+//					}else {
+//						requestMemberObject = requestMemberRepository.requestUnBlockToMember(from_id, to_id, block_by_id);
+//					}
+//				}
+//			} else {
+//				resultArray=null;
+//			}
+			
+			int count=requestMemberRepository.getBlockMembers(request_from_id,request_to_id);
+			if(count>0) {
+				if(block_status.equals("Block")) {
+					status = requestMemberRepository.requestBlockToMember(request_from_id, request_to_id, block_by_id, block_status);
+				}else {
+					status = requestMemberRepository.requestUnBlockToMember(request_from_id, request_to_id, block_by_id);
 				}
-			} else {
-				throw new BadRequestException("something wrong block/unblock request not working..");
-			}
-
-			if (requestMemberObject == null) {
-				throw new BadRequestException("something wrong block/unblock request not working..");
-			}
-
-			resultArray.put(json);
+			}else {
+				status=requestMemberRepository.insertBlockMembers(request_from_id, request_to_id, block_by_id,block_status);
+			}	
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return resultArray;
+		return status;
 	}
 
 	@Override
@@ -407,7 +415,15 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 //		******************************Column Name******************************************************************
 		String columnName = getCommonColumnForSearch();
 		System.out.println("member_id- *******************************************" + member_id);
-//		******************************Query************************************************************************
+//		******************************Block ids************************************************************************
+		String getBlockedIDS = getBlockedIDS(member_id);
+		String blockQuery = "";
+		System.out.println(" block member ids - "+ getBlockedIDS);
+		if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
+			blockQuery = " and md.member_id not in (" + getBlockedIDS + ")";
+		}
+		
+		
 		JSONArray resultArray = new JSONArray();
 		try {
 			String getSentResuestedIDS = getSentsRequestedIDS(member_id);
@@ -419,12 +435,12 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
 						+ " join member as m on md.member_id=m.member_id"
 						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where m.status='ACTIVE' and md.member_id!= :member_id " + sentResuestedQuery);
+						+ " where md.member_id!= :member_id " + sentResuestedQuery +blockQuery );
 
 				System.out.println("SELECT " + columnName + "  FROM memberdetails as md "
 						+ " join member as m on md.member_id=m.member_id"
 						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where m.status='ACTIVE' and md.member_id!= :member_id " + sentResuestedQuery);
+						+ " where md.member_id!= :member_id " + sentResuestedQuery + blockQuery);
 
 				q.setParameter("member_id", member_id);
 
@@ -436,7 +452,11 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 						json = getCommonJsonOutout(obj, member_id, "Sent");
 						resultArray.put(json);
 					}
+				}else {
+					resultArray=null;
 				}
+			}else {
+				resultArray=null;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -460,8 +480,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 	private String getCommonColumnForSearch() {
 		String columnName = "m.member_id as member_id,height,lifestyles,known_languages,first_name,last_name,"
 				+ "gender,md.age,contact_number,profilecreatedby,md.marital_status,mother_tounge,"
-				+ "date_of_birth,mec.annual_income,country_id,cast_id,subcaste_id,religion_id,state_id,city_id";
-
+				+ "date_of_birth,mec.annual_income,country_id,cast_id,subcaste_id,religion_id,state_id,city_id,profile_photo_id";
 		return columnName;
 	}
 
@@ -494,6 +513,17 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			json.put("state", getNameByIDMangerFactory.getStateNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
 			json.put("city", getNameByIDMangerFactory.getCityNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
 
+			String profile_photo_id=convertNullToBlank(String.valueOf(obj[++i]));
+			String getProfilePath="";
+			if(!profile_photo_id.equals("")) {
+				getProfilePath=uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
+			}
+			json.put("profile_photo",getProfilePath);
+			
+			JSONArray jsonResultsArray = new JSONArray();
+			jsonResultsArray = uploadImagesService.getMemberAppPhotos(""+memberID);
+			json.put("images",jsonResultsArray);
+			
 //			 ,,Accepted,Rejected
 			List<Object[]> results = null;
 			Query query = em.createNativeQuery(
@@ -510,7 +540,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				query.setParameter("request_to_id", current_Member_ID);
 				results = query.getResultList();
 			}
-
+			
 			if (results != null) {
 				for (Object[] objResults : results) {
 					int j = 0;
@@ -540,7 +570,15 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 
 //		******************************Column Name*************************************************************************
 		String columnName = getCommonColumnForSearch();
-//		******************************Query*************************************************************************
+
+//		******************************Block ids************************************************************************
+		String getBlockedIDS = getBlockedIDS(member_id);
+		String blockQuery = "";
+		System.out.println(" block member ids - "+ getBlockedIDS);
+		if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
+			blockQuery = " and md.member_id not in (" + getBlockedIDS + ")";
+		}
+		
 		JSONArray resultArray = null;
 		try {
 			String getInvitationsIDS = getInvitationsIDS(member_id);
@@ -552,12 +590,12 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
 						+ " join member as m on md.member_id=m.member_id"
 						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where m.status='ACTIVE' and md.member_id!= :member_id" + initationsQuery);
+						+ " where md.member_id!= :member_id" + initationsQuery + blockQuery);
 
 				System.out.println(" invitations -  SELECT " + columnName + "  FROM memberdetails as md "
 						+ " join member as m on md.member_id=m.member_id"
 						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where m.status='ACTIVE' and md.member_id!= :member_id" + initationsQuery);
+						+ " where  md.member_id!= :member_id" + initationsQuery + blockQuery);
 
 				q.setParameter("member_id", member_id);
 
@@ -569,7 +607,11 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 						json = getCommonJsonOutout(obj, member_id, "Invitations");
 						resultArray.put(json);
 					}
+				}else {
+					resultArray=null;
 				}
+			}else {
+				resultArray=null;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -580,7 +622,6 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 
 	private String getInvitationsIDS(String member_id) {
 		String ids = "";
-
 		try {
 			Query query = em.createNativeQuery(
 					"SELECT group_concat(request_from_id) FROM member_request where  request_to_id= :member_to_id and request_status= :member_request_status");
@@ -592,8 +633,6 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		}
 		return ids;
 	}
-	
-
 
 	@Override
 	public JSONArray GetAcceptedDetails(String member_id) {
@@ -605,18 +644,29 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			String getAcceptedIDS = getAcceptedIDS(member_id);
 			String initationsQuery = "";
 
+//			******************************Block ids************************************************************************
+			String getBlockedIDS = getBlockedIDS(member_id);
+			String blockQuery = "";
+			System.out.println(" block member ids - "+ getBlockedIDS);
+			if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
+				blockQuery = " and md.member_id not in (" + getBlockedIDS + ")";
+			}
+			
+			
+			
+			
 			if (getAcceptedIDS != null && !getAcceptedIDS.equals("")) {
 				initationsQuery = " and md.member_id in (" + getAcceptedIDS + ")";
 
 				Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
 						+ " join member as m on md.member_id=m.member_id"
 						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where m.status='ACTIVE' and md.member_id!= :member_id" + initationsQuery);
+						+ " where md.member_id!= :member_id" + initationsQuery + getBlockedIDS);
 
 				System.out.println(" invitations -  SELECT " + columnName + "  FROM memberdetails as md "
 						+ " join member as m on md.member_id=m.member_id"
 						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where m.status='ACTIVE' and md.member_id!= :member_id" + initationsQuery);
+						+ " where md.member_id!= :member_id" + initationsQuery + getBlockedIDS);
 
 				q.setParameter("member_id", member_id);
 
@@ -627,7 +677,11 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 						json = getCommonJsonOutout(obj, member_id, "Accepted");
 						resultArray.put(json);
 					}
+				}else {
+					resultArray=null;
 				}
+			}else {
+				resultArray=null;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -706,7 +760,18 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 	public JSONArray GetRejectedDetails(String member_id) {
 //		******************************Column Name*************************************************************************
 		String columnName = getCommonColumnForSearch();
-//		******************************Query*************************************************************************
+
+//		******************************Block ids************************************************************************
+		String getBlockedIDS = getBlockedIDS(member_id);
+		String blockQuery = "";
+		System.out.println(" block member ids - "+ getBlockedIDS);
+		if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
+			blockQuery = " and md.member_id not in (" + getBlockedIDS + ")";
+		}
+		
+				
+		
+		
 		JSONArray resultArray = new JSONArray();
 		try {
 			String getAcceptedIDS = getRejectedIDS(member_id);
@@ -718,12 +783,12 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
 						+ " join member as m on md.member_id=m.member_id"
 						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where m.status='ACTIVE' and md.member_id!= :member_id" + initationsQuery);
+						+ " where  md.member_id!= :member_id" + initationsQuery + getBlockedIDS);
 
 				System.out.println(" invitations -  SELECT " + columnName + "  FROM memberdetails as md "
 						+ " join member as m on md.member_id=m.member_id"
 						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where m.status='ACTIVE' and md.member_id!= :member_id" + initationsQuery);
+						+ " where md.member_id!= :member_id" + initationsQuery + getBlockedIDS);
 
 				q.setParameter("member_id", member_id);
 
@@ -734,7 +799,11 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 						json = getCommonJsonOutout(obj, member_id, "Rejected");
 						resultArray.put(json);
 					}
+				}else {
+					resultArray=null;
 				}
+			}else {
+				resultArray=null;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -843,12 +912,15 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 						json = getCommonJsonOutout(obj, member_id, "Block");
 						resultArray.put(json);
 					}
+				}else {
+					resultArray=null;
 				}
+			}else {
+				resultArray=null;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return resultArray;
 	}
 

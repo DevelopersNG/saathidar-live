@@ -56,6 +56,14 @@ public class DashboardServiceImpl implements DashboardService {
 			int recent_visitors_count = dashboardRepository.getRecentVisitorsCount(member_id);
 			json.put("recent_visitors_count", "" + recent_visitors_count);
 
+			// get total count of invitations
+			int invitations_count = dashboardRepository.getInvitations(member_id,"Pending");
+			json.put("invitations_count", "" + invitations_count);
+			
+			// get total count of shortlists 
+			int shortlist_count = dashboardRepository.getShortlistsCount(member_id,"add");
+			json.put("shortlists_count", "" + shortlist_count);
+			
 			// get total count of new matches
 			String ids = "", matches_id = "";
 			ids = getMemberIDForMatches1(Integer.parseInt(member_id), "NEW_MATCHES");
@@ -82,6 +90,10 @@ public class DashboardServiceImpl implements DashboardService {
 			int todays_matches_count = dashboardRepository.getMatchesCount(member_id, ids);
 			json.put("todays_matches_count", "" + todays_matches_count);
 
+			
+			
+			
+			
 			resultArray.put(json);
 		} catch (Exception e) {
 			e.printStackTrace();

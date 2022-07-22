@@ -10,7 +10,7 @@ public interface RequestMemberService {
 
 	JSONArray RequestAcceptAndRejected(RequestMemberModel requestMemberModel);
 
-	JSONArray blockMember(RequestMemberModel requestMemberModel);
+	int blockMember(RequestMemberModel requestMemberModel);
 
 	JSONArray GetSentRequestDetails(String member_id);
 

@@ -20,6 +20,8 @@ public interface UploadImagesService {
 	JSONArray getMemberAppPhotos(String member_id);
 
 	int deleteImages(UploadImagesModel uploadImagesModel);
-	
 
+	int setMemberProfilePhoto(UploadImagesModel uploadImagesModel);
+
+	String getMemberProfilePhotoPath(String profile_photo_id);
 }

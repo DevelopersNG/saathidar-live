@@ -88,7 +88,6 @@ public class UploadImagesController {
 		}
 		return jsObject.toString();
 	}
-
 	
 //	below api for mobile application
 	
@@ -132,5 +131,17 @@ public class UploadImagesController {
 		return jsObject.toString();
 	}
 	
+	@PostMapping("/member/profile/photo/{member_id}")
+	public HashMap<String, String> setMemberProfilePhoto(@PathVariable String member_id,UploadImagesModel uploadImagesModel) {
+		HashMap<String, String> map = new HashMap<>();
+		uploadImagesModel.setMember_id(Integer.parseInt(member_id));
+		int status = uploadImagesService.setMemberProfilePhoto(uploadImagesModel);
+		if (status > 0) {
+			map.put("results", "1");
+		} else {
+			map.put("results", "0");
+		}
+		return map;
+	}
 	
 }

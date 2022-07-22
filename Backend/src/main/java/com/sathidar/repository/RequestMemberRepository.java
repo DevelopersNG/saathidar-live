@@ -19,14 +19,13 @@ public interface RequestMemberRepository extends JpaRepository<RequestMemberMode
 
 	@Transactional
 	@Modifying
-	@Query(value="update member_request set request_status= :requestStatus where request_from_id= :requestFromId and request_to_id= :requestToId",nativeQuery = true)
+	@Query(value="update member_request set request_status= :requestStatus,hide_id='', block_by_id ='',block_status ='' where request_from_id= :requestFromId and request_to_id= :requestToId",nativeQuery = true)
 	Object requestAcceptedAndRejected(int requestFromId, int requestToId, String requestStatus);
-
 
 	@Transactional
 	@Modifying
 	@Query(value="update member_request set block_status= :blockStatus,block_by_id= :blockById where request_from_id= :from_id and request_to_id= :to_id",nativeQuery = true)
-	Object requestBlockToMember(int from_id, int to_id, int blockById, String blockStatus);
+	int requestBlockToMember(int from_id, int to_id, int blockById, String blockStatus);
 
 	@Transactional
 	@Modifying
@@ -42,7 +41,6 @@ public interface RequestMemberRepository extends JpaRepository<RequestMemberMode
 			+ "join member_education_career as edu on m.member_id=edu.member_id "
 			+ "where md.member_id= :request_from_id and m.status='ACTIVE'",nativeQuery = true)
 	List<Object[]> getMemberDeyailsForMail(String request_from_id);
-
 	
 //	@Transactional
 //	@Query(value="SELECT email_id FROM member where member_id= :request_to_id",nativeQuery = true)
@@ -52,5 +50,17 @@ public interface RequestMemberRepository extends JpaRepository<RequestMemberMode
 	@Query(value="SELECT first_name,last_name,email_id FROM member where member_id= :request_to_id",nativeQuery = true)
 	List<Object[]> getUserNameEmailId(Integer request_to_id);
 
+	@Transactional
+	@Modifying
+	@Query(value="update member_request set block_status=null,block_by_id=null where request_from_id= :from_id and request_to_id= :to_id and block_by_id= :block_by_id",nativeQuery = true)
+	int requestUnBlockToMember(int from_id, int to_id, int block_by_id);
 
+	@Transactional
+	@Query(value="SELECT count(*) FROM member_request where request_from_id= :request_from_id and request_to_id= :request_to_id",nativeQuery = true)
+	int getBlockMembers(int request_from_id, int request_to_id);
+
+	@Transactional
+	@Modifying
+	@Query(value="insert into member_request (request_from_id,request_to_id,block_status,block_by_id) values (:request_from_id,:request_to_id,:block_status,:block_by_id)",nativeQuery = true)
+	int insertBlockMembers(int request_from_id, int request_to_id, int block_by_id, String block_status);
 }

@@ -18,33 +18,32 @@ public class SchedularRecentVisitors {
 	@Autowired
 	private SendSMSAction sendSMSAction;
 
-//	@Scheduled(initialDelay = 5000, fixedDelay = 9000)
-	@Scheduled(cron="19 15 * * * ?")
+//	@Scheduled(cron="19 15 * * * ?")
 	public void backupDataBase() {
 
 		try {
-			/******************************************************/
-			// Database Properties
-			/******************************************************/
-			String dbName = "saathidar";
-			String dbUser = "root";
-			String dbPass = "admin@123";
-			/***********************************************************/
-			// Execute Shell Command
-			/***********************************************************/
-			String executeCmd = "";
-
-			executeCmd = "mysqldump -u " + dbUser + " -p" + dbPass + " " + dbName + " -r saathidaar.sql";
-			
-			File dir = new File("D:/");
-//			File dir = new File("D:/saathidaar_backup/");
-			Process runtimeProcess = Runtime.getRuntime().exec( executeCmd,null,dir);
-			int processComplete = runtimeProcess.waitFor();
-			if (processComplete == 0) {
-				System.out.print("success");
-			} else {
-				System.out.print(" failure success");
-			}
+//			/******************************************************/
+//			// Database Properties
+//			/******************************************************/
+//			String dbName = "saathidar";
+//			String dbUser = "root";
+//			String dbPass = "admin@123";
+//			/***********************************************************/
+//			// Execute Shell Command
+//			/***********************************************************/
+//			String executeCmd = "";
+//
+//			executeCmd = "mysqldump -u " + dbUser + " -p" + dbPass + " " + dbName + " -r saathidaar.sql";
+//			
+//			File dir = new File("D:/");
+////			File dir = new File("D:/saathidaar_backup/");
+//			Process runtimeProcess = Runtime.getRuntime().exec( executeCmd,null,dir);
+//			int processComplete = runtimeProcess.waitFor();
+//			if (processComplete == 0) {
+//				System.out.print("success");
+//			} else {
+//				System.out.print(" failure success");
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
