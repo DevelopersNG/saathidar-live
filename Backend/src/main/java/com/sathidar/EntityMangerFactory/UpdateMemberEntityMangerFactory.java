@@ -90,7 +90,7 @@ public class UpdateMemberEntityMangerFactory {
 
 		String columnName = "member_number,m.member_id, membernative,height,weight,lifestyles,known_languages,education,job,income,hobbies,expectations,first_name,last_name,gender,md.age,"
 				+ "contact_number,email_id,profilecreatedby,md.marital_status as maritalStatus,no_of_children,mother_tounge,date_of_birth,"
-				+ "health_info,blood_group,gothra,ethnic_corigin,pincode,about_ourself,"
+				+ "health_info,blood_group,gothra,ethnic_corigin,pincode,about_ourself,profile_photo_id,"
 				+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :id )) as country_name,country_id,"
 				+ "sub_caste_name,"
 				+ "(select cast_name from cast where cast_id=(select cast_id from memberdetails where member_id= :id )) as caste,cast_id,"
@@ -192,6 +192,14 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("pincode", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("about_ourself", convertNullToBlank(String.valueOf(obj[++i])));
 
+					String profile_photo_id=convertNullToBlank(String.valueOf(obj[++i]));
+					String getProfilePath="";
+					if(!profile_photo_id.equals("")) {
+						getProfilePath=uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
+					}
+					map.put("profile_photo",getProfilePath);
+					
+					
 					// forth row
 //					String val= convertNullToBlank(String.valueOf(obj[++i]);
 					map.put("country_name", convertNullToBlank(String.valueOf(obj[++i])));
@@ -505,7 +513,7 @@ public class UpdateMemberEntityMangerFactory {
 //			********************** begin column names *********************************
 			
 			String columnName = "first_name,last_name, m.member_id, height,lifestyles,md.age,"
-					+ "md.marital_status as maritalStatus,mother_tounge,gender,"
+					+ "md.marital_status as maritalStatus,mother_tounge,gender,profile_photo_id,"
 					+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :member_id )) as country_name,country_id,"
 					+ "(select state_name from states where state_id=(select state_id from memberdetails where member_id= :member_id)) as state,state_id,"
 					+ "(select city_name from city where city_id=(select city_id from memberdetails where member_id= :member_id)) as city,city_id,"
@@ -561,6 +569,13 @@ public class UpdateMemberEntityMangerFactory {
 					String myMaritalStatus = convertNullToBlank(String.valueOf(obj[++i]));
 					String myMotherTongue = convertNullToBlank(String.valueOf(obj[++i]));
 					String myGender = convertNullToBlank(String.valueOf(obj[++i]));
+					
+					String profile_photo_id=convertNullToBlank(String.valueOf(obj[++i]));
+					String getProfilePath="";
+					if(!profile_photo_id.equals("")) {
+						getProfilePath=uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
+					}
+					
 					String myCountryName = convertNullToBlank(String.valueOf(obj[++i]));
 					String myCountryID = convertNullToBlank(String.valueOf(obj[++i]));
 					String myStateName = convertNullToBlank(String.valueOf(obj[++i]));
@@ -583,7 +598,7 @@ public class UpdateMemberEntityMangerFactory {
 					json.put("mage", myAge);
 					json.put("religion", myReligionName);
 					json.put("maritalStatus", myMaritalStatus);
-					
+					json.put("profile_photo",getProfilePath);
 					myAnnualIncome = MembersDetailsAction.getAnnualIncomePrivacy(premiumStatus, memberID,
 							myAnnualIncome);
 
@@ -645,6 +660,7 @@ public class UpdateMemberEntityMangerFactory {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println(" block id- "+ ids);
 		return ids;
 	}
 	
@@ -699,7 +715,7 @@ public class UpdateMemberEntityMangerFactory {
 
 //		******************************Column Name*************************************************************************
 			String columnName = "first_name,last_name, m.member_id, height,lifestyles,md.age,"
-					+ "md.marital_status as maritalStatus,mother_tounge,gender,"
+					+ "md.marital_status as maritalStatus,mother_tounge,gender,profile_photo_id,"
 					+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :member_id )) as country_name,country_id,"
 					+ "(select state_name from states where state_id=(select state_id from memberdetails where member_id= :member_id)) as state,state_id,"
 					+ "(select city_name from city where city_id=(select city_id from memberdetails where member_id= :member_id)) as city,city_id,"
@@ -724,10 +740,11 @@ public class UpdateMemberEntityMangerFactory {
 					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + refineWhereClause + matches_id
 				    + hideMemberIdsQuery + getBlockedMemberQuery);
 
-			System.out.println("SELECT *  FROM memberdetails as md " + " join member as m on md.member_id=m.member_id"
-					+ " join member_education_career as mec on m.member_id=mec.member_id " + " where m.status='ACTIVE' "
-					+ whereClause + " and md.member_id!= :member_id " + refineWhereClause + matches_id + requestIdQuery
-					+ hideMemberIdsQuery + getBlockedMemberQuery);
+			System.out.println(" block query check-   SELECT " + columnName + "  FROM memberdetails as md "
+					+ " join member as m on md.member_id=m.member_id"
+					+ " join member_education_career as edu on m.member_id=edu.member_id "
+					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + refineWhereClause + matches_id
+				    + hideMemberIdsQuery + getBlockedMemberQuery);
 //		
 
 			q.setParameter("member_id", id);
@@ -781,6 +798,13 @@ public class UpdateMemberEntityMangerFactory {
 
 					String myGender = convertNullToBlank(String.valueOf(obj[++i]));
 
+					String profile_photo_id=convertNullToBlank(String.valueOf(obj[++i]));
+					String getProfilePath="";
+					if(!profile_photo_id.equals("")) {
+						getProfilePath=uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
+					}
+					
+					
 					String myCountryName = convertNullToBlank(String.valueOf(obj[++i]));
 					String myCountryID = convertNullToBlank(String.valueOf(obj[++i]));
 					if (!myCountryName.equals("")) {
@@ -860,6 +884,7 @@ public class UpdateMemberEntityMangerFactory {
 						json.put("member_id", memberID);
 						json.put("request_status", "");
 						json.put("block_status", "");
+						json.put("profile_photo",getProfilePath);
 						
 						JSONArray jsonResultsArray = new JSONArray();
 						jsonResultsArray = uploadImagesService.getMemberAppPhotos(memberID);
@@ -2378,7 +2403,7 @@ public class UpdateMemberEntityMangerFactory {
 
 		String columnName = "member_number,m.member_id, membernative,height,weight,lifestyles,known_languages,education,job,income,hobbies,expectations,first_name,last_name,gender,md.age,"
 				+ "contact_number,email_id,profilecreatedby,md.marital_status as maritalStatus,no_of_children,mother_tounge,date_of_birth,"
-				+ "health_info,blood_group,gothra,ethnic_corigin,pincode,about_ourself,"
+				+ "health_info,blood_group,gothra,ethnic_corigin,pincode,about_ourself,profile_photo_id,"
 				+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :id )) as country_name,country_id,"
 				+ "sub_caste_name,"
 				+ "(select cast_name from cast where cast_id=(select cast_id from memberdetails where member_id= :id )) as caste,cast_id,"
@@ -2460,6 +2485,13 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("pincode", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("about_ourself", convertNullToBlank(String.valueOf(obj[++i])));
 
+					String profile_photo_id=convertNullToBlank(String.valueOf(obj[++i]));
+					String getProfilePath="";
+					if(!profile_photo_id.equals("")) {
+						getProfilePath=uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
+					}
+					map.put("profile_photo",getProfilePath);
+					
 					// forth row
 //					String val= convertNullToBlank(String.valueOf(obj[++i]);
 					map.put("country_name", convertNullToBlank(String.valueOf(obj[++i])));

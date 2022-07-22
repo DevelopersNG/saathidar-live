@@ -34,4 +34,12 @@ public interface DashboardRepository extends JpaRepository<DashboardModel, Integ
 	@Transactional
 	@Query(value="SELECT count(*) FROM memberdetails as md join member as m on md.member_id=m.member_id join member_education_career as edu on m.member_id=edu.member_id where md.member_id!= :member_id and m.status='ACTIVE' and md.member_id in (:ids)",nativeQuery = true)
 	int getMatchesCount(String member_id, String ids);
+
+	@Transactional
+	@Query(value="SELECT count(*) FROM member_request where  request_to_id= :member_id and request_status= :member_request_status",nativeQuery = true)
+	int getInvitations(String member_id, String member_request_status);
+
+	@Transactional
+	@Query(value="SELECT count(*) FROM member_shortlists where shortlist_from_id= :member_id and shortlist_status= :shortlist_status",nativeQuery = true)
+	int getShortlistsCount(String member_id, String shortlist_status);
 }

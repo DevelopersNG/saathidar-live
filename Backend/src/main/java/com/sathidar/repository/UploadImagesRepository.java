@@ -40,4 +40,12 @@ public interface UploadImagesRepository extends JpaRepository<UploadImagesModel,
 	@Modifying
 	@Query(value="update member_photo set deleteflag='Y' where id= :id ",nativeQuery = true)
 	int deleteByPhotoIDDeleteFlagY(Integer id);
+
+	@Transactional
+	@Modifying
+	@Query(value="update memberdetails set profile_photo_id= :image_id where member_id= :member_id ",nativeQuery = true)
+	int saveProfilePhto(Integer member_id, String image_id);
+
+	@Query(value="select image_path from member_photo where id= :image_id and deleteflag='N'",nativeQuery = true)
+	String getMemberProfilePhotoPath(String image_id);
 }

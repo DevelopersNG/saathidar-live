@@ -480,8 +480,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 	private String getCommonColumnForSearch() {
 		String columnName = "m.member_id as member_id,height,lifestyles,known_languages,first_name,last_name,"
 				+ "gender,md.age,contact_number,profilecreatedby,md.marital_status,mother_tounge,"
-				+ "date_of_birth,mec.annual_income,country_id,cast_id,subcaste_id,religion_id,state_id,city_id";
-
+				+ "date_of_birth,mec.annual_income,country_id,cast_id,subcaste_id,religion_id,state_id,city_id,profile_photo_id";
 		return columnName;
 	}
 
@@ -514,6 +513,13 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			json.put("state", getNameByIDMangerFactory.getStateNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
 			json.put("city", getNameByIDMangerFactory.getCityNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
 
+			String profile_photo_id=convertNullToBlank(String.valueOf(obj[++i]));
+			String getProfilePath="";
+			if(!profile_photo_id.equals("")) {
+				getProfilePath=uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
+			}
+			json.put("profile_photo",getProfilePath);
+			
 			JSONArray jsonResultsArray = new JSONArray();
 			jsonResultsArray = uploadImagesService.getMemberAppPhotos(""+memberID);
 			json.put("images",jsonResultsArray);
@@ -572,8 +578,6 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
 			blockQuery = " and md.member_id not in (" + getBlockedIDS + ")";
 		}
-		
-		
 		
 		JSONArray resultArray = null;
 		try {
