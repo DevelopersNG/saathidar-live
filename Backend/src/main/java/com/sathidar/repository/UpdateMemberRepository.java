@@ -178,4 +178,7 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 			+ ")", nativeQuery = true)
 	int insertMemberCurrentStatus(Integer member_id, Integer activate_id);
 
+	@Query(value ="SELECT gender FROM member where member_id= :id", nativeQuery = true)
+	String getGenderByMemberID(int id);
+
 }

@@ -9,6 +9,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import javax.sql.rowset.serial.SerialBlob;
 
@@ -39,8 +40,9 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 //			String image_name = uploadImagesModel.getImage_name();
 			String[] strArray = uploadImagesModel.getImage_base_urls();
 			for (int i = 0; i < strArray.length; i++) {
-				
-				uploadImagesModel.setImage_name("saathidar" + i + ".jpg");
+				Random random = new Random();
+				String id = String.format("%04d", random.nextInt(10000));
+				uploadImagesModel.setImage_name("saathidar" + id + ".jpg");
 				
 				Constant constant = new Constant();
 
@@ -269,6 +271,18 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 	@Override
 	public String getMemberProfilePhotoPath(String image_id) {
 		return uploadImagesRepository.getMemberProfilePhotoPath(image_id);
+	}
+
+
+	@Override
+	public String getMemberProfilePhotoID(String member_id) {
+		return uploadImagesRepository.getMemberProfilePhotoID(member_id);
+	}
+
+
+	@Override
+	public int getPremiumMemberStatus(String memberID) {
+		return uploadImagesRepository.getPremiumMemberStatus(memberID);
 	}
 
 }

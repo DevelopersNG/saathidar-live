@@ -16,10 +16,13 @@ public interface RequestMemberRepository extends JpaRepository<RequestMemberMode
 	@Modifying
 	@Query(value="insert into member_request (request_from_id,request_to_id,request_status) values (:request_from_id,:request_to_id,:request_status)",nativeQuery = true)
 	Object sendRequestToMember(int request_from_id, int request_to_id, String request_status);
-
+	
+	@Query(value="select count(*) from member_request where request_from_id= :request_from_id and request_to_id= :request_to_id",nativeQuery = true)
+	int getSentRequestedMember(int request_from_id, int request_to_id);
+	
 	@Transactional
 	@Modifying
-	@Query(value="update member_request set request_status= :requestStatus,hide_id='', block_by_id ='',block_status ='' where request_from_id= :requestFromId and request_to_id= :requestToId",nativeQuery = true)
+	@Query(value="update member_request set request_status= :requestStatus, block_by_id =0,block_status ='' where request_from_id= :requestFromId and request_to_id= :requestToId",nativeQuery = true)
 	Object requestAcceptedAndRejected(int requestFromId, int requestToId, String requestStatus);
 
 	@Transactional
@@ -52,7 +55,7 @@ public interface RequestMemberRepository extends JpaRepository<RequestMemberMode
 
 	@Transactional
 	@Modifying
-	@Query(value="update member_request set block_status=null,block_by_id=null where request_from_id= :from_id and request_to_id= :to_id and block_by_id= :block_by_id",nativeQuery = true)
+	@Query(value="update member_request set block_status='',block_by_id=0 where request_from_id= :from_id and request_to_id= :to_id and block_by_id= :block_by_id",nativeQuery = true)
 	int requestUnBlockToMember(int from_id, int to_id, int block_by_id);
 
 	@Transactional
@@ -63,4 +66,12 @@ public interface RequestMemberRepository extends JpaRepository<RequestMemberMode
 	@Modifying
 	@Query(value="insert into member_request (request_from_id,request_to_id,block_status,block_by_id) values (:request_from_id,:request_to_id,:block_status,:block_by_id)",nativeQuery = true)
 	int insertBlockMembers(int request_from_id, int request_to_id, int block_by_id, String block_status);
+
+	@Transactional
+	@Modifying
+	@Query(value="delete from member_request  where request_from_id= :request_to_id and request_to_id= :request_from_id",nativeQuery = true)
+	Object requestCanceled(int request_from_id, int request_to_id);
+
+	
+	
 }

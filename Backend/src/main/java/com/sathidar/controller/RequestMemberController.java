@@ -113,16 +113,28 @@ public class RequestMemberController {
 
 	@GetMapping(value = "/request/accepted/get/all/{member_id}")
 	private String GetAcceptedDetails(@PathVariable String member_id) {
-		JSONArray jsonResultsArray = new JSONArray();
+		JSONArray jsonMyResultsArray = new JSONArray();
+		JSONArray jsonOtherResultsArray = new JSONArray();
+		
 		JSONObject jsObject = new JSONObject();
-		jsonResultsArray = requestMemberService.GetAcceptedDetails(member_id);
-		if (jsonResultsArray != null) {
-			jsObject.put("data", jsonResultsArray);
-			jsObject.put("results", "1");
+		jsonMyResultsArray = requestMemberService.GetMyAcceptedDetails(member_id);
+		if (jsonMyResultsArray != null) {
+			jsObject.put("my_accepted", jsonMyResultsArray);
+			jsObject.put("my_results", "1");
 		} else {
-			jsObject.put("data", jsonResultsArray);
-			jsObject.put("results", "0");
+			jsObject.put("my_accepted", "");
+			jsObject.put("my_results", "0");
 		}
+		
+		jsonOtherResultsArray = requestMemberService.GetOtherAcceptedDetails(member_id);
+		if (jsonOtherResultsArray != null) {
+			jsObject.put("other_accepted", jsonOtherResultsArray);
+			jsObject.put("other_results", "1");
+		} else {
+			jsObject.put("other_accepted", "");
+			jsObject.put("other_results", "0");
+		}
+		
 		return jsObject.toString();
 	}
 

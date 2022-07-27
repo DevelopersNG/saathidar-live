@@ -52,8 +52,13 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			int request_from_id = Integer.parseInt(requestMemberModel.getRequest_from_id());
 			int request_to_id = Integer.parseInt(requestMemberModel.getRequest_to_id());
 			String request_status = requestMemberModel.getRequest_status().trim();
-			requestMemberObject = requestMemberRepository.sendRequestToMember(request_from_id, request_to_id,
-					request_status);
+			
+			int status=requestMemberRepository.getSentRequestedMember(request_from_id, request_to_id);
+			if(status>0) {
+				requestMemberObject = requestMemberRepository.requestAcceptedAndRejected(request_from_id, request_to_id,request_status);
+			}else {
+				requestMemberObject = requestMemberRepository.sendRequestToMember(request_from_id, request_to_id,request_status);
+			}
 
 			MembersDetailsAction membersDetailsAction = new MembersDetailsAction();
 			// send email and sms to other member
@@ -143,7 +148,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					+ "   <h4 style=\"text-align: center;color: #742041;font-size: 20px;\">Invitation to become your Saathidar!!!\r\n"
 					+ "</h4>\r\n" + "<p style=\"float: left;\"><strong>Hi " + fullName + ",</strong></p><br>\r\n"
 					+ "<p><strong>" + first_name + " " + last_name
-					+ " </strong>has invited you to connect. Let’s Respond</p>\r\n"
+					+ " </strong>has invited you to connect. Let\'s Respond</p>\r\n"
 					+ "   <table style=\"width: 100%;border: #742041 1px solid;\" class=\"table\">\r\n"
 					+ "    <thead>\r\n";
 
@@ -209,12 +214,18 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			int request_from_id = Integer.parseInt(requestMemberModel.getRequest_from_id());
 			int request_to_id = Integer.parseInt(requestMemberModel.getRequest_to_id());
 			String request_status = requestMemberModel.getRequest_status().trim();
-			requestMemberObject = requestMemberRepository.requestAcceptedAndRejected(request_from_id, request_to_id,
-					request_status);
+			
+			
+//			if(request_status.equals("Canceled")) {
+//				requestMemberObject = requestMemberRepository.requestCanceled(request_from_id, request_to_id);
+//				request_status="Canceled";
+//			}else {
+				requestMemberObject = requestMemberRepository.requestAcceptedAndRejected(request_from_id, request_to_id,request_status);
+//			}
 			json.put("message", "request are " + request_status + "..");
 
-			System.out.println("******** request_to_id " + request_to_id);
-
+			
+			// for mail sending
 			if (request_status.equals("Accepted")) {
 				List lst = new ArrayList();
 				lst = getDetailsMemberByMember_id(Integer.parseInt(requestMemberModel.getRequest_from_id()));
@@ -225,7 +236,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				if (results != null) {
 					for (Object[] obj : results) {
 						int i = 0;
-						fullName = convertNullToBlank(String.valueOf(obj[i]))
+						fullName = convertNullToBlank(String.valueOf(obj[i])) + " "
 								+ convertNullToBlank(String.valueOf(obj[++i]));
 						emailId_to = convertNullToBlank(String.valueOf(obj[++i]));
 					}
@@ -302,7 +313,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 						+ "   <h4 style=\"text-align: center;color: #742041;font-size: 20px;\">It\'s a Match!!!\r\n"
 						+ "\r\n" + "</h4>\r\n" + "<p style=\"float: left;\"><strong>Hi " + fullName
 						+ ",</strong></p><br>\r\n" + "<p><strong>" + first_name + " " + last_name
-						+ " </strong>has accepted your request to connect. Lets take this forward</p>\r\n"
+						+ " </strong>has accepted your request to connect. Let\'s take this forward</p>\r\n"
 						+ "   <table style=\"width: 100%;border: #742041 1px solid;\" class=\"table\">\r\n"
 						+ "    <thead>\r\n";
 
@@ -495,7 +506,10 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			json.put("known_languages", convertNullToBlank(String.valueOf(obj[++i])));
 			json.put("first_name", convertNullToBlank(String.valueOf(obj[++i])));
 			json.put("last_name", convertNullToBlank(String.valueOf(obj[++i])));
-			json.put("gender", convertNullToBlank(String.valueOf(obj[++i])));
+			
+			String gender= convertNullToBlank(String.valueOf(obj[++i]));
+			
+			json.put("gender", gender);
 			json.put("mage", convertNullToBlank(String.valueOf(obj[++i])));
 			json.put("contact_number", convertNullToBlank(String.valueOf(obj[++i])));
 			json.put("profilecreatedby", convertNullToBlank(String.valueOf(obj[++i])));
@@ -503,42 +517,60 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			json.put("mother_tounge", convertNullToBlank(String.valueOf(obj[++i])));
 			json.put("date_of_birth", convertNullToBlank(String.valueOf(obj[++i])));
 			json.put("income", convertNullToBlank(String.valueOf(obj[++i])));
-			json.put("country",
-					getNameByIDMangerFactory.getCountryNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
-			json.put("caste", getNameByIDMangerFactory.getCasteNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
+			json.put("country",convertNullToBlank(getNameByIDMangerFactory.getCountryNameByID(convertNullToBlank(String.valueOf(obj[++i])))));
+			json.put("caste", convertNullToBlank(getNameByIDMangerFactory.getCasteNameByID(convertNullToBlank(String.valueOf(obj[++i])))));
 			json.put("subcaste",
-					getNameByIDMangerFactory.getSubCasteNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
+					convertNullToBlank(getNameByIDMangerFactory.getSubCasteNameByID(convertNullToBlank(String.valueOf(obj[++i])))));
 			json.put("religion",
-					getNameByIDMangerFactory.getReligionNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
-			json.put("state", getNameByIDMangerFactory.getStateNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
-			json.put("city", getNameByIDMangerFactory.getCityNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
+					convertNullToBlank(getNameByIDMangerFactory.getReligionNameByID(convertNullToBlank(String.valueOf(obj[++i])))));
+			json.put("state", convertNullToBlank(getNameByIDMangerFactory.getStateNameByID(convertNullToBlank(String.valueOf(obj[++i])))));
+			json.put("city", convertNullToBlank(getNameByIDMangerFactory.getCityNameByID(convertNullToBlank(String.valueOf(obj[++i])))));
 
 			String profile_photo_id=convertNullToBlank(String.valueOf(obj[++i]));
 			String getProfilePath="";
-			if(!profile_photo_id.equals("")) {
+			if(!profile_photo_id.equals("") && !profile_photo_id.equals("0")) {
 				getProfilePath=uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
 			}
 			json.put("profile_photo",getProfilePath);
+			
+			int premium_status = uploadImagesService.getPremiumMemberStatus(memberID);
+			if(premium_status>0) {
+				json.put("premium_status","1");
+			}else {
+				json.put("premium_status","0");
+			}
 			
 			JSONArray jsonResultsArray = new JSONArray();
 			jsonResultsArray = uploadImagesService.getMemberAppPhotos(""+memberID);
 			json.put("images",jsonResultsArray);
 			
-//			 ,,Accepted,Rejected
+			String genderMessage="";
+			if(gender!=null && !gender.equals("")) {
+				if(gender.equals("male")) {
+					genderMessage="him";
+				}
+				if(gender.equals("female")) {
+					genderMessage="her";
+				}
+			}
+			
 			List<Object[]> results = null;
 			Query query = em.createNativeQuery(
 					"SELECT request_status, DATE_FORMAT(creation_date,'%d %M %Y') AS showdate FROM member_request where  request_from_id= :request_from_id and request_to_id= :request_to_id");
+			String messgae="";
 			if (Status.equals("Sent")) {
 //				from id=this current member id 
 //						to_id=memberID
 				query.setParameter("request_from_id", current_Member_ID);
 				query.setParameter("request_to_id", memberID);
 				results = query.getResultList();
+				messgae="You sent "+genderMessage+" request on ";
 			}
 			if (Status.equals("Invitations")) {
 				query.setParameter("request_from_id", memberID);
 				query.setParameter("request_to_id", current_Member_ID);
 				results = query.getResultList();
+				messgae=" has invited you to connect on ";
 			}
 			
 			if (results != null) {
@@ -548,7 +580,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					String requestDate = convertNullToBlank(String.valueOf(objResults[++j]));
 					json.put("request_status", requestStatus);
 					json.put("request_status_date", requestDate);
-					json.put("request_message", "Your Request is " + requestStatus + " on " + requestDate);
+					json.put("request_message", messgae + requestDate);
 				}
 			}
 		} catch (Exception e) {
@@ -598,7 +630,6 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 						+ " where  md.member_id!= :member_id" + initationsQuery + blockQuery);
 
 				q.setParameter("member_id", member_id);
-
 				List<Object[]> results = q.getResultList();
 				if (results != null) {
 					resultArray = new JSONArray();
@@ -635,13 +666,14 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 	}
 
 	@Override
-	public JSONArray GetAcceptedDetails(String member_id) {
+	public JSONArray GetMyAcceptedDetails(String member_id) {
 		JSONArray resultArray = new JSONArray();
 		try {
 //			******************************Column Name*************************************************************************
 			String columnName = getCommonColumnForSearch();
 //			******************************Query*************************************************************************
-			String getAcceptedIDS = getAcceptedIDS(member_id);
+			String getMyAcceptedIDS = getMyAcceptedIDS(member_id);
+			
 			String initationsQuery = "";
 
 //			******************************Block ids************************************************************************
@@ -652,24 +684,17 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				blockQuery = " and md.member_id not in (" + getBlockedIDS + ")";
 			}
 			
+			String status="";
+			String queryString="SELECT " + columnName + "  FROM memberdetails as md "
+					+ " join member as m on md.member_id=m.member_id"
+					+ " join member_education_career as mec on m.member_id=mec.member_id ";
 			
-			
-			
-			if (getAcceptedIDS != null && !getAcceptedIDS.equals("")) {
-				initationsQuery = " and md.member_id in (" + getAcceptedIDS + ")";
-
-				Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
-						+ " join member as m on md.member_id=m.member_id"
-						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where md.member_id!= :member_id" + initationsQuery + getBlockedIDS);
-
-				System.out.println(" invitations -  SELECT " + columnName + "  FROM memberdetails as md "
-						+ " join member as m on md.member_id=m.member_id"
-						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where md.member_id!= :member_id" + initationsQuery + getBlockedIDS);
-
+			if (getMyAcceptedIDS != null && !getMyAcceptedIDS.equals("")) {
+				initationsQuery = " where md.member_id!=:member_id and md.member_id in (" + getMyAcceptedIDS + ")";
+				queryString=queryString + initationsQuery + getBlockedIDS;
+				
+				Query q = em.createNativeQuery(queryString);
 				q.setParameter("member_id", member_id);
-
 				List<Object[]> results = q.getResultList();
 				if (results != null) {
 					for (Object[] obj : results) {
@@ -706,15 +731,38 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			e.printStackTrace();
 		}
 		return ids;
-	}
-
+	} 
 	
-	private String getAcceptedIDS(String member_id) {
+	private String getOtherAcceptedIDS(String member_id) {
 		String ids = "";
+			try {
+				// for show other member informations also
+				String otherProfilesIds = "";
+				Query query = em.createNativeQuery(
+						"SELECT group_concat(request_to_id ) FROM member_request where  request_from_id= :request_from_id and request_status= :member_request_status order by creation_date desc");
+				query.setParameter("request_from_id", member_id);
+				query.setParameter("member_request_status", "Accepted");
+				try {
+					List results = query.getResultList();
+					if (results.isEmpty() || results == null)
+						System.out.println("blank");
+					else if (results.size() == 1)
+						ids = results.get(0).toString();
+				} catch (Exception e) {
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 
+			System.out.println("ids - " + ids);
+		return ids;
+	}
+	
+	private String getMyAcceptedIDS(String member_id) {
+		String ids = "";
 		try {
 			Query query = em.createNativeQuery(
-					"SELECT group_concat(request_from_id) FROM member_request where  request_to_id= :member_to_id and request_status= :member_request_status");
+					"SELECT group_concat(request_from_id) FROM member_request where  request_to_id= :member_to_id and request_status= :member_request_status order by creation_date desc");
 			query.setParameter("member_to_id", member_id);
 			query.setParameter("member_request_status", "Accepted");
 			try {
@@ -724,28 +772,6 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				else if (results.size() == 1)
 					ids = results.get(0).toString();
 			} catch (Exception e) {
-			}
-
-			try {
-				// for show other member informations also
-				String otherProfilesIds = "";
-				query = em.createNativeQuery(
-						"SELECT group_concat(member_to_id) FROM member_request where  request_from_id= :request_from_id and request_status= :member_request_status");
-				query.setParameter("request_from_id", member_id);
-				query.setParameter("member_request_status", "Accepted");
-				List results = query.getResultList();
-				if (results.isEmpty() || results == null)
-					System.out.println("blank");
-				else if (results.size() == 1)
-					otherProfilesIds = results.get(0).toString();
-
-				if (!ids.equals("")) {
-					if (!otherProfilesIds.equals("")) {
-						ids = ids + "," + otherProfilesIds;
-					}
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
 			}
 
 			System.out.println("ids - " + ids);
@@ -768,9 +794,6 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
 			blockQuery = " and md.member_id not in (" + getBlockedIDS + ")";
 		}
-		
-				
-		
 		
 		JSONArray resultArray = new JSONArray();
 		try {
@@ -910,6 +933,54 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					for (Object[] obj : results) {
 						JSONObject json = new JSONObject();
 						json = getCommonJsonOutout(obj, member_id, "Block");
+						resultArray.put(json);
+					}
+				}else {
+					resultArray=null;
+				}
+			}else {
+				resultArray=null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultArray;
+	}
+
+	@Override
+	public JSONArray GetOtherAcceptedDetails(String member_id) {
+		JSONArray resultArray = new JSONArray();
+		try {
+//			******************************Column Name*************************************************************************
+			String columnName = getCommonColumnForSearch();
+//			******************************Query*************************************************************************
+			String getOtherAcceptedIDS = getOtherAcceptedIDS(member_id);
+			String initationsQuery = "";
+
+//			******************************Block ids************************************************************************
+			String getBlockedIDS = getBlockedIDS(member_id);
+			String blockQuery = "";
+			System.out.println(" block member ids - "+ getBlockedIDS);
+			if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
+				blockQuery = " and md.member_id not in (" + getBlockedIDS + ")";
+			}
+			
+			String status="";
+			String queryString="SELECT " + columnName + "  FROM memberdetails as md "
+					+ " join member as m on md.member_id=m.member_id"
+					+ " join member_education_career as mec on m.member_id=mec.member_id ";
+			
+			
+			if (getOtherAcceptedIDS != null && !getOtherAcceptedIDS.equals("")) {
+				initationsQuery = " where md.member_id in (" + getOtherAcceptedIDS + ")";
+				queryString=queryString + initationsQuery + getBlockedIDS;
+				
+				Query q = em.createNativeQuery(queryString);
+				List<Object[]> results = q.getResultList();
+				if (results != null) {
+					for (Object[] obj : results) {
+						JSONObject json = new JSONObject();
+						json = getCommonJsonOutout(obj, member_id, "Accepted");
 						resultArray.put(json);
 					}
 				}else {

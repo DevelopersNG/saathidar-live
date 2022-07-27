@@ -48,4 +48,10 @@ public interface UploadImagesRepository extends JpaRepository<UploadImagesModel,
 
 	@Query(value="select image_path from member_photo where id= :image_id and deleteflag='N'",nativeQuery = true)
 	String getMemberProfilePhotoPath(String image_id);
+
+	@Query(value="select profile_photo_id from memberdetails where member_id= :member_id",nativeQuery = true)
+	String getMemberProfilePhotoID(String member_id);
+
+	@Query(value="select count(*) from premium_member where member_id= :memberID and deleteflag='N' ",nativeQuery = true)
+	int getPremiumMemberStatus(String memberID);
 }

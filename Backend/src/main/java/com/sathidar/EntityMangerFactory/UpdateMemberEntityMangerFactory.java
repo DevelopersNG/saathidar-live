@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.sathidar.model.UpdateMember;
+import com.sathidar.repository.UpdateMemberRepository;
 import com.sathidar.service.UploadImagesService;
 import com.sathidar.util.MatchesConstant;
 import com.sathidar.util.MembersDetailsAction;
@@ -38,9 +39,12 @@ public class UpdateMemberEntityMangerFactory {
 	@Autowired
 	private SendSMSAction sendSMSAction;
 
-
 	@Autowired
 	private UploadImagesService uploadImagesService;
+	
+	@Autowired
+	private UpdateMemberRepository updateMemberRepository;
+
 	
 	public HashMap<String, String> getMemberIdByUserLoginId(int id) {
 		HashMap<String, String> map = new HashMap<>();
@@ -112,7 +116,7 @@ public class UpdateMemberEntityMangerFactory {
 					+ " join member_family_details as fd on m.member_id=fd.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
 					+ " join member_horoscope as mh on m.member_id=mh.member_id "
-					+ " where md.member_id= :id";
+					+ " where md.member_id= :id order by m.member_id desc";
 //			+ " where md.member_id= :id and m.status='ACTIVE' ";
 			
 			// get hide member ids for not showing ids
@@ -194,12 +198,18 @@ public class UpdateMemberEntityMangerFactory {
 
 					String profile_photo_id=convertNullToBlank(String.valueOf(obj[++i]));
 					String getProfilePath="";
-					if(!profile_photo_id.equals("")) {
+					if(!profile_photo_id.equals("") && !profile_photo_id.equals("0")) {
 						getProfilePath=uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
 					}
+					
+					String my_profile_photo_ID =convertNullToBlank(uploadImagesService.getMemberProfilePhotoID(login_id+""));
+					String my_profile_photo="";
+					if(!my_profile_photo_ID.equals("") && !my_profile_photo_ID.equals("0")) {
+						my_profile_photo=uploadImagesService.getMemberProfilePhotoPath(my_profile_photo_ID);
+					}
+					
 					map.put("profile_photo",getProfilePath);
-					
-					
+					map.put("my_profile_photo",my_profile_photo);
 					// forth row
 //					String val= convertNullToBlank(String.valueOf(obj[++i]);
 					map.put("country_name", convertNullToBlank(String.valueOf(obj[++i])));
@@ -572,7 +582,7 @@ public class UpdateMemberEntityMangerFactory {
 					
 					String profile_photo_id=convertNullToBlank(String.valueOf(obj[++i]));
 					String getProfilePath="";
-					if(!profile_photo_id.equals("")) {
+					if(!profile_photo_id.equals("") && !profile_photo_id.equals("0")) {
 						getProfilePath=uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
 					}
 					
@@ -610,6 +620,14 @@ public class UpdateMemberEntityMangerFactory {
 					JSONArray jsonResultsArray = new JSONArray();
 					jsonResultsArray = uploadImagesService.getMemberAppPhotos(""+id);
 					json.put("images",jsonResultsArray);
+					
+
+					int premium_status = uploadImagesService.getPremiumMemberStatus(memberID);
+					if(premium_status>0) {
+						json.put("premium_status","1");
+					}else {
+						json.put("premium_status","0");
+					}
 					
 					// check request are sent to other member
 					Query query = em.createNativeQuery(
@@ -678,7 +696,9 @@ public class UpdateMemberEntityMangerFactory {
 //			if (!shortlistIds.equals("")) {
 //				shortListIdQuery = " and m.member_id not in (" + shortlistIds.replaceFirst(",", "") + ")";
 //			}
-
+			
+			
+			
 			String ids = "";
 			if (matches_status.equals("NEW_MATCHES") || matches_status.equals("MY_MATCHES")
 					|| matches_status.equals("TODAYS_MATCHES")) {
@@ -732,19 +752,31 @@ public class UpdateMemberEntityMangerFactory {
 			}
 			String likeClause = setLikeClauseForGetAllMember(updateMember);
 
+//			******************************Opposite Gender Search*************************************************************************
+			String genderQuery="";
+			String gender=updateMemberRepository.getGenderByMemberID(id);
+			if(gender!=null && !gender.equals("")) {
+				if(gender.equals("male")) {
+					genderQuery=" and gender='female' ";	
+				}
+				if(gender.equals("female")) {
+					genderQuery=" and gender='male' ";	
+				}
+			}
+			
 //		******************************Query*************************************************************************
 
 			Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
 					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + refineWhereClause + matches_id
-				    + hideMemberIdsQuery + getBlockedMemberQuery);
+				    + hideMemberIdsQuery + getBlockedMemberQuery + genderQuery +  " order by m.member_id desc");
 
 			System.out.println(" block query check-   SELECT " + columnName + "  FROM memberdetails as md "
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
 					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + refineWhereClause + matches_id
-				    + hideMemberIdsQuery + getBlockedMemberQuery);
+				    + hideMemberIdsQuery + getBlockedMemberQuery + genderQuery);
 //		
 
 			q.setParameter("member_id", id);
@@ -800,7 +832,7 @@ public class UpdateMemberEntityMangerFactory {
 
 					String profile_photo_id=convertNullToBlank(String.valueOf(obj[++i]));
 					String getProfilePath="";
-					if(!profile_photo_id.equals("")) {
+					if(!profile_photo_id.equals("") && !profile_photo_id.equals("0")) {
 						getProfilePath=uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
 					}
 					
@@ -889,6 +921,14 @@ public class UpdateMemberEntityMangerFactory {
 						JSONArray jsonResultsArray = new JSONArray();
 						jsonResultsArray = uploadImagesService.getMemberAppPhotos(memberID);
 						json.put("images",jsonResultsArray);
+						
+						int premium_status = uploadImagesService.getPremiumMemberStatus(memberID);
+						if(premium_status>0) {
+							json.put("premium_status","1");
+						}else {
+							json.put("premium_status","0");
+						}
+						
 						
 						// check request are sent to other member
 						Query query = em.createNativeQuery(
@@ -2424,7 +2464,7 @@ public class UpdateMemberEntityMangerFactory {
 					+ " join member_family_details as fd on m.member_id=fd.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
 					+ " join member_horoscope as mh on m.member_id=mh.member_id "
-					+ " where md.member_id= :id ";
+					+ " where md.member_id= :id order by m.member_id desc ";
 
 			Query q = em.createNativeQuery(query);
 //			System.out.println(q);
@@ -2487,7 +2527,7 @@ public class UpdateMemberEntityMangerFactory {
 
 					String profile_photo_id=convertNullToBlank(String.valueOf(obj[++i]));
 					String getProfilePath="";
-					if(!profile_photo_id.equals("")) {
+					if(!profile_photo_id.equals("") && !profile_photo_id.equals("0")) {
 						getProfilePath=uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
 					}
 					map.put("profile_photo",getProfilePath);

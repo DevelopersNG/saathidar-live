@@ -16,7 +16,9 @@ public interface RequestMemberService {
 
 	JSONArray GetInvitationsDetails(String member_id);
 
-	JSONArray GetAcceptedDetails(String member_id);
+	JSONArray GetMyAcceptedDetails(String member_id);
+	
+	JSONArray GetOtherAcceptedDetails(String member_id);
 
 	JSONArray GetRejectedDetails(String member_id);
 
