@@ -34,14 +34,30 @@ public class DashboardController {
 	@GetMapping(value="/new/matches/dashboard/{member_id}")
 	private String GetNewMatchesDashboard(@PathVariable String member_id ) {
 		JSONArray jsonResultsArray=new JSONArray();
+		JSONObject jsObject = new JSONObject();
 		jsonResultsArray= dashboardService.GetNewMatchesDashboard(member_id);
-		return jsonResultsArray.toString();
+		if (jsonResultsArray != null) {
+			jsObject.put("data", jsonResultsArray);
+			jsObject.put("results", "1");
+		} else {
+			jsObject.put("data", "");
+			jsObject.put("results", "0");
+		}
+		return jsObject.toString();
 	}
 	
 	@GetMapping(value="/new/premium/matches/dashboard/{member_id}")
 	private String GetNewPremiumMatchesDashboard(@PathVariable String member_id ) {
 		JSONArray jsonResultsArray=new JSONArray();
+		JSONObject jsObject = new JSONObject();
 		jsonResultsArray= dashboardService.GetNewPremiumMatchesDashboard(member_id,"PREMIUM_MATCHES");
-		return jsonResultsArray.toString();
+		if (jsonResultsArray != null) {
+			jsObject.put("data", jsonResultsArray);
+			jsObject.put("results", "1");
+		} else {
+			jsObject.put("data", "");
+			jsObject.put("results", "0");
+		}
+		return jsObject.toString();
 	}
 }

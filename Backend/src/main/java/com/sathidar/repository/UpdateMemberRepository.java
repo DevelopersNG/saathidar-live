@@ -127,9 +127,6 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 	Object UpdateAppBasicInfoMemberDetails(int id,int age, String dateOfBirth, String marital_status, String noOfChildren,
 			String mHeight, String mblood_group, String mLifeStyles, String mother_tounge, String mhealth_info,
 			int religionID, int casteID, String subCast, String mgothra, String mabout_ourself);
-
-
-	
 	
 	@Transactional
 	@Modifying
@@ -144,8 +141,6 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 			String mfamily_location, String mnative_place, String mfamily_type,
 			String mfamily_affluence, String married_male, String unmarried_male, String married_female,
 			String unmarried_female);
-
-	
 	
 	@Transactional
 	@Modifying
@@ -156,10 +151,8 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 			+ " where member_id= :id  ", nativeQuery = true)
 	Object updateLocationOfGroom(int countryID, int stateID, int cityID, String methnic_corigin, String mpincode);
 
-
 	@Query(value="SELECT count(*) FROM member_activated where member_id= :member_id",nativeQuery=true)
 	int isMemberAvailable(Integer member_id);
-
 
 	@Transactional
 	@Modifying
@@ -177,5 +170,17 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 			+ ":member_id,:activate_id"
 			+ ")", nativeQuery = true)
 	int insertMemberCurrentStatus(Integer member_id, Integer activate_id);
+
+	@Query(value ="SELECT gender FROM member where member_id= :id", nativeQuery = true)
+	String getGenderByMemberID(int id);
+
+
+	String getDetailsOfInboxIDs(int id);
+
+
+	String getDetailsFromOfInboxIDs(int id);
+
+
+	String getDetailsOfToInboxIDs(int id);
 
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sathidar.model.RequestMemberModel;
 import com.sathidar.service.EmailService;
 import com.sathidar.service.RequestMemberService;
+import com.sathidar.util.Constant;
 import com.sathidar.util.SendSMSAction;
 import com.sathidar.util.TextLocalSMSSetting;
 
@@ -113,14 +114,16 @@ public class RequestMemberController {
 
 	@GetMapping(value = "/request/accepted/get/all/{member_id}")
 	private String GetAcceptedDetails(@PathVariable String member_id) {
-		JSONArray jsonResultsArray = new JSONArray();
+		JSONArray jsonMyResultsArray = new JSONArray();
+		JSONArray jsonOtherResultsArray = new JSONArray();
+		
 		JSONObject jsObject = new JSONObject();
-		jsonResultsArray = requestMemberService.GetAcceptedDetails(member_id);
-		if (jsonResultsArray != null) {
-			jsObject.put("data", jsonResultsArray);
+		jsonMyResultsArray = requestMemberService.GetAcceptedDetails(member_id);
+		if (jsonMyResultsArray != null) {
+			jsObject.put("data", jsonMyResultsArray);
 			jsObject.put("results", "1");
 		} else {
-			jsObject.put("data", jsonResultsArray);
+			jsObject.put("data", "");
 			jsObject.put("results", "0");
 		}
 		return jsObject.toString();
@@ -130,7 +133,7 @@ public class RequestMemberController {
 	private String GetRejectedDetails(@PathVariable String member_id) {
 		JSONArray jsonResultsArray = new JSONArray();
 		JSONObject jsObject = new JSONObject();
-		jsonResultsArray = requestMemberService.GetRejectedDetails(member_id);
+		jsonResultsArray = requestMemberService.GetRejectedAndCanceledDetails(member_id);
 		if (jsonResultsArray != null) {
 			jsObject.put("data", jsonResultsArray);
 			jsObject.put("results", "1");
@@ -163,7 +166,7 @@ public class RequestMemberController {
 	@PostMapping(value = "/member/send-email")
 	private String sendEmailByGmail(@Validated @RequestBody RequestMemberModel requestMemberModel) {
 		String response = "";
-
+		Constant constant=new Constant();
 		try {
 			String email_body = "<head>\r\n" + 
 					"    <meta charset=\"UTF-8\">\r\n" + 
@@ -204,7 +207,7 @@ public class RequestMemberController {
 					"</head>\r\n" + 
 					"\r\n" + 
 					"<body style=\"width: 400px;\">\r\n" + 
-					"    <div style=\"background-color: #742041;\"><img style=\"width:300px ;\" src=\"www.saathidaar.com/assets/images/logo_eng.png\" alt=\"\"></div>\r\n" + 
+					"    <div style=\"background-color: #742041;\"><img style=\"width:300px ;\" src=\""+constant.project_logo+" alt=\"\"></div>\r\n" + 
 					" <div class=\"image\">\r\n" + 
 					"   <h4 style=\"text-align: center;color: #742041;\">Invitation to become your Saathidar!!!\r\n" + 
 					"</h4>\r\n" + 

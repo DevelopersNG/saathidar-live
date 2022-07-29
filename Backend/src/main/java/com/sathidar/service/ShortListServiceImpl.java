@@ -95,7 +95,7 @@ public class ShortListServiceImpl implements ShortListService {
 	private String getShortListsRequestedIDS(String member_id) {
 		String ids="";
 		try {
-					Query query = em.createNativeQuery("SELECT group_concat(shortlist_to_id) FROM member_shortlists where  shortlist_from_id= :shortlist_from_id and shortlist_status= :shortlist_status");
+					Query query = em.createNativeQuery("SELECT group_concat(shortlist_to_id) FROM member_shortlists where  shortlist_from_id= :shortlist_from_id and shortlist_status= :shortlist_status order by id desc");
 					query.setParameter("shortlist_from_id", member_id);
 					query.setParameter("shortlist_status", "add");
 					ids = query.getSingleResult().toString();
@@ -141,7 +141,7 @@ public class ShortListServiceImpl implements ShortListService {
 		
 			String profile_photo_id=convertNullToBlank(String.valueOf(obj[++i]));
 			String getProfilePath="";
-			if(!profile_photo_id.equals("")) {
+			if(!profile_photo_id.equals("") && !profile_photo_id.equals("0")) {
 				getProfilePath=uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
 			}
 			json.put("profile_photo",getProfilePath);
@@ -149,7 +149,15 @@ public class ShortListServiceImpl implements ShortListService {
 			JSONArray jsonResultsArray = new JSONArray();
 			jsonResultsArray = uploadImagesService.getMemberAppPhotos(""+memberID);
 			json.put("images",jsonResultsArray);
-		
+			json.put("images_count",jsonResultsArray.length());
+			
+			int premium_status = uploadImagesService.getPremiumMemberStatus(memberID);
+			if(premium_status>0) {
+				json.put("premium_status","1");
+			}else {
+				json.put("premium_status","0");
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -69,7 +69,7 @@ public class UserEntityManagerFactory {
 			q.setParameter("first_name", user.getFirstName());
 			q.setParameter("last_name", user.getLastName());
 			q.setParameter("gender", user.getGender());
-			q.setParameter("contact_number", user.getPhone());
+			q.setParameter("cont			act_number", user.getPhone());
 			q.setParameter("email_id", user.getEmail());
 			q.setParameter("profilecreatedby", user.getProfilecreatedby());
 			q.setParameter("user_id", getLastInsertedID);

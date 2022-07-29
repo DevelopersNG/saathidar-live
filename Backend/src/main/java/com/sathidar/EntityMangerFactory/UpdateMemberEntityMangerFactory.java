@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.sathidar.model.UpdateMember;
+import com.sathidar.repository.UpdateMemberRepository;
 import com.sathidar.service.UploadImagesService;
 import com.sathidar.util.MatchesConstant;
 import com.sathidar.util.MembersDetailsAction;
@@ -38,9 +39,12 @@ public class UpdateMemberEntityMangerFactory {
 	@Autowired
 	private SendSMSAction sendSMSAction;
 
-
 	@Autowired
 	private UploadImagesService uploadImagesService;
+	
+	@Autowired
+	private UpdateMemberRepository updateMemberRepository;
+
 	
 	public HashMap<String, String> getMemberIdByUserLoginId(int id) {
 		HashMap<String, String> map = new HashMap<>();
@@ -112,7 +116,7 @@ public class UpdateMemberEntityMangerFactory {
 					+ " join member_family_details as fd on m.member_id=fd.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
 					+ " join member_horoscope as mh on m.member_id=mh.member_id "
-					+ " where md.member_id= :id";
+					+ " where md.member_id= :id order by m.member_id desc";
 //			+ " where md.member_id= :id and m.status='ACTIVE' ";
 			
 			// get hide member ids for not showing ids
@@ -141,6 +145,27 @@ public class UpdateMemberEntityMangerFactory {
 					String thisMemberID = convertNullToBlank(String.valueOf(obj[++i]));
 
 					// first row
+					
+					JSONArray jsonResultsArray = new JSONArray();
+					jsonResultsArray = uploadImagesService.getMemberAppPhotos(""+thisMemberID);
+//					json.put("images",jsonResultsArray);
+					map.put("images_count",""+jsonResultsArray.length());
+					
+					int premium_status = uploadImagesService.getPremiumMemberStatus(thisMemberID);
+					if(premium_status>0) {
+						map.put("premium_status","1");
+					}else {
+						map.put("premium_status","0");
+					}
+					
+					// check photo settings
+					String photo_privacy_setting = uploadImagesService.getPhotoPrivacySettings(thisMemberID);
+					if(photo_privacy_setting!=null && !photo_privacy_setting.equals("")) {
+						map.put("photo_privacy",photo_privacy_setting);
+					}else {
+						map.put("photo_privacy","3");
+					}
+					
 					map.put("profile_id", profileID);
 					map.put("member_id", thisMemberID);
 					map.put("native", convertNullToBlank(String.valueOf(obj[++i])));
@@ -194,12 +219,18 @@ public class UpdateMemberEntityMangerFactory {
 
 					String profile_photo_id=convertNullToBlank(String.valueOf(obj[++i]));
 					String getProfilePath="";
-					if(!profile_photo_id.equals("")) {
+					if(!profile_photo_id.equals("") && !profile_photo_id.equals("0")) {
 						getProfilePath=uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
 					}
+					
+					String my_profile_photo_ID =convertNullToBlank(uploadImagesService.getMemberProfilePhotoID(login_id+""));
+					String my_profile_photo="";
+					if(!my_profile_photo_ID.equals("") && !my_profile_photo_ID.equals("0")) {
+						my_profile_photo=uploadImagesService.getMemberProfilePhotoPath(my_profile_photo_ID);
+					}
+					
 					map.put("profile_photo",getProfilePath);
-					
-					
+					map.put("my_profile_photo",my_profile_photo);
 					// forth row
 //					String val= convertNullToBlank(String.valueOf(obj[++i]);
 					map.put("country_name", convertNullToBlank(String.valueOf(obj[++i])));
@@ -572,7 +603,7 @@ public class UpdateMemberEntityMangerFactory {
 					
 					String profile_photo_id=convertNullToBlank(String.valueOf(obj[++i]));
 					String getProfilePath="";
-					if(!profile_photo_id.equals("")) {
+					if(!profile_photo_id.equals("") && !profile_photo_id.equals("0")) {
 						getProfilePath=uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
 					}
 					
@@ -610,6 +641,23 @@ public class UpdateMemberEntityMangerFactory {
 					JSONArray jsonResultsArray = new JSONArray();
 					jsonResultsArray = uploadImagesService.getMemberAppPhotos(""+id);
 					json.put("images",jsonResultsArray);
+					json.put("images_count",jsonResultsArray.length());
+					
+
+					int premium_status = uploadImagesService.getPremiumMemberStatus(memberID);
+					if(premium_status>0) {
+						json.put("premium_status","1");
+					}else {
+						json.put("premium_status","0");
+					}
+					
+					// check photo settings
+					String photo_privacy_setting = uploadImagesService.getPhotoPrivacySettings(memberID);
+					if(photo_privacy_setting!=null && !photo_privacy_setting.equals("")) {
+						json.put("photo_privacy",photo_privacy_setting);
+					}else {
+						json.put("photo_privacy","3");
+					}
 					
 					// check request are sent to other member
 					Query query = em.createNativeQuery(
@@ -676,9 +724,13 @@ public class UpdateMemberEntityMangerFactory {
 //				requestIdQuery = " and m.member_id not in (" + requestedIds.replaceFirst(",", "") + ")";
 //			}
 //			if (!shortlistIds.equals("")) {
-//				shortListIdQuery = " and m.member_id not in (" + shortlistIds.replaceFirst(",", "") + ")";
+//				shortListIdQueStry = " and m.member_id not in (" + shortlistIds.replaceFirst(",", "") + ")";
 //			}
-
+			
+			// don't show other ids/info which is in inbox
+			String getFromIds=updateMemberRepository.getDetailsFromOfInboxIDs(id);
+			String getToIds=updateMemberRepository.getDetailsOfToInboxIDs(id);
+			
 			String ids = "";
 			if (matches_status.equals("NEW_MATCHES") || matches_status.equals("MY_MATCHES")
 					|| matches_status.equals("TODAYS_MATCHES")) {
@@ -732,19 +784,31 @@ public class UpdateMemberEntityMangerFactory {
 			}
 			String likeClause = setLikeClauseForGetAllMember(updateMember);
 
+//			******************************Opposite Gender Search*************************************************************************
+			String genderQuery="";
+			String gender=updateMemberRepository.getGenderByMemberID(id);
+			if(gender!=null && !gender.equals("")) {
+				if(gender.equals("male")) {
+					genderQuery=" and gender='female' ";	
+				}
+				if(gender.equals("female")) {
+					genderQuery=" and gender='male' ";	
+				}
+			}
+			
 //		******************************Query*************************************************************************
 
 			Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
 					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + refineWhereClause + matches_id
-				    + hideMemberIdsQuery + getBlockedMemberQuery);
+				    + hideMemberIdsQuery + getBlockedMemberQuery + genderQuery +  " order by m.member_id desc");
 
 			System.out.println(" block query check-   SELECT " + columnName + "  FROM memberdetails as md "
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
 					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + refineWhereClause + matches_id
-				    + hideMemberIdsQuery + getBlockedMemberQuery);
+				    + hideMemberIdsQuery + getBlockedMemberQuery + genderQuery);
 //		
 
 			q.setParameter("member_id", id);
@@ -800,7 +864,7 @@ public class UpdateMemberEntityMangerFactory {
 
 					String profile_photo_id=convertNullToBlank(String.valueOf(obj[++i]));
 					String getProfilePath="";
-					if(!profile_photo_id.equals("")) {
+					if(!profile_photo_id.equals("") && !profile_photo_id.equals("0")) {
 						getProfilePath=uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
 					}
 					
@@ -889,6 +953,22 @@ public class UpdateMemberEntityMangerFactory {
 						JSONArray jsonResultsArray = new JSONArray();
 						jsonResultsArray = uploadImagesService.getMemberAppPhotos(memberID);
 						json.put("images",jsonResultsArray);
+						json.put("images_count",jsonResultsArray.length());
+						
+						int premium_status = uploadImagesService.getPremiumMemberStatus(memberID);
+						if(premium_status>0) {
+							json.put("premium_status","1");
+						}else {
+							json.put("premium_status","0");
+						}
+						
+						// check photo settings
+						String photo_privacy_setting = uploadImagesService.getPhotoPrivacySettings(memberID);
+						if(photo_privacy_setting!=null && !photo_privacy_setting.equals("")) {
+							json.put("photo_privacy",photo_privacy_setting);
+						}else {
+							json.put("photo_privacy","3");
+						}
 						
 						// check request are sent to other member
 						Query query = em.createNativeQuery(
@@ -1810,7 +1890,7 @@ public class UpdateMemberEntityMangerFactory {
 	public HashMap<String, String> getMatchPartnerPreference(int member_id, int login_id) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		boolean status=false;
-		String columnName = " height,lifestyles,md.age," + "md.marital_status as maritalStatus,mother_tounge,gender,"
+		String columnName = " m.member_id,height,lifestyles,md.age," + "md.marital_status as maritalStatus,mother_tounge,gender,"
 				+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :login_id )) as country_name,country_id,"
 				+ "(select state_name from states where state_id=(select state_id from memberdetails where member_id= :login_id)) as state,state_id,"
 				+ "(select city_name from city where city_id=(select city_id from memberdetails where member_id= :login_id)) as city,city_id,"
@@ -1839,7 +1919,8 @@ public class UpdateMemberEntityMangerFactory {
 				for (Object[] obj : results) {
 					int i = 0;
 					// first row
-					String myHeight = convertNullToBlank(String.valueOf(obj[i]));
+					String myMemberID = convertNullToBlank(String.valueOf(obj[i]));
+					String myHeight = convertNullToBlank(String.valueOf(obj[++i]));
 					String myLifeStyles = convertNullToBlank(String.valueOf(obj[++i]));
 					String myAge = convertNullToBlank(String.valueOf(obj[++i]));
 					String myMaritalStatus = convertNullToBlank(String.valueOf(obj[++i]));
@@ -2103,7 +2184,6 @@ public class UpdateMemberEntityMangerFactory {
 								map.put("partner_height", "");
 								map.put("my_height", "BLANK");
 							}
-
 //									
 							// Match Annual Income
 							String partner_annual_income = convertNullToBlank(String.valueOf(objPartner[++j]));
@@ -2139,7 +2219,11 @@ public class UpdateMemberEntityMangerFactory {
 								title = "What is looking for";
 								gender_preference = "preference";
 							}
-
+							JSONArray jsonResultsArray = new JSONArray();
+							jsonResultsArray = uploadImagesService.getMemberAppPhotos(myMemberID);
+//							json.put("images",jsonResultsArray);
+							map.put("images_count",""+jsonResultsArray.length());
+							
 							map.put("title", title);
 							map.put("gender_preference", gender_preference);
 							status=true;
@@ -2424,7 +2508,7 @@ public class UpdateMemberEntityMangerFactory {
 					+ " join member_family_details as fd on m.member_id=fd.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
 					+ " join member_horoscope as mh on m.member_id=mh.member_id "
-					+ " where md.member_id= :id ";
+					+ " where md.member_id= :id order by m.member_id desc ";
 
 			Query q = em.createNativeQuery(query);
 //			System.out.println(q);
@@ -2487,7 +2571,7 @@ public class UpdateMemberEntityMangerFactory {
 
 					String profile_photo_id=convertNullToBlank(String.valueOf(obj[++i]));
 					String getProfilePath="";
-					if(!profile_photo_id.equals("")) {
+					if(!profile_photo_id.equals("") && !profile_photo_id.equals("0")) {
 						getProfilePath=uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
 					}
 					map.put("profile_photo",getProfilePath);

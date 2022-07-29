@@ -24,4 +24,10 @@ public interface UploadImagesService {
 	int setMemberProfilePhoto(UploadImagesModel uploadImagesModel);
 
 	String getMemberProfilePhotoPath(String profile_photo_id);
+
+	String getMemberProfilePhotoID(String string);
+
+	int getPremiumMemberStatus(String memberID);
+
+	String getPhotoPrivacySettings(String memberID);
 }
