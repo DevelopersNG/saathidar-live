@@ -285,4 +285,10 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 		return uploadImagesRepository.getPremiumMemberStatus(memberID);
 	}
 
+
+	@Override
+	public String getPhotoPrivacySettings(String memberID) {
+		return uploadImagesRepository.getPhotoPrivacySettings(memberID);
+	}
+
 }

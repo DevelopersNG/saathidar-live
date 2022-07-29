@@ -28,4 +28,6 @@ public interface UploadImagesService {
 	String getMemberProfilePhotoID(String string);
 
 	int getPremiumMemberStatus(String memberID);
+
+	String getPhotoPrivacySettings(String memberID);
 }
