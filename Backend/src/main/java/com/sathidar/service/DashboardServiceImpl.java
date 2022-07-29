@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 import com.sathidar.EntityMangerFactory.GetNameByIDMangerFactory;
 import com.sathidar.model.UpdateMember;
 import com.sathidar.repository.DashboardRepository;
+import com.sathidar.repository.UpdateMemberRepository;
 import com.sathidar.util.MatchesConstant;
+import com.sathidar.util.MembersDetailsAction;
 
 @Service
 public class DashboardServiceImpl implements DashboardService {
@@ -30,7 +32,16 @@ public class DashboardServiceImpl implements DashboardService {
 
 	@Autowired
 	public MatchesConstant matchesConstants;
+	
+	@Autowired
+	private UpdateMemberRepository updateMemberRepository;
+	
+	@Autowired
+	public MembersDetailsAction MembersDetailsAction;
 
+	@Autowired
+	private UploadImagesService uploadImagesService;
+	
 	@Override
 	public JSONArray GetAllCountDetails(String member_id) {
 		JSONArray resultArray = new JSONArray();
@@ -352,193 +363,249 @@ public class DashboardServiceImpl implements DashboardService {
 	}
 
 	public JSONArray GetNewPremiumMatchesDashboard(String id, String matches_status) {
-
-		String matches_id = "", premium_ids = "";
-
-		String ids = "";
-		if (matches_status.equals("NEW_MATCHES") || matches_status.equals("MY_MATCHES")
-				|| matches_status.equals("TODAYS_MATCHES")) {
-			ids = getMemberIDForMatches1(Integer.parseInt(id), matches_status);
-			if (!ids.equals("")) {
-				matches_id = " and m.member_id in (" + ids + ")";
-			}
-		}
-		ids = "";
-		if (matches_status.equals("PREMIUM_MATCHES")) {
-			ids = getPremiumMemberIDForMatches();
-			if (!ids.equals("")) {
-				premium_ids = " and m.member_id in (" + ids + ")";
-			}
-		}
-		System.out.println("premium ids - " + matches_id);
-		matchesConstants.getMemberMatchPartnerPreference(Integer.parseInt(id));
-//		******************************Column Name*************************************************************************
-//		String columnName = "m.member_id as member_id,height,lifestyles,known_languages,first_name,last_name,"
-//				+ "gender,md.age,contact_number,profilecreatedby,md.marital_status,mother_tounge,"
-//				+ "date_of_birth,mec.annual_income,country_id,cast_id,subcaste_id,religion_id,state_id,city_id";
-		String columnName = "first_name,last_name, m.member_id, height,lifestyles,md.age,"
-				+ "md.marital_status as maritalStatus,mother_tounge,gender,"
-				+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :member_id )) as country_name,country_id,"
-				+ "(select state_name from states where state_id=(select state_id from memberdetails where member_id= :member_id)) as state,state_id,"
-				+ "(select city_name from city where city_id=(select city_id from memberdetails where member_id= :member_id)) as city,city_id,"
-				+ "(select religion_name from religion where religion_id=(select religion_id from memberdetails where member_id= :member_id)) as religion,religion_id,"
-				+ "(select cast_name from cast where cast_id=(select cast_id from memberdetails where member_id= :member_id )) as caste,cast_id,"
-				+ "edu.highest_qualification as highest_qualification,edu.working_with as working_with,edu.working_as as working_as,edu.annual_income as annual_income";
-
-		String l_strQuery = "SELECT " + columnName + "  FROM memberdetails as md "
-				+ " join member as m on md.member_id=m.member_id"
-				+ " join member_education_career as edu on m.member_id=edu.member_id "
-				+ " where md.member_id!= :member_id and m.status='ACTIVE' " + premium_ids + matches_id + "";
-		System.out.println(l_strQuery);
-		Query q = em.createNativeQuery(l_strQuery);
-
-		q.setParameter("member_id", id);
-		String first_name = "", last_name = "";
 		JSONArray resultArray = new JSONArray();
-		List<Object[]> results = q.getResultList();
-		if (results != null) {
-			for (Object[] obj : results) {
-				JSONObject json = new JSONObject();
-				int i = 0;
-				boolean matchesStatus = false;
-				first_name = convertNullToBlank(String.valueOf(obj[i]));
-				last_name = convertNullToBlank(String.valueOf(obj[++i]));
-				String memberID = convertNullToBlank(String.valueOf(obj[++i]));
-				String myHeight = convertNullToBlank(String.valueOf(obj[++i]));
+		try {
+			boolean status=false;
+			String matches_id = "", premium_ids = "";
 
-				if (!myHeight.equals("")) {
-					String[] splitArrayMyHeight = myHeight.split("-");
-					String fromMyHeightString = splitArrayMyHeight[1];
-					int numberMyHeight = Integer.parseInt(fromMyHeightString.replaceAll("[^0-9]", ""));
-
-					if (matchesConstants.FROM_HEIGHT <= numberMyHeight
-							&& matchesConstants.TO_HEIGHT >= numberMyHeight) {
-						matchesStatus = true;
-					}
+			String ids = "";
+			if (matches_status.equals("NEW_MATCHES") || matches_status.equals("MY_MATCHES")
+					|| matches_status.equals("TODAYS_MATCHES")) {
+				ids = getMemberIDForMatches1(Integer.parseInt(id), matches_status);
+				if (!ids.equals("")) {
+					matches_id = " and m.member_id in (" + ids + ")";
 				}
-
-				String myLifeStyles = convertNullToBlank(String.valueOf(obj[++i]));
-
-				String myAge = convertNullToBlank(String.valueOf(obj[++i]));
-				if (!myAge.equals("")) {
-					int age = Integer.parseInt(myAge);
-					if (matchesConstants.FROM_AGE <= age && matchesConstants.TO_AGE >= age) {
-						matchesStatus = true;
-					}
-				}
-
-				String myMaritalStatus = convertNullToBlank(String.valueOf(obj[++i]));
-				if (!myMaritalStatus.equals("")) {
-					if (matchesConstants.MARITAL_STATUS.contains(myMaritalStatus)) {
-						matchesStatus = true;
-					}
-				}
-
-				String myMotherTongue = convertNullToBlank(String.valueOf(obj[++i]));
-				if (!myMotherTongue.equals("")) {
-					if (matchesConstants.MOTHER_TONGUE.contains(myMotherTongue)) {
-						matchesStatus = true;
-					}
-				}
-
-				String myGender = convertNullToBlank(String.valueOf(obj[++i]));
-
-				String myCountryName = convertNullToBlank(String.valueOf(obj[++i]));
-				String myCountryID = convertNullToBlank(String.valueOf(obj[++i]));
-				if (!myCountryName.equals("")) {
-					if (matchesConstants.COUNTRY.contains(myCountryID)) {
-						matchesStatus = true;
-					}
-				}
-
-				String myStateName = convertNullToBlank(String.valueOf(obj[++i]));
-				String myStateID = convertNullToBlank(String.valueOf(obj[++i]));
-				if (!myStateID.equals("")) {
-					if (matchesConstants.STATE.contains(myStateName)) {
-						matchesStatus = true;
-					}
-				}
-
-				String myCityName = convertNullToBlank(String.valueOf(obj[++i]));
-				String myCityID = convertNullToBlank(String.valueOf(obj[++i]));
-				if (!myCityID.equals("")) {
-					if (matchesConstants.CITY.contains(myCityName)) {
-						matchesStatus = true;
-					}
-				}
-
-				String myReligionName = convertNullToBlank(String.valueOf(obj[++i]));
-				String myReligionID = convertNullToBlank(String.valueOf(obj[++i]));
-				if (!myReligionID.equals("")) {
-					if (matchesConstants.RELIGIONS.contains(myReligionName)) {
-						matchesStatus = true;
-					}
-				}
-
-				String myCastID = convertNullToBlank(String.valueOf(obj[++i]));
-				String myCastName = convertNullToBlank(String.valueOf(obj[++i]));
-				if (!myCastID.equals("")) {
-					if (matchesConstants.CAST.contains(myCastName)) {
-						matchesStatus = true;
-					}
-				}
-
-				String myQualifications = convertNullToBlank(String.valueOf(obj[++i]));
-				if (!myQualifications.equals("")) {
-					if (matchesConstants.QUALIFICATIONS.contains(myQualifications)) {
-						matchesStatus = true;
-					}
-				}
-
-				String myWorkingWith = convertNullToBlank(String.valueOf(obj[++i]));
-				if (!myWorkingWith.equals("")) {
-					if (matchesConstants.WORKING_WITH.contains(myWorkingWith)) {
-						matchesStatus = true;
-					}
-				}
-
-				String myWorkingAs = convertNullToBlank(String.valueOf(obj[++i]));
-
-				String myAnnualIncome = convertNullToBlank(String.valueOf(obj[++i]));
-				if (!myAnnualIncome.equals("")) {
-					if (matchesConstants.ANNUAL_INCOME.contains(myAnnualIncome)) {
-						matchesStatus = true;
-					}
-				}
-
-				if (matchesStatus) {
-					json.put("first_name", first_name);
-					json.put("last_name", last_name);
-					if (!myAge.equals(""))
-						myAge = myAge + "yrs";
-					json.put("mage", myAge);
-					json.put("religion", myReligionName);
-					json.put("maritalStatus", myMaritalStatus);
-					json.put("income", myAnnualIncome);
-					json.put("member_id", memberID);
-					json.put("request_status", "");
-					json.put("block_status", "");
-					resultArray.put(json);
-				}
-				// check request are sent to other member
-				Query query = em.createNativeQuery(
-						"SELECT request_status,block_status FROM member_request where  request_from_id= :member_from_id and request_to_id= :member_to_id");
-				query.setParameter("member_from_id", id);
-				query.setParameter("member_to_id", memberID);
-				JSONArray resultRequest = new JSONArray();
-				List<Object[]> result = query.getResultList();
-				if (results != null) {
-					for (Object[] objRequest : result) {
-						int j = 0;
-						json.put("request_status", convertNullToBlank(String.valueOf(objRequest[j])));
-						json.put("block_status", convertNullToBlank(String.valueOf(objRequest[++j])));
-					}
-				} else {
-					json.put("request_status", "");
-					json.put("block_status", "");
-				}
-				resultArray.put(json);
 			}
+			ids = "";
+			if (matches_status.equals("PREMIUM_MATCHES")) {
+				ids = getPremiumMemberIDForMatches();
+				if (!ids.equals("")) {
+					premium_ids = " and m.member_id in (" + ids + ")";
+				}
+			}
+			
+			String query1 = "SELECT count(*) FROM premium_member where member_id= :id and deleteflag='N'";
+			Query q1 = em.createNativeQuery(query1);
+			q1.setParameter("id", id);
+			int premiumStatus = Integer.parseInt(q1.getSingleResult().toString());
+
+			matchesConstants.getMemberMatchPartnerPreference(Integer.parseInt(id));
+//			******************************Column Name*************************************************************************
+//			String columnName = "m.member_id as member_id,height,lifestyles,known_languages,first_name,last_name,"
+//					+ "gender,md.age,contact_number,profilecreatedby,md.marital_status,mother_tounge,"
+//					+ "date_of_birth,mec.annual_income,country_id,cast_id,subcaste_id,religion_id,state_id,city_id";
+			String columnName = "first_name,last_name, m.member_id, height,lifestyles,md.age,"
+					+ "md.marital_status as maritalStatus,mother_tounge,gender,profile_photo_id,"
+					+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :member_id )) as country_name,country_id,"
+					+ "(select state_name from states where state_id=(select state_id from memberdetails where member_id= :member_id)) as state,state_id,"
+					+ "(select city_name from city where city_id=(select city_id from memberdetails where member_id= :member_id)) as city,city_id,"
+					+ "(select religion_name from religion where religion_id=(select religion_id from memberdetails where member_id= :member_id)) as religion,religion_id,"
+					+ "(select cast_name from cast where cast_id=(select cast_id from memberdetails where member_id= :member_id )) as caste,cast_id,"
+					+ "edu.highest_qualification as highest_qualification,edu.working_with as working_with,edu.working_as as working_as,edu.annual_income as annual_income";
+
+//			******************************Opposite Gender Search*************************************************************************
+			String genderQuery="";
+			String gender=updateMemberRepository.getGenderByMemberID(Integer.parseInt(id));
+			if(gender!=null && !gender.equals("")) {
+				if(gender.equals("male")) {
+					genderQuery=" and gender='female' ";	
+				}
+				if(gender.equals("female")) {
+					genderQuery=" and gender='male' ";	
+				}
+			}
+			
+			String l_strQuery = "SELECT " + columnName + "  FROM memberdetails as md "
+					+ " join member as m on md.member_id=m.member_id"
+					+ " join member_education_career as edu on m.member_id=edu.member_id "
+					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + premium_ids
+				    +  genderQuery +  " order by m.member_id desc";
+			Query q = em.createNativeQuery(l_strQuery);
+
+			q.setParameter("member_id", id);
+			String first_name = "", last_name = "";
+			
+			List<Object[]> results = q.getResultList();
+			if (results != null) {
+				for (Object[] obj : results) {
+					JSONObject json = new JSONObject();
+					int i = 0;
+					boolean matchesStatus = false;
+					first_name = convertNullToBlank(String.valueOf(obj[i]));
+					last_name = convertNullToBlank(String.valueOf(obj[++i]));
+					String memberID = convertNullToBlank(String.valueOf(obj[++i]));
+					String myHeight = convertNullToBlank(String.valueOf(obj[++i]));
+
+					if (!myHeight.equals("")) {
+						String[] splitArrayMyHeight = myHeight.split("-");
+						String fromMyHeightString = splitArrayMyHeight[1];
+						int numberMyHeight = Integer.parseInt(fromMyHeightString.replaceAll("[^0-9]", ""));
+
+						if (matchesConstants.FROM_HEIGHT <= numberMyHeight
+								&& matchesConstants.TO_HEIGHT >= numberMyHeight) {
+							matchesStatus = true;
+						}
+					}
+
+					String myLifeStyles = convertNullToBlank(String.valueOf(obj[++i]));
+
+					String myAge = convertNullToBlank(String.valueOf(obj[++i]));
+					if (!myAge.equals("")) {
+						int age = Integer.parseInt(myAge);
+						if (matchesConstants.FROM_AGE <= age && matchesConstants.TO_AGE >= age) {
+							matchesStatus = true;
+						}
+					}
+
+					String myMaritalStatus = convertNullToBlank(String.valueOf(obj[++i]));
+					if (!myMaritalStatus.equals("")) {
+						if (matchesConstants.MARITAL_STATUS.contains(myMaritalStatus)) {
+							matchesStatus = true;
+						}
+					}
+
+					String myMotherTongue = convertNullToBlank(String.valueOf(obj[++i]));
+					if (!myMotherTongue.equals("")) {
+						if (matchesConstants.MOTHER_TONGUE.contains(myMotherTongue)) {
+							matchesStatus = true;
+						}
+					}
+
+					String myGender = convertNullToBlank(String.valueOf(obj[++i]));
+
+					String profile_photo_id=convertNullToBlank(String.valueOf(obj[++i]));
+					String getProfilePath="";
+					if(!profile_photo_id.equals("") && !profile_photo_id.equals("0")) {
+						getProfilePath=uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
+					}
+					
+					
+					String myCountryName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myCountryID = convertNullToBlank(String.valueOf(obj[++i]));
+					if (!myCountryName.equals("")) {
+						if (matchesConstants.COUNTRY.contains(myCountryID)) {
+							matchesStatus = true;
+						}
+					}
+
+					String myStateName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myStateID = convertNullToBlank(String.valueOf(obj[++i]));
+					if (!myStateID.equals("")) {
+						if (matchesConstants.STATE.contains(myStateName)) {
+							matchesStatus = true;
+						}
+					}
+
+					String myCityName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myCityID = convertNullToBlank(String.valueOf(obj[++i]));
+					if (!myCityID.equals("")) {
+						if (matchesConstants.CITY.contains(myCityName)) {
+							matchesStatus = true;
+						}
+					}
+
+					String myReligionName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myReligionID = convertNullToBlank(String.valueOf(obj[++i]));
+					if (!myReligionID.equals("")) {
+						if (matchesConstants.RELIGIONS.contains(myReligionName)) {
+							matchesStatus = true;
+						}
+					}
+
+					String myCastID = convertNullToBlank(String.valueOf(obj[++i]));
+					String myCastName = convertNullToBlank(String.valueOf(obj[++i]));
+					if (!myCastID.equals("")) {
+						if (matchesConstants.CAST.contains(myCastName)) {
+							matchesStatus = true;
+						}
+					}
+
+					String myQualifications = convertNullToBlank(String.valueOf(obj[++i]));
+					if (!myQualifications.equals("")) {
+						if (matchesConstants.QUALIFICATIONS.contains(myQualifications)) {
+							matchesStatus = true;
+						}
+					}
+
+					String myWorkingWith = convertNullToBlank(String.valueOf(obj[++i]));
+					if (!myWorkingWith.equals("")) {
+						if (matchesConstants.WORKING_WITH.contains(myWorkingWith)) {
+							matchesStatus = true;
+						}
+					}
+
+					String myWorkingAs = convertNullToBlank(String.valueOf(obj[++i]));
+
+					String myAnnualIncome = convertNullToBlank(String.valueOf(obj[++i]));
+					if (!myAnnualIncome.equals("")) {
+						if (matchesConstants.ANNUAL_INCOME.contains(myAnnualIncome)) {
+							matchesStatus = true;
+						}
+					}
+					matchesStatus=true;
+					if (matchesStatus) {
+						json.put("first_name", first_name);
+						json.put("last_name", last_name);
+						if (!myAge.equals(""))
+							myAge = myAge + "yrs";
+						json.put("mage", myAge);
+						json.put("religion", myReligionName);
+						json.put("maritalStatus", myMaritalStatus);
+
+						myAnnualIncome = MembersDetailsAction.getAnnualIncomePrivacy(premiumStatus, memberID,
+								myAnnualIncome);
+
+						json.put("income", myAnnualIncome);
+						json.put("member_id", memberID);
+						json.put("request_status", "");
+						json.put("block_status", "");
+						json.put("profile_photo",getProfilePath);
+						
+						JSONArray jsonResultsArray = new JSONArray();
+						jsonResultsArray = uploadImagesService.getMemberAppPhotos(memberID);
+						json.put("images",jsonResultsArray);
+						json.put("images_count",jsonResultsArray.length());
+						
+						int premium_status = uploadImagesService.getPremiumMemberStatus(memberID);
+						if(premium_status>0) {
+							json.put("premium_status","1");
+						}else {
+							json.put("premium_status","0");
+						}
+						
+						
+						// check request are sent to other member
+						Query query = em.createNativeQuery(
+								"SELECT request_status,block_status FROM member_request where  request_from_id= :member_from_id and request_to_id= :member_to_id");
+						query.setParameter("member_from_id", id);
+						query.setParameter("member_to_id", memberID);
+						JSONArray resultRequest = new JSONArray();
+						List<Object[]> result = query.getResultList();
+						if (results != null) {
+							for (Object[] objRequest : result) {
+								int j = 0;
+								json.put("request_status", convertNullToBlank(String.valueOf(objRequest[j])));
+								json.put("block_status", convertNullToBlank(String.valueOf(objRequest[++j])));
+							}
+						} else {
+							json.put("request_status", "");
+							json.put("block_status", "");
+							
+						}
+						
+						resultArray.put(json);
+						status=true;
+					}else{
+						resultArray=null;
+					}
+				}
+			}
+			if(status==false) {
+				resultArray=null;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return resultArray;
 	}

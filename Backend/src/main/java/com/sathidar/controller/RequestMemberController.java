@@ -117,24 +117,14 @@ public class RequestMemberController {
 		JSONArray jsonOtherResultsArray = new JSONArray();
 		
 		JSONObject jsObject = new JSONObject();
-		jsonMyResultsArray = requestMemberService.GetMyAcceptedDetails(member_id);
+		jsonMyResultsArray = requestMemberService.GetAcceptedDetails(member_id);
 		if (jsonMyResultsArray != null) {
-			jsObject.put("my_accepted", jsonMyResultsArray);
+			jsObject.put("data", jsonMyResultsArray);
 			jsObject.put("my_results", "1");
 		} else {
-			jsObject.put("my_accepted", "");
+			jsObject.put("data", "");
 			jsObject.put("my_results", "0");
 		}
-		
-		jsonOtherResultsArray = requestMemberService.GetOtherAcceptedDetails(member_id);
-		if (jsonOtherResultsArray != null) {
-			jsObject.put("other_accepted", jsonOtherResultsArray);
-			jsObject.put("other_results", "1");
-		} else {
-			jsObject.put("other_accepted", "");
-			jsObject.put("other_results", "0");
-		}
-		
 		return jsObject.toString();
 	}
 
@@ -142,7 +132,7 @@ public class RequestMemberController {
 	private String GetRejectedDetails(@PathVariable String member_id) {
 		JSONArray jsonResultsArray = new JSONArray();
 		JSONObject jsObject = new JSONObject();
-		jsonResultsArray = requestMemberService.GetRejectedDetails(member_id);
+		jsonResultsArray = requestMemberService.GetRejectedAndCanceledDetails(member_id);
 		if (jsonResultsArray != null) {
 			jsObject.put("data", jsonResultsArray);
 			jsObject.put("results", "1");

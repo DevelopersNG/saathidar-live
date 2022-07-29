@@ -21,7 +21,10 @@ public interface RequestMemberService {
 	JSONArray GetOtherAcceptedDetails(String member_id);
 
 	JSONArray GetRejectedDetails(String member_id);
+	
+	JSONArray GetRejectedAndCanceledDetails(String member_id);
 
 	JSONArray getBlockMember(String member_id);
-
+	
+	JSONArray GetAcceptedDetails(String member_id);
 }

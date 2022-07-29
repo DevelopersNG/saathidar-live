@@ -145,6 +145,19 @@ public class UpdateMemberEntityMangerFactory {
 					String thisMemberID = convertNullToBlank(String.valueOf(obj[++i]));
 
 					// first row
+					
+					JSONArray jsonResultsArray = new JSONArray();
+					jsonResultsArray = uploadImagesService.getMemberAppPhotos(""+thisMemberID);
+//					json.put("images",jsonResultsArray);
+					map.put("images_count",""+jsonResultsArray.length());
+					
+					int premium_status = uploadImagesService.getPremiumMemberStatus(thisMemberID);
+					if(premium_status>0) {
+						map.put("premium_status","1");
+					}else {
+						map.put("premium_status","0");
+					}
+					
 					map.put("profile_id", profileID);
 					map.put("member_id", thisMemberID);
 					map.put("native", convertNullToBlank(String.valueOf(obj[++i])));
@@ -620,6 +633,7 @@ public class UpdateMemberEntityMangerFactory {
 					JSONArray jsonResultsArray = new JSONArray();
 					jsonResultsArray = uploadImagesService.getMemberAppPhotos(""+id);
 					json.put("images",jsonResultsArray);
+					json.put("images_count",jsonResultsArray.length());
 					
 
 					int premium_status = uploadImagesService.getPremiumMemberStatus(memberID);
@@ -921,6 +935,7 @@ public class UpdateMemberEntityMangerFactory {
 						JSONArray jsonResultsArray = new JSONArray();
 						jsonResultsArray = uploadImagesService.getMemberAppPhotos(memberID);
 						json.put("images",jsonResultsArray);
+						json.put("images_count",jsonResultsArray.length());
 						
 						int premium_status = uploadImagesService.getPremiumMemberStatus(memberID);
 						if(premium_status>0) {
