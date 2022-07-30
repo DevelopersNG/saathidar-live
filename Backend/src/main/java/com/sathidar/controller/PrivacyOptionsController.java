@@ -187,7 +187,8 @@ public class PrivacyOptionsController {
 		JSONArray jsonResultsArray=new JSONArray();
 		JSONObject jsObject=new JSONObject();
 		jsonResultsArray= privacyOptionsService.GetAllPrivacy(member_id);
-		 if(jsonResultsArray==null) {
+
+		if(jsonResultsArray==null) {
 			 jsObject.put("data",jsonResultsArray);
 			 jsObject.put("results","0");
 			 jsObject.put("message","something wrong ! record not fetch...");

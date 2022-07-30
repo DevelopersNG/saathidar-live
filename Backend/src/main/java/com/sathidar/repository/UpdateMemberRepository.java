@@ -174,13 +174,8 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 	@Query(value ="SELECT gender FROM member where member_id= :id", nativeQuery = true)
 	String getGenderByMemberID(int id);
 
-
-	String getDetailsOfInboxIDs(int id);
-
-
-	String getDetailsFromOfInboxIDs(int id);
-
-
-	String getDetailsOfToInboxIDs(int id);
+//	String getDetailsFromOfInboxIDs(int id);
+//
+//	String getDetailsOfToInboxIDs(int id);
 
 }
