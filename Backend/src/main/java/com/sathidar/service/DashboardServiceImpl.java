@@ -573,6 +573,20 @@ public class DashboardServiceImpl implements DashboardService {
 							json.put("premium_status","0");
 						}
 						
+						int login_premium_status = uploadImagesService.getPremiumMemberStatus(""+id);
+						if(login_premium_status>0) {
+							json.put("my_premium_status","2");
+						}else {
+							json.put("my_premium_status","0");
+						}
+						
+						// check photo settings
+						String photo_privacy_setting = uploadImagesService.getPhotoPrivacySettings(memberID);
+						if(photo_privacy_setting!=null && !photo_privacy_setting.equals("")) {
+							json.put("photo_privacy",photo_privacy_setting);
+						}else {
+							json.put("photo_privacy","1");
+						}
 						
 						// check request are sent to other member
 						Query query = em.createNativeQuery(

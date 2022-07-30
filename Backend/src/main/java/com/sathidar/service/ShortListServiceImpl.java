@@ -82,7 +82,7 @@ public class ShortListServiceImpl implements ShortListService {
 			for (Object[] obj : results) {
 				JSONObject json = new JSONObject();
 				int count=0;
-				json=getCommonJsonOutout(obj);		
+				json=getCommonJsonOutout(obj,member_id);		
 				resultArray.put(json);
 			}
 		}else {
@@ -113,7 +113,7 @@ public class ShortListServiceImpl implements ShortListService {
 		return columnName;
 	}
 
-	private JSONObject getCommonJsonOutout(Object[] obj) {
+	private JSONObject getCommonJsonOutout(Object[] obj,String member_id) {
 		JSONObject json = new JSONObject();
 		try {
 			int i = 0;
@@ -157,6 +157,22 @@ public class ShortListServiceImpl implements ShortListService {
 			}else {
 				json.put("premium_status","0");
 			}
+			
+			int login_premium_status = uploadImagesService.getPremiumMemberStatus(""+member_id);
+			if(login_premium_status>0) {
+				json.put("my_premium_status","2");
+			}else {
+				json.put("my_premium_status","0");
+			}
+			
+			// check photo settings
+			String photo_privacy_setting = uploadImagesService.getPhotoPrivacySettings(memberID);
+			if(photo_privacy_setting!=null && !photo_privacy_setting.equals("")) {
+				json.put("photo_privacy",photo_privacy_setting);
+			}else {
+				json.put("photo_privacy","1");
+			}
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();

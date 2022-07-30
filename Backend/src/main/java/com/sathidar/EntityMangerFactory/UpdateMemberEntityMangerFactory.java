@@ -44,7 +44,6 @@ public class UpdateMemberEntityMangerFactory {
 	
 	@Autowired
 	private UpdateMemberRepository updateMemberRepository;
-
 	
 	public HashMap<String, String> getMemberIdByUserLoginId(int id) {
 		HashMap<String, String> map = new HashMap<>();
@@ -158,12 +157,19 @@ public class UpdateMemberEntityMangerFactory {
 						map.put("premium_status","0");
 					}
 					
+					int login_premium_status = uploadImagesService.getPremiumMemberStatus(""+login_id);
+					if(login_premium_status>0) {
+						map.put("my_premium_status","2");
+					}else {
+						map.put("my_premium_status","0");
+					}
+					
 					// check photo settings
 					String photo_privacy_setting = uploadImagesService.getPhotoPrivacySettings(thisMemberID);
 					if(photo_privacy_setting!=null && !photo_privacy_setting.equals("")) {
 						map.put("photo_privacy",photo_privacy_setting);
 					}else {
-						map.put("photo_privacy","3");
+						map.put("photo_privacy","1");
 					}
 					
 					map.put("profile_id", profileID);
@@ -651,12 +657,19 @@ public class UpdateMemberEntityMangerFactory {
 						json.put("premium_status","0");
 					}
 					
+					int login_premium_status = uploadImagesService.getPremiumMemberStatus(""+id);
+					if(login_premium_status>0) {
+						json.put("my_premium_status","2");
+					}else {
+						json.put("my_premium_status","0");
+					}
+					
 					// check photo settings
 					String photo_privacy_setting = uploadImagesService.getPhotoPrivacySettings(memberID);
 					if(photo_privacy_setting!=null && !photo_privacy_setting.equals("")) {
 						json.put("photo_privacy",photo_privacy_setting);
 					}else {
-						json.put("photo_privacy","3");
+						json.put("photo_privacy","1");
 					}
 					
 					// check request are sent to other member
@@ -727,9 +740,9 @@ public class UpdateMemberEntityMangerFactory {
 //				shortListIdQueStry = " and m.member_id not in (" + shortlistIds.replaceFirst(",", "") + ")";
 //			}
 			
-			// don't show other ids/info which is in inbox
-			String getFromIds=updateMemberRepository.getDetailsFromOfInboxIDs(id);
-			String getToIds=updateMemberRepository.getDetailsOfToInboxIDs(id);
+//			// don't show other ids/info which is in inbox
+//			String getFromIds=updateMemberRepository.getDetailsFromOfInboxIDs(id);
+//			String getToIds=updateMemberRepository.getDetailsOfToInboxIDs(id);
 			
 			String ids = "";
 			if (matches_status.equals("NEW_MATCHES") || matches_status.equals("MY_MATCHES")
@@ -960,6 +973,13 @@ public class UpdateMemberEntityMangerFactory {
 							json.put("premium_status","1");
 						}else {
 							json.put("premium_status","0");
+						}    
+						
+						int login_premium_status = uploadImagesService.getPremiumMemberStatus(""+id);
+						if(login_premium_status>0) {
+							json.put("my_premium_status","2");
+						}else {
+							json.put("my_premium_status","0");
 						}
 						
 						// check photo settings
@@ -967,7 +987,7 @@ public class UpdateMemberEntityMangerFactory {
 						if(photo_privacy_setting!=null && !photo_privacy_setting.equals("")) {
 							json.put("photo_privacy",photo_privacy_setting);
 						}else {
-							json.put("photo_privacy","3");
+							json.put("photo_privacy","1");
 						}
 						
 						// check request are sent to other member

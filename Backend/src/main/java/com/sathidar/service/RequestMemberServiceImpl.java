@@ -550,12 +550,19 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				json.put("premium_status", "0");
 			}
 
+			int login_premium_status = uploadImagesService.getPremiumMemberStatus(""+current_Member_ID);
+			if(login_premium_status>0) {
+				json.put("my_premium_status","2");
+			}else {
+				json.put("my_premium_status","0");
+			}
+			
 			// check photo settings
 			String photo_privacy_setting = uploadImagesService.getPhotoPrivacySettings(memberID);
 			if(photo_privacy_setting!=null && !photo_privacy_setting.equals("")) {
 				json.put("photo_privacy",photo_privacy_setting);
 			}else {
-				json.put("photo_privacy","3");
+				json.put("photo_privacy","1");
 			}
 			
 			JSONArray jsonResultsArray = new JSONArray();
@@ -1134,12 +1141,19 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				json.put("premium_status", "0");
 			}
 
+			int login_premium_status = uploadImagesService.getPremiumMemberStatus(""+current_Member_ID);
+			if(login_premium_status>0) {
+				json.put("my_premium_status","2");
+			}else {
+				json.put("my_premium_status","0");
+			}
+			
 			// check photo settings
 			String photo_privacy_setting = uploadImagesService.getPhotoPrivacySettings(memberID);
 			if(photo_privacy_setting!=null && !photo_privacy_setting.equals("")) {
 				json.put("photo_privacy",photo_privacy_setting);
 			}else {
-				json.put("photo_privacy","3");
+				json.put("photo_privacy","1");
 			}
 			
 			JSONArray jsonResultsArray = new JSONArray();
