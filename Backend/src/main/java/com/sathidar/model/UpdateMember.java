@@ -106,7 +106,6 @@ public class UpdateMember {
 	@Transient
 	private String lookingFor;
 	
-	@Transient
 	private String country_name;
 	
 	private String country_Id;

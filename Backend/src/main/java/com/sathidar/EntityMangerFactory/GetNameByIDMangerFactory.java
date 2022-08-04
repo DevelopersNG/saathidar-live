@@ -117,7 +117,7 @@ public class GetNameByIDMangerFactory {
 	public int getCasteID(String casteName) {
 		int result = 0;
 		try {
-			Query q = em.createNativeQuery("SELECT cast_id FROM cast where cast_name= :CasteName and status='ACTIVE'");
+			Query q = em.createNativeQuery("SELECT cast_id FROM cast where cast_name= :CasteName and status='ACTIVE' limit 1");
 			q.setParameter("CasteName", casteName);
 			result = Integer.parseInt(q.getSingleResult().toString());
 		} catch (Exception e) {

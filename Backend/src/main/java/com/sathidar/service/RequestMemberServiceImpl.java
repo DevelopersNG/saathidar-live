@@ -543,6 +543,13 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			}
 			json.put("profile_photo", getProfilePath);
 
+			int shortlist_status=uploadImagesService.getShortListStatus(current_Member_ID,memberID);
+			if(shortlist_status>0) {
+				json.put("shortlist_status","1");
+			}else {
+				json.put("shortlist_status","0");
+			}
+			
 			int premium_status = uploadImagesService.getPremiumMemberStatus(memberID);
 			if (premium_status > 0) {
 				json.put("premium_status", "1");

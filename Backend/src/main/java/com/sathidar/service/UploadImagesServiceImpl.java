@@ -291,4 +291,10 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 		return uploadImagesRepository.getPhotoPrivacySettings(memberID);
 	}
 
+
+	@Override
+	public int getShortListStatus(String from_Id,String thisMemberID) {
+		return uploadImagesRepository.getShortListStatus(from_Id,thisMemberID);
+	}
+
 }

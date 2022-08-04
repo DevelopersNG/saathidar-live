@@ -157,6 +157,13 @@ public class UpdateMemberEntityMangerFactory {
 						map.put("premium_status","0");
 					}
 					
+					int shortlist_status=uploadImagesService.getShortListStatus(""+login_id,""+id);
+					if(shortlist_status>0) {
+						map.put("shortlist_status","1");
+					}else {
+						map.put("shortlist_status","0");
+					}
+					
 					int login_premium_status = uploadImagesService.getPremiumMemberStatus(""+login_id);
 					if(login_premium_status>0) {
 						map.put("my_premium_status","2");
@@ -649,7 +656,13 @@ public class UpdateMemberEntityMangerFactory {
 					json.put("images",jsonResultsArray);
 					json.put("images_count",jsonResultsArray.length());
 					
-
+					int shortlist_status=uploadImagesService.getShortListStatus(""+id,memberID);
+					if(shortlist_status>0) {
+						json.put("shortlist_status","1");
+					}else {
+						json.put("shortlist_status","0");
+					}
+					
 					int premium_status = uploadImagesService.getPremiumMemberStatus(memberID);
 					if(premium_status>0) {
 						json.put("premium_status","1");
@@ -967,6 +980,13 @@ public class UpdateMemberEntityMangerFactory {
 						jsonResultsArray = uploadImagesService.getMemberAppPhotos(memberID);
 						json.put("images",jsonResultsArray);
 						json.put("images_count",jsonResultsArray.length());
+						
+						int shortlist_status=uploadImagesService.getShortListStatus(""+id,memberID);
+						if(shortlist_status>0) {
+							json.put("shortlist_status","1");
+						}else {
+							json.put("shortlist_status","0");
+						}
 						
 						int premium_status = uploadImagesService.getPremiumMemberStatus(memberID);
 						if(premium_status>0) {
@@ -2542,6 +2562,13 @@ public class UpdateMemberEntityMangerFactory {
 					String profileID = convertNullToBlank(String.valueOf(obj[i]));
 					String thisMemberID = convertNullToBlank(String.valueOf(obj[++i]));
 
+					int shortlist_status=uploadImagesService.getShortListStatus(""+id,thisMemberID);
+					if(shortlist_status>0) {
+						map.put("shortlist_status","1");
+					}else {
+						map.put("shortlist_status","0");
+					}
+					
 					// first row
 					map.put("profile_id", profileID);
 					map.put("member_id", thisMemberID);

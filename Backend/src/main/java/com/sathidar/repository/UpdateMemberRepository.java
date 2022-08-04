@@ -80,6 +80,13 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 
 	@Transactional
 	@Modifying
+	@Query(value = "update member set gender= :gender "
+			+ " where member_id= :id  ", nativeQuery = true)
+	Object UpdateAppInMemberTable(String gender,int id);
+
+	
+	@Transactional
+	@Modifying
 	@Query(value = "update member_horoscope set country_of_birth= :country_of_birth, city_of_birth= :city_of_birth,hours= :hours,"
 			+ "minutes= :minutes,time=:time,time_status= :time_status,time_of_birth= :time_of_birth,manglik= :manglik "
 			+ " where member_id= :member_id  ", nativeQuery = true)
@@ -149,7 +156,7 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 			+ "ethnic_corigin= :methnic_corigin,pincode= :mpincode,"
 			+  "country_id= :countryID"
 			+ " where member_id= :id  ", nativeQuery = true)
-	Object updateLocationOfGroom(int countryID, int stateID, int cityID, String methnic_corigin, String mpincode);
+	Object updateLocationOfGroom(int id,int countryID, int stateID, int cityID, String methnic_corigin, String mpincode);
 
 	@Query(value="SELECT count(*) FROM member_activated where member_id= :member_id",nativeQuery=true)
 	int isMemberAvailable(Integer member_id);

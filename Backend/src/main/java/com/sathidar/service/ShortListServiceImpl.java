@@ -151,6 +151,13 @@ public class ShortListServiceImpl implements ShortListService {
 			json.put("images",jsonResultsArray);
 			json.put("images_count",jsonResultsArray.length());
 			
+			int shortlist_status=uploadImagesService.getShortListStatus(member_id,memberID);
+			if(shortlist_status>0) {
+				json.put("shortlist_status","1");
+			}else {
+				json.put("shortlist_status","0");
+			}
+			
 			int premium_status = uploadImagesService.getPremiumMemberStatus(memberID);
 			if(premium_status>0) {
 				json.put("premium_status","1");

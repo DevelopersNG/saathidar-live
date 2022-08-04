@@ -57,4 +57,7 @@ public interface UploadImagesRepository extends JpaRepository<UploadImagesModel,
 
 	@Query(value="select photo from privacy_options where member_id= :memberID",nativeQuery = true)
 	String getPhotoPrivacySettings(String memberID);
+
+	@Query(value="select count(*) from member_shortlists where shortlist_from_id= :from_id  and shortlist_to_id= :memberID and shortlist_status='add' ",nativeQuery = true)
+	int getShortListStatus(String from_id,String memberID);
 }

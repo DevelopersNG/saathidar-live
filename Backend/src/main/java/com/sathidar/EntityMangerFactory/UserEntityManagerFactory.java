@@ -337,4 +337,15 @@ public class UserEntityManagerFactory {
 		return id;
 	}
 
+	public String getMemberProdileCreatedIDBy(int userID) {
+		String id="";
+		try {
+			Query q = em.createNativeQuery("SELECT profilecreatedby FROM member  where user_id= :UserID");
+			q.setParameter("UserID", userID);
+			id = q.getSingleResult().toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return id;
+	}
 }

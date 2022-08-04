@@ -30,4 +30,6 @@ public interface UploadImagesService {
 	int getPremiumMemberStatus(String memberID);
 
 	String getPhotoPrivacySettings(String memberID);
+
+	int getShortListStatus(String from_id,String to_id);
 }

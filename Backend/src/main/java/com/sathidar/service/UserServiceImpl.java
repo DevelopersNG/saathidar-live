@@ -261,6 +261,7 @@ public class UserServiceImpl implements UserService {
 		String memberID=userEntityManagerFactory.getMemberIDByUserID(userID);
 		String profile_id=userEntityManagerFactory.getMemberNumbersIDBy(userID);
 		String gender=userEntityManagerFactory.getMemberGenderIDBy(userID);
+		String prodile_created_by=userEntityManagerFactory.getMemberProdileCreatedIDBy(userID);
 		
 		map.put("id",""+ userExists.getId());
 		map.put("firstName", userExists.getFirstName());
@@ -272,6 +273,7 @@ public class UserServiceImpl implements UserService {
 		map.put("profile_id", profile_id);
 		map.put("email", userExists.getEmail());
 		map.put("enabled",""+ userExists.getEnabled());
+		map.put("profile_created_by",prodile_created_by);
 		map.put("results", "1");
 		userExists.setMember_id(memberID);
 		userExists.setPassword("");
@@ -421,7 +423,7 @@ public class UserServiceImpl implements UserService {
 	private void sendEmailTOUser(String firstName, String lastName, String email, String phone,
 			String confirmationToken) {
 		String mailMessage="<div style=\"margin-top: 15px;\"> you can change username and password when confirmation is done.  </div><br>\n <div style=\"margin-top: 15px;\">To confirm your e-mail address, please click the link below:\n"
-		  		+ "http://localhost:9094/api/users/confirm?token="+confirmationToken +"<div>";
+		  		+ "http://103.150.186.33:8080/saathidaar_backend/api/users/confirm?token="+confirmationToken +"<div>";
 		try {
 			String email_body="<head>\r\n" + 
 					"    <meta charset=\"UTF-8\">\r\n" + 

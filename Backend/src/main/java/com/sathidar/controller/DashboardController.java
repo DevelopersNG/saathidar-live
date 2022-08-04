@@ -40,7 +40,7 @@ public class DashboardController {
 			jsObject.put("data", jsonResultsArray);
 			jsObject.put("results", "1");
 		} else {
-			jsObject.put("data", "");
+			jsObject.put("data", jsonResultsArray);
 			jsObject.put("results", "0");
 		}
 		return jsObject.toString();
@@ -55,7 +55,7 @@ public class DashboardController {
 			jsObject.put("data", jsonResultsArray);
 			jsObject.put("results", "1");
 		} else {
-			jsObject.put("data", "");
+			jsObject.put("data", jsonResultsArray);
 			jsObject.put("results", "0");
 		}
 		return jsObject.toString();
