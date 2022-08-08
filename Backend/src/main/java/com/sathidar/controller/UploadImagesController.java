@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.sathidar.EntityMangerFactory.UploadPhotoEntityManagerFactory;
+import com.sathidar.model.UploadDocumentModel;
 import com.sathidar.model.UploadImagesModel;
 import com.sathidar.service.UploadImagesService;
 import com.sathidar.util.FileUploadUtil;
@@ -52,6 +53,18 @@ public class UploadImagesController {
 	public HashMap<String, String> uploadImages(@Validated @RequestBody UploadImagesModel uploadImagesModel) {
 		HashMap<String, String> map = new HashMap<>();
 		int results = uploadImagesService.saveToImage(uploadImagesModel);
+		if (results > 0) {
+			map.put("results", "1");
+		} else {
+			map.put("results", "0");
+		}
+		return map;
+	}
+	
+	@PostMapping(path = "/member/upload/kyc/photo")
+	public HashMap<String, String> uploadKYCImages(@Validated @RequestBody UploadDocumentModel uploadDocumentModel) {
+		HashMap<String, String> map = new HashMap<>();
+		int results = uploadImagesService.saveKYCToImage(uploadDocumentModel);
 		if (results > 0) {
 			map.put("results", "1");
 		} else {
@@ -144,6 +157,7 @@ public class UploadImagesController {
 		return map;
 	}
 	
+	// set member profile photo
 	@PostMapping("/member/profile/photo/{member_id}/{image_id}")
 	public HashMap<String, String> setMemberProfilePhoto(@PathVariable String member_id,@PathVariable String image_id,UploadImagesModel uploadImagesModel) {
 		HashMap<String, String> map = new HashMap<>();
@@ -156,5 +170,34 @@ public class UploadImagesController {
 			map.put("results", "0");
 		}
 		return map;
+	}
+	
+//	below controller are for kyc photo upload
+	@PostMapping("/member/app/uploads/kyc/photo")
+	public HashMap<String, String> saveMemberKYCPhotoUpload(UploadDocumentModel uploadImagesModel, @RequestParam("document") MultipartFile multipartFile) {
+		HashMap<String, String> map = new HashMap<>();
+		uploadImagesModel = uploadImagesService.uploadKYCImages(uploadImagesModel,multipartFile);
+		if (uploadImagesModel != null) {
+			map.put("results", "1");
+		} else {
+			map.put("results", "0");
+		}
+		return map;
+	}
+	
+	@GetMapping(value = "/member/app/get/kyc/photo/{member_id}")
+	private String getKYCMemberPhoto(@PathVariable String member_id) {
+		JSONArray jsonResultsArray = new JSONArray();
+		JSONObject jsObject = new JSONObject();
+		jsonResultsArray = uploadImagesService.getKYCMemberPhoto(member_id);
+		if (jsonResultsArray == null) {
+			jsObject.put("data", jsonResultsArray);
+			jsObject.put("results", "0");
+			jsObject.put("message", "something wrong ! record not fetch...");
+		} else {
+			jsObject.put("data", jsonResultsArray);
+			jsObject.put("results", "1");
+		}
+		return jsObject.toString();
 	}
 }

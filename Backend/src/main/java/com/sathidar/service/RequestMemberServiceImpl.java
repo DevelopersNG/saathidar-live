@@ -213,9 +213,9 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 	public JSONArray RequestAcceptAndRejected(RequestMemberModel requestMemberModel) {
 		Object requestMemberObject = null;
 		JSONArray resultArray = new JSONArray();
-
+		JSONObject json = new JSONObject();
 		try {
-			JSONObject json = new JSONObject();
+			
 			int request_from_id = Integer.parseInt(requestMemberModel.getRequest_from_id());
 			int request_to_id = Integer.parseInt(requestMemberModel.getRequest_to_id());
 			String request_status = requestMemberModel.getRequest_status().trim();
@@ -227,36 +227,40 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			requestMemberObject = requestMemberRepository.requestAcceptedAndRejected(request_from_id, request_to_id,
 					request_status);
 //			}
-			json.put("message", "request are " + request_status + "..");
 
 			// for mail sending
 			if (request_status.equals("Accepted")) {
 				List lst = new ArrayList();
-				lst = getDetailsMemberByMember_id(Integer.parseInt(requestMemberModel.getRequest_from_id()));
+				lst = getDetailsMemberByMember_id(Integer.parseInt(requestMemberModel.getRequest_to_id()));
 
 				String fullName = "", emailId_to = "";
 				List<Object[]> results = requestMemberRepository
-						.getUserNameEmailId(Integer.parseInt(requestMemberModel.getRequest_to_id()));
+						.getUserNameEmailId(Integer.parseInt(requestMemberModel.getRequest_from_id()));
 				if (results != null) {
 					for (Object[] obj : results) {
 						int i = 0;
-						fullName = convertNullToBlank(String.valueOf(obj[i])) + " "
-								+ convertNullToBlank(String.valueOf(obj[++i]));
+						fullName = convertNullToBlank(String.valueOf(obj[i])) + " "+ convertNullToBlank(String.valueOf(obj[++i]));
 						emailId_to = convertNullToBlank(String.valueOf(obj[++i]));
 					}
 				}
 
 //				getBackupDatabase();
 
-				sendEmailToUser(lst, fullName, emailId_to, request_to_id);
+				sendEmailToUser(lst, fullName, emailId_to, request_from_id);
 			}
 
+			if (requestMemberObject != null) {
+				json.put("message", "request are " + request_status + "..");
+				json.put("results", "1");
+			}
 			if (requestMemberObject == null) {
-				throw new BadRequestException("something wrong request not working..");
+				json.put("message", "request are not " + request_status + "..");
+				json.put("results", "0");
 			}
-
+			
 			resultArray.put(json);
 		} catch (Exception e) {
+			json.put("results", "0");
 			e.printStackTrace();
 		}
 		return resultArray;
@@ -1094,8 +1098,6 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		}
 		return new_json_array;
 	}
-	
-	
 	
 	private JSONObject getCommonDeleteJsonOutout(Object[] obj, String current_Member_ID, String Status,
 			String status_from, String creation_date) {

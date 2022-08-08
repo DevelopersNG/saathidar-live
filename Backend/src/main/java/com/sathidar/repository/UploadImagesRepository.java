@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.sathidar.model.UploadDocumentModel;
 import com.sathidar.model.UploadImagesModel;
 
 @Repository
@@ -60,4 +61,9 @@ public interface UploadImagesRepository extends JpaRepository<UploadImagesModel,
 
 	@Query(value="select count(*) from member_shortlists where shortlist_from_id= :from_id  and shortlist_to_id= :memberID and shortlist_status='add' ",nativeQuery = true)
 	int getShortListStatus(String from_id,String memberID);
+
+	@Query(value="select count(*) from recently_visitors where member_id= :login_id and visit_to_id= :id",nativeQuery = true)
+	int getVisitorsStatus(int login_id, int id);
+	
+
 }

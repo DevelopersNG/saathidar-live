@@ -546,6 +546,7 @@ public class DashboardServiceImpl implements DashboardService {
 					if (matchesStatus) {
 						json.put("first_name", first_name);
 						json.put("last_name", last_name);
+						json.put("gender", gender);
 						if (!myAge.equals(""))
 							myAge = myAge + "yrs";
 						json.put("mage", myAge);
@@ -565,6 +566,13 @@ public class DashboardServiceImpl implements DashboardService {
 						jsonResultsArray = uploadImagesService.getMemberAppPhotos(memberID);
 						json.put("images",jsonResultsArray);
 						json.put("images_count",jsonResultsArray.length());
+						
+						int shortlist_status=uploadImagesService.getShortListStatus(""+id,""+memberID);
+						if(shortlist_status>0) {
+							json.put("shortlist_status","1");
+						}else {
+							json.put("shortlist_status","0");
+						}
 						
 						int premium_status = uploadImagesService.getPremiumMemberStatus(memberID);
 						if(premium_status>0) {

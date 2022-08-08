@@ -20,7 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.sathidar.model.UploadDocumentModel;
 import com.sathidar.model.UploadImagesModel;
+import com.sathidar.repository.UploadDocumentRepository;
 import com.sathidar.repository.UploadImagesRepository;
 import com.sathidar.util.FileUploadUtil;
 import com.sathidar.util.Constant;
@@ -30,6 +32,53 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 
 	@Autowired
 	private UploadImagesRepository uploadImagesRepository;
+
+	@Autowired
+	private UploadDocumentRepository uploadDocumentRepository;
+
+	@Override
+	public int saveKYCToImage(UploadDocumentModel uploadDocumentModel) {
+		int response = 0;
+		try {
+			int member_id = uploadDocumentModel.getMember_id();
+//			String image_name = uploadImagesModel.getImage_name();
+			String[] strArray = uploadDocumentModel.getImage_base_urls();
+			for (int i = 0; i < strArray.length; i++) {
+				Random random = new Random();
+				String id = String.format("%04d", random.nextInt(10000));
+				uploadDocumentModel.setDocument_name("saathidar" + id + ".jpg");
+				
+				Constant constant = new Constant();
+
+				String uploadDir = constant.image_path + "/" + uploadDocumentModel.getMember_id();
+				uploadDir = System.getProperty("catalina.base") + "/webapps";
+				
+				String saveFolderPath = "/member_images/" + uploadDocumentModel.getMember_id() + "/" + uploadDocumentModel.getDocument_name();
+
+				uploadDir = uploadDir + "/member_images/" + uploadDocumentModel.getMember_id() + "";
+
+				File theDir = new File(uploadDir);
+				if (!theDir.exists()) {
+					theDir.mkdirs();
+				}
+
+				String base64Image = strArray[i].toString().split(",")[1];
+				byte[] data = java.util.Base64.getDecoder().decode(base64Image);
+				int status = uploadDocumentRepository.saveKYCMemberPhotos(uploadDocumentModel.getDocument_name(),
+						saveFolderPath, uploadDocumentModel.getMember_id(),uploadDocumentModel.getDocument_type());
+				if (status > 0) {
+					try (OutputStream stream = new FileOutputStream(uploadDir + "/" + uploadDocumentModel.getDocument_name())) {
+						stream.write(data);
+					}
+				}		
+			response=1;
+		}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(" *************************** errorr in photo ");
+		}
+		return response;
+	}
 
 	@Override
 	public int saveToImage(UploadImagesModel uploadImagesModel) {
@@ -68,32 +117,6 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 						stream.write(data);
 					}
 				}		
-			
-			
-//			********** New Code not worked**********************			
-//          JSONObject jsonObject = new JSONObject();
-//          jsonObject.put("image_code", base64Image);
-//          
-//         String data1=jsonObject.toString();
-//         String yourURL = "http://www.saathidaar.com/assets/images";
-//          URL url = new URL(yourURL);
-//          HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//          connection.setDoOutput(true);
-//          connection.setDoInput(true);
-//          connection.setRequestMethod("POST");
-//          connection.setFixedLengthStreamingMode(base64Image.getBytes().length);
-//          connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-//          OutputStream out = new BufferedOutputStream(connection.getOutputStream());
-//          BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
-//          writer.write(data1);
-//          writer.flush();
-//          writer.close();
-//          out.close();
-//          connection.connect();
-			
-			
-			
-			
 			response=1;
 		}
 			// working code base64
@@ -106,34 +129,7 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 //				
 //				byte[] image_blob = uploadImagesModel.getImage_url();
 //				response = uploadImagesRepository.savePhoto(member_id, image_name, image_blob);
-//
 //			}
-
-//            String directory=
-//            ************************ new code *******************************
-//            try( OutputStream stream = new FileOutputStream("d:/saathidar_images"+i+".jpg") ) 
-//            {
-//               stream.write(data);
-//            }
-//            JSONObject jsonObject = new JSONObject();
-//             jsonObject.put("image_code", base64Image);
-//             
-//            String data1=jsonObject.toString();
-//            String yourURL = "http://www.saathidaar.com/assets/images";
-//             URL url = new URL(yourURL);
-//             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//             connection.setDoOutput(true);
-//             connection.setDoInput(true);
-//             connection.setRequestMethod("POST");
-//             connection.setFixedLengthStreamingMode(base64Image.getBytes().length);
-//             connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-//             OutputStream out = new BufferedOutputStream(connection.getOutputStream());
-//             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
-//             writer.write(data1);
-//             writer.flush();
-//             writer.close();
-//             out.close();
-//             connection.connect();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(" *************************** errorr in photo ");
@@ -296,5 +292,76 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 	public int getShortListStatus(String from_Id,String thisMemberID) {
 		return uploadImagesRepository.getShortListStatus(from_Id,thisMemberID);
 	}
+
+
+	@Override
+	public int getVisitorsStatus(int login_id, int id) {
+		return uploadImagesRepository.getVisitorsStatus(login_id,id);
+	}
+
+	@Override
+	public UploadDocumentModel uploadKYCImages(UploadDocumentModel uploadDocumentModel, MultipartFile multipartFile) {
+		Constant constant=new Constant();
+		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+		uploadDocumentModel.setDocument_name(fileName);
+		
+		String uploadDir = constant.image_path  + "/" + uploadDocumentModel.getMember_id();
+		uploadDir = System.getProperty("catalina.base") +"/webapps";
+		String saveFolderPath="/member_images/"+uploadDocumentModel.getMember_id()+"/"+fileName;
+		
+		uploadDocumentModel.setDocument_path(saveFolderPath);
+//		System.out.println("tomcat path "+uploadDir );
+		int status = uploadDocumentRepository.saveKYCMemberPhotos(uploadDocumentModel.getDocument_name(),saveFolderPath,uploadDocumentModel.getMember_id(),uploadDocumentModel.getDocument_type());
+		
+		uploadDir=uploadDir+"/member_images/"+uploadDocumentModel.getMember_id()+"";
+		if (status != 0) {
+			FileUploadUtil fileUploadUtil = new FileUploadUtil();
+			try {
+				File theDir = new File(uploadDir);
+				if (!theDir.exists()){
+				    theDir.mkdirs();
+				}
+				
+				fileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+				uploadDocumentModel = null;
+			}
+		}else {
+			uploadDocumentModel = null;
+		}
+		return uploadDocumentModel;
+	}
+
+
+	@Override
+	public JSONArray getKYCMemberPhoto(String member_id) {
+		JSONArray resultArray = new JSONArray();
+		Constant constant=new Constant();
+		try {
+			JSONObject json = new JSONObject();
+			List<UploadDocumentModel> post = uploadDocumentRepository.getByKYCMember_Id(member_id);
+			if (post != null) {
+				for (int i = 0; i < post.size(); i++) {
+					JSONObject jsonObj = new JSONObject();
+//					byte[] encodeBase64 = Base64.getEncoder().encode(post.get(i).getImage_url());
+//					String base64Encoded = new String(encodeBase64, "UTF-8");
+//					jsonObj.put("member_images", "data:image/jpeg;base64," + base64Encoded);
+					jsonObj.put("document_id", "" + post.get(i).getId());
+					jsonObj.put("document_name", "" + post.get(i).getDocument_name());
+					jsonObj.put("document_path", constant.document_path +  post.get(i).getDocument_path());
+					jsonObj.put("document_type", "" + post.get(i).getDocument_type());
+					jsonObj.put("kyc_status", "" + post.get(i).getKyc_status());
+					resultArray.put(jsonObj);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultArray=null;
+		}
+		return resultArray;
+	}
+
+
 
 }

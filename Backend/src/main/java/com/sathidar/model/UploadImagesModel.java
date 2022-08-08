@@ -47,8 +47,50 @@ public class UploadImagesModel {
 	
 	private String image_name;
 	
+	
+	
+	private String document_name;
+	
+	private String document_type;
+	
+	private String document_path;
+	
+	private String kyc_status;
+	
 	@Transient
 	private String image_id;
+	
+	public String getDocument_type() {
+		return document_type;
+	}
+
+	public void setDocument_type(String document_type) {
+		this.document_type = document_type;
+	}
+
+	public String getDocument_path() {
+		return document_path;
+	}
+
+	public void setDocument_path(String document_path) {
+		this.document_path = document_path;
+	}
+
+	public String getDocument_name() {
+		return document_name;
+	}
+
+	public void setDocument_name(String document_name) {
+		this.document_name = document_name;
+	}
+
+	public String getKyc_status() {
+		return kyc_status;
+	}
+
+	public void setKyc_status(String kyc_status) {
+		this.kyc_status = kyc_status;
+	}
 
 	public String getImage_id() {
 		return image_id;
