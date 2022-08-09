@@ -46,7 +46,7 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 			for (int i = 0; i < strArray.length; i++) {
 				Random random = new Random();
 				String id = String.format("%04d", random.nextInt(10000));
-				uploadDocumentModel.setDocument_name("saathidar" + id + ".jpg");
+//				uploadDocumentModel.setDocument_name(uploadDocumentModel.getDocument_type()+ id + ".jpg");
 				
 				Constant constant = new Constant();
 
@@ -154,6 +154,7 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			resultArray=null;
 		}
 		return resultArray;
 	}

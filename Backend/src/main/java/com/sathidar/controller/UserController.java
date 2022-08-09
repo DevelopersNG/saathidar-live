@@ -27,6 +27,7 @@ import com.sathidar.model.User;
 //import com.sathidar.service.EmailService;
 import com.sathidar.service.UserService;
 import com.sathidar.util.SendSMSAction;
+import com.sathidar.util.TextLocalSMSSetting;
 
 //@CrossOrigin(maxAge = 3600) // https://spring.io/guides/gs/rest-service-cors/
 //@CrossOrigin(origins = "http://localhost:4200", methods = { RequestMethod.OPTIONS, RequestMethod.GET,
@@ -80,16 +81,18 @@ public class UserController {
 	@PostMapping(path = "/member/otp")
 	public Map<String, String> sendOTP(@Validated @RequestBody User user) {
 		HashMap<String, String> map = new HashMap<>();
-
+		TextLocalSMSSetting textLocalSMSSetting=new TextLocalSMSSetting();
 		String messageStatus = userService.isUserAlreadyRegister(user);
 //		if (messageStatus.equals("success")) {
 			String otp = this.getOTP();
-//			String smsMessage = "Your Verification Code is " + otp + " Saathidaar.com";
-			String smsMessage = "Welcome to Saathidar.com. " + otp
-					+ "  is your OTP to login and start finding your soulmate here.\r\n" + "www.Saathidar.com";
-			String sender = "SDMREG";
-			String phoneNo = "91" + user.getPhone().trim();
-			String response = sendSMSAction.SendOtpSms(phoneNo, sender, smsMessage);
+			String smsMessage = "Your Verification Code is "+otp+"Saathidaar.com";
+//			String smsMessage = "Welcome to Saathidar.com. " + otp
+//					+ "  is your OTP to login and start finding your soulmate here.\r\n" + "www.Saathidar.com";
+			String sender = "SDMOTP";
+			String phoneNo = user.getPhone().trim();
+			String response = textLocalSMSSetting.POSTSendSMS(phoneNo, sender, smsMessage);
+
+//			String response = sendSMSAction.SendOtpSms(phoneNo, sender, smsMessage);
 
 			final JSONObject obj = new JSONObject(response);
 			obj.toString();
@@ -142,7 +145,7 @@ public class UserController {
 	}
 
 	private String getOTP() {
-		return new DecimalFormat("000000").format(new Random().nextInt(999999));
+		return new DecimalFormat("0000").format(new Random().nextInt(9999));
 	}
 
 	@GetMapping(path = "/users/confirm")

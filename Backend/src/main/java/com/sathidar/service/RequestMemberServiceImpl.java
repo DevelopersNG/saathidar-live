@@ -431,6 +431,35 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		return status;
 	}
 
+	public int GetSentRequestCount(String member_id) {
+		int status=0;
+		try {
+			String getBlockedIDS = getBlockedIDS(member_id);
+			String blockQuery = "";
+			if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
+				blockQuery = " and md.member_id not in (" + getBlockedIDS + ")";
+			}
+			
+			String getSentResuestedIDS = getSentsRequestedIDS(member_id);
+
+			String sentResuestedQuery = "";
+			if (getSentResuestedIDS != null && !getSentResuestedIDS.equals("")) {
+				sentResuestedQuery = " and md.member_id in (" + getSentResuestedIDS + ")";
+
+				Query q = em.createNativeQuery("SELECT count(*)  FROM memberdetails as md "
+						+ " join member as m on md.member_id=m.member_id"
+						+ " join member_education_career as mec on m.member_id=mec.member_id "
+						+ " where md.member_id!= :member_id " + sentResuestedQuery + blockQuery);
+					q.setParameter("member_id", member_id);
+
+					status= Integer.parseInt(q.getSingleResult().toString());
+			} 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return status;
+	}
+	
 	@Override
 	public JSONArray GetSentRequestDetails(String member_id) {
 
@@ -634,6 +663,36 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		return "";
 	}
 
+	public int GetInvitationsCount(String member_id) {
+		int status=0;
+		try {
+			String getBlockedIDS = getBlockedIDS(member_id);
+			String blockQuery = "";
+			System.out.println(" block member ids - " + getBlockedIDS);
+			if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
+				blockQuery = " and md.member_id not in (" + getBlockedIDS + ")";
+			}
+			
+			String getInvitationsIDS = getInvitationsIDS(member_id);
+			String initationsQuery = "";
+
+			if (getInvitationsIDS != null && !getInvitationsIDS.equals("")) {
+				initationsQuery = " and md.member_id in (" + getInvitationsIDS + ")";
+
+				Query q = em.createNativeQuery("SELECT count(*)  FROM memberdetails as md "
+						+ " join member as m on md.member_id=m.member_id"
+						+ " join member_education_career as mec on m.member_id=mec.member_id "
+						+ " where md.member_id!= :member_id" + initationsQuery + blockQuery);
+
+				q.setParameter("member_id", member_id);
+				status = Integer.parseInt(q.getSingleResult().toString());
+			} 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return status;
+	}
+	
 	@Override
 	public JSONArray GetInvitationsDetails(String member_id) {
 
@@ -885,6 +944,40 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		return ids;
 	}
 
+	public int GetRejectedAndCanceledCount(String member_id) {
+		int status=0;
+		String getBlockedIDS = getBlockedIDS(member_id);
+		String blockQuery = "";
+		System.out.println(" block member ids - " + getBlockedIDS);
+		if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
+			blockQuery = " and md.member_id not in (" + getBlockedIDS + ")";
+		}
+		int from_id=0;
+		try {
+			Query query = em.createNativeQuery(
+					"SELECT count(*) FROM member_request where request_from_id= :request_from_id and  (request_status= :member_rejected_status or request_status= :member_canceled_status) and (block_status is null  or block_status='')");
+			query.setParameter("request_from_id", member_id);
+			query.setParameter("member_rejected_status", "Rejected");
+			query.setParameter("member_canceled_status", "Canceled");
+			from_id =Integer.parseInt(query.getSingleResult().toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		int to_id=0;
+		try {
+			Query queryTo = em.createNativeQuery(
+					"SELECT count(*) FROM member_request where request_to_id= :request_to_id and  (request_status= :member_rejected_status or request_status= :member_canceled_status) and (block_status is null  or block_status='')");
+			queryTo.setParameter("request_to_id", member_id);
+			queryTo.setParameter("member_rejected_status", "Rejected");
+			queryTo.setParameter("member_canceled_status", "Canceled");
+			to_id =Integer.parseInt(queryTo.getSingleResult().toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		status=from_id+to_id;
+		return status;
+	}
+	
 	public JSONArray GetRejectedAndCanceledDetails(String member_id) {
 		JSONArray resultArray = new JSONArray();
 		JSONArray new_json_array = new JSONArray();
@@ -993,6 +1086,40 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		return new_json_array;
 	}
 
+	public int GetAcceptedCount(String member_id) {
+		int status=0;
+		String getBlockedIDS = getBlockedIDS(member_id);
+		String blockQuery = "";
+		System.out.println(" block member ids - " + getBlockedIDS);
+		if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
+			blockQuery = " and md.member_id not in (" + getBlockedIDS + ")";
+		}
+		int from_id_status=0;
+		try {
+			Query query = em.createNativeQuery(
+					"SELECT count(*) FROM member_request where request_from_id= :request_from_id and request_status= :member_accepted_status and (block_status is null  or block_status='')");
+			query.setParameter("request_from_id", member_id);
+			query.setParameter("member_accepted_status", "Accepted");
+			 from_id_status = Integer.parseInt(query.getSingleResult().toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		int to_id_status=0;
+		try {
+			Query queryTo = em.createNativeQuery(
+					"SELECT count(*) FROM member_request where request_to_id= :request_to_id and request_status= :member_accepted_status and (block_status is null  or block_status='')");
+			queryTo.setParameter("request_to_id", member_id);
+			queryTo.setParameter("member_accepted_status", "Accepted");
+			to_id_status = Integer.parseInt(queryTo.getSingleResult().toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		status=from_id_status+to_id_status;
+		return status;
+	}
+	
 	public JSONArray GetAcceptedDetails(String member_id) {
 		JSONArray resultArray = new JSONArray();
 		JSONArray new_json_array = new JSONArray();
@@ -1260,6 +1387,27 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		return lstAdd;
 	}
 
+	public int getBlockMemberCount(String member_id) {
+		int status=0;
+		try {
+			String getBlockedIDS = getBlockedIDS(member_id);
+			String initationsQuery = "";
+			System.out.println(" block member ids - " + getBlockedIDS);
+			if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
+				initationsQuery = " and md.member_id in (" + getBlockedIDS + ")";
+
+				Query q = em.createNativeQuery("SELECT count(*) FROM memberdetails as md "
+						+ " join member as m on md.member_id=m.member_id"
+						+ " join member_education_career as mec on m.member_id=mec.member_id "
+						+ " where m.status='ACTIVE' and md.member_id!= :member_id" + initationsQuery);
+				status = Integer.parseInt(q.getResultList().toString());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return status;
+	}
+	
 	@Override
 	public JSONArray getBlockMember(String member_id) {
 //		******************************Column Name*************************************************************************

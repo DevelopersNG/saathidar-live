@@ -19,7 +19,7 @@ public interface UploadDocumentRepository  extends JpaRepository<UploadDocumentM
 	@Query(value="insert into kyc_document (member_id,document_name,document_path,document_type) values (:member_id,:document_name,:document_path,:document_type)",nativeQuery=true)
 	int saveKYCMemberPhotos(String document_name, String document_path, Integer member_id, String document_type);
 
-	@Query(value="select * from kyc_document where member_id= :member_id and deleteflag='N'",nativeQuery = true)
+	@Query(value="select * from kyc_document where member_id= :member_id and deleteflag='N' order by id desc limit 1",nativeQuery = true)
 	List<UploadDocumentModel> getByKYCMember_Id(String member_id);
 
 }

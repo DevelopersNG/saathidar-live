@@ -359,8 +359,8 @@ public class UpdateMemberEntityMangerFactory {
 							map.put("block_status", convertNullToBlank(String.valueOf(objRequest[++j])));
 						}
 					} else {
-						map.put("request_status", "");
-						map.put("block_status", "");
+						map.put("request_status", null);
+						map.put("block_status", null);
 
 					}
 					
@@ -562,6 +562,38 @@ public class UpdateMemberEntityMangerFactory {
 		return ids;
 	}
 
+	public int getRecentVisitorsCount(int id,String status) {
+		int results=0;
+		try {
+			String visitorsIDs = "", viewToIDs = "";
+			if (status.equals("Recently_Visitors")) {
+				visitorsIDs = getRecentlyVisitorsID(id);
+			}
+			if (status.equals("View_To")) {
+				viewToIDs = getViewedID(id);
+			}
+
+			String l_strQuery = "SELECT count(*) FROM memberdetails as md "
+					+ " join member as m on md.member_id=m.member_id"
+					+ " join member_education_career as edu on m.member_id=edu.member_id "
+					+ " where md.member_id!= :member_id and m.status='ACTIVE'";
+
+			if (!visitorsIDs.equals("")) {
+				l_strQuery = l_strQuery + " and md.member_id in (" + visitorsIDs + ")";
+			} else if (!viewToIDs.equals("")) {
+				l_strQuery = l_strQuery + " and md.member_id in (" + viewToIDs + ")";
+			} else {
+				l_strQuery = l_strQuery + " and md.member_id in ('')";
+			}
+			Query q = em.createNativeQuery(l_strQuery);
+			q.setParameter("member_id", id);
+			results =Integer.parseInt(q.getResultList().toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return results;
+	}
+	
 	public JSONArray getRecentVisitorsFilter(UpdateMember updateMember, int id, String status) {
 		JSONArray resultArray = new JSONArray();
 		try {
@@ -2754,6 +2786,95 @@ public class UpdateMemberEntityMangerFactory {
 			return null;
 		}
 		return map;
+	}
+
+	public int getMatches_Count(int id, String matches_status) {
+		JSONArray resultArray = new JSONArray();
+		boolean status = false;
+		int results=0;
+		try {
+			matchesConstants.getMemberMatchPartnerPreference(id);
+			String requestedIds = getRequestedIDForMember(id);
+//			String shortlistIds = getShortListIDForMember(id);
+			String requestIdQuery = "", shortListIdQuery = "", matches_id = "";
+//			if (!requestedIds.equals("")) {
+//				requestIdQuery = " and m.member_id not in (" + requestedIds.replaceFirst(",", "") + ")";
+//			}
+//			if (!shortlistIds.equals("")) {
+//				shortListIdQueStry = " and m.member_id not in (" + shortlistIds.replaceFirst(",", "") + ")";
+//			}
+
+//			// don't show other ids/info which is in inbox
+//			String getFromIds=updateMemberRepository.getDetailsFromOfInboxIDs(id);
+//			String getToIds=updateMemberRepository.getDetailsOfToInboxIDs(id);
+
+			String ids = "";
+			if (matches_status.equals("NEW_MATCHES") || matches_status.equals("MY_MATCHES")
+					|| matches_status.equals("TODAYS_MATCHES")) {
+				ids = getMemberIDForMatches(id, matches_status);
+
+				if (!ids.equals("")) {
+					matches_id = " and m.member_id in (" + ids.replaceFirst(",", "") + ")";
+				}else {
+					if(matches_status.equals("TODAYS_MATCHES")) {
+						matches_id = " and m.member_id in ('')";
+					}
+				}
+			}
+
+//		********************** begin check member profile is hide or not , gets ids *********************************
+
+			String getMembersHideIDs = getMembersHideIDs();
+			String hideMemberIdsQuery = "";
+			if (getMembersHideIDs != null && !getMembersHideIDs.equals("")) {
+				hideMemberIdsQuery = hideMemberIdsQuery + " and md.member_id not in ("
+						+ getMembersHideIDs.replaceFirst(",", "") + ") ";
+			}
+
+//		********************** begin check member  is block or not , gets ids *********************************
+
+			String getBlockedMemberQuery = "";
+			String getMembersBlockIDs = getBlockedIDS("" + id);
+			if (getMembersBlockIDs != null && !getMembersBlockIDs.equals("")) {
+				getBlockedMemberQuery = getBlockedMemberQuery + " and md.member_id not in ("
+						+ getMembersBlockIDs.replaceFirst(",", "") + ") ";
+			}
+
+////		******************************begin refine search Filter Data*************************************************************************
+//			String whereClause = setWhereClauseForGetAllMember(updateMember);
+//
+//			String refineWhereClause = "";
+//			if (matches_status.equals("REFINE-SEARCH")) {
+//				refineWhereClause = setWhereClauseForGetAllMemberByRefineFilter(updateMember);
+//			}
+//			String likeClause = setLikeClauseForGetAllMember(updateMember);
+
+//			******************************Opposite Gender Search*************************************************************************
+			String genderQuery = "";
+			String gender = updateMemberRepository.getGenderByMemberID(id);
+			if (gender != null && !gender.equals("")) {
+				if (gender.equals("male")) {
+					genderQuery = " and gender='female' ";
+				}
+				if (gender.equals("female")) {
+					genderQuery = " and gender='male' ";
+				}
+			}
+
+//		******************************Query*************************************************************************
+
+			Query q = em.createNativeQuery("SELECT count(*) FROM memberdetails as md "
+					+ " join member as m on md.member_id=m.member_id"
+					+ " join member_education_career as edu on m.member_id=edu.member_id "
+					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + matches_id
+					+ hideMemberIdsQuery + getBlockedMemberQuery + genderQuery + "");
+			q.setParameter("member_id", id);
+			results =Integer.parseInt(q.getSingleResult().toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			results=0;
+		}
+		return results;
 	}
 
 }

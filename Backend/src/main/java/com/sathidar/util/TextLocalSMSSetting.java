@@ -9,8 +9,8 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 
 public class TextLocalSMSSetting {
-
-	String getApiKey = "NjU0ZDM1NzE2ZjY4NGI0OTQ1NzA3NzVhMzM2NDM0NzM=";
+//						N2Y0YWZiMDAxNWY1OWRhMDFkOTcyMTFmMDRmZDNiM2E=
+	String getApiKey = "N2Y0YWZiMDAxNWY1OWRhMDFkOTcyMTFmMDRmZDNiM2E=";
 	String postApiKey = "apikey=" + "NjU0ZDM1NzE2ZjY4NGI0OTQ1NzA3NzVhMzM2NDM0NzM=";
 
 	// get request

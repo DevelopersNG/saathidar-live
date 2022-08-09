@@ -48,13 +48,16 @@ public class UploadImagesModel {
 	private String image_name;
 	
 	
-	
+	@Transient
 	private String document_name;
 	
+	@Transient
 	private String document_type;
 	
+	@Transient
 	private String document_path;
 	
+	@Transient
 	private String kyc_status;
 	
 	@Transient
