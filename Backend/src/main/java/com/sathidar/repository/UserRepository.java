@@ -73,4 +73,21 @@ public interface UserRepository extends JpaRepository<User, Integer>  {
 	@Modifying    
 	@Query(value="update users set password= :generatePassword where id= :id",nativeQuery = true)
 	int updatePassword(Integer id, String generatePassword);
+
+	@Transactional
+	@Modifying    
+	@Query(value="insert into tempsendotp (conactno,otp) values (:phoneNo,:otp)",nativeQuery = true)
+	int saveOTPDB(String phoneNo, String otp);
+
+	@Query(value="SELECT verify FROM tempsendotp WHERE conactno = :phone order by id desc limit 1",nativeQuery = true)
+	int getOtpVerify(String phone);
+
+	@Query(value="SELECT verify FROM tempsendotp where conactno= :phone and otp= :user_otp order by id desc limit 1;",nativeQuery = true)
+	int getVerifyOTP(String phone, String user_otp);
+	
+	
+	@Transactional
+	@Modifying    
+	@Query(value="update tempsendotp set verify=1 where conactno= :phone and otp= :user_otp order by id desc limit 1",nativeQuery = true)
+	int updateOTPStatus(String phone, String user_otp);
 }

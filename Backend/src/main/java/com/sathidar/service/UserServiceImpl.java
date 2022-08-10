@@ -236,6 +236,14 @@ public class UserServiceImpl implements UserService {
 //			throw new BadRequestException("Invalid user name.");
 		}
 
+		//here check otp is verified
+		int statusOtp=userRepository.getOtpVerify(userExists.getPhone());
+		if(statusOtp==0){  // not verified
+			map.put("results", "0");
+			map.put("message", "OTP not verified");
+			return map;
+		}
+		
 		String password = user.getPassword();
 		if (!encoder.matches(password, userExists.getPassword())) {
 			map.put("results", "0");
@@ -647,7 +655,23 @@ public class UserServiceImpl implements UserService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+	}
+
+	@Override
+	public int saveOTPDB(String phoneNo, String otp) {
+		return userRepository.saveOTPDB(phoneNo,otp);
+	}
+
+	@Override
+	public int getVerifyOTP(String phone, String user_otp) {
+		return userRepository.getVerifyOTP(phone,user_otp);
+	}
+
+	@Override
+	public int updateOTPStatus(String phone, String user_otp) {
+		// TODO Auto-generated method stub
+//		update saathidar.tempsendotp set verify=1 where conactno='8600170187' and otp='943197' order by id desc limit 1;
+		return userRepository.updateOTPStatus(phone,user_otp);
 	}
 	
 //	@Override
