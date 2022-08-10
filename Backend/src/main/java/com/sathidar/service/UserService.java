@@ -45,5 +45,11 @@ public interface UserService {
 
 	String updateForgotPassword(User user);
 
+	int saveOTPDB(String phoneNo, String otp);
+
+	int getVerifyOTP(String phone, String user_otp);
+
+	int updateOTPStatus(String phone, String user_otp);
+
 //	User logoutUser(User user);
 }

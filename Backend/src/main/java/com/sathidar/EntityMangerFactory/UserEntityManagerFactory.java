@@ -69,7 +69,7 @@ public class UserEntityManagerFactory {
 			q.setParameter("first_name", user.getFirstName());
 			q.setParameter("last_name", user.getLastName());
 			q.setParameter("gender", user.getGender());
-			q.setParameter("cont			act_number", user.getPhone());
+			q.setParameter("contact_number", user.getPhone());
 			q.setParameter("email_id", user.getEmail());
 			q.setParameter("profilecreatedby", user.getProfilecreatedby());
 			q.setParameter("user_id", getLastInsertedID);
@@ -337,4 +337,15 @@ public class UserEntityManagerFactory {
 		return id;
 	}
 
+	public String getMemberProdileCreatedIDBy(int userID) {
+		String id="";
+		try {
+			Query q = em.createNativeQuery("SELECT profilecreatedby FROM member  where user_id= :UserID");
+			q.setParameter("UserID", userID);
+			id = q.getSingleResult().toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return id;
+	}
 }

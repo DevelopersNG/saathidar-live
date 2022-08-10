@@ -21,16 +21,16 @@ public class ShortListServiceImpl implements ShortListService {
 
 	@Autowired
 	private ShortListsRepository shortListsRepository;
-	
+
 	@Autowired
 	private GetNameByIDMangerFactory getNameByIDMangerFactory;
-	
+
 	@PersistenceContext
 	private EntityManager em;
 
 	@Autowired
 	private UploadImagesService uploadImagesService;
-	
+
 	@Override
 	public JSONArray AddToShortLists(ShortListsModel shortListsModel) {
 		Object requestMemberObject = null;
@@ -59,66 +59,96 @@ public class ShortListServiceImpl implements ShortListService {
 		return resultArray;
 	}
 
+	public int GetShortListsMemberCount(String member_id) {
+		int status = 0;
+		try {
+			String getShortListIDS = getShortListsRequestedIDS(member_id);
+
+			String sentShortListQuery = "";
+			if (getShortListIDS != null && !getShortListIDS.equals("")) {
+				sentShortListQuery = " and md.member_id in (" + getShortListIDS + ")";
+				Query q = em.createNativeQuery(
+						"SELECT count(*) FROM memberdetails as md " + " join member as m on md.member_id=m.member_id"
+								+ " join member_education_career as mec on m.member_id=mec.member_id "
+								+ " where m.status='ACTIVE' and md.member_id!= :member_id " + sentShortListQuery);
+				q.setParameter("member_id", member_id);
+				status = Integer.parseInt(q.getSingleResult().toString());
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return status;
+	}
+
 	@Override
 	public JSONArray GetShortListsMember(String member_id) {
-//		******************************Column Name******************************************************************
-		 String columnName=getCommonColumnForSearch();
-//		******************************Query************************************************************************
-		 String getShortListIDS=getShortListsRequestedIDS(member_id);
-			JSONArray resultArray = new JSONArray();
-			String sentShortListQuery="";
-		 if(getShortListIDS!=null && !getShortListIDS.equals("")) {
-			 sentShortListQuery=" and md.member_id in ("+getShortListIDS+")";
-			 
-		Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
-				+ " join member as m on md.member_id=m.member_id"
-				+ " join member_education_career as mec on m.member_id=mec.member_id "
-				+ " where m.status='ACTIVE' and md.member_id!= :member_id "+sentShortListQuery);
-		
-		q.setParameter("member_id", member_id);
-	
-		List<Object[]> results = q.getResultList();
-		if (results != null) {
-			for (Object[] obj : results) {
-				JSONObject json = new JSONObject();
-				int count=0;
-				json=getCommonJsonOutout(obj,member_id);		
-				resultArray.put(json);
+		JSONArray resultArray = new JSONArray();
+		try {
+//			******************************Column Name******************************************************************
+			String columnName = getCommonColumnForSearch();
+//			******************************Query************************************************************************
+			String getShortListIDS = getShortListsRequestedIDS(member_id);
+
+			String sentShortListQuery = "";
+			if (getShortListIDS != null && !getShortListIDS.equals("")) {
+				sentShortListQuery = " and md.member_id in (" + getShortListIDS + ")";
+
+				Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
+						+ " join member as m on md.member_id=m.member_id"
+						+ " join member_education_career as mec on m.member_id=mec.member_id "
+						+ " where m.status='ACTIVE' and md.member_id!= :member_id " + sentShortListQuery);
+
+				q.setParameter("member_id", member_id);
+
+				List<Object[]> results = q.getResultList();
+				if (results != null) {
+					for (Object[] obj : results) {
+						JSONObject json = new JSONObject();
+						int count = 0;
+						json = getCommonJsonOutout(obj, member_id);
+						resultArray.put(json);
+					}
+				} else {
+					resultArray = null;
+				}
 			}
-		}else {
-			resultArray=null;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultArray = null;
 		}
-	}
 		return resultArray;
 	}
-	
+
 	private String getShortListsRequestedIDS(String member_id) {
-		String ids="";
+		String ids = "";
 		try {
-					Query query = em.createNativeQuery("SELECT group_concat(shortlist_to_id) FROM member_shortlists where  shortlist_from_id= :shortlist_from_id and shortlist_status= :shortlist_status order by id desc");
-					query.setParameter("shortlist_from_id", member_id);
-					query.setParameter("shortlist_status", "add");
-					ids = query.getSingleResult().toString();
+			Query query = em.createNativeQuery(
+					"SELECT group_concat(shortlist_to_id) FROM member_shortlists where  shortlist_from_id= :shortlist_from_id and shortlist_status= :shortlist_status order by id desc");
+			query.setParameter("shortlist_from_id", member_id);
+			query.setParameter("shortlist_status", "add");
+			ids = query.getSingleResult().toString();
 		} catch (Exception e) {
-		e.printStackTrace();
+			e.printStackTrace();
 		}
-				return ids;
+		return ids;
 	}
 
 	private String getCommonColumnForSearch() {
-		String columnName="m.member_id as member_id,height,lifestyles,known_languages,first_name,last_name,"
+		String columnName = "m.member_id as member_id,height,lifestyles,known_languages,first_name,last_name,"
 				+ "gender,md.age,contact_number,profilecreatedby,md.marital_status,mother_tounge,"
 				+ "date_of_birth,mec.annual_income,country_id,cast_id,subcaste_id,religion_id,state_id,city_id,profile_photo_id";
-		
+
 		return columnName;
 	}
 
-	private JSONObject getCommonJsonOutout(Object[] obj,String member_id) {
+	private JSONObject getCommonJsonOutout(Object[] obj, String member_id) {
 		JSONObject json = new JSONObject();
 		try {
 			int i = 0;
-			String memberID=convertNullToBlank(String.valueOf(obj[i]));
-			json.put("member_id",memberID );
+			String memberID = convertNullToBlank(String.valueOf(obj[i]));
+			json.put("member_id", memberID);
 			json.put("height", convertNullToBlank(String.valueOf(obj[++i])));
 			json.put("lifestyles", convertNullToBlank(String.valueOf(obj[++i])));
 			json.put("known_languages", convertNullToBlank(String.valueOf(obj[++i])));
@@ -132,56 +162,67 @@ public class ShortListServiceImpl implements ShortListService {
 			json.put("mother_tounge", convertNullToBlank(String.valueOf(obj[++i])));
 			json.put("date_of_birth", convertNullToBlank(String.valueOf(obj[++i])));
 			json.put("income", convertNullToBlank(String.valueOf(obj[++i])));
-			json.put("country", getNameByIDMangerFactory.getCountryNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
+			json.put("country",
+					getNameByIDMangerFactory.getCountryNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
 			json.put("caste", getNameByIDMangerFactory.getCasteNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
-			json.put("subcaste", getNameByIDMangerFactory.getSubCasteNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
-			json.put("religion", getNameByIDMangerFactory.getReligionNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
+			json.put("subcaste",
+					getNameByIDMangerFactory.getSubCasteNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
+			json.put("religion",
+					getNameByIDMangerFactory.getReligionNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
 			json.put("state", getNameByIDMangerFactory.getStateNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
-			json.put("city", convertNullToBlank(getNameByIDMangerFactory.getCityNameByID(convertNullToBlank(String.valueOf(obj[++i])))));
-		
-			String profile_photo_id=convertNullToBlank(String.valueOf(obj[++i]));
-			String getProfilePath="";
-			if(!profile_photo_id.equals("") && !profile_photo_id.equals("0")) {
-				getProfilePath=uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
+			json.put("city", convertNullToBlank(
+					getNameByIDMangerFactory.getCityNameByID(convertNullToBlank(String.valueOf(obj[++i])))));
+
+			String profile_photo_id = convertNullToBlank(String.valueOf(obj[++i]));
+			String getProfilePath = "";
+			if (!profile_photo_id.equals("") && !profile_photo_id.equals("0")) {
+				getProfilePath = uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
 			}
-			json.put("profile_photo",getProfilePath);
-			
+			json.put("profile_photo", getProfilePath);
+
 			JSONArray jsonResultsArray = new JSONArray();
-			jsonResultsArray = uploadImagesService.getMemberAppPhotos(""+memberID);
-			json.put("images",jsonResultsArray);
-			json.put("images_count",jsonResultsArray.length());
-			
+			jsonResultsArray = uploadImagesService.getMemberAppPhotos("" + memberID);
+			json.put("images", jsonResultsArray);
+			json.put("images_count", jsonResultsArray.length());
+
+			int shortlist_status = uploadImagesService.getShortListStatus(member_id, memberID);
+			if (shortlist_status > 0) {
+				json.put("shortlist_status", "1");
+			} else {
+				json.put("shortlist_status", "0");
+			}
+
 			int premium_status = uploadImagesService.getPremiumMemberStatus(memberID);
-			if(premium_status>0) {
-				json.put("premium_status","1");
-			}else {
-				json.put("premium_status","0");
+			if (premium_status > 0) {
+				json.put("premium_status", "1");
+			} else {
+				json.put("premium_status", "0");
 			}
-			
-			int login_premium_status = uploadImagesService.getPremiumMemberStatus(""+member_id);
-			if(login_premium_status>0) {
-				json.put("my_premium_status","2");
-			}else {
-				json.put("my_premium_status","0");
+
+			int login_premium_status = uploadImagesService.getPremiumMemberStatus("" + member_id);
+			if (login_premium_status > 0) {
+				json.put("my_premium_status", "2");
+			} else {
+				json.put("my_premium_status", "0");
 			}
-			
+
 			// check photo settings
 			String photo_privacy_setting = uploadImagesService.getPhotoPrivacySettings(memberID);
-			if(photo_privacy_setting!=null && !photo_privacy_setting.equals("")) {
-				json.put("photo_privacy",photo_privacy_setting);
-			}else {
-				json.put("photo_privacy","1");
+			if (photo_privacy_setting != null && !photo_privacy_setting.equals("")) {
+				json.put("photo_privacy", photo_privacy_setting);
+			} else {
+				json.put("photo_privacy", "1");
 			}
-			
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	
-			return json;
+
+		return json;
 	}
+
 	public String convertNullToBlank(String value) {
-		if(value!=null && !value.equals("")) {
+		if (value != null && !value.equals("")) {
 			return value;
 		}
 		return "";

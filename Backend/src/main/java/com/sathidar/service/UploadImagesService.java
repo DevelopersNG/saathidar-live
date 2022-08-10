@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.sathidar.model.UploadDocumentModel;
 import com.sathidar.model.UploadImagesModel;
 
 @Service
@@ -30,4 +31,14 @@ public interface UploadImagesService {
 	int getPremiumMemberStatus(String memberID);
 
 	String getPhotoPrivacySettings(String memberID);
+
+	int getShortListStatus(String from_id,String to_id);
+
+	int getVisitorsStatus(int login_id, int id);
+
+	UploadDocumentModel uploadKYCImages(UploadDocumentModel uploadImagesModel, MultipartFile multipartFile);
+
+	JSONArray getKYCMemberPhoto(String member_id);
+
+	int saveKYCToImage(UploadDocumentModel uploadImagesModel);
 }

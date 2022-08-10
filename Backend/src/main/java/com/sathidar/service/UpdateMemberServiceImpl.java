@@ -26,7 +26,7 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 
 	public String checkNullValue(String value) {
 		
-		if(value!=null && !value.equals("null")) {
+		if(value!=null && !value.equals("null") && !value.equals("")) {
 			return value;
 		}
 
@@ -56,9 +56,9 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 	
 			
 			try {
-				prodile_created= checkNullValue(updateMember.getProfilecreatedby().trim());
+//				prodile_created= checkNullValue(updateMember.getProfilecreatedby().trim());
 				gender= checkNullValue(updateMember.getGender().trim());
-				Object memberTbl=updateMemberRepository.UpdateInMemberTable(prodile_created,gender,id);	
+				Object memberTbl=updateMemberRepository.UpdateAppInMemberTable(gender,id);	
 				memberUpdateStatus=true;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -198,7 +198,7 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 			methnic_corigin=checkNullValue(updateMember.getEthnic_corigin().trim());
 			mpincode=checkNullValue(updateMember.getPincode().trim());
 
-			Object memberLocationOfGroom=updateMemberRepository.updateLocationOfGroom(countryID,stateID,cityID,methnic_corigin,mpincode);
+			Object memberLocationOfGroom=updateMemberRepository.updateLocationOfGroom(id,countryID,stateID,cityID,methnic_corigin,mpincode);
 			memberUpdateStatus=true;
 		} catch (Exception e) {
 			e.printStackTrace();

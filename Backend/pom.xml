@@ -13,9 +13,9 @@
 	<artifactId>SathidarBackend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>SathidarBackend</name>
-	
-	
-	<!-- for depoying on tomcat-->
+
+
+	<!-- for depoying on tomcat -->
 	<packaging>war</packaging>
 	<!-- for depoying on tomcat <packaging>war</packaging> -->
 
@@ -25,15 +25,18 @@
 	</properties>
 	<dependencies>
 
-		
-		<!-- start for depoying on tomcat-->
+
+		<!-- start for depoying on tomcat -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<!--end for depoying on tomcat-->
-		
+		<!--end for depoying on tomcat -->
+
+
+
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -45,11 +48,22 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+
+		<!-- start for depoying on marid db tomcat -->
+		<!-- <dependency> <groupId>org.mariadb.jdbc</groupId> <artifactId>mariadb-java-client</artifactId> 
+			</dependency> -->
+		<!-- end for depoying on marid db tomcat -->
+
+
+
+		<!-- start for depoying on mysql db tomcat -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<!-- end for depoying on mysql db tomcat -->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -60,11 +74,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<scope>runtime</scope>
-		</dependency>
+
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
@@ -140,7 +150,7 @@
 	</dependencies>
 
 	<build>
-	<finalName>saathidaar_backend</finalName>
+		<finalName>saathidaar_backend</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

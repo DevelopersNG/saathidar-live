@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sathidar.EntityMangerFactory.GetNameByIDMangerFactory;
+import com.sathidar.EntityMangerFactory.UpdateMemberEntityMangerFactory;
 import com.sathidar.model.UpdateMember;
 import com.sathidar.repository.DashboardRepository;
 import com.sathidar.repository.UpdateMemberRepository;
@@ -42,69 +43,84 @@ public class DashboardServiceImpl implements DashboardService {
 	@Autowired
 	private UploadImagesService uploadImagesService;
 	
+	@Autowired
+	private RequestMemberServiceImpl requestMemberServiceImpl;
+	
+	@Autowired
+	private ShortListServiceImpl shortListServiceImpl;
+	
+	@Autowired
+	private UpdateMemberEntityMangerFactory updateMemberEntityMangerFactory;
+	
 	@Override
 	public JSONArray GetAllCountDetails(String member_id) {
 		JSONArray resultArray = new JSONArray();
 		try {
 			JSONObject json = new JSONObject();
 			// count for total accept requests
-			int accept_count = dashboardRepository.getTotalCountAcceptRequest(member_id, "Accepted");
+//			int accept_count = dashboardRepository.getTotalCountAcceptRequest(member_id, "Accepted");
+			int accept_count=requestMemberServiceImpl.GetAcceptedCount(member_id);
 			json.put("accept_request_count", "" + accept_count);
 
 			// count for total sent requests
-			int sent_count = dashboardRepository.getTotalCountSentRequest(member_id);
+//			int sent_count = dashboardRepository.getTotalCountSentRequest(member_id);
+			int sent_count = requestMemberServiceImpl.GetSentRequestCount(member_id);
 			json.put("sent_request_count", "" + sent_count);
 
 			// count for total block requests
-			int block_count = dashboardRepository.getTotalBlockSentRequest(member_id, "Block");
+//			int block_count = dashboardRepository.getTotalBlockSentRequest(member_id, "Block");
+			int block_count=requestMemberServiceImpl.getBlockMemberCount(member_id);
 			json.put("block_request_count", "" + block_count);
 
 			// count for total deleted requests
-			int deleted_count = dashboardRepository.getTotalDeletedSentRequest(member_id, "Deleted");
+//			int deleted_count = dashboardRepository.getTotalDeletedSentRequest(member_id, "Deleted");
+			int deleted_count=requestMemberServiceImpl.GetRejectedAndCanceledCount(member_id);
 			json.put("deleted_request_count", "" + deleted_count);
 
 			// get total count of recent visitors
-			int recent_visitors_count = dashboardRepository.getRecentVisitorsCount(member_id);
+//			int recent_visitors_count = dashboardRepository.getRecentVisitorsCount(member_id);
+			int recent_visitors_count=updateMemberEntityMangerFactory.getRecentVisitorsCount(Integer.parseInt(member_id), "Recently_Visitors");
 			json.put("recent_visitors_count", "" + recent_visitors_count);
 
+			int recent_view_to=updateMemberEntityMangerFactory.getRecentVisitorsCount(Integer.parseInt(member_id), "View_To");
+			json.put("recent_view_to", "" + recent_view_to);
+			
 			// get total count of invitations
-			int invitations_count = dashboardRepository.getInvitations(member_id,"Pending");
+//			int invitations_count = dashboardRepository.getInvitations(member_id,"Pending");
+			int invitations_count = requestMemberServiceImpl.GetInvitationsCount(member_id);
 			json.put("invitations_count", "" + invitations_count);
 			
 			// get total count of shortlists 
-			int shortlist_count = dashboardRepository.getShortlistsCount(member_id,"add");
+//			int shortlist_count = dashboardRepository.getShortlistsCount(member_id,"add");
+			int shortlist_count=shortListServiceImpl.GetShortListsMemberCount(member_id);
 			json.put("shortlists_count", "" + shortlist_count);
 			
 			// get total count of new matches
-			String ids = "", matches_id = "";
-			ids = getMemberIDForMatches1(Integer.parseInt(member_id), "NEW_MATCHES");
-			if (!ids.equals("")) {
-				matches_id = ids.replaceFirst(",", "");
-			}
-
-			int new_matches_count = dashboardRepository.getMatchesCount(member_id, ids);
+//			ids = getMemberIDForMatches1(Integer.parseInt(member_id), "NEW_MATCHES");
+//			if (!ids.equals("")) {
+//				matches_id = ids.replaceFirst(",", "");
+//			}
+//			int new_matches_count = dashboardRepository.getMatchesCount(member_id, ids);
+			int new_matches_count=updateMemberEntityMangerFactory.getMatches_Count(Integer.parseInt(member_id),"NEW_MATCHES");
 			json.put("new_matches_count", "" + new_matches_count);
 
-			ids = getMemberIDForMatches1(Integer.parseInt(member_id), "MY_MATCHES");
-			if (!ids.equals("")) {
-				matches_id = ids.replaceFirst(",", "");
-			}
-
-			int my_matches_count = dashboardRepository.getMatchesCount(member_id, ids);
+//			ids = getMemberIDForMatches1(Integer.parseInt(member_id), "MY_MATCHES");
+//			if (!ids.equals("")) {
+//				matches_id = ids.replaceFirst(",", "");
+//			}
+//
+//			int my_matches_count = dashboardRepository.getMatchesCount(member_id, ids);
+			int my_matches_count=updateMemberEntityMangerFactory.getMatches_Count(Integer.parseInt(member_id),"MY_MATCHES");
 			json.put("my_matches_count", "" + my_matches_count);
 
-			ids = getMemberIDForMatches1(Integer.parseInt(member_id), "TODAYS_MATCHES");
-			if (!ids.equals("")) {
-				matches_id = ids.replaceFirst(",", "");
-			}
-
-			int todays_matches_count = dashboardRepository.getMatchesCount(member_id, ids);
+//			ids = getMemberIDForMatches1(Integer.parseInt(member_id), "TODAYS_MATCHES");
+//			if (!ids.equals("")) {
+//				matches_id = ids.replaceFirst(",", "");
+//			}
+//			int todays_matches_count = dashboardRepository.getMatchesCount(member_id, ids);
+			int todays_matches_count=updateMemberEntityMangerFactory.getMatches_Count(Integer.parseInt(member_id),"TODAYS_MATCHES");
 			json.put("todays_matches_count", "" + todays_matches_count);
 
-			
-			
-			
-			
 			resultArray.put(json);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -546,6 +562,7 @@ public class DashboardServiceImpl implements DashboardService {
 					if (matchesStatus) {
 						json.put("first_name", first_name);
 						json.put("last_name", last_name);
+						json.put("gender", myGender);
 						if (!myAge.equals(""))
 							myAge = myAge + "yrs";
 						json.put("mage", myAge);
@@ -565,6 +582,13 @@ public class DashboardServiceImpl implements DashboardService {
 						jsonResultsArray = uploadImagesService.getMemberAppPhotos(memberID);
 						json.put("images",jsonResultsArray);
 						json.put("images_count",jsonResultsArray.length());
+						
+						int shortlist_status=uploadImagesService.getShortListStatus(""+id,""+memberID);
+						if(shortlist_status>0) {
+							json.put("shortlist_status","1");
+						}else {
+							json.put("shortlist_status","0");
+						}
 						
 						int premium_status = uploadImagesService.getPremiumMemberStatus(memberID);
 						if(premium_status>0) {
@@ -604,7 +628,6 @@ public class DashboardServiceImpl implements DashboardService {
 						} else {
 							json.put("request_status", "");
 							json.put("block_status", "");
-							
 						}
 						
 						resultArray.put(json);
@@ -620,6 +643,7 @@ public class DashboardServiceImpl implements DashboardService {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+			resultArray=null;
 		}
 		return resultArray;
 	}
