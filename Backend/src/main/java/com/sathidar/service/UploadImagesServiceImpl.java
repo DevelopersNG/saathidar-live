@@ -137,7 +137,6 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 		return response;
 	}
 
-
 	@Override
 	public JSONArray getMemberAppPhotos(String member_id) {
 		JSONArray resultArray = new JSONArray();

@@ -58,7 +58,28 @@ public class ShortListServiceImpl implements ShortListService {
 
 		return resultArray;
 	}
-
+	
+	
+	private String getBlockedIDS(String member_id) {
+		String ids = "";
+		try {
+			Query query = em.createNativeQuery(
+					"SELECT group_concat(request_from_id) FROM member_request where  request_to_id= :member_id and block_by_id= :member_id and block_status= :member_request_status");
+			query.setParameter("member_id", member_id);
+			query.setParameter("member_request_status", "Block");
+			List results = query.getResultList();
+			if (results.isEmpty() || results == null)
+				System.out.println("blank");
+			else if (results.size() == 1)
+				ids = results.get(0).toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println(" block id- " + ids);
+		return ids;
+	}
+	
+	
 	public int GetShortListsMemberCount(String member_id) {
 		int status = 0;
 		try {
@@ -66,11 +87,18 @@ public class ShortListServiceImpl implements ShortListService {
 
 			String sentShortListQuery = "";
 			if (getShortListIDS != null && !getShortListIDS.equals("")) {
+				
+				String getBlockedMemberQuery = "";
+				String getMembersBlockIDs = getBlockedIDS(member_id);
+				if (getMembersBlockIDs != null && !getMembersBlockIDs.equals("")) {
+					getBlockedMemberQuery = getBlockedMemberQuery + " and m.member_id not in ("+getMembersBlockIDs+") ";
+				}
+				
 				sentShortListQuery = " and md.member_id in (" + getShortListIDS + ")";
 				Query q = em.createNativeQuery(
 						"SELECT count(*) FROM memberdetails as md " + " join member as m on md.member_id=m.member_id"
 								+ " join member_education_career as mec on m.member_id=mec.member_id "
-								+ " where m.status='ACTIVE' and md.member_id!= :member_id " + sentShortListQuery);
+								+ " where m.status='ACTIVE' and md.member_id!= :member_id " + sentShortListQuery + getBlockedMemberQuery);
 				q.setParameter("member_id", member_id);
 				status = Integer.parseInt(q.getSingleResult().toString());
 			}
@@ -92,12 +120,19 @@ public class ShortListServiceImpl implements ShortListService {
 
 			String sentShortListQuery = "";
 			if (getShortListIDS != null && !getShortListIDS.equals("")) {
+				
+				String getBlockedMemberQuery = "";
+				String getMembersBlockIDs = getBlockedIDS(member_id);
+				if (getMembersBlockIDs != null && !getMembersBlockIDs.equals("")) {
+					getBlockedMemberQuery = getBlockedMemberQuery + " and m.member_id not in ("+getMembersBlockIDs+") ";
+				}
+				
 				sentShortListQuery = " and md.member_id in (" + getShortListIDS + ")";
 
 				Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
 						+ " join member as m on md.member_id=m.member_id"
 						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where m.status='ACTIVE' and md.member_id!= :member_id " + sentShortListQuery);
+						+ " where m.status='ACTIVE' and md.member_id!= :member_id " + sentShortListQuery + getBlockedMemberQuery);
 
 				q.setParameter("member_id", member_id);
 

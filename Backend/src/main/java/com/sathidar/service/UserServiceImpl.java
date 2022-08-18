@@ -236,13 +236,13 @@ public class UserServiceImpl implements UserService {
 //			throw new BadRequestException("Invalid user name.");
 		}
 
-		//here check otp is verified
-		int statusOtp=userRepository.getOtpVerify(userExists.getPhone());
-		if(statusOtp==0){  // not verified
-			map.put("results", "0");
-			map.put("message", "OTP not verified");
-			return map;
-		}
+		// here check otp is verifieds
+//		String statusOtp=userRepository.getOtpVerify(userExists.getPhone());
+//		if(statusOtp==null && statusOtp.equals("")){  // not verified
+//			map.put("results", "0");
+//			map.put("message", "OTP not verified");
+//			return map;
+//		}
 		
 		String password = user.getPassword();
 		if (!encoder.matches(password, userExists.getPassword())) {

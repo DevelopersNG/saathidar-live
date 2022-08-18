@@ -227,7 +227,6 @@ public class UpdateMemberController {
 //		return updateMemberService.getDetailsByMemberID(member_number);
 //	}
 
-//	
 	@GetMapping(value = "/member/get-details-by-member-id/{member_number}")
 	public Map<String, String> getDetailsByMemberID(@PathVariable("member_number") String member_number) {
 		HashMap<String, String> map = new HashMap<>();
@@ -287,11 +286,21 @@ public class UpdateMemberController {
 	@PostMapping(path = "/member/activate")
 	public Map<String, String> activateMember(@Validated @RequestBody UpdateMember updateMember) {
 		HashMap<String, String> map = new HashMap<>();
+		String message="";
+		int getID=updateMember.getActivate_id();
+		if(getID==1) {
+			message="Your profile is activated";
+		}else if(getID==0){
+			message="Your profile is de-activated";
+		}
 		if (updateMemberService.activateMember(updateMember) > 0) {
 			map.put("results", "1");
+			map.put("message", message);
 		} else {
 			map.put("results", "0");
+			map.put("message", "Try again !");
 		}
+		
 		return map;
 	}
 

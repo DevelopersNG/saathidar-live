@@ -33,33 +33,33 @@ public class DashboardServiceImpl implements DashboardService {
 
 	@Autowired
 	public MatchesConstant matchesConstants;
-	
+
 	@Autowired
 	private UpdateMemberRepository updateMemberRepository;
-	
+
 	@Autowired
 	public MembersDetailsAction MembersDetailsAction;
 
 	@Autowired
 	private UploadImagesService uploadImagesService;
-	
+
 	@Autowired
 	private RequestMemberServiceImpl requestMemberServiceImpl;
-	
+
 	@Autowired
 	private ShortListServiceImpl shortListServiceImpl;
-	
+
 	@Autowired
 	private UpdateMemberEntityMangerFactory updateMemberEntityMangerFactory;
-	
+
 	@Override
 	public JSONArray GetAllCountDetails(String member_id) {
 		JSONArray resultArray = new JSONArray();
 		try {
 			JSONObject json = new JSONObject();
 			// count for total accept requests
-//			int accept_count = dashboardRepository.getTotalCountAcceptRequest(member_id, "Accepted");
-			int accept_count=requestMemberServiceImpl.GetAcceptedCount(member_id);
+			int accept_count = dashboardRepository.getTotalCountAcceptRequest(member_id, "Accepted");
+//			int accept_count = requestMemberServiceImpl.GetAcceptedCount(member_id);
 			json.put("accept_request_count", "" + accept_count);
 
 			// count for total sent requests
@@ -69,39 +69,42 @@ public class DashboardServiceImpl implements DashboardService {
 
 			// count for total block requests
 //			int block_count = dashboardRepository.getTotalBlockSentRequest(member_id, "Block");
-			int block_count=requestMemberServiceImpl.getBlockMemberCount(member_id);
+			int block_count = requestMemberServiceImpl.getBlockMemberCount(member_id);
 			json.put("block_request_count", "" + block_count);
 
 			// count for total deleted requests
 //			int deleted_count = dashboardRepository.getTotalDeletedSentRequest(member_id, "Deleted");
-			int deleted_count=requestMemberServiceImpl.GetRejectedAndCanceledCount(member_id);
+			int deleted_count = requestMemberServiceImpl.GetRejectedAndCanceledCount(member_id);
 			json.put("deleted_request_count", "" + deleted_count);
 
 			// get total count of recent visitors
 //			int recent_visitors_count = dashboardRepository.getRecentVisitorsCount(member_id);
-			int recent_visitors_count=updateMemberEntityMangerFactory.getRecentVisitorsCount(Integer.parseInt(member_id), "Recently_Visitors");
+			int recent_visitors_count = updateMemberEntityMangerFactory
+					.getRecentVisitorsCount(Integer.parseInt(member_id), "Recently_Visitors");
 			json.put("recent_visitors_count", "" + recent_visitors_count);
 
-			int recent_view_to=updateMemberEntityMangerFactory.getRecentVisitorsCount(Integer.parseInt(member_id), "View_To");
+			int recent_view_to = updateMemberEntityMangerFactory.getRecentVisitorsCount(Integer.parseInt(member_id),
+					"View_To");
 			json.put("recent_view_to", "" + recent_view_to);
-			
+
 			// get total count of invitations
 //			int invitations_count = dashboardRepository.getInvitations(member_id,"Pending");
 			int invitations_count = requestMemberServiceImpl.GetInvitationsCount(member_id);
 			json.put("invitations_count", "" + invitations_count);
-			
-			// get total count of shortlists 
+
+			// get total count of shortlists
 //			int shortlist_count = dashboardRepository.getShortlistsCount(member_id,"add");
-			int shortlist_count=shortListServiceImpl.GetShortListsMemberCount(member_id);
+			int shortlist_count = shortListServiceImpl.GetShortListsMemberCount(member_id);
 			json.put("shortlists_count", "" + shortlist_count);
-			
+
 			// get total count of new matches
 //			ids = getMemberIDForMatches1(Integer.parseInt(member_id), "NEW_MATCHES");
 //			if (!ids.equals("")) {
 //				matches_id = ids.replaceFirst(",", "");
 //			}
 //			int new_matches_count = dashboardRepository.getMatchesCount(member_id, ids);
-			int new_matches_count=updateMemberEntityMangerFactory.getMatches_Count(Integer.parseInt(member_id),"NEW_MATCHES");
+			int new_matches_count = updateMemberEntityMangerFactory.getMatches_Count(Integer.parseInt(member_id),
+					"NEW_MATCHES");
 			json.put("new_matches_count", "" + new_matches_count);
 
 //			ids = getMemberIDForMatches1(Integer.parseInt(member_id), "MY_MATCHES");
@@ -110,7 +113,8 @@ public class DashboardServiceImpl implements DashboardService {
 //			}
 //
 //			int my_matches_count = dashboardRepository.getMatchesCount(member_id, ids);
-			int my_matches_count=updateMemberEntityMangerFactory.getMatches_Count(Integer.parseInt(member_id),"MY_MATCHES");
+			int my_matches_count = updateMemberEntityMangerFactory.getMatches_Count(Integer.parseInt(member_id),
+					"MY_MATCHES");
 			json.put("my_matches_count", "" + my_matches_count);
 
 //			ids = getMemberIDForMatches1(Integer.parseInt(member_id), "TODAYS_MATCHES");
@@ -118,8 +122,12 @@ public class DashboardServiceImpl implements DashboardService {
 //				matches_id = ids.replaceFirst(",", "");
 //			}
 //			int todays_matches_count = dashboardRepository.getMatchesCount(member_id, ids);
-			int todays_matches_count=updateMemberEntityMangerFactory.getMatches_Count(Integer.parseInt(member_id),"TODAYS_MATCHES");
+			int todays_matches_count = updateMemberEntityMangerFactory.getMatches_Count(Integer.parseInt(member_id),
+					"TODAYS_MATCHES");
 			json.put("todays_matches_count", "" + todays_matches_count);
+
+			String premium_matches_count=GetNewPremiumMatchesDashboardCount(member_id, "PREMIUM_MATCHES");
+			json.put("premium_matches_count", "" + premium_matches_count);
 
 			resultArray.put(json);
 		} catch (Exception e) {
@@ -378,10 +386,41 @@ public class DashboardServiceImpl implements DashboardService {
 		return ids;
 	}
 
-	public JSONArray GetNewPremiumMatchesDashboard(String id, String matches_status) {
-		JSONArray resultArray = new JSONArray();
+	private String getMembersHideIDs() {
+		String result = "";
 		try {
-			boolean status=false;
+			Query q = em.createNativeQuery("SELECT group_concat(member_id) FROM hide_member where status=0");
+			result = q.getSingleResult().toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	private String getBlockedIDS(String member_id) {
+		String ids = "";
+		try {
+			Query query = em.createNativeQuery(
+					"SELECT group_concat(request_from_id) FROM member_request where  request_to_id= :member_id and block_by_id= :member_id and block_status= :member_request_status");
+			query.setParameter("member_id", member_id);
+			query.setParameter("member_request_status", "Block");
+			List results = query.getResultList();
+			if (results.isEmpty() || results == null)
+				System.out.println("blank");
+			else if (results.size() == 1)
+				ids = results.get(0).toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println(" block id- " + ids);
+		return ids;
+	}
+
+	public String GetNewPremiumMatchesDashboardCount(String id, String matches_status)
+	{
+		String premiumCount="";
+		try {
 			String matches_id = "", premium_ids = "";
 
 			String ids = "";
@@ -399,7 +438,104 @@ public class DashboardServiceImpl implements DashboardService {
 					premium_ids = " and m.member_id in (" + ids + ")";
 				}
 			}
-			
+
+//			********************** begin check member profile is hide or not , gets ids *********************************
+
+			String getMembersHideIDs = getMembersHideIDs();
+			String hideMemberIdsQuery = "";
+			if (getMembersHideIDs != null && !getMembersHideIDs.equals("")) {
+//					hideMemberIdsQuery = hideMemberIdsQuery + " and m.member_id not in ("
+//							+ getMembersHideIDs.replaceFirst(",", "") + ") ";
+				hideMemberIdsQuery = hideMemberIdsQuery + " and m.member_id not in (" + getMembersHideIDs + ") ";
+			}
+
+//			********************** begin check member is block or not , gets ids *********************************
+
+			String getBlockedMemberQuery = "";
+			String getMembersBlockIDs = getBlockedIDS("" + id);
+			if (getMembersBlockIDs != null && !getMembersBlockIDs.equals("")) {
+				getBlockedMemberQuery = getBlockedMemberQuery + " and m.member_id not in (" + getMembersBlockIDs + ") ";
+			}
+
+			String query1 = "SELECT count(*) FROM premium_member where member_id= :id and deleteflag='N'";
+			Query q1 = em.createNativeQuery(query1);
+			q1.setParameter("id", id);
+			int premiumStatus = Integer.parseInt(q1.getSingleResult().toString());
+
+			matchesConstants.getMemberMatchPartnerPreference(Integer.parseInt(id));
+//			******************************Column Name*************************************************************************
+//			String columnName = "m.member_id as member_id,height,lifestyles,known_languages,first_name,last_name,"
+//					+ "gender,md.age,contact_number,profilecreatedby,md.marital_status,mother_tounge,"
+//					+ "date_of_birth,mec.annual_income,country_id,cast_id,subcaste_id,religion_id,state_id,city_id";
+
+//			******************************Opposite Gender Search*************************************************************************
+			String genderQuery = "";
+			String gender = updateMemberRepository.getGenderByMemberID(Integer.parseInt(id));
+			if (gender != null && !gender.equals("")) {
+				if (gender.equals("male")) {
+					genderQuery = " and gender='female' ";
+				}
+				if (gender.equals("female")) {
+					genderQuery = " and gender='male' ";
+				}
+			}
+
+			String l_strQuery = "SELECT count(*) FROM memberdetails as md "
+					+ " join member as m on md.member_id=m.member_id"
+					+ " join member_education_career as edu on m.member_id=edu.member_id "
+					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + premium_ids + genderQuery
+					+ hideMemberIdsQuery + getBlockedMemberQuery + " order by m.member_id desc";
+			Query q = em.createNativeQuery(l_strQuery);
+
+			q.setParameter("member_id", id);
+			String first_name = "", last_name = "";
+			premiumCount = q1.getSingleResult().toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return premiumCount;
+	}
+	
+	public JSONArray GetNewPremiumMatchesDashboard(String id, String matches_status) {
+		JSONArray resultArray = new JSONArray();
+		try {
+			boolean status = false;
+			String matches_id = "", premium_ids = "";
+
+			String ids = "";
+			if (matches_status.equals("NEW_MATCHES") || matches_status.equals("MY_MATCHES")
+					|| matches_status.equals("TODAYS_MATCHES")) {
+				ids = getMemberIDForMatches1(Integer.parseInt(id), matches_status);
+				if (!ids.equals("")) {
+					matches_id = " and m.member_id in (" + ids + ")";
+				}
+			}
+			ids = "";
+			if (matches_status.equals("PREMIUM_MATCHES")) {
+				ids = getPremiumMemberIDForMatches();
+				if (!ids.equals("")) {
+					premium_ids = " and m.member_id in (" + ids + ")";
+				}
+			}
+
+//			********************** begin check member profile is hide or not , gets ids *********************************
+
+			String getMembersHideIDs = getMembersHideIDs();
+			String hideMemberIdsQuery = "";
+			if (getMembersHideIDs != null && !getMembersHideIDs.equals("")) {
+//					hideMemberIdsQuery = hideMemberIdsQuery + " and m.member_id not in ("
+//							+ getMembersHideIDs.replaceFirst(",", "") + ") ";
+				hideMemberIdsQuery = hideMemberIdsQuery + " and m.member_id not in (" + getMembersHideIDs + ") ";
+			}
+
+//			********************** begin check member  is block or not , gets ids *********************************
+
+			String getBlockedMemberQuery = "";
+			String getMembersBlockIDs = getBlockedIDS("" + id);
+			if (getMembersBlockIDs != null && !getMembersBlockIDs.equals("")) {
+				getBlockedMemberQuery = getBlockedMemberQuery + " and m.member_id not in (" + getMembersBlockIDs + ") ";
+			}
+
 			String query1 = "SELECT count(*) FROM premium_member where member_id= :id and deleteflag='N'";
 			Query q1 = em.createNativeQuery(query1);
 			q1.setParameter("id", id);
@@ -420,27 +556,27 @@ public class DashboardServiceImpl implements DashboardService {
 					+ "edu.highest_qualification as highest_qualification,edu.working_with as working_with,edu.working_as as working_as,edu.annual_income as annual_income";
 
 //			******************************Opposite Gender Search*************************************************************************
-			String genderQuery="";
-			String gender=updateMemberRepository.getGenderByMemberID(Integer.parseInt(id));
-			if(gender!=null && !gender.equals("")) {
-				if(gender.equals("male")) {
-					genderQuery=" and gender='female' ";	
+			String genderQuery = "";
+			String gender = updateMemberRepository.getGenderByMemberID(Integer.parseInt(id));
+			if (gender != null && !gender.equals("")) {
+				if (gender.equals("male")) {
+					genderQuery = " and gender='female' ";
 				}
-				if(gender.equals("female")) {
-					genderQuery=" and gender='male' ";	
+				if (gender.equals("female")) {
+					genderQuery = " and gender='male' ";
 				}
 			}
-			
+
 			String l_strQuery = "SELECT " + columnName + "  FROM memberdetails as md "
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
-					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + premium_ids
-				    +  genderQuery +  " order by m.member_id desc";
+					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + premium_ids + genderQuery
+					+ hideMemberIdsQuery + getBlockedMemberQuery + " order by m.member_id desc";
 			Query q = em.createNativeQuery(l_strQuery);
 
 			q.setParameter("member_id", id);
 			String first_name = "", last_name = "";
-			
+
 			List<Object[]> results = q.getResultList();
 			if (results != null) {
 				for (Object[] obj : results) {
@@ -489,13 +625,12 @@ public class DashboardServiceImpl implements DashboardService {
 
 					String myGender = convertNullToBlank(String.valueOf(obj[++i]));
 
-					String profile_photo_id=convertNullToBlank(String.valueOf(obj[++i]));
-					String getProfilePath="";
-					if(!profile_photo_id.equals("") && !profile_photo_id.equals("0")) {
-						getProfilePath=uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
+					String profile_photo_id = convertNullToBlank(String.valueOf(obj[++i]));
+					String getProfilePath = "";
+					if (!profile_photo_id.equals("") && !profile_photo_id.equals("0")) {
+						getProfilePath = uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
 					}
-					
-					
+
 					String myCountryName = convertNullToBlank(String.valueOf(obj[++i]));
 					String myCountryID = convertNullToBlank(String.valueOf(obj[++i]));
 					if (!myCountryName.equals("")) {
@@ -558,7 +693,7 @@ public class DashboardServiceImpl implements DashboardService {
 							matchesStatus = true;
 						}
 					}
-					matchesStatus=true;
+					matchesStatus = true;
 					if (matchesStatus) {
 						json.put("first_name", first_name);
 						json.put("last_name", last_name);
@@ -576,42 +711,42 @@ public class DashboardServiceImpl implements DashboardService {
 						json.put("member_id", memberID);
 						json.put("request_status", "");
 						json.put("block_status", "");
-						json.put("profile_photo",getProfilePath);
-						
+						json.put("profile_photo", getProfilePath);
+
 						JSONArray jsonResultsArray = new JSONArray();
 						jsonResultsArray = uploadImagesService.getMemberAppPhotos(memberID);
-						json.put("images",jsonResultsArray);
-						json.put("images_count",jsonResultsArray.length());
-						
-						int shortlist_status=uploadImagesService.getShortListStatus(""+id,""+memberID);
-						if(shortlist_status>0) {
-							json.put("shortlist_status","1");
-						}else {
-							json.put("shortlist_status","0");
+						json.put("images", jsonResultsArray);
+						json.put("images_count", jsonResultsArray.length());
+
+						int shortlist_status = uploadImagesService.getShortListStatus("" + id, "" + memberID);
+						if (shortlist_status > 0) {
+							json.put("shortlist_status", "1");
+						} else {
+							json.put("shortlist_status", "0");
 						}
-						
+
 						int premium_status = uploadImagesService.getPremiumMemberStatus(memberID);
-						if(premium_status>0) {
-							json.put("premium_status","1");
-						}else {
-							json.put("premium_status","0");
+						if (premium_status > 0) {
+							json.put("premium_status", "1");
+						} else {
+							json.put("premium_status", "0");
 						}
-						
-						int login_premium_status = uploadImagesService.getPremiumMemberStatus(""+id);
-						if(login_premium_status>0) {
-							json.put("my_premium_status","2");
-						}else {
-							json.put("my_premium_status","0");
+
+						int login_premium_status = uploadImagesService.getPremiumMemberStatus("" + id);
+						if (login_premium_status > 0) {
+							json.put("my_premium_status", "2");
+						} else {
+							json.put("my_premium_status", "0");
 						}
-						
+
 						// check photo settings
 						String photo_privacy_setting = uploadImagesService.getPhotoPrivacySettings(memberID);
-						if(photo_privacy_setting!=null && !photo_privacy_setting.equals("")) {
-							json.put("photo_privacy",photo_privacy_setting);
-						}else {
-							json.put("photo_privacy","1");
+						if (photo_privacy_setting != null && !photo_privacy_setting.equals("")) {
+							json.put("photo_privacy", photo_privacy_setting);
+						} else {
+							json.put("photo_privacy", "1");
 						}
-						
+
 						// check request are sent to other member
 						Query query = em.createNativeQuery(
 								"SELECT request_status,block_status FROM member_request where  request_from_id= :member_from_id and request_to_id= :member_to_id");
@@ -629,21 +764,21 @@ public class DashboardServiceImpl implements DashboardService {
 							json.put("request_status", "");
 							json.put("block_status", "");
 						}
-						
+
 						resultArray.put(json);
-						status=true;
-					}else{
-						resultArray=null;
+						status = true;
+					} else {
+						resultArray = null;
 					}
 				}
 			}
-			if(status==false) {
-				resultArray=null;
+			if (status == false) {
+				resultArray = null;
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			resultArray=null;
+			resultArray = null;
 		}
 		return resultArray;
 	}
@@ -667,5 +802,7 @@ public class DashboardServiceImpl implements DashboardService {
 		}
 		return ids;
 	}
+
+	
 
 }

@@ -80,7 +80,7 @@ public interface UserRepository extends JpaRepository<User, Integer>  {
 	int saveOTPDB(String phoneNo, String otp);
 
 	@Query(value="SELECT verify FROM tempsendotp WHERE conactno = :phone order by id desc limit 1",nativeQuery = true)
-	int getOtpVerify(String phone);
+	String getOtpVerify(String phone);
 
 	@Query(value="SELECT verify FROM tempsendotp where conactno= :phone and otp= :user_otp order by id desc limit 1;",nativeQuery = true)
 	int getVerifyOTP(String phone, String user_otp);

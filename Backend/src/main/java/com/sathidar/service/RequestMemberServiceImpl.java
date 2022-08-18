@@ -437,19 +437,19 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			String getBlockedIDS = getBlockedIDS(member_id);
 			String blockQuery = "";
 			if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
-				blockQuery = " and md.member_id not in (" + getBlockedIDS + ")";
+				blockQuery = " and m.member_id not in (" + getBlockedIDS + ")";
 			}
 			
 			String getSentResuestedIDS = getSentsRequestedIDS(member_id);
 
 			String sentResuestedQuery = "";
 			if (getSentResuestedIDS != null && !getSentResuestedIDS.equals("")) {
-				sentResuestedQuery = " and md.member_id in (" + getSentResuestedIDS + ")";
+				sentResuestedQuery = " and m.member_id in (" + getSentResuestedIDS + ")";
 
 				Query q = em.createNativeQuery("SELECT count(*)  FROM memberdetails as md "
 						+ " join member as m on md.member_id=m.member_id"
 						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where md.member_id!= :member_id " + sentResuestedQuery + blockQuery);
+						+ " where m.member_id!= :member_id " + sentResuestedQuery + blockQuery);
 					q.setParameter("member_id", member_id);
 
 					status= Integer.parseInt(q.getSingleResult().toString());
@@ -471,26 +471,28 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		String blockQuery = "";
 		System.out.println(" block member ids - " + getBlockedIDS);
 		if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
-			blockQuery = " and md.member_id not in (" + getBlockedIDS + ")";
+			blockQuery = " and m.member_id not in (" + getBlockedIDS + ")";
 		}
 
 		JSONArray resultArray = new JSONArray();
 		try {
 			String getSentResuestedIDS = getSentsRequestedIDS(member_id);
+			
+			String getRejectedIDS = getRejectedIDS(member_id);
 
 			String sentResuestedQuery = "";
 			if (getSentResuestedIDS != null && !getSentResuestedIDS.equals("")) {
-				sentResuestedQuery = " and md.member_id in (" + getSentResuestedIDS + ")";
+				sentResuestedQuery = " and m.member_id in (" + getSentResuestedIDS + ")";
 
 				Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
 						+ " join member as m on md.member_id=m.member_id"
 						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where md.member_id!= :member_id " + sentResuestedQuery + blockQuery);
+						+ " where m.member_id!= :member_id " + sentResuestedQuery + blockQuery + getRejectedIDS);
 
 				System.out.println("SELECT " + columnName + "  FROM memberdetails as md "
 						+ " join member as m on md.member_id=m.member_id"
 						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where md.member_id!= :member_id " + sentResuestedQuery + blockQuery);
+						+ " where m.member_id!= :member_id " + sentResuestedQuery + blockQuery + getRejectedIDS);
 
 				q.setParameter("member_id", member_id);
 
@@ -612,10 +614,10 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 
 			String genderMessage = "";
 			if (gender != null && !gender.equals("")) {
-				if (gender.equals("male")) {
+				if (gender.equalsIgnoreCase("male")) {
 					genderMessage = "him";
 				}
-				if (gender.equals("female")) {
+				if (gender.equalsIgnoreCase("female")) {
 					genderMessage = "her";
 				}
 			}
@@ -934,9 +936,10 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 
 		try {
 			Query query = em.createNativeQuery(
-					"SELECT group_concat(request_from_id) FROM member_request where  request_to_id= :member_to_id and request_status= :member_request_status");
+					"SELECT group_concat(request_from_id) FROM member_request where  request_to_id= :member_to_id and (request_status= :member_rejected_status or request_status= :member_canceled_status) and (block_status is null  or block_status='')");
 			query.setParameter("member_to_id", member_id);
-			query.setParameter("member_request_status", "Rejected");
+			query.setParameter("member_rejected_status", "Rejected");
+			query.setParameter("member_canceled_status", "Canceled");
 			ids = query.getSingleResult().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -977,6 +980,8 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		status=from_id+to_id;
 		return status;
 	}
+	
+	
 	
 	public JSONArray GetRejectedAndCanceledDetails(String member_id) {
 		JSONArray resultArray = new JSONArray();
@@ -1299,11 +1304,11 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			
 			String genderFromMessage = "", genderToMessage = "";
 			if (gender != null && !gender.equals("")) {
-				if (gender.equals("male")) {
+				if (gender.equalsIgnoreCase("male")) {
 					genderFromMessage = "he";
-					genderToMessage = "him";
+					genderToMessage = "his";
 				}
-				if (gender.equals("female")) {
+				if (gender.equalsIgnoreCase("female")) {
 					genderFromMessage = "she";
 					genderToMessage = "her";
 				}
