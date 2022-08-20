@@ -10,5 +10,4 @@ public interface DashboardService {
 
 	JSONArray GetNewPremiumMatchesDashboard(String member_id, String string);
 
-
 }

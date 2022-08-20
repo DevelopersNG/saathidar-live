@@ -82,32 +82,33 @@ public class UserController {
 	public Map<String, String> sendOTP(@Validated @RequestBody User user) {
 		HashMap<String, String> map = new HashMap<>();
 		TextLocalSMSSetting textLocalSMSSetting=new TextLocalSMSSetting();
-		String messageStatus = userService.isUserAlreadyRegister(user);
+//		String messageStatus = userService.isUserAlreadyRegister(user);
 //		if (messageStatus.equals("success")) {
 			String otp = this.getOTP();
-//			String smsMessage = "Your Verification Code is "+otp+"Saathidaar.com";
+			String smsMessage = "Your Verification Code is "+otp+"\n" + 
+					"Saathidaar.com";
 ////			String smsMessage = "Welcome to Saathidar.com. " + otp
 ////					+ "  is your OTP to login and start finding your soulmate here.\r\n" + "www.Saathidar.com";
-//			String sender = "SDMOTP";
+			String sender = "SDMOTP";
 			String phoneNo = user.getPhone().trim();
-//			String response = textLocalSMSSetting.POSTSendSMS(phoneNo, sender, smsMessage);
+			String response = textLocalSMSSetting.POSTSendSMS(phoneNo, sender, smsMessage);
 //
 ////		String response = sendSMSAction.SendOtpSms(phoneNo, sender, smsMessage);
 //
-//			final JSONObject obj = new JSONObject(response);
-//			obj.toString();
-//			String type = obj.getString("type");
+			final JSONObject obj = new JSONObject(response);
+			obj.toString();
+			String type = obj.getString("type");
 
 			if (otp != null && !otp.equals("")) {
-//				if (type.equals("success")) {
+				if (type.equals("success")) {
 					map.put("message", "success");
 					map.put("result", "1");
 					// save otp to db
 					int status=userService.saveOTPDB(phoneNo,otp);
-//				} else if (type.equals("error")) {
+				} else if (type.equals("error")) {
 					map.put("message", "error");
 					map.put("result", "0");
-//				}
+				}
 			} else {
 				map.put("message", "error");
 				map.put("result", "0");
@@ -138,10 +139,10 @@ public class UserController {
 			otpVerifyStatus="verified";
 		}
 		
-//		final JSONObject obj = new JSONObject(otpVerifyStatus);
-//		obj.toString();
-//		String message = obj.getString("message");
-//		String type = obj.getString("type");
+		final JSONObject obj = new JSONObject(otpVerifyStatus);
+		obj.toString();
+		String message = obj.getString("message");
+		String type = obj.getString("type");
 		
 		if (otpVerifyStatus != null && !otpVerifyStatus.equals("")) {
 			map.put("message", "OTP verified");
@@ -315,7 +316,7 @@ public class UserController {
 	@PostMapping(path = "/member/forgot/password/update")
 	public Map<String, String> updateForgotPassword(@Validated @RequestBody User user) {
 		HashMap<String, String> map = new HashMap<>();
-		try {
+		try 	{
 			String status = userService.updateForgotPassword(user);
 			if(!status.equals("")) {
 				map.put("message", "password send to email");

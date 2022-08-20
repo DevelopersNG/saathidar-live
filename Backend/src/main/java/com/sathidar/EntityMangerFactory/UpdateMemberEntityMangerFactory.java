@@ -352,16 +352,18 @@ public class UpdateMemberEntityMangerFactory {
 					queryRequest.setParameter("member_to_id", thisMemberID);
 					JSONArray resultRequest = new JSONArray();
 					List<Object[]> result = queryRequest.getResultList();
+					int stsResults=0;
 					if (results != null) {
 						for (Object[] objRequest : result) {
 							int j = 0;
+							stsResults=1;
 							map.put("request_status", convertNullToBlank(String.valueOf(objRequest[j])));
 							map.put("block_status", convertNullToBlank(String.valueOf(objRequest[++j])));
 						}
-					} else {
-						map.put("request_status", null);
-						map.put("block_status", null);
-
+					} 
+					if(stsResults==0) {
+						map.put("request_status", "");
+						map.put("block_status", "");
 					}
 					
 					status = true;
@@ -837,8 +839,9 @@ public class UpdateMemberEntityMangerFactory {
 			String getMembersHideIDs = getMembersHideIDs();
 			String hideMemberIdsQuery = "";
 			if (getMembersHideIDs != null && !getMembersHideIDs.equals("")) {
-				hideMemberIdsQuery = hideMemberIdsQuery + " and md.member_id not in ("
-						+ getMembersHideIDs.replaceFirst(",", "") + ") ";
+//				hideMemberIdsQuery = hideMemberIdsQuery + " and m.member_id not in ("
+//						+ getMembersHideIDs.replaceFirst(",", "") + ") ";
+				hideMemberIdsQuery = hideMemberIdsQuery + " and m.member_id not in ("+getMembersHideIDs+") ";
 			}
 
 //		********************** begin check member  is block or not , gets ids *********************************
@@ -846,8 +849,7 @@ public class UpdateMemberEntityMangerFactory {
 			String getBlockedMemberQuery = "";
 			String getMembersBlockIDs = getBlockedIDS("" + id);
 			if (getMembersBlockIDs != null && !getMembersBlockIDs.equals("")) {
-				getBlockedMemberQuery = getBlockedMemberQuery + " and md.member_id not in ("
-						+ getMembersBlockIDs.replaceFirst(",", "") + ") ";
+				getBlockedMemberQuery = getBlockedMemberQuery + " and m.member_id not in ("+ getMembersBlockIDs +") ";
 			}
 
 //		******************************Column Name*************************************************************************
@@ -873,10 +875,10 @@ public class UpdateMemberEntityMangerFactory {
 			String genderQuery = "";
 			String gender = updateMemberRepository.getGenderByMemberID(id);
 			if (gender != null && !gender.equals("")) {
-				if (gender.equals("male")) {
+				if (gender.equalsIgnoreCase("male")) {
 					genderQuery = " and gender='female' ";
 				}
-				if (gender.equals("female")) {
+				if (gender.equalsIgnoreCase("female")) {
 					genderQuery = " and gender='male' ";
 				}
 			}
@@ -886,13 +888,13 @@ public class UpdateMemberEntityMangerFactory {
 			Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
-					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + refineWhereClause + matches_id
+					+ " where m.member_id!= :member_id and m.status='ACTIVE' " + refineWhereClause + matches_id
 					+ hideMemberIdsQuery + getBlockedMemberQuery + genderQuery + " order by m.member_id desc");
 
 			System.out.println(" block query check-   SELECT " + columnName + "  FROM memberdetails as md "
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
-					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + refineWhereClause + matches_id
+					+ " where m.member_id!= :member_id and m.status='ACTIVE' " + refineWhereClause + matches_id
 					+ hideMemberIdsQuery + getBlockedMemberQuery + genderQuery);
 //		
 
@@ -1660,10 +1662,33 @@ public class UpdateMemberEntityMangerFactory {
 				for (Object[] obj : results) {
 					JSONObject json = new JSONObject();
 					int i = 0;
-					json.put("plan_id", convertNullToBlank(String.valueOf(obj[i])));
+					String plan_id=convertNullToBlank(String.valueOf(obj[i]));
+					json.put("plan_id", plan_id);
 					json.put("plan_name", convertNullToBlank(String.valueOf(obj[++i])));
 					json.put("plan_validity", convertNullToBlank(String.valueOf(obj[++i])));
 					json.put("plan_price", convertNullToBlank(String.valueOf(obj[++i])));
+					
+					// getting plan list as per plan name and id
+					JSONArray jsonArrayPlanList = new JSONArray();
+					Query queryPlanList = em.createNativeQuery(
+							"SELECT id,features,valid FROM plan_list where plan_id= :plan_id and delete_flag='N'");
+					queryPlanList.setParameter("plan_id", plan_id);
+					List<Object[]> resultsPlanList = queryPlanList.getResultList();
+					if (resultsPlanList != null) {
+						for (Object[] objPlanList : resultsPlanList) {
+							int j=0;
+							JSONObject jsonPlanlist = new JSONObject();
+							String plan_features_id=convertNullToBlank(String.valueOf(objPlanList[j]));
+							String plan_features_name=convertNullToBlank(String.valueOf(objPlanList[++j]));
+							String valid=convertNullToBlank(String.valueOf(objPlanList[++j]));
+
+							jsonPlanlist.put("features_id",plan_features_id);
+							jsonPlanlist.put("features_name",plan_features_name);
+							jsonPlanlist.put("features_valid",valid);
+							jsonArrayPlanList.put(jsonPlanlist);
+						}
+					}
+					json.put("features",jsonArrayPlanList);
 					resultArray.put(json);
 				}
 			} else {
@@ -2827,8 +2852,9 @@ public class UpdateMemberEntityMangerFactory {
 			String getMembersHideIDs = getMembersHideIDs();
 			String hideMemberIdsQuery = "";
 			if (getMembersHideIDs != null && !getMembersHideIDs.equals("")) {
-				hideMemberIdsQuery = hideMemberIdsQuery + " and md.member_id not in ("
-						+ getMembersHideIDs.replaceFirst(",", "") + ") ";
+//				hideMemberIdsQuery = hideMemberIdsQuery + " and md.member_id not in ("
+//						+ getMembersHideIDs.replaceFirst(",", "") + ") ";
+				hideMemberIdsQuery = hideMemberIdsQuery + " and m.member_id not in ("+ getMembersHideIDs +")";
 			}
 
 //		********************** begin check member  is block or not , gets ids *********************************
@@ -2836,8 +2862,7 @@ public class UpdateMemberEntityMangerFactory {
 			String getBlockedMemberQuery = "";
 			String getMembersBlockIDs = getBlockedIDS("" + id);
 			if (getMembersBlockIDs != null && !getMembersBlockIDs.equals("")) {
-				getBlockedMemberQuery = getBlockedMemberQuery + " and md.member_id not in ("
-						+ getMembersBlockIDs.replaceFirst(",", "") + ") ";
+				getBlockedMemberQuery = getBlockedMemberQuery + " and m.member_id not in ("+getMembersBlockIDs+") ";
 			}
 
 ////		******************************begin refine search Filter Data*************************************************************************
@@ -2853,10 +2878,10 @@ public class UpdateMemberEntityMangerFactory {
 			String genderQuery = "";
 			String gender = updateMemberRepository.getGenderByMemberID(id);
 			if (gender != null && !gender.equals("")) {
-				if (gender.equals("male")) {
+				if (gender.equalsIgnoreCase("male")) {
 					genderQuery = " and gender='female' ";
 				}
-				if (gender.equals("female")) {
+				if (gender.equalsIgnoreCase("female")) {
 					genderQuery = " and gender='male' ";
 				}
 			}
@@ -2864,6 +2889,12 @@ public class UpdateMemberEntityMangerFactory {
 //		******************************Query*************************************************************************
 
 			Query q = em.createNativeQuery("SELECT count(*) FROM memberdetails as md "
+					+ " join member as m on md.member_id=m.member_id"
+					+ " join member_education_career as edu on m.member_id=edu.member_id "
+					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + matches_id
+					+ hideMemberIdsQuery + getBlockedMemberQuery + genderQuery + "");
+			
+			System.out.println("count query -  SELECT count(*) FROM memberdetails as md "
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
 					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + matches_id
