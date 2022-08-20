@@ -1662,10 +1662,33 @@ public class UpdateMemberEntityMangerFactory {
 				for (Object[] obj : results) {
 					JSONObject json = new JSONObject();
 					int i = 0;
-					json.put("plan_id", convertNullToBlank(String.valueOf(obj[i])));
+					String plan_id=convertNullToBlank(String.valueOf(obj[i]));
+					json.put("plan_id", plan_id);
 					json.put("plan_name", convertNullToBlank(String.valueOf(obj[++i])));
 					json.put("plan_validity", convertNullToBlank(String.valueOf(obj[++i])));
 					json.put("plan_price", convertNullToBlank(String.valueOf(obj[++i])));
+					
+					// getting plan list as per plan name and id
+					JSONArray jsonArrayPlanList = new JSONArray();
+					Query queryPlanList = em.createNativeQuery(
+							"SELECT id,features,valid FROM plan_list where plan_id= :plan_id and delete_flag='N'");
+					queryPlanList.setParameter("plan_id", plan_id);
+					List<Object[]> resultsPlanList = queryPlanList.getResultList();
+					if (resultsPlanList != null) {
+						for (Object[] objPlanList : resultsPlanList) {
+							int j=0;
+							JSONObject jsonPlanlist = new JSONObject();
+							String plan_features_id=convertNullToBlank(String.valueOf(objPlanList[j]));
+							String plan_features_name=convertNullToBlank(String.valueOf(objPlanList[++j]));
+							String valid=convertNullToBlank(String.valueOf(objPlanList[++j]));
+
+							jsonPlanlist.put("features_id",plan_features_id);
+							jsonPlanlist.put("features_name",plan_features_name);
+							jsonPlanlist.put("features_valid",valid);
+							jsonArrayPlanList.put(jsonPlanlist);
+						}
+					}
+					json.put("features",jsonArrayPlanList);
 					resultArray.put(json);
 				}
 			} else {

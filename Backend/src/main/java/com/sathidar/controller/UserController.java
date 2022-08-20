@@ -316,7 +316,7 @@ public class UserController {
 	@PostMapping(path = "/member/forgot/password/update")
 	public Map<String, String> updateForgotPassword(@Validated @RequestBody User user) {
 		HashMap<String, String> map = new HashMap<>();
-		try {
+		try 	{
 			String status = userService.updateForgotPassword(user);
 			if(!status.equals("")) {
 				map.put("message", "password send to email");

@@ -148,7 +148,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					+ "td, th {font-size: 12px;text-align: left;padding: 8px;\r\n"
 					+ "}img{height: 150px;}.bg{background-color: #742041;}button{background-color: #742041;color: #ffff;margin: 5px;}\r\n"
 					+ "    </style>\r\n" + "</head>\r\n" + "<body style=\"width: 400px;\">\r\n"
-					+ "    <div style=\"background-color: #742041;\"><img style=\"width:300px ;\" src=\"www.saathidaar.com/assets/images/logo_eng.png\" alt=\"\"></div>\r\n"
+					+ "    <div style=\"background-color: #742041;\"><img style=\"width:300px ;\" src=\"http://103.150.186.33:8080/saathidaar_logo/saathidaar_logo.jpeg\" alt=\"\"></div>\r\n"
 					+ " <div class=\"image\">\r\n"
 					+ "   <h4 style=\"text-align: center;color: #742041;font-size: 20px;\">Invitation to become your Saathidar!!!\r\n"
 					+ "</h4>\r\n" + "<p style=\"float: left;\"><strong>Hi " + fullName + ",</strong></p><br>\r\n"
@@ -198,7 +198,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			}
 
 			email_body = email_body + "    </thead>\r\n" + "  </table>\r\n"
-					+ "  <a href=\"http://localhost:4200/members/profile/" + from_id
+					+ "  <a href=\"http://103.150.186.33:8080/saathidaar/member-profile/" + from_id
 					+ "\"  style=\"text-align: center;color: #742041;font-size: 20px;\">View Full Profile</a>\r\n"
 					+ " </div>\r\n" + " <div class=\"details\"></div>\r\n" + "  </body>";
 
@@ -316,7 +316,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 						+ "td, th {font-size: 12px;text-align: left;padding: 8px;\r\n"
 						+ "}img{height: 150px;}.bg{background-color: #742041;}button{background-color: #742041;color: #ffff;margin: 5px;}\r\n"
 						+ "    </style>\r\n" + "</head>\r\n" + "<body style=\"width: 400px;\">\r\n"
-						+ "    <div style=\"background-color: #742041;\"><img style=\"width:300px ;\" src=\"www.saathidaar.com/assets/images/logo_eng.png\" alt=\"\"></div>\r\n"
+						+ "    <div style=\"background-color: #742041;\"><img style=\"width:300px ;\" src=\"http://103.150.186.33:8080/saathidaar_logo/saathidaar_logo.jpeg\" alt=\"\"></div>\r\n"
 						+ " <div class=\"image\">\r\n"
 						+ "   <h4 style=\"text-align: center;color: #742041;font-size: 20px;\">It\'s a Match!!!\r\n"
 						+ "\r\n" + "</h4>\r\n" + "<p style=\"float: left;\"><strong>Hi " + fullName
