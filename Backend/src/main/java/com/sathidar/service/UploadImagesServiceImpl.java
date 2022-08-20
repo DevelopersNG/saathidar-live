@@ -362,6 +362,12 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 		return resultArray;
 	}
 
+	@Override
+	public int  deleteMemberplanDetails(int member_id) {
+		return uploadImagesRepository.deleteByPlanID(member_id);
+		
+	}
+
 
 
 }

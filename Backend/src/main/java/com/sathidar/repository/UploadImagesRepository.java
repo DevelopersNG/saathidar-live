@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.json.JSONArray;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -64,6 +65,12 @@ public interface UploadImagesRepository extends JpaRepository<UploadImagesModel,
 
 	@Query(value="select count(*) from recently_visitors where member_id= :login_id and visit_to_id= :id",nativeQuery = true)
 	int getVisitorsStatus(int login_id, int id);
+
+
+	@Transactional
+	@Modifying
+	@Query(value="update plans set deleteflag='Y' where plan_id= :member_id ",nativeQuery = true)
+	int deleteByPlanID(int member_id);
 	
 
 }

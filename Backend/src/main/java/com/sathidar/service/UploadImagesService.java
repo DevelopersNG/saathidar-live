@@ -41,4 +41,6 @@ public interface UploadImagesService {
 	JSONArray getKYCMemberPhoto(String member_id);
 
 	int saveKYCToImage(UploadDocumentModel uploadImagesModel);
+
+	int deleteMemberplanDetails(int member_id);
 }

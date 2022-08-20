@@ -322,6 +322,23 @@ public class UpdateMemberController {
 		return map;
 	}
 
+	
+	@PostMapping(value = "/member/plan/delete/{id}")
+	public String deleteMemberPlanDetails(@PathVariable("id") int id) {
+		JSONObject jsObject = new JSONObject();
+		 int status=uploadImagesService.deleteMemberplanDetails(id);
+		 if(status>0)
+		 {
+				jsObject.put("results", "1");
+		 }
+		 else {
+				jsObject.put("results", "0");
+		 }
+		 return jsObject.toString();
+		 
+		 
+	}
+	
 	@GetMapping(value = "/member/plans-details")
 	public String getMembersPlanDetails() {
 		JSONArray jsonResultArray = new JSONArray();
