@@ -31,11 +31,6 @@ public interface AddAdvertisementRepository extends JpaRepository<AddAdvertiseme
 	int deleteByPhotoIDDeleteFlagY(Integer id);
 
 	@Query(value="select *  from advertisement where deleteflag='N'",nativeQuery = true)
-	antlr.collections.List getById();
-	
-
-
-
-	
+	List<AddAdvertisement> getById();
 	
 }
