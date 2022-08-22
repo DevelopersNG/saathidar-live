@@ -139,69 +139,450 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			String mother_tongue = convertNullToBlank(lst.get(11).toString());
 
 //			************************** new start *******************************	
+			String email_body="";
+			
+			
+//			email_body = "<head>\r\n" + "    <meta charset=\"UTF-8\">\r\n"
+//					+ "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n"
+//					+ "    <title>Saathidar</title>\r\n" + "    <style>\r\n"
+//					+ "        .container{height: 150px; width: 400px;border: #742041 1px solid ;margin-top: 5px;}\r\n"
+//					+ "        table {font-family: arial, sans-serif;border-collapse: collapse;width: 100%;}\r\n"
+//					+ "td, th {font-size: 12px;text-align: left;padding: 8px;\r\n"
+//					+ "}img{height: 150px;}.bg{background-color: #742041;}button{background-color: #742041;color: #ffff;margin: 5px;}\r\n"
+//					+ "    </style>\r\n" + "</head>\r\n" + "<body style=\"width: 400px;\">\r\n"
+//					+ "    <div style=\"background-color: #742041;\"><img style=\"width:300px ;\" src=\"http://103.150.186.33:8080/saathidaar_logo/saathidaar_logo.jpeg\" alt=\"\"></div>\r\n"
+//					+ " <div class=\"image\">\r\n"
+//					+ "   <h4 style=\"text-align: center;color: #742041;font-size: 20px;\">Invitation to become your Saathidaar!!!\r\n"
+//					+ "</h4>\r\n" + "<p style=\"float: left;\"><strong>Hi " + fullName + ",</strong></p><br>\r\n"
+//					+ "<p><strong>" + first_name + " " + last_name
+//					+ " </strong>has invited you to connect. Let\'s Respond</p>\r\n"
+//					+ "   <table style=\"width: 100%;border: #742041 1px solid;\" class=\"table\">\r\n"
+//					+ "    <thead>\r\n";
+//
+//			if (!age.equals("")) {
+//				email_body = email_body + "      <tr >\r\n" + "        <th  scope=\"col\">Age  </th>\r\n"
+//						+ "        <th  scope=\"col\">: " + age + " </th>\r\n" + "      </tr>\r\n";
+//			}
+//
+//			if (!height.equals("")) {
+//				email_body = email_body + "      <tr >\r\n" + "        <th  scope=\"col\"> Height </th>\r\n"
+//						+ "        <th  scope=\"col\">: " + height + "</th>\r\n" + "      </tr>\r\n";
+//			}
+//
+//			email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Marital Status </th>\r\n"
+//					+ "        <th scope=\"col\">: " + marital_status + "</th>\r\n" + "      </tr>\r\n";
+//
+//			if (!education.equals("")) {
+//				email_body = email_body +
+//
+//						"      <tr >\r\n" + "        <th  scope=\"col\">Education </th>\r\n"
+//						+ "        <th  scope=\"col\">: " + education + "</th>\r\n" + "      </tr>\r\n";
+//			}
+//
+//			if (!profession.equals("")) {
+//				email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Profession </th>\r\n"
+//						+ "        <th scope=\"col\">: " + profession + "</th>\r\n" + "      </tr>\r\n";
+//			}
+//
+//			if (!religions.equals("")) {
+//				email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Religion / Community </th>\r\n"
+//						+ "        <th scope=\"col\">: " + religions + "</th>\r\n" + "      </tr>\r\n";
+//			}
+// 
+//			if (!mother_tongue.equals("")) {
+//				email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Mother Tongue </th>\r\n"
+//						+ "        <th scope=\"col\">: " + mother_tongue + "</th>\r\n" + "      </tr>\r\n";
+//			}
+//
+//			if (!city.equals("")) {
+//				email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Location </th>\r\n"
+//						+ "        <th scope=\"col\">: " + city + "</th>\r\n" + "      </tr>\r\n";
+//			}
+//
+//			email_body = email_body + "    </thead>\r\n" + "  </table>\r\n"
+//					+ "  <a href=\"http://103.150.186.33:8080/saathidaar/member-profile/" + from_id
+//					+ "\"  style=\"text-align: center;color: #742041;font-size: 20px;\">View Full Profile</a>\r\n"
+//					+ " </div>\r\n" + " <div class=\"details\"></div>\r\n" + "  </body>";
 
-			String email_body = "<head>\r\n" + "    <meta charset=\"UTF-8\">\r\n"
-					+ "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n"
-					+ "    <title>Saathidar</title>\r\n" + "    <style>\r\n"
-					+ "        .container{height: 150px; width: 400px;border: #742041 1px solid ;margin-top: 5px;}\r\n"
-					+ "        table {font-family: arial, sans-serif;border-collapse: collapse;width: 100%;}\r\n"
-					+ "td, th {font-size: 12px;text-align: left;padding: 8px;\r\n"
-					+ "}img{height: 150px;}.bg{background-color: #742041;}button{background-color: #742041;color: #ffff;margin: 5px;}\r\n"
-					+ "    </style>\r\n" + "</head>\r\n" + "<body style=\"width: 400px;\">\r\n"
-					+ "    <div style=\"background-color: #742041;\"><img style=\"width:300px ;\" src=\"http://103.150.186.33:8080/saathidaar_logo/saathidaar_logo.jpeg\" alt=\"\"></div>\r\n"
-					+ " <div class=\"image\">\r\n"
-					+ "   <h4 style=\"text-align: center;color: #742041;font-size: 20px;\">Invitation to become your Saathidar!!!\r\n"
-					+ "</h4>\r\n" + "<p style=\"float: left;\"><strong>Hi " + fullName + ",</strong></p><br>\r\n"
-					+ "<p><strong>" + first_name + " " + last_name
-					+ " </strong>has invited you to connect. Let\'s Respond</p>\r\n"
-					+ "   <table style=\"width: 100%;border: #742041 1px solid;\" class=\"table\">\r\n"
-					+ "    <thead>\r\n";
-
-			if (!age.equals("")) {
-				email_body = email_body + "      <tr >\r\n" + "        <th  scope=\"col\">Age  </th>\r\n"
-						+ "        <th  scope=\"col\">: " + age + " </th>\r\n" + "      </tr>\r\n";
-			}
-
-			if (!height.equals("")) {
-				email_body = email_body + "      <tr >\r\n" + "        <th  scope=\"col\"> Height </th>\r\n"
-						+ "        <th  scope=\"col\">: " + height + "</th>\r\n" + "      </tr>\r\n";
-			}
-
-			email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Marital Status </th>\r\n"
-					+ "        <th scope=\"col\">: " + marital_status + "</th>\r\n" + "      </tr>\r\n";
-
-			if (!education.equals("")) {
-				email_body = email_body +
-
-						"      <tr >\r\n" + "        <th  scope=\"col\">Education </th>\r\n"
-						+ "        <th  scope=\"col\">: " + education + "</th>\r\n" + "      </tr>\r\n";
-			}
-
-			if (!profession.equals("")) {
-				email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Profession </th>\r\n"
-						+ "        <th scope=\"col\">: " + profession + "</th>\r\n" + "      </tr>\r\n";
-			}
-
-			if (!religions.equals("")) {
-				email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Religion / Community </th>\r\n"
-						+ "        <th scope=\"col\">: " + religions + "</th>\r\n" + "      </tr>\r\n";
-			}
-
-			if (!mother_tongue.equals("")) {
-				email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Mother Tongue </th>\r\n"
-						+ "        <th scope=\"col\">: " + mother_tongue + "</th>\r\n" + "      </tr>\r\n";
-			}
-
-			if (!city.equals("")) {
-				email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Location </th>\r\n"
-						+ "        <th scope=\"col\">: " + city + "</th>\r\n" + "      </tr>\r\n";
-			}
-
-			email_body = email_body + "    </thead>\r\n" + "  </table>\r\n"
-					+ "  <a href=\"http://103.150.186.33:8080/saathidaar/member-profile/" + from_id
-					+ "\"  style=\"text-align: center;color: #742041;font-size: 20px;\">View Full Profile</a>\r\n"
-					+ " </div>\r\n" + " <div class=\"details\"></div>\r\n" + "  </body>";
-
+			email_body="<html>\r\n" + 
+					"  <head>\r\n" + 
+					"    <meta name=\"viewport\" content=\"width=device-width\" />\r\n" + 
+					"    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\r\n" + 
+					"    <style>\r\n" + 
+					"      /* -------------------------------------\r\n" + 
+					"          GLOBAL RESETS\r\n" + 
+					"      ------------------------------------- */\r\n" + 
+					"      img {\r\n" + 
+					"        border: none;\r\n" + 
+					"        -ms-interpolation-mode: bicubic;\r\n" + 
+					"        max-width: 100%; }\r\n" + 
+					"      body {\r\n" + 
+					"        background-color: #f6f6f6;\r\n" + 
+					"        font-family: sans-serif;\r\n" + 
+					"        -webkit-font-smoothing: antialiased;\r\n" + 
+					"        font-size: 14px;\r\n" + 
+					"        line-height: 1.4;\r\n" + 
+					"        margin: 0;\r\n" + 
+					"        padding: 0; \r\n" + 
+					"        -ms-text-size-adjust: 100%;\r\n" + 
+					"        -webkit-text-size-adjust: 100%; }\r\n" + 
+					"      table {\r\n" + 
+					"        border-collapse: separate;\r\n" + 
+					"        mso-table-lspace: 0pt;\r\n" + 
+					"        mso-table-rspace: 0pt;\r\n" + 
+					"        width: 100%; }\r\n" + 
+					"        table td {\r\n" + 
+					"          font-family: sans-serif;\r\n" + 
+					"          font-size: 14px;\r\n" + 
+					"          vertical-align: top; }\r\n" + 
+					"      /* -------------------------------------\r\n" + 
+					"          BODY & CONTAINER\r\n" + 
+					"      ------------------------------------- */\r\n" + 
+					"      .body {\r\n" + 
+					"        background-color: #f6f6f6;\r\n" + 
+					"        width: 100%; }\r\n" + 
+					"      /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */\r\n" + 
+					"      .container {\r\n" + 
+					"        display: block;\r\n" + 
+					"        Margin: 0 auto !important;\r\n" + 
+					"        /* makes it centered */\r\n" + 
+					"        max-width: 580px;\r\n" + 
+					"        padding: 10px;\r\n" + 
+					"        width: 580px; }\r\n" + 
+					"      /* This should also be a block element, so that it will fill 100% of the .container */\r\n" + 
+					"      .content {\r\n" + 
+					"        box-sizing: border-box;\r\n" + 
+					"        display: block;\r\n" + 
+					"        Margin: 0 auto;\r\n" + 
+					"        max-width: 580px;\r\n" + 
+					"        padding: 10px; }\r\n" + 
+					"      /* -------------------------------------\r\n" + 
+					"          HEADER, FOOTER, MAIN\r\n" + 
+					"      ------------------------------------- */\r\n" + 
+					"      .main {\r\n" + 
+					"        background: #fff;\r\n" + 
+					"        border-radius: 3px;\r\n" + 
+					"        width: 100%; }\r\n" + 
+					"      .wrapper {\r\n" + 
+					"        box-sizing: border-box;\r\n" + 
+					"        padding: 20px; }\r\n" + 
+					"      .footer {\r\n" + 
+					"        clear: both;\r\n" + 
+					"        padding-top: 10px;\r\n" + 
+					"        text-align: center;\r\n" + 
+					"        width: 100%; }\r\n" + 
+					"        .footer td,\r\n" + 
+					"        .footer p,\r\n" + 
+					"        .footer span,\r\n" + 
+					"        .footer a {\r\n" + 
+					"          color: #999999;\r\n" + 
+					"          font-size: 12px;\r\n" + 
+					"          text-align: center; }\r\n" + 
+					"      /* -------------------------------------\r\n" + 
+					"          TYPOGRAPHY\r\n" + 
+					"      ------------------------------------- */\r\n" + 
+					"      h1,\r\n" + 
+					"      h2,\r\n" + 
+					"      h3,\r\n" + 
+					"      h4 {\r\n" + 
+					"        color: #000000;\r\n" + 
+					"        font-family: sans-serif;\r\n" + 
+					"        font-weight: 400;\r\n" + 
+					"        line-height: 1.4;\r\n" + 
+					"        margin: 0;\r\n" + 
+					"        Margin-bottom: 30px; }\r\n" + 
+					"      h1 {\r\n" + 
+					"        font-size: 35px;\r\n" + 
+					"        font-weight: 300;\r\n" + 
+					"        text-align: center;\r\n" + 
+					"        text-transform: capitalize; }\r\n" + 
+					"      p,\r\n" + 
+					"      ul,\r\n" + 
+					"      ol {\r\n" + 
+					"        font-family: sans-serif;\r\n" + 
+					"        font-size: 14px;\r\n" + 
+					"        font-weight: normal;\r\n" + 
+					"        margin: 0;\r\n" + 
+					"        Margin-bottom: 15px; }\r\n" + 
+					"        p li,\r\n" + 
+					"        ul li,\r\n" + 
+					"        ol li {\r\n" + 
+					"          list-style-position: inside;\r\n" + 
+					"          margin-left: 5px; }\r\n" + 
+					"      a {\r\n" + 
+					"        color: #3498db;\r\n" + 
+					"        text-decoration: underline; }\r\n" + 
+					"      /* -------------------------------------\r\n" + 
+					"          BUTTONS\r\n" + 
+					"      ------------------------------------- */\r\n" + 
+					"      .btn {\r\n" + 
+					"        box-sizing: border-box;\r\n" + 
+					"        width: 100%; }\r\n" + 
+					"        .btn > tbody > tr > td {\r\n" + 
+					"          padding-bottom: 15px; }\r\n" + 
+					"        .btn table {\r\n" + 
+					"          width: auto; }\r\n" + 
+					"        .btn table td {\r\n" + 
+					"          background-color: #ffffff;\r\n" + 
+					"          border-radius: 5px;\r\n" + 
+					"          text-align: center; }\r\n" + 
+					"        .btn a {\r\n" + 
+					"          background-color: #ffffff;\r\n" + 
+					"          border: solid 1px #3498db;\r\n" + 
+					"          border-radius: 5px;\r\n" + 
+					"          box-sizing: border-box;\r\n" + 
+					"          color: #3498db;\r\n" + 
+					"          cursor: pointer;\r\n" + 
+					"          display: inline-block;\r\n" + 
+					"          font-size: 14px;\r\n" + 
+					"          font-weight: bold;\r\n" + 
+					"          margin: 0;\r\n" + 
+					"          padding: 12px 25px;\r\n" + 
+					"          text-decoration: none;\r\n" + 
+					"          text-transform: capitalize; }\r\n" + 
+					"      .btn-primary table td {\r\n" + 
+					"        background-color: #3498db; }\r\n" + 
+					"      .btn-primary a {\r\n" + 
+					"        background-color: #3498db;\r\n" + 
+					"        border-color: #3498db;\r\n" + 
+					"        color: #ffffff; }\r\n" + 
+					"      /* -------------------------------------\r\n" + 
+					"          OTHER STYLES THAT MIGHT BE USEFUL\r\n" + 
+					"      ------------------------------------- */\r\n" + 
+					"      .last {\r\n" + 
+					"        margin-bottom: 0; }\r\n" + 
+					"      .first {\r\n" + 
+					"        margin-top: 0; }\r\n" + 
+					"      .align-center {\r\n" + 
+					"        text-align: center; }\r\n" + 
+					"      .align-right {\r\n" + 
+					"        text-align: right; }\r\n" + 
+					"      .align-left {\r\n" + 
+					"        text-align: left; }\r\n" + 
+					"      .clear {\r\n" + 
+					"        clear: both; }\r\n" + 
+					"      .mt0 {\r\n" + 
+					"        margin-top: 0; }\r\n" + 
+					"      .mb0 {\r\n" + 
+					"        margin-bottom: 0; }\r\n" + 
+					"      .preheader {\r\n" + 
+					"        color: transparent;\r\n" + 
+					"        display: none;\r\n" + 
+					"        height: 0;\r\n" + 
+					"        max-height: 0;\r\n" + 
+					"        max-width: 0;\r\n" + 
+					"        opacity: 0;\r\n" + 
+					"        overflow: hidden;\r\n" + 
+					"        mso-hide: all;\r\n" + 
+					"        visibility: hidden;\r\n" + 
+					"        width: 0; }\r\n" + 
+					"      .powered-by a {\r\n" + 
+					"        text-decoration: none; }\r\n" + 
+					"      hr {\r\n" + 
+					"        border: 0;\r\n" + 
+					"        border-bottom: 1px solid #f6f6f6;\r\n" + 
+					"        Margin: 20px 0; }\r\n" + 
+					"        table {\r\n" + 
+					"  font-family: arial, sans-serif;\r\n" + 
+					"  border-collapse: collapse;\r\n" + 
+					"  width: 100%;\r\n" + 
+					"}\r\n" + 
+					"td, th {\r\n" + 
+					" font-size: 12px;\r\n" + 
+					"  text-align: left;\r\n" + 
+					"  padding: 8px;\r\n" + 
+					"}\r\n" + 
+					"       img\r\n" + 
+					"       {\r\n" + 
+					"        height: 150px;\r\n" + 
+					"       }\r\n" + 
+					"       .bg\r\n" + 
+					"       {\r\n" + 
+					"        background-color: #742041;\r\n" + 
+					"       }\r\n" + 
+					"       button\r\n" + 
+					"       {\r\n" + 
+					"        background-color: #742041;color: #ffff;margin: 5px;\r\n" + 
+					"       }\r\n" + 
+					"      /* -------------------------------------\r\n" + 
+					"          RESPONSIVE AND MOBILE FRIENDLY STYLES\r\n" + 
+					"      ------------------------------------- */\r\n" + 
+					"      @media only screen and (max-width: 620px) {\r\n" + 
+					"        table[class=body] h1 {\r\n" + 
+					"          font-size: 28px !important;\r\n" + 
+					"          margin-bottom: 10px !important; }\r\n" + 
+					"        table[class=body] p,\r\n" + 
+					"        table[class=body] ul,\r\n" + 
+					"        table[class=body] ol,\r\n" + 
+					"        table[class=body] td,\r\n" + 
+					"        table[class=body] span,\r\n" + 
+					"        table[class=body] a {\r\n" + 
+					"          font-size: 16px !important; }\r\n" + 
+					"        table[class=body] .wrapper,\r\n" + 
+					"        table[class=body] .article {\r\n" + 
+					"          padding: 10px !important; }\r\n" + 
+					"        table[class=body] .content {\r\n" + 
+					"          padding: 0 !important; }\r\n" + 
+					"        table[class=body] .container {\r\n" + 
+					"          padding: 0 !important;\r\n" + 
+					"          width: 100% !important; }\r\n" + 
+					"        table[class=body] .main {\r\n" + 
+					"          border-left-width: 0 !important;\r\n" + 
+					"          border-radius: 0 !important;\r\n" + 
+					"          border-right-width: 0 !important; }\r\n" + 
+					"        table[class=body] .btn table {\r\n" + 
+					"          width: 100% !important; }\r\n" + 
+					"        table[class=body] .btn a {\r\n" + 
+					"          width: 100% !important; }\r\n" + 
+					"        table[class=body] .img-responsive {\r\n" + 
+					"          height: auto !important;\r\n" + 
+					"          max-width: 100% !important;\r\n" + 
+					"          width: auto !important; }}\r\n" + 
+					"      @media all {\r\n" + 
+					"        .ExternalClass {\r\n" + 
+					"          width: 100%; }\r\n" + 
+					"        .ExternalClass,\r\n" + 
+					"        .ExternalClass p,\r\n" + 
+					"        .ExternalClass span,\r\n" + 
+					"        .ExternalClass font,\r\n" + 
+					"        .ExternalClass td,\r\n" + 
+					"        .ExternalClass div {\r\n" + 
+					"          line-height: 100%; }\r\n" + 
+					"        .apple-link a {\r\n" + 
+					"          color: inherit !important;\r\n" + 
+					"          font-family: inherit !important;\r\n" + 
+					"          font-size: inherit !important;\r\n" + 
+					"          font-weight: inherit !important;\r\n" + 
+					"          line-height: inherit !important;\r\n" + 
+					"          text-decoration: none !important; } \r\n" + 
+					"        .btn-primary table td:hover {\r\n" + 
+					"          background-color: #34495e !important; }\r\n" + 
+					"        .btn-primary a:hover {\r\n" + 
+					"          background-color: #34495e !important;\r\n" + 
+					"          border-color: #34495e !important; } }\r\n" + 
+					"    </style>\r\n" + 
+					"  </head>\r\n" + 					
+					"  <body class=\"\">\r\n" + 
+					"    <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"body\">\r\n" + 
+					"      <tr>\r\n" + 
+					"        <td>&nbsp;</td>\r\n" + 
+					"        <td class=\"container\">\r\n" + 
+					"          <div class=\"content\">\r\n" + 
+					"            <table class=\"main\">\r\n" + 
+					"\r\n" + 
+					"              <!-- START MAIN CONTENT AREA -->\r\n" + 
+					"              <tr>\r\n" + 
+					"                <td class=\"wrapper\">\r\n" + 
+					"                  <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\r\n" + 
+					"                    <tr>\r\n" + 
+					"                      <td>\r\n" + 
+					"                        <h1><img src=\"http://103.174.102.195:8080/saathidaar_logo/saathidaar_logo.jpeg\" alt=\"\"></h1>\r\n" + 
+					"                        <h2><strong>Hi "+fullName+"</strong></h2>\r\n" + 
+					"                        <h5><strong>"+first_name+"&nbsp; "+ last_name+"</strong> has invited you to connect. Let\'s Respond</h5>\r\n" + 
+					"                        <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"btn btn-primary\">\r\n" + 
+					"                          <tbody>\r\n" + 
+					"                            <tr>\r\n" + 
+					"                              <td align=\"left\">\r\n" + 
+					"                              </td>\r\n" + 
+					"                            </tr>\r\n" + 
+					"                          </tbody>\r\n" + 
+					"                        </table>\r\n" + 
+					"                        <table style=\"width: 100%;border: #742041 1px solid;\" class=\"table\">\r\n" + 
+					"                          <thead>\r\n";
+					
+					if (!age.equals("")) {
+						email_body=email_body+	" <tr >\r\n" + 
+								"                              <th  scope=\"col\">Age  </th>\r\n" + 
+								"                              <th  scope=\"col\">: "+age+" </th>\r\n" + 
+								"                      \r\n" + 
+								"                            </tr>\r\n";
+					}
+					
+					if (!height.equals("")) {
+						email_body=email_body+	"                            <tr >\r\n" + 
+								"                              <th  scope=\"col\"> Height </th>\r\n" + 
+								"                              <th  scope=\"col\">: "+height+"</th>\r\n" + 
+								"                      \r\n" + 
+								"                            </tr>\r\n";
+					}
+					
+					if (!marital_status.equals("")) {
+						email_body=email_body+"                            <tr>\r\n" + 
+								"                              <th scope=\"col\">Marital Status </th>\r\n" + 
+								"                              <th scope=\"col\">: "+marital_status+"</th>\r\n" + 
+								"                      \r\n" + 
+								"                            </tr>\r\n";
+					}
+					
+					if (!education.equals("")) {
+						email_body=email_body+ 	"                            <tr >\r\n" + 
+								"                              <th  scope=\"col\">Education </th>\r\n" + 
+								"                              <th  scope=\"col\">: "+education+"</th>\r\n" + 
+								"                      \r\n" + 
+								"                            </tr>\r\n";
+					}
+					
+					if (!profession.equals("")) {
+						email_body=email_body+ "                            <tr>\r\n" + 
+								"                              <th scope=\"col\">Profession </th>\r\n" + 
+								"                              <th scope=\"col\">: "+profession+"</th>\r\n" + 
+								"                      \r\n" + 
+								"                            </tr>\r\n";
+						
+					}
+					
+					if (!religions.equals("")) {
+						email_body=email_body+"                            <tr>\r\n" + 
+								"                              <th scope=\"col\">Religions </th>\r\n" + 
+								"                              <th scope=\"col\">: "+religions+"</th>\r\n" + 
+								"                      \r\n" + 
+								"                            </tr>\r\n";
+					}
+					if (!mother_tongue.equals("")) {
+						email_body=email_body+"                            <tr>\r\n" + 
+								"                              <th scope=\"col\">Mother_tongue </th>\r\n" + 
+								"                              <th scope=\"col\">: "+mother_tongue+"</th>\r\n" + 
+								"                      \r\n" + 
+								"                            </tr>\r\n";
+					}
+					
+					if (!city.equals("")) {
+						email_body=email_body+"                            <tr>\r\n" + 
+								"                              <th scope=\"col\">City </th>\r\n" + 
+								"                              <th scope=\"col\">: "+city+"</th>\r\n" + 
+								"                      \r\n" + 
+								"                            </tr>\r\n";
+					}
+					email_body=email_body+"                           \r\n" + 
+					"                          </thead>\r\n" + 
+					"                          \r\n" + 
+					"                        </table>\r\n" + 
+					"                        <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\r\n" + 
+					"                          <tbody>\r\n" + 
+					"                            <tr>\r\n" + 
+					"                              <td> <a href=\"http://103.150.186.33:8080/saathidaar/member-profile/" + from_id+"\" target=\"_blank\">View Full Profile</a> </td>\r\n" + 
+					"                            </tr>\r\n" + 
+					"                          </tbody>\r\n" + 
+					"                        </table>\r\n" + 
+					"                      </td>\r\n" + 
+					"                    </tr>\r\n" + 
+					"                  </table>\r\n" + 
+					"                </td>\r\n" + 
+					"              </tr>\r\n" + 
+					"\r\n" + 
+					"            <!-- END MAIN CONTENT AREA -->\r\n" + 
+					"            </table>\r\n" + 
+					"\r\n" + 
+					"         \r\n" + 
+					"            \r\n" + 
+					"          <!-- END CENTERED WHITE CONTAINER -->\r\n" + 
+					"          </div>\r\n" + 
+					"        </td>\r\n" + 
+					"        <td>&nbsp;</td>\r\n" + 
+					"      </tr>\r\n" + 
+					"    </table>\r\n" + 
+					"  </body>\r\n" + 
+					"</html>";
 			mailSender.send(emailId_to, "Saathidaar Invitations", email_body);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -307,70 +688,453 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				String mother_tongue = convertNullToBlank(lst.get(11).toString());
 
 //			************************** new start *******************************	
+				String email_body="";
+//			    email_body = "<head>\r\n" + "    <meta charset=\"UTF-8\">\r\n"
+//						+ "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n"
+//						+ "    <title>Saathidar</title>\r\n" + "    <style>\r\n"
+//						+ "        .container{height: 150px; width: 400px;border: #742041 1px solid ;margin-top: 5px;}\r\n"
+//						+ "        table {font-family: arial, sans-serif;border-collapse: collapse;width: 100%;}\r\n"
+//						+ "td, th {font-size: 12px;text-align: left;padding: 8px;\r\n"
+//						+ "}img{height: 150px;}.bg{background-color: #742041;}button{background-color: #742041;color: #ffff;margin: 5px;}\r\n"
+//						+ "    </style>\r\n" + "</head>\r\n" + "<body style=\"width: 400px;\">\r\n"
+//						+ "    <div style=\"background-color: #742041;\"><img style=\"width:300px ;\" src=\"http://103.150.186.33:8080/saathidaar_logo/saathidaar_logo.jpeg\" alt=\"\"></div>\r\n"
+//						+ " <div class=\"image\">\r\n"
+//						+ "   <h4 style=\"text-align: center;color: #742041;font-size: 20px;\">It\'s a Match!!!\r\n"
+//						+ "\r\n" + "</h4>\r\n" + "<p style=\"float: left;\"><strong>Hi " + fullName
+//						+ ",</strong></p><br>\r\n" + "<p><strong>" + first_name + " " + last_name
+//						+ " </strong>has accepted your request to connect. Let\'s take this forward</p>\r\n"
+//						+ "   <table style=\"width: 100%;border: #742041 1px solid;\" class=\"table\">\r\n"
+//						+ "    <thead>\r\n";
+//
+//				if (!age.equals("")) {
+//					email_body = email_body + "      <tr >\r\n" + "        <th  scope=\"col\">Age  </th>\r\n"
+//							+ "        <th  scope=\"col\">: " + age + " </th>\r\n" + "      </tr>\r\n";
+//				}
+//
+//				if (!height.equals("")) {
+//					email_body = email_body + "      <tr >\r\n" + "        <th  scope=\"col\"> Height </th>\r\n"
+//							+ "        <th  scope=\"col\">: " + height + "</th>\r\n" + "      </tr>\r\n";
+//				}
+//
+//				email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Marital Status </th>\r\n"
+//						+ "        <th scope=\"col\">: " + marital_status + "</th>\r\n" + "      </tr>\r\n";
+//
+//				if (!education.equals("")) {
+//					email_body = email_body +
+//
+//							"      <tr >\r\n" + "        <th  scope=\"col\">Education </th>\r\n"
+//							+ "        <th  scope=\"col\">: " + education + "</th>\r\n" + "      </tr>\r\n";
+//				}
+//
+//				if (!profession.equals("")) {
+//					email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Profession </th>\r\n"
+//							+ "        <th scope=\"col\">: " + profession + "</th>\r\n" + "      </tr>\r\n";
+//				}
+//
+//				if (!religions.equals("")) {
+//					email_body = email_body + "      <tr>\r\n"
+//							+ "        <th scope=\"col\">Religion / Community </th>\r\n"
+//							+ "        <th scope=\"col\">: " + religions + "</th>\r\n" + "      </tr>\r\n";
+//				}
+//
+//				if (!mother_tongue.equals("")) {
+//					email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Mother Tongue </th>\r\n"
+//							+ "        <th scope=\"col\">: " + mother_tongue + "</th>\r\n" + "      </tr>\r\n";
+//				}
+//
+//				if (!city.equals("")) {
+//					email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Location </th>\r\n"
+//							+ "        <th scope=\"col\">: " + city + "</th>\r\n" + "      </tr>\r\n";
+//				}
+//
+//				email_body = email_body + "    </thead>\r\n" + "  </table>\r\n"
+//						+ "  <a href=\"http://localhost:4200/members/profile/" + request_to_id
+//						+ "\"  style=\"text-align: center;color: #742041;font-size: 20px;\">View Full Profile</a>\r\n"
+//						+ " </div>\r\n" + " <div class=\"details\"></div>\r\n" + "  </body>";
 
-				String email_body = "<head>\r\n" + "    <meta charset=\"UTF-8\">\r\n"
-						+ "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n"
-						+ "    <title>Saathidar</title>\r\n" + "    <style>\r\n"
-						+ "        .container{height: 150px; width: 400px;border: #742041 1px solid ;margin-top: 5px;}\r\n"
-						+ "        table {font-family: arial, sans-serif;border-collapse: collapse;width: 100%;}\r\n"
-						+ "td, th {font-size: 12px;text-align: left;padding: 8px;\r\n"
-						+ "}img{height: 150px;}.bg{background-color: #742041;}button{background-color: #742041;color: #ffff;margin: 5px;}\r\n"
-						+ "    </style>\r\n" + "</head>\r\n" + "<body style=\"width: 400px;\">\r\n"
-						+ "    <div style=\"background-color: #742041;\"><img style=\"width:300px ;\" src=\"http://103.150.186.33:8080/saathidaar_logo/saathidaar_logo.jpeg\" alt=\"\"></div>\r\n"
-						+ " <div class=\"image\">\r\n"
-						+ "   <h4 style=\"text-align: center;color: #742041;font-size: 20px;\">It\'s a Match!!!\r\n"
-						+ "\r\n" + "</h4>\r\n" + "<p style=\"float: left;\"><strong>Hi " + fullName
-						+ ",</strong></p><br>\r\n" + "<p><strong>" + first_name + " " + last_name
-						+ " </strong>has accepted your request to connect. Let\'s take this forward</p>\r\n"
-						+ "   <table style=\"width: 100%;border: #742041 1px solid;\" class=\"table\">\r\n"
-						+ "    <thead>\r\n";
-
-				if (!age.equals("")) {
-					email_body = email_body + "      <tr >\r\n" + "        <th  scope=\"col\">Age  </th>\r\n"
-							+ "        <th  scope=\"col\">: " + age + " </th>\r\n" + "      </tr>\r\n";
-				}
-
-				if (!height.equals("")) {
-					email_body = email_body + "      <tr >\r\n" + "        <th  scope=\"col\"> Height </th>\r\n"
-							+ "        <th  scope=\"col\">: " + height + "</th>\r\n" + "      </tr>\r\n";
-				}
-
-				email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Marital Status </th>\r\n"
-						+ "        <th scope=\"col\">: " + marital_status + "</th>\r\n" + "      </tr>\r\n";
-
-				if (!education.equals("")) {
-					email_body = email_body +
-
-							"      <tr >\r\n" + "        <th  scope=\"col\">Education </th>\r\n"
-							+ "        <th  scope=\"col\">: " + education + "</th>\r\n" + "      </tr>\r\n";
-				}
-
-				if (!profession.equals("")) {
-					email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Profession </th>\r\n"
-							+ "        <th scope=\"col\">: " + profession + "</th>\r\n" + "      </tr>\r\n";
-				}
-
-				if (!religions.equals("")) {
-					email_body = email_body + "      <tr>\r\n"
-							+ "        <th scope=\"col\">Religion / Community </th>\r\n"
-							+ "        <th scope=\"col\">: " + religions + "</th>\r\n" + "      </tr>\r\n";
-				}
-
-				if (!mother_tongue.equals("")) {
-					email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Mother Tongue </th>\r\n"
-							+ "        <th scope=\"col\">: " + mother_tongue + "</th>\r\n" + "      </tr>\r\n";
-				}
-
-				if (!city.equals("")) {
-					email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Location </th>\r\n"
-							+ "        <th scope=\"col\">: " + city + "</th>\r\n" + "      </tr>\r\n";
-				}
-
-				email_body = email_body + "    </thead>\r\n" + "  </table>\r\n"
-						+ "  <a href=\"http://localhost:4200/members/profile/" + request_to_id
-						+ "\"  style=\"text-align: center;color: #742041;font-size: 20px;\">View Full Profile</a>\r\n"
-						+ " </div>\r\n" + " <div class=\"details\"></div>\r\n" + "  </body>";
-
+				
+				email_body="<html>\r\n" + 
+						"  <head>\r\n" + 
+						"    <meta name=\"viewport\" content=\"width=device-width\" />\r\n" + 
+						"    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\r\n" + 
+						"    <style>\r\n" + 
+						"      /* -------------------------------------\r\n" + 
+						"          GLOBAL RESETS\r\n" + 
+						"      ------------------------------------- */\r\n" + 
+						"      img {\r\n" + 
+						"        border: none;\r\n" + 
+						"        -ms-interpolation-mode: bicubic;\r\n" + 
+						"        max-width: 100%; }\r\n" + 
+						"      body {\r\n" + 
+						"        background-color: #f6f6f6;\r\n" + 
+						"        font-family: sans-serif;\r\n" + 
+						"        -webkit-font-smoothing: antialiased;\r\n" + 
+						"        font-size: 14px;\r\n" + 
+						"        line-height: 1.4;\r\n" + 
+						"        margin: 0;\r\n" + 
+						"        padding: 0; \r\n" + 
+						"        -ms-text-size-adjust: 100%;\r\n" + 
+						"        -webkit-text-size-adjust: 100%; }\r\n" + 
+						"      table {\r\n" + 
+						"        border-collapse: separate;\r\n" + 
+						"        mso-table-lspace: 0pt;\r\n" + 
+						"        mso-table-rspace: 0pt;\r\n" + 
+						"        width: 100%; }\r\n" + 
+						"        table td {\r\n" + 
+						"          font-family: sans-serif;\r\n" + 
+						"          font-size: 14px;\r\n" + 
+						"          vertical-align: top; }\r\n" + 
+						"      /* -------------------------------------\r\n" + 
+						"          BODY & CONTAINER\r\n" + 
+						"      ------------------------------------- */\r\n" + 
+						"      .body {\r\n" + 
+						"        background-color: #f6f6f6;\r\n" + 
+						"        width: 100%; }\r\n" + 
+						"      /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */\r\n" + 
+						"      .container {\r\n" + 
+						"        display: block;\r\n" + 
+						"        Margin: 0 auto !important;\r\n" + 
+						"        /* makes it centered */\r\n" + 
+						"        max-width: 580px;\r\n" + 
+						"        padding: 10px;\r\n" + 
+						"        width: 580px; }\r\n" + 
+						"      /* This should also be a block element, so that it will fill 100% of the .container */\r\n" + 
+						"      .content {\r\n" + 
+						"        box-sizing: border-box;\r\n" + 
+						"        display: block;\r\n" + 
+						"        Margin: 0 auto;\r\n" + 
+						"        max-width: 580px;\r\n" + 
+						"        padding: 10px; }\r\n" + 
+						"      /* -------------------------------------\r\n" + 
+						"          HEADER, FOOTER, MAIN\r\n" + 
+						"      ------------------------------------- */\r\n" + 
+						"      .main {\r\n" + 
+						"        background: #fff;\r\n" + 
+						"        border-radius: 3px;\r\n" + 
+						"        width: 100%; }\r\n" + 
+						"      .wrapper {\r\n" + 
+						"        box-sizing: border-box;\r\n" + 
+						"        padding: 20px; }\r\n" + 
+						"      .footer {\r\n" + 
+						"        clear: both;\r\n" + 
+						"        padding-top: 10px;\r\n" + 
+						"        text-align: center;\r\n" + 
+						"        width: 100%; }\r\n" + 
+						"        .footer td,\r\n" + 
+						"        .footer p,\r\n" + 
+						"        .footer span,\r\n" + 
+						"        .footer a {\r\n" + 
+						"          color: #999999;\r\n" + 
+						"          font-size: 12px;\r\n" + 
+						"          text-align: center; }\r\n" + 
+						"      /* -------------------------------------\r\n" + 
+						"          TYPOGRAPHY\r\n" + 
+						"      ------------------------------------- */\r\n" + 
+						"      h1,\r\n" + 
+						"      h2,\r\n" + 
+						"      h3,\r\n" + 
+						"      h4 {\r\n" + 
+						"        color: #000000;\r\n" + 
+						"        font-family: sans-serif;\r\n" + 
+						"        font-weight: 400;\r\n" + 
+						"        line-height: 1.4;\r\n" + 
+						"        margin: 0;\r\n" + 
+						"        Margin-bottom: 30px; }\r\n" + 
+						"      h1 {\r\n" + 
+						"        font-size: 35px;\r\n" + 
+						"        font-weight: 300;\r\n" + 
+						"        text-align: center;\r\n" + 
+						"        text-transform: capitalize; }\r\n" + 
+						"      p,\r\n" + 
+						"      ul,\r\n" + 
+						"      ol {\r\n" + 
+						"        font-family: sans-serif;\r\n" + 
+						"        font-size: 14px;\r\n" + 
+						"        font-weight: normal;\r\n" + 
+						"        margin: 0;\r\n" + 
+						"        Margin-bottom: 15px; }\r\n" + 
+						"        p li,\r\n" + 
+						"        ul li,\r\n" + 
+						"        ol li {\r\n" + 
+						"          list-style-position: inside;\r\n" + 
+						"          margin-left: 5px; }\r\n" + 
+						"      a {\r\n" + 
+						"        color: #3498db;\r\n" + 
+						"        text-decoration: underline; }\r\n" + 
+						"      /* -------------------------------------\r\n" + 
+						"          BUTTONS\r\n" + 
+						"      ------------------------------------- */\r\n" + 
+						"      .btn {\r\n" + 
+						"        box-sizing: border-box;\r\n" + 
+						"        width: 100%; }\r\n" + 
+						"        .btn > tbody > tr > td {\r\n" + 
+						"          padding-bottom: 15px; }\r\n" + 
+						"        .btn table {\r\n" + 
+						"          width: auto; }\r\n" + 
+						"        .btn table td {\r\n" + 
+						"          background-color: #ffffff;\r\n" + 
+						"          border-radius: 5px;\r\n" + 
+						"          text-align: center; }\r\n" + 
+						"        .btn a {\r\n" + 
+						"          background-color: #ffffff;\r\n" + 
+						"          border: solid 1px #3498db;\r\n" + 
+						"          border-radius: 5px;\r\n" + 
+						"          box-sizing: border-box;\r\n" + 
+						"          color: #3498db;\r\n" + 
+						"          cursor: pointer;\r\n" + 
+						"          display: inline-block;\r\n" + 
+						"          font-size: 14px;\r\n" + 
+						"          font-weight: bold;\r\n" + 
+						"          margin: 0;\r\n" + 
+						"          padding: 12px 25px;\r\n" + 
+						"          text-decoration: none;\r\n" + 
+						"          text-transform: capitalize; }\r\n" + 
+						"      .btn-primary table td {\r\n" + 
+						"        background-color: #3498db; }\r\n" + 
+						"      .btn-primary a {\r\n" + 
+						"        background-color: #3498db;\r\n" + 
+						"        border-color: #3498db;\r\n" + 
+						"        color: #ffffff; }\r\n" + 
+						"      /* -------------------------------------\r\n" + 
+						"          OTHER STYLES THAT MIGHT BE USEFUL\r\n" + 
+						"      ------------------------------------- */\r\n" + 
+						"      .last {\r\n" + 
+						"        margin-bottom: 0; }\r\n" + 
+						"      .first {\r\n" + 
+						"        margin-top: 0; }\r\n" + 
+						"      .align-center {\r\n" + 
+						"        text-align: center; }\r\n" + 
+						"      .align-right {\r\n" + 
+						"        text-align: right; }\r\n" + 
+						"      .align-left {\r\n" + 
+						"        text-align: left; }\r\n" + 
+						"      .clear {\r\n" + 
+						"        clear: both; }\r\n" + 
+						"      .mt0 {\r\n" + 
+						"        margin-top: 0; }\r\n" + 
+						"      .mb0 {\r\n" + 
+						"        margin-bottom: 0; }\r\n" + 
+						"      .preheader {\r\n" + 
+						"        color: transparent;\r\n" + 
+						"        display: none;\r\n" + 
+						"        height: 0;\r\n" + 
+						"        max-height: 0;\r\n" + 
+						"        max-width: 0;\r\n" + 
+						"        opacity: 0;\r\n" + 
+						"        overflow: hidden;\r\n" + 
+						"        mso-hide: all;\r\n" + 
+						"        visibility: hidden;\r\n" + 
+						"        width: 0; }\r\n" + 
+						"      .powered-by a {\r\n" + 
+						"        text-decoration: none; }\r\n" + 
+						"      hr {\r\n" + 
+						"        border: 0;\r\n" + 
+						"        border-bottom: 1px solid #f6f6f6;\r\n" + 
+						"        Margin: 20px 0; }\r\n" + 
+						"        table {\r\n" + 
+						"  font-family: arial, sans-serif;\r\n" + 
+						"  border-collapse: collapse;\r\n" + 
+						"  width: 100%;\r\n" + 
+						"}\r\n" + 
+						"td, th {\r\n" + 
+						" font-size: 12px;\r\n" + 
+						"  text-align: left;\r\n" + 
+						"  padding: 8px;\r\n" + 
+						"}\r\n" + 
+						"       img\r\n" + 
+						"       {\r\n" + 
+						"        height: 150px;\r\n" + 
+						"       }\r\n" + 
+						"       .bg\r\n" + 
+						"       {\r\n" + 
+						"        background-color: #742041;\r\n" + 
+						"       }\r\n" + 
+						"       button\r\n" + 
+						"       {\r\n" + 
+						"        background-color: #742041;color: #ffff;margin: 5px;\r\n" + 
+						"       }\r\n" + 
+						"      /* -------------------------------------\r\n" + 
+						"          RESPONSIVE AND MOBILE FRIENDLY STYLES\r\n" + 
+						"      ------------------------------------- */\r\n" + 
+						"      @media only screen and (max-width: 620px) {\r\n" + 
+						"        table[class=body] h1 {\r\n" + 
+						"          font-size: 28px !important;\r\n" + 
+						"          margin-bottom: 10px !important; }\r\n" + 
+						"        table[class=body] p,\r\n" + 
+						"        table[class=body] ul,\r\n" + 
+						"        table[class=body] ol,\r\n" + 
+						"        table[class=body] td,\r\n" + 
+						"        table[class=body] span,\r\n" + 
+						"        table[class=body] a {\r\n" + 
+						"          font-size: 16px !important; }\r\n" + 
+						"        table[class=body] .wrapper,\r\n" + 
+						"        table[class=body] .article {\r\n" + 
+						"          padding: 10px !important; }\r\n" + 
+						"        table[class=body] .content {\r\n" + 
+						"          padding: 0 !important; }\r\n" + 
+						"        table[class=body] .container {\r\n" + 
+						"          padding: 0 !important;\r\n" + 
+						"          width: 100% !important; }\r\n" + 
+						"        table[class=body] .main {\r\n" + 
+						"          border-left-width: 0 !important;\r\n" + 
+						"          border-radius: 0 !important;\r\n" + 
+						"          border-right-width: 0 !important; }\r\n" + 
+						"        table[class=body] .btn table {\r\n" + 
+						"          width: 100% !important; }\r\n" + 
+						"        table[class=body] .btn a {\r\n" + 
+						"          width: 100% !important; }\r\n" + 
+						"        table[class=body] .img-responsive {\r\n" + 
+						"          height: auto !important;\r\n" + 
+						"          max-width: 100% !important;\r\n" + 
+						"          width: auto !important; }}\r\n" + 
+						"      @media all {\r\n" + 
+						"        .ExternalClass {\r\n" + 
+						"          width: 100%; }\r\n" + 
+						"        .ExternalClass,\r\n" + 
+						"        .ExternalClass p,\r\n" + 
+						"        .ExternalClass span,\r\n" + 
+						"        .ExternalClass font,\r\n" + 
+						"        .ExternalClass td,\r\n" + 
+						"        .ExternalClass div {\r\n" + 
+						"          line-height: 100%; }\r\n" + 
+						"        .apple-link a {\r\n" + 
+						"          color: inherit !important;\r\n" + 
+						"          font-family: inherit !important;\r\n" + 
+						"          font-size: inherit !important;\r\n" + 
+						"          font-weight: inherit !important;\r\n" + 
+						"          line-height: inherit !important;\r\n" + 
+						"          text-decoration: none !important; } \r\n" + 
+						"        .btn-primary table td:hover {\r\n" + 
+						"          background-color: #34495e !important; }\r\n" + 
+						"        .btn-primary a:hover {\r\n" + 
+						"          background-color: #34495e !important;\r\n" + 
+						"          border-color: #34495e !important; } }\r\n" + 
+						"    </style>\r\n" + 
+						"  </head>\r\n" + 					
+						"  <body class=\"\">\r\n" + 
+						"    <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"body\">\r\n" + 
+						"      <tr>\r\n" + 
+						"        <td>&nbsp;</td>\r\n" + 
+						"        <td class=\"container\">\r\n" + 
+						"          <div class=\"content\">\r\n" + 
+						"            <table class=\"main\">\r\n" + 
+						"\r\n" + 
+						"              <!-- START MAIN CONTENT AREA -->\r\n" + 
+						"              <tr>\r\n" + 
+						"                <td class=\"wrapper\">\r\n" + 
+						"                  <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\r\n" + 
+						"                    <tr>\r\n" + 
+						"                      <td>\r\n" + 
+						"                        <h1><img src=\"http://103.150.186.33:8080/saathidaar_logo/saathidaar_logo.jpeg\" alt=\"\"></h1>\r\n" + 
+						" 						 <h4 style=\"text-align: center;color: #742041;font-size: 20px;\">It\'s a Match!!!\r\n" +
+						"                        <h2><strong>Hi "+fullName+"</strong></h2>\r\n" + 
+						"                        <h5><strong>"+first_name+"&nbsp; "+ last_name+"</strong> has accepted your request to connect. Let\'s take this forward.</h5>\r\n" + 
+						"                        <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"btn btn-primary\">\r\n" + 
+						"                          <tbody>\r\n" + 
+						"                            <tr>\r\n" + 
+						"                              <td align=\"left\">\r\n" + 
+						"                              </td>\r\n" + 
+						"                            </tr>\r\n" + 
+						"                          </tbody>\r\n" + 
+						"                        </table>\r\n" + 
+						"                        <table style=\"width: 100%;border: #742041 1px solid;\" class=\"table\">\r\n" + 
+						"                          <thead>\r\n";
+						
+						if (!age.equals("")) {
+							email_body=email_body+	" <tr >\r\n" + 
+									"                              <th  scope=\"col\">Age  </th>\r\n" + 
+									"                              <th  scope=\"col\">: "+age+" </th>\r\n" + 
+									"                      \r\n" + 
+									"                            </tr>\r\n";
+						}
+						
+						if (!height.equals("")) {
+							email_body=email_body+	"                            <tr >\r\n" + 
+									"                              <th  scope=\"col\"> Height </th>\r\n" + 
+									"                              <th  scope=\"col\">: "+height+"</th>\r\n" + 
+									"                      \r\n" + 
+									"                            </tr>\r\n";
+						}
+						
+						if (!marital_status.equals("")) {
+							email_body=email_body+"                            <tr>\r\n" + 
+									"                              <th scope=\"col\">Marital Status </th>\r\n" + 
+									"                              <th scope=\"col\">: "+marital_status+"</th>\r\n" + 
+									"                      \r\n" + 
+									"                            </tr>\r\n";
+						}
+						
+						if (!education.equals("")) {
+							email_body=email_body+ 	"                            <tr >\r\n" + 
+									"                              <th  scope=\"col\">Education </th>\r\n" + 
+									"                              <th  scope=\"col\">: "+education+"</th>\r\n" + 
+									"                      \r\n" + 
+									"                            </tr>\r\n";
+						}
+						
+						if (!profession.equals("")) {
+							email_body=email_body+ "                            <tr>\r\n" + 
+									"                              <th scope=\"col\">Profession </th>\r\n" + 
+									"                              <th scope=\"col\">: "+profession+"</th>\r\n" + 
+									"                      \r\n" + 
+									"                            </tr>\r\n";
+							
+						}
+						
+						if (!religions.equals("")) {
+							email_body=email_body+"                            <tr>\r\n" + 
+									"                              <th scope=\"col\">Religions </th>\r\n" + 
+									"                              <th scope=\"col\">: "+religions+"</th>\r\n" + 
+									"                      \r\n" + 
+									"                            </tr>\r\n";
+						}
+						if (!mother_tongue.equals("")) {
+							email_body=email_body+"                            <tr>\r\n" + 
+									"                              <th scope=\"col\">Mother_tongue </th>\r\n" + 
+									"                              <th scope=\"col\">: "+mother_tongue+"</th>\r\n" + 
+									"                      \r\n" + 
+									"                            </tr>\r\n";
+						}
+						
+						if (!city.equals("")) {
+							email_body=email_body+"                            <tr>\r\n" + 
+									"                              <th scope=\"col\">City </th>\r\n" + 
+									"                              <th scope=\"col\">: "+city+"</th>\r\n" + 
+									"                      \r\n" + 
+									"                            </tr>\r\n";
+						}
+						email_body=email_body+"                           \r\n" + 
+						"                          </thead>\r\n" + 
+						"                          \r\n" + 
+						"                        </table>\r\n" + 
+						"                        <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\r\n" + 
+						"                          <tbody>\r\n" + 
+						"                            <tr>\r\n" + 
+						"                              <td> <a href=\"http://103.150.186.33:8080/saathidaar/member-profile/" + member_id+"\" target=\"_blank\">View Full Profile</a> </td>\r\n" + 
+						"                            </tr>\r\n" + 
+						"                          </tbody>\r\n" + 
+						"                        </table>\r\n" + 
+						"                      </td>\r\n" + 
+						"                    </tr>\r\n" + 
+						"                  </table>\r\n" + 
+						"                </td>\r\n" + 
+						"              </tr>\r\n" + 
+						"\r\n" + 
+						"            <!-- END MAIN CONTENT AREA -->\r\n" + 
+						"            </table>\r\n" + 
+						"\r\n" + 
+						"         \r\n" + 
+						"            \r\n" + 
+						"          <!-- END CENTERED WHITE CONTAINER -->\r\n" + 
+						"          </div>\r\n" + 
+						"        </td>\r\n" + 
+						"        <td>&nbsp;</td>\r\n" + 
+						"      </tr>\r\n" + 
+						"    </table>\r\n" + 
+						"  </body>\r\n" + 
+						"</html>";
+				
+				
 				System.out.println("************* email id- " + emailId_to);
 				mailSender.send(emailId_to, "Accept Request- Saathidaar", email_body);
 			} catch (Exception e) {
@@ -432,32 +1196,51 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 	}
 
 	public int GetSentRequestCount(String member_id) {
-		int status=0;
+		int sentCount=0;
+//		******************************Column Name******************************************************************
+		String columnName = getCommonColumnForSearch();
+		System.out.println("member_id- *******************************************" + member_id);
+//		******************************Block ids************************************************************************
+		String getBlockedIDS="";
 		try {
-			String getBlockedIDS = getBlockedIDS(member_id);
-			String blockQuery = "";
-			if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
-				blockQuery = " and m.member_id not in (" + getBlockedIDS + ")";
-			}
-			
+			getBlockedIDS= getBlockedIDS(member_id);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		String blockQuery = "";
+		System.out.println(" block member ids - " + getBlockedIDS);
+		if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
+			blockQuery = " and m.member_id not in (" + getBlockedIDS + ")";
+		}
+
+		JSONArray resultArray = new JSONArray();
+		try {
 			String getSentResuestedIDS = getSentsRequestedIDS(member_id);
+			
+			String getRejectedIDS = getRejectedIDS(member_id);
 
 			String sentResuestedQuery = "";
 			if (getSentResuestedIDS != null && !getSentResuestedIDS.equals("")) {
 				sentResuestedQuery = " and m.member_id in (" + getSentResuestedIDS + ")";
 
-				Query q = em.createNativeQuery("SELECT count(*)  FROM memberdetails as md "
+				Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
 						+ " join member as m on md.member_id=m.member_id"
 						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where m.member_id!= :member_id " + sentResuestedQuery + blockQuery);
-					q.setParameter("member_id", member_id);
+						+ " where m.member_id!= :member_id " + sentResuestedQuery + blockQuery + getRejectedIDS);
 
-					status= Integer.parseInt(q.getSingleResult().toString());
-			} 
+				q.setParameter("member_id", member_id);
+
+				List<Object[]> results = q.getResultList();
+				if (results != null) {
+					for (Object[] obj : results) {
+						sentCount=sentCount+1;
+					}
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return status;
+		return sentCount;
 	}
 	
 	@Override
@@ -467,7 +1250,12 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		String columnName = getCommonColumnForSearch();
 		System.out.println("member_id- *******************************************" + member_id);
 //		******************************Block ids************************************************************************
-		String getBlockedIDS = getBlockedIDS(member_id);
+		String getBlockedIDS="";
+		try {
+			getBlockedIDS= getBlockedIDS(member_id);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		String blockQuery = "";
 		System.out.println(" block member ids - " + getBlockedIDS);
 		if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
@@ -666,33 +1454,49 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 	}
 
 	public int GetInvitationsCount(String member_id) {
-		int status=0;
+		int invitationsCount=0;
+//		******************************Column Name*************************************************************************
+		String columnName = getCommonColumnForSearch();
+
+//		******************************Block ids************************************************************************
+		String getBlockedIDS="";
 		try {
-			String getBlockedIDS = getBlockedIDS(member_id);
-			String blockQuery = "";
-			System.out.println(" block member ids - " + getBlockedIDS);
-			if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
-				blockQuery = " and md.member_id not in (" + getBlockedIDS + ")";
-			}
-			
+			getBlockedIDS= getBlockedIDS(member_id);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		String blockQuery = "";
+		System.out.println(" block member ids - " + getBlockedIDS);
+		if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
+			blockQuery = " and md.member_id not in (" + getBlockedIDS + ")";
+		}
+
+		JSONArray resultArray = null;
+		try {
 			String getInvitationsIDS = getInvitationsIDS(member_id);
 			String initationsQuery = "";
 
 			if (getInvitationsIDS != null && !getInvitationsIDS.equals("")) {
 				initationsQuery = " and md.member_id in (" + getInvitationsIDS + ")";
 
-				Query q = em.createNativeQuery("SELECT count(*)  FROM memberdetails as md "
+				Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
 						+ " join member as m on md.member_id=m.member_id"
 						+ " join member_education_career as mec on m.member_id=mec.member_id "
 						+ " where md.member_id!= :member_id" + initationsQuery + blockQuery);
 
 				q.setParameter("member_id", member_id);
-				status = Integer.parseInt(q.getSingleResult().toString());
+				List<Object[]> results = q.getResultList();
+				if (results != null) {
+					resultArray = new JSONArray();
+					for (Object[] obj : results) {
+						invitationsCount=invitationsCount+1;
+					}
+				} 
 			} 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return status;
+		return invitationsCount;
 	}
 	
 	@Override
@@ -702,7 +1506,12 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		String columnName = getCommonColumnForSearch();
 
 //		******************************Block ids************************************************************************
-		String getBlockedIDS = getBlockedIDS(member_id);
+		String getBlockedIDS="";
+		try {
+			getBlockedIDS= getBlockedIDS(member_id);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		String blockQuery = "";
 		System.out.println(" block member ids - " + getBlockedIDS);
 		if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
@@ -774,7 +1583,12 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			String initationsQuery = "";
 
 //			******************************Block ids************************************************************************
-			String getBlockedIDS = getBlockedIDS(member_id);
+			String getBlockedIDS="";
+			try {
+				getBlockedIDS= getBlockedIDS(member_id);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 			String blockQuery = "";
 			System.out.println(" block member ids - " + getBlockedIDS);
 			if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
@@ -884,7 +1698,12 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		String columnName = getCommonColumnForSearch();
 
 //		******************************Block ids************************************************************************
-		String getBlockedIDS = getBlockedIDS(member_id);
+		String getBlockedIDS="";
+		try {
+			getBlockedIDS= getBlockedIDS(member_id);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		String blockQuery = "";
 		System.out.println(" block member ids - " + getBlockedIDS);
 		if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
@@ -948,42 +1767,97 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 	}
 
 	public int GetRejectedAndCanceledCount(String member_id) {
-		int status=0;
-		String getBlockedIDS = getBlockedIDS(member_id);
+		
+		int statusDeletedCount=0;
+//		******************************Column Name*************************************************************************
+		String columnName = getCommonColumnForSearch();
+//		******************************Block ids************************************************************************
+	
+		String getBlockedIDS="";
+		try {
+			getBlockedIDS= getBlockedIDS(member_id);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	
 		String blockQuery = "";
 		System.out.println(" block member ids - " + getBlockedIDS);
 		if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
 			blockQuery = " and md.member_id not in (" + getBlockedIDS + ")";
 		}
-		int from_id=0;
+		
 		try {
 			Query query = em.createNativeQuery(
-					"SELECT count(*) FROM member_request where request_from_id= :request_from_id and  (request_status= :member_rejected_status or request_status= :member_canceled_status) and (block_status is null  or block_status='')");
+					"SELECT request_to_id,request_status,creation_date FROM member_request where request_from_id= :request_from_id and  (request_status= :member_rejected_status or request_status= :member_canceled_status) and (block_status is null  or block_status='')");
 			query.setParameter("request_from_id", member_id);
 			query.setParameter("member_rejected_status", "Rejected");
 			query.setParameter("member_canceled_status", "Canceled");
-			from_id =Integer.parseInt(query.getSingleResult().toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		int to_id=0;
-		try {
+
+			List<Object[]> results = query.getResultList();
+			JSONObject json = new JSONObject();
+			if (results != null) {
+				for (Object[] obj : results) {
+					int j = 0;
+//					String request_from_id = convertNullToBlank(String.valueOf(obj[j]));
+					String request_to_id = convertNullToBlank(String.valueOf(obj[j]));
+					String request_status = convertNullToBlank(String.valueOf(obj[++j]));
+					String creation_date = convertNullToBlank(String.valueOf(obj[++j]));
+
+					String queryString = "SELECT "+columnName+"  FROM memberdetails as md "
+							+ " join member as m on md.member_id=m.member_id"
+							+ " join member_education_career as mec on m.member_id=mec.member_id "
+							+ " where md.member_id= :member_id "+ blockQuery;
+					Query qFrom = em.createNativeQuery(queryString);
+					qFrom.setParameter("member_id", request_to_id);
+					List<Object[]> memberFrom = qFrom.getResultList();
+					if (memberFrom != null) {
+						for (Object[] memberObj : memberFrom) {
+							statusDeletedCount=statusDeletedCount+1;
+						}
+					}
+				}
+			}
+
 			Query queryTo = em.createNativeQuery(
-					"SELECT count(*) FROM member_request where request_to_id= :request_to_id and  (request_status= :member_rejected_status or request_status= :member_canceled_status) and (block_status is null  or block_status='')");
+					"SELECT request_from_id,request_status,creation_date FROM member_request where request_to_id= :request_to_id and  (request_status= :member_rejected_status or request_status= :member_canceled_status) and (block_status is null  or block_status='')");
 			queryTo.setParameter("request_to_id", member_id);
 			queryTo.setParameter("member_rejected_status", "Rejected");
 			queryTo.setParameter("member_canceled_status", "Canceled");
-			to_id =Integer.parseInt(queryTo.getSingleResult().toString());
+
+			List<Object[]> resultsTO = queryTo.getResultList();
+			if (resultsTO != null) {
+				for (Object[] obj : resultsTO) {
+					int j = 0;
+//					String request_from_id = convertNullToBlank(String.valueOf(obj[j]));
+					String request_to_id = convertNullToBlank(String.valueOf(obj[j]));
+					String request_status = convertNullToBlank(String.valueOf(obj[++j]));
+					String creation_date = convertNullToBlank(String.valueOf(obj[++j]));
+					
+					String queryString = "SELECT "+columnName+"  FROM memberdetails as md "
+							+ " join member as m on md.member_id=m.member_id"
+							+ " join member_education_career as mec on m.member_id=mec.member_id "
+							+ " where md.member_id= :member_id";
+					Query qTo = em.createNativeQuery(queryString);
+					qTo.setParameter("member_id", request_to_id);
+					List<Object[]> memberTo = qTo.getResultList();
+					if (memberTo != null) {
+						for (Object[] memberObj : memberTo) {
+							statusDeletedCount=statusDeletedCount+1;
+						}
+					}
+				}
+			}
+			System.out.println("print deleted count - "+ statusDeletedCount);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		status=from_id+to_id;
-		return status;
+		return statusDeletedCount;
 	}
 	
 	
 	
 	public JSONArray GetRejectedAndCanceledDetails(String member_id) {
+		int statusCount=0;
 		JSONArray resultArray = new JSONArray();
 		JSONArray new_json_array = new JSONArray();
 		boolean flag=false;
@@ -991,7 +1865,12 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		String columnName = getCommonColumnForSearch();
 //		******************************Block ids************************************************************************
 		
-		String getBlockedIDS = getBlockedIDS(member_id);
+		String getBlockedIDS="";
+		try {
+			getBlockedIDS= getBlockedIDS(member_id);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		String blockQuery = "";
 		System.out.println(" block member ids - " + getBlockedIDS);
 		if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
@@ -1024,6 +1903,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					List<Object[]> memberFrom = qFrom.getResultList();
 					if (memberFrom != null) {
 						for (Object[] memberObj : memberFrom) {
+							statusCount=statusCount+1;
 							// your request is decline
 							json = getCommonDeleteJsonOutout(memberObj, member_id, request_status, "from", creation_date);
 							resultArray.put(json);
@@ -1057,6 +1937,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					List<Object[]> memberTo = qTo.getResultList();
 					if (memberTo != null) {
 						for (Object[] memberObj : memberTo) {
+							statusCount=statusCount+1;
 							// you declient request
 							json = getCommonDeleteJsonOutout(memberObj, member_id, request_status, "to", creation_date);
 							resultArray.put(json);
@@ -1085,6 +1966,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					new_json_array.put(o);
 				}
 			}
+			System.out.println("details print deleted count - "+ statusCount);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1092,37 +1974,89 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 	}
 
 	public int GetAcceptedCount(String member_id) {
-		int status=0;
-		String getBlockedIDS = getBlockedIDS(member_id);
+		int acceptedCount=0;
+		JSONArray resultArray = new JSONArray();
+		JSONArray new_json_array = new JSONArray();
+		boolean flag=false;
+//		******************************Column Name*************************************************************************
+		String columnName = getCommonColumnForSearch();
+//		******************************Block ids************************************************************************
+		
+		String getBlockedIDS="";
+		try {
+			getBlockedIDS= getBlockedIDS(member_id);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		String blockQuery = "";
 		System.out.println(" block member ids - " + getBlockedIDS);
 		if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
 			blockQuery = " and md.member_id not in (" + getBlockedIDS + ")";
 		}
-		int from_id_status=0;
+		
 		try {
-			Query query = em.createNativeQuery(
-					"SELECT count(*) FROM member_request where request_from_id= :request_from_id and request_status= :member_accepted_status and (block_status is null  or block_status='')");
+			Query query = em.createNativeQuery("SELECT request_to_id,request_status,creation_date FROM member_request where request_from_id= :request_from_id and request_status= :member_accepted_status and (block_status is null  or block_status='')");
 			query.setParameter("request_from_id", member_id);
 			query.setParameter("member_accepted_status", "Accepted");
-			 from_id_status = Integer.parseInt(query.getSingleResult().toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
-		int to_id_status=0;
-		try {
+			List<Object[]> results = query.getResultList();
+			JSONObject json = new JSONObject();
+			if (results != null) {
+				for (Object[] obj : results) {
+					int j = 0;
+//					String request_from_id = convertNullToBlank(String.valueOf(obj[j]));
+					String request_to_id = convertNullToBlank(String.valueOf(obj[j]));
+					String request_status = convertNullToBlank(String.valueOf(obj[++j]));
+					String creation_date = convertNullToBlank(String.valueOf(obj[++j]));
+
+					String queryString = "SELECT " + columnName + "  FROM memberdetails as md "
+							+ " join member as m on md.member_id=m.member_id"
+							+ " join member_education_career as mec on m.member_id=mec.member_id "
+							+ " where md.member_id= :member_id";
+					Query qFrom = em.createNativeQuery(queryString);
+					qFrom.setParameter("member_id", request_to_id);
+					List<Object[]> memberFrom = qFrom.getResultList();
+					if (memberFrom != null) {
+						for (Object[] memberObj : memberFrom) {
+							acceptedCount=acceptedCount+1;
+						}
+					}
+				}
+			}
+
 			Query queryTo = em.createNativeQuery(
-					"SELECT count(*) FROM member_request where request_to_id= :request_to_id and request_status= :member_accepted_status and (block_status is null  or block_status='')");
+					"SELECT request_from_id,request_status,creation_date FROM member_request where request_to_id= :request_to_id and request_status= :member_accepted_status and (block_status is null  or block_status='')");
 			queryTo.setParameter("request_to_id", member_id);
 			queryTo.setParameter("member_accepted_status", "Accepted");
-			to_id_status = Integer.parseInt(queryTo.getSingleResult().toString());
+			
+			List<Object[]> resultsTO = queryTo.getResultList();
+			if (resultsTO != null) {
+				for (Object[] obj : resultsTO) {
+					int j = 0;
+//					String request_from_id = convertNullToBlank(String.valueOf(obj[j]));
+					String request_to_id = convertNullToBlank(String.valueOf(obj[j]));
+					String request_status = convertNullToBlank(String.valueOf(obj[++j]));
+					String creation_date = convertNullToBlank(String.valueOf(obj[++j]));
+					
+					String queryString = "SELECT " + columnName + "  FROM memberdetails as md "
+							+ " join member as m on md.member_id=m.member_id"
+							+ " join member_education_career as mec on m.member_id=mec.member_id "
+							+ " where md.member_id= :member_id";
+					Query qTo = em.createNativeQuery(queryString);
+					qTo.setParameter("member_id", request_to_id);
+					List<Object[]> memberTo = qTo.getResultList();
+					if (memberTo != null) {
+						for (Object[] memberObj : memberTo) {
+							acceptedCount=acceptedCount+1;
+						}
+					}
+				}
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		status=from_id_status+to_id_status;
-		return status;
+		return acceptedCount;
 	}
 	
 	public JSONArray GetAcceptedDetails(String member_id) {
@@ -1133,7 +2067,12 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		String columnName = getCommonColumnForSearch();
 //		******************************Block ids************************************************************************
 		
-		String getBlockedIDS = getBlockedIDS(member_id);
+		String getBlockedIDS="";
+		try {
+			getBlockedIDS= getBlockedIDS(member_id);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		String blockQuery = "";
 		System.out.println(" block member ids - " + getBlockedIDS);
 		if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
@@ -1393,9 +2332,14 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 	}
 
 	public int getBlockMemberCount(String member_id) {
-		int status=0;
+		int count=0;
 		try {
-			String getBlockedIDS = getBlockedIDS(member_id);
+			String getBlockedIDS="";
+			try {
+				getBlockedIDS= getBlockedIDS(member_id);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 			String initationsQuery = "";
 			System.out.println(" block member ids - " + getBlockedIDS);
 			if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
@@ -1405,12 +2349,14 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 						+ " join member as m on md.member_id=m.member_id"
 						+ " join member_education_career as mec on m.member_id=mec.member_id "
 						+ " where m.status='ACTIVE' and md.member_id!= :member_id" + initationsQuery);
-				status = Integer.parseInt(q.getResultList().toString());
-			}
+				q.setParameter("member_id", member_id);
+
+				count =Integer.parseInt(q.getSingleResult().toString());
+			}	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return status;
+		return count;
 	}
 	
 	@Override
@@ -1420,7 +2366,12 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 //		******************************Query*************************************************************************
 		JSONArray resultArray = new JSONArray();
 		try {
-			String getBlockedIDS = getBlockedIDS(member_id);
+			String getBlockedIDS="";
+			try {
+				getBlockedIDS= getBlockedIDS(member_id);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 			String initationsQuery = "";
 			System.out.println(" block member ids - " + getBlockedIDS);
 			if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
@@ -1468,7 +2419,12 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			String initationsQuery = "";
 
 //			******************************Block ids************************************************************************
-			String getBlockedIDS = getBlockedIDS(member_id);
+			String getBlockedIDS="";
+			try {
+				getBlockedIDS= getBlockedIDS(member_id);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 			String blockQuery = "";
 			System.out.println(" block member ids - " + getBlockedIDS);
 			if (getBlockedIDS != null && !getBlockedIDS.equals("")) {

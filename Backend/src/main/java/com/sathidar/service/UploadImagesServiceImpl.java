@@ -100,20 +100,21 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 				
 				String saveFolderPath = "/member_images/" + uploadImagesModel.getMember_id() + "/" + uploadImagesModel.getImage_name();
 
+				uploadDir="/opt/tomcat/webapps";
 				uploadDir = uploadDir + "/member_images/" + uploadImagesModel.getMember_id() + "";
 
 				File theDir = new File(uploadDir);
 				if (!theDir.exists()) {
 					theDir.mkdirs();
 				}
-
+				
 				String base64Image = strArray[i].toString().split(",")[1];
 				byte[] data = java.util.Base64.getDecoder().decode(base64Image);
 			
 				int status = uploadImagesRepository.saveMemberPhotos(uploadImagesModel.getImage_name(),
 						saveFolderPath, uploadImagesModel.getMember_id());
 				if (status > 0) {
-					try (OutputStream stream = new FileOutputStream(uploadDir + "/" + uploadImagesModel.getImage_name())) {
+					try (FileOutputStream stream = new FileOutputStream(uploadDir + "/" + uploadImagesModel.getImage_name())) {
 						stream.write(data);
 					}
 				}		
@@ -224,6 +225,8 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 		
 		String uploadDir = constant.image_path  + "/" + uploadImagesModel.getMember_id();
 		uploadDir = System.getProperty("catalina.base") +"/webapps";
+		
+//		uploadDir="/home/httpsaathidaar/public_html";
 		String saveFolderPath="/member_images/"+uploadImagesModel.getMember_id()+"/"+fileName;
 		
 		uploadImagesModel.setImage_path(saveFolderPath);
@@ -231,6 +234,8 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 		int status = uploadImagesRepository.saveMemberPhotos(uploadImagesModel.getImage_name(),saveFolderPath,uploadImagesModel.getMember_id());
 		
 		uploadDir=uploadDir+"/member_images/"+uploadImagesModel.getMember_id()+"";
+		
+		System.out.println("path - "+uploadDir );
 		if (status != 0) {
 			FileUploadUtil fileUploadUtil = new FileUploadUtil();
 			try {

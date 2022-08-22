@@ -81,45 +81,54 @@ public class UserController {
 	@PostMapping(path = "/member/otp")
 	public Map<String, String> sendOTP(@Validated @RequestBody User user) {
 		HashMap<String, String> map = new HashMap<>();
-		TextLocalSMSSetting textLocalSMSSetting=new TextLocalSMSSetting();
-//		String messageStatus = userService.isUserAlreadyRegister(user);
-//		if (messageStatus.equals("success")) {
-			String otp = this.getOTP();
-			String smsMessage = "Your Verification Code is "+otp+"\n" + 
-					"Saathidaar.com";
-////			String smsMessage = "Welcome to Saathidar.com. " + otp
-////					+ "  is your OTP to login and start finding your soulmate here.\r\n" + "www.Saathidar.com";
-			String sender = "SDMOTP";
-			String phoneNo = user.getPhone().trim();
-			String response = textLocalSMSSetting.POSTSendSMS(phoneNo, sender, smsMessage);
-//
-////		String response = sendSMSAction.SendOtpSms(phoneNo, sender, smsMessage);
-//
-			final JSONObject obj = new JSONObject(response);
-			obj.toString();
-			String type = obj.getString("type");
-
-			if (otp != null && !otp.equals("")) {
-				if (type.equals("success")) {
-					map.put("message", "success");
-					map.put("result", "1");
-					// save otp to db
-					int status=userService.saveOTPDB(phoneNo,otp);
-				} else if (type.equals("error")) {
-					map.put("message", "error");
-					map.put("result", "0");
-				}
-			} else {
-				map.put("message", "error");
-				map.put("result", "0");
-			}
-//		} else {
-//			map.put("message", messageStatus);
-//			map.put("result", "0");
-//		}
-
+		
+		map.put("message", "success");
+		map.put("result", "1");
+		
 		return map;
 	}
+//	@PostMapping(path = "/member/otp")
+//	public Map<String, String> sendOTP(@Validated @RequestBody User user) {
+//		HashMap<String, String> map = new HashMap<>();
+//		TextLocalSMSSetting textLocalSMSSetting=new TextLocalSMSSetting();
+////		String messageStatus = userService.isUserAlreadyRegister(user);
+////		if (messageStatus.equals("success")) {
+//			String otp = this.getOTP();
+//			String smsMessage = "Your Verification Code is "+otp+"\n" + 
+//					"Saathidaar.com";
+//////			String smsMessage = "Welcome to Saathidar.com. " + otp
+//////					+ "  is your OTP to login and start finding your soulmate here.\r\n" + "www.Saathidar.com";
+//			String sender = "SDMOTP";
+//			String phoneNo = user.getPhone().trim();
+//			String response = textLocalSMSSetting.POSTSendSMS(phoneNo, sender, smsMessage);
+////
+//////		String response = sendSMSAction.SendOtpSms(phoneNo, sender, smsMessage);
+////
+//			final JSONObject obj = new JSONObject(response);
+//			obj.toString();
+//			String type = obj.getString("type");
+//
+//			if (otp != null && !otp.equals("")) {
+//				if (type.equals("success")) {
+//					map.put("message", "success");
+//					map.put("result", "1");
+//					// save otp to db
+//					int status=userService.saveOTPDB(phoneNo,otp);
+//				} else if (type.equals("error")) {
+//					map.put("message", "error");
+//					map.put("result", "0");
+//				}
+//			} else {
+//				map.put("message", "error");
+//				map.put("result", "0");
+//			}
+////		} else {
+////			map.put("message", messageStatus);
+////			map.put("result", "0");
+////		}
+//
+//		return map;
+//	}
 	
 //	@GetMapping(path = "/member/verify/otp")
 	@RequestMapping(value = "/member/verify/otp/{otp}/{phone}", method = RequestMethod.GET)

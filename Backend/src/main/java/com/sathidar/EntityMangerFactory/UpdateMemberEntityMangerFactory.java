@@ -1033,7 +1033,7 @@ public class UpdateMemberEntityMangerFactory {
 
 						json.put("income", myAnnualIncome);
 						json.put("member_id", memberID);
-						json.put("request_status", "");
+//						json.put("request_status", "");
 						json.put("block_status", "");
 						json.put("profile_photo", getProfilePath);
 
@@ -1078,13 +1078,17 @@ public class UpdateMemberEntityMangerFactory {
 						query.setParameter("member_to_id", memberID);
 						JSONArray resultRequest = new JSONArray();
 						List<Object[]> result = query.getResultList();
+						int statusRequest=0;
 						if (results != null) {
 							for (Object[] objRequest : result) {
 								int j = 0;
+								statusRequest=1;
 								json.put("request_status", convertNullToBlank(String.valueOf(objRequest[j])));
 								json.put("block_status", convertNullToBlank(String.valueOf(objRequest[++j])));
 							}
-						} else {
+						} 
+						
+						if(statusRequest==0) {
 							json.put("request_status", "");
 							json.put("block_status", "");
 
