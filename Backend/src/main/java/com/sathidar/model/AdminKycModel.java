@@ -25,7 +25,7 @@ package com.sathidar.model;
 		
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		Integer id;
+		Integer id;		
 		
 		@Transient
 		private String[] image_base_urls;
