@@ -19,6 +19,8 @@ public class SuccessStoriesModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer  id;
 	
+	private String image_path;
+	
 	private String success_photo;
 
 	private String description;
@@ -26,6 +28,25 @@ public class SuccessStoriesModel {
 	@Transient
 	private String[] image_base_urls;
 	
+	public String getImage_path() {
+		return image_path;
+	}
+
+	public void setImage_path(String image_path) {
+		this.image_path = image_path;
+	}
+
+	public String getSuccess_photo() {
+		return success_photo;
+	}
+
+	public void setSuccess_photo(String success_photo) {
+		this.success_photo = success_photo;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String[] getImage_base_urls() {
 		return image_base_urls;

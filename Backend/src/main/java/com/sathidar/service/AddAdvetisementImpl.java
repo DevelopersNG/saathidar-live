@@ -37,10 +37,10 @@ public class AddAdvetisementImpl implements AddAdvertisementService
 
 				String uploadDir =System.getProperty("catalina.base") + "/webapps";
 				
-				String saveFolderPath = "/member_images/" + "advertise" + id + ".jpg";
+				String saveFolderPath = "/advertisements/" + "advertise" + id + ".jpg";
 				addAdvertisement.setAdvt_photo(saveFolderPath);
 
-				uploadDir = uploadDir + "/member_images/";
+				uploadDir = uploadDir + "/advertisements/";
 
 				File theDir = new File(uploadDir);
 				if (!theDir.exists()) {
@@ -51,12 +51,12 @@ public class AddAdvetisementImpl implements AddAdvertisementService
 				byte[] data = java.util.Base64.getDecoder().decode(base64Image);
 			
 				int status = addAdvertisementRepository.saveMemberPhotos(addAdvertisement.getDescription(),
-						addAdvertisement.getAdvertise());
+						addAdvertisement.getAdvt_photo());
 				if (status > 0) {
 //					try (OutputStream stream = new FileOutputStream(uploadDir + "advertise" + id + ".jpg")) {
 //						stream.write(data);
 //					}
-					try (OutputStream stream = new FileOutputStream(uploadDir)) {
+					try (FileOutputStream stream = new FileOutputStream(uploadDir + "advertise" + id + ".jpg")) {
 						stream.write(data);
 					}
 				}		
@@ -74,13 +74,12 @@ public class AddAdvetisementImpl implements AddAdvertisementService
 	public JSONArray getAdvertise() {
 		JSONArray resultArray = new JSONArray();
 		try {
-			//JSONObject json = new JSONObject();
-			List post =  (List) addAdvertisementRepository.getById();
+			java.util.List<AddAdvertisement> post =  addAdvertisementRepository.getById();
 			if (post != null) {
-				for (int i = 0; i < post.length(); i++) {
+				for (int i = 0; i < post.size(); i++) {
 					JSONObject jsonObj = new JSONObject();
-					jsonObj.put("member_images", ((AddAdvertisement) ((JSONArray) post).get(i)).getImage_base_urls());
-					jsonObj.put("image_id", "" + ((AddAdvertisement) ((JSONArray) post).get(i)).getId());
+					jsonObj.put("member_images",post.get(i).getAdvt_photo());
+					jsonObj.put("image_id",post.get(i).getId());
 					resultArray.put(jsonObj);
 				}
 			}
@@ -89,13 +88,6 @@ public class AddAdvetisementImpl implements AddAdvertisementService
 			resultArray=null;
 		}
 		return resultArray;
-	}
-	
-	
-	@Override
-	public int deleteImagesById(AddAdvertisement addAdvertisement) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override
@@ -118,6 +110,11 @@ public class AddAdvetisementImpl implements AddAdvertisementService
 
 	@Override
 	public int deleteImagesById(int id) {
+		return addAdvertisementRepository.deleteByPhotoIDDeleteFlagY(id);
+	}
+
+	@Override
+	public int deleteImagesById(AddAdvertisement addAdvertisement) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

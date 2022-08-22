@@ -17,14 +17,13 @@ public interface SuccessStoriesRepository extends JpaRepository<SuccessStoriesMo
 	@Modifying
 	@Query(value="insert into success_story (description,success_photo) values (:description,:saveFolderPath)",nativeQuery=true)
 	int saveMemberPhotos(String description, String saveFolderPath);
-
 	
 	@Transactional
 	@Modifying
 	@Query(value="update success_story set deleteflag='Y' where id= :id ",nativeQuery = true)
 	int deleteByPhotoIDDeleteFlagY(Integer id);
 
-
-	antlr.collections.List getById();
+	@Query(value="select * from success_story where deleteflag='N'",nativeQuery = true)
+	List<SuccessStoriesModel> getById();
 
 }

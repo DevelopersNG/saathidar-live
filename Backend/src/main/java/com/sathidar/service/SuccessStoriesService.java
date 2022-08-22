@@ -7,9 +7,6 @@ import com.sathidar.model.SuccessStoriesModel;
 
 public interface SuccessStoriesService {
 	
-
-
-
 	
 	public abstract int saveToImage(SuccessStoriesModel successStoriesModel);
 

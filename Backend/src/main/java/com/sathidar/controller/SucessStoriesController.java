@@ -44,7 +44,7 @@ public class SucessStoriesController {
 	}	
 	
 	@GetMapping(value = "/success/story/get")
-	private String getAdvertisement(@Validated @RequestBody AddAdvertisement addAdvertisement) {
+	private String getAdvertisement() {
 		JSONArray jsonResultsArray = new JSONArray();
 		JSONObject jsObject = new JSONObject();
 		jsonResultsArray = successStoriesService.getSuccessStory();

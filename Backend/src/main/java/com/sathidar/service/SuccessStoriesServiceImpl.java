@@ -8,6 +8,7 @@ import java.util.Random;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.sathidar.model.AddAdvertisement;
 import com.sathidar.model.SuccessStoriesModel;
@@ -16,6 +17,7 @@ import com.sathidar.repository.SuccessStoriesRepository;
 
 import antlr.collections.List;
 
+@Service
 public class SuccessStoriesServiceImpl implements SuccessStoriesService{
 	
 	@Autowired 
@@ -37,10 +39,10 @@ public class SuccessStoriesServiceImpl implements SuccessStoriesService{
 
 				String uploadDir =System.getProperty("catalina.base") + "/webapps";
 				
-				String saveFolderPath = "/member_images/" + "advertise" + id + ".jpg";
+				String saveFolderPath = "/success_story/" + "success_story" + id + ".jpg";
 				successStoriesModel.setsuccess_photo(saveFolderPath);
 
-				uploadDir = uploadDir + "/member_images/";
+				uploadDir = uploadDir + "/success_story/";
 
 				File theDir = new File(uploadDir);
 				if (!theDir.exists()) {
@@ -56,7 +58,7 @@ public class SuccessStoriesServiceImpl implements SuccessStoriesService{
 //					try (OutputStream stream = new FileOutputStream(uploadDir + "advertise" + id + ".jpg")) {
 //						stream.write(data);
 //					}
-					try (OutputStream stream = new FileOutputStream(uploadDir)) {
+					try (FileOutputStream stream = new FileOutputStream(uploadDir + "success_story" + id + ".jpg")) {
 						stream.write(data);
 					}
 				}		
@@ -74,12 +76,12 @@ public class SuccessStoriesServiceImpl implements SuccessStoriesService{
 	public JSONArray getSuccessStory() {
 		JSONArray resultArray = new JSONArray();
 		try {
-			List post =  (List) successStoriesRepository.getById();
+			java.util.List<SuccessStoriesModel> post =  successStoriesRepository.getById();
 			if (post != null) {
-				for (int i = 0; i < post.length(); i++) {
+				for (int i = 0; i < post.size(); i++) {
 					JSONObject jsonObj = new JSONObject();
-					jsonObj.put("success_photo", ((AddAdvertisement) ((JSONArray) post).get(i)).getImage_base_urls());
-					jsonObj.put("id", "" + ((AddAdvertisement) ((JSONArray) post).get(i)).getId());
+					jsonObj.put("images_path", post.get(i).getImage_path());
+					jsonObj.put("image_id", "" + post.get(i).getId());
 					resultArray.put(jsonObj);
 				}
 			}
@@ -90,15 +92,9 @@ public class SuccessStoriesServiceImpl implements SuccessStoriesService{
 		return resultArray;
 	}
 	
-	
-
-	
-
-	
-@Override
+	@Override
 	public int deleteImagesById(int id) {
-		// TODO Auto-generated method stub
-		return 0;
+		return successStoriesRepository.deleteByPhotoIDDeleteFlagY(id);
 	}
 
 }

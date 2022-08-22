@@ -38,10 +38,10 @@ public class AddAdvertisementController {
 	}	
 	
 	@GetMapping(value = "/advertisement/app/get")
-	private String getAdvertisement(@Validated @RequestBody AddAdvertisement addAdvertisement) {
+	private String getAdvertisement() {
 		JSONArray jsonResultsArray = new JSONArray();
 		JSONObject jsObject = new JSONObject();
-		jsonResultsArray = addAdvertisementService.getAdvt_photo();
+		jsonResultsArray = addAdvertisementService.getAdvertise();
 		if (jsonResultsArray == null) {
 			jsObject.put("data", jsonResultsArray);
 			jsObject.put("results", "0");
