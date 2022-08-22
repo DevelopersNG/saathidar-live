@@ -58,8 +58,8 @@ public class DashboardServiceImpl implements DashboardService {
 		try {
 			JSONObject json = new JSONObject();
 			// count for total accept requests
-			int accept_count = dashboardRepository.getTotalCountAcceptRequest(member_id, "Accepted");
-//			int accept_count = requestMemberServiceImpl.GetAcceptedCount(member_id);
+//			int accept_count = dashboardRepository.getTotalCountAcceptRequest(member_id, "Accepted");
+			int accept_count = requestMemberServiceImpl.GetAcceptedCount(member_id);
 			json.put("accept_request_count", "" + accept_count);
 
 			// count for total sent requests
