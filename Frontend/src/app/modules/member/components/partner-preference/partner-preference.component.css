@@ -1,0 +1,65 @@
+* {
+    font-family: 'Times New Roman', Times, serifs;font-style: italic;
+ }
+h3
+{
+    background-color: #742041; color:#fff; padding: 10px;
+}
+h1
+{
+    background-color: #742041;color: #fff;padding: 10px;
+}
+body
+{
+    box-shadow: 0 0 11px #742041; 
+
+}
+
+.chosen-container-multi .chosen-choices
+{
+    border: black 1px solid;
+}
+.customClass.dropdown-btn{
+    width: 100% !important;
+    border:1px solid red !important;
+}
+.dashbord {
+    margin-left: 431px;
+    margin-top: -11px;
+    color: #742041;
+}
+
+/* #overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 2;
+    cursor: pointer;
+}   */
+
+.overlay {
+    background: #e9e9e9; 
+    display: none;      
+    position: absolute; 
+    top: 0;                 
+    right: 0;              
+    bottom: 0;
+    left: 0;
+    opacity: 0.5;
+}
+.vs
+{
+    margin: auto;text-align: center;border-radius: 10px;padding-left: 40px;padding-right: 40px;
+}
+.btn
+{
+     background-color:#742041;color: #fff;border: #fff 1px solid;margin-left: 2px;
+     margin-top: 10px;
+     margin-bottom: 10px;
+}

@@ -1,0 +1,230 @@
+
+
+<div class="container">
+    <div class="row mt-4">
+
+    <div style="width: 100%;" class="col-lg-6 col-sm-12" id="button1">  <button type="button" class="btn btn99 col-12">
+        Recently Visitors   <span class="badge badge-light"></span>
+    </button></div>
+    <div class="col-lg-6 col-sm-12" id="button1">
+    <button type="button" class="btn btn99 col-12 ">
+        Recent Viewed <span class="badge badge-light"></span>
+    </button>
+    </div>
+  </div>
+  </div>
+
+      <div class="container">
+        <div class="row ">
+          <div class="col-sm-12  col-lg-6 mt-3   ">
+            <div class="media position-relative bgCard mt-2"  *ngFor="let search of recentVisitor">
+  <!-- **********************************image*************************** -->
+
+  <!-- visible to all -->
+      <div *ngIf="search.photo_privacy=='1'">        
+        <div *ngIf="search.profile_photo!=''"> 
+          <i *ngIf="search.premium_status=='1'" class="fa-solid fa-crown"></i>
+          <img style="border: 2px solid black;" data-toggle="modal" data-target="#exampleModal" class="imgnew "
+            (click)="callIMageForMemberID(search.member_id)" [src]='imageURL+search.profile_photo' alt="">
+          <!-- <button style="background-color: #742041;color: #fff;border: none;" type="submit" data-toggle="modal"
+            data-target="#exampleModal" (click)="callIMageForMemberID(search.member_id)">See All Photo</button> -->
+        </div>  
+        
+        <div *ngIf="search.profile_photo==''">         
+          <i *ngIf="search.premium_status=='1'" class="fa-solid fa-crown"></i>
+          <img data-toggle="modal" data-target="#exampleModal" class="imgnew"
+            (click)="callIMageForMemberID(search.member_id)" src="{{genderImageURL}}" alt=''>
+        </div>
+      </div>
+
+      <!-- visible to premium members -->
+      <div *ngIf="search.photo_privacy=='2'">
+                <!-- 2==2 -->
+        <div *ngIf="search.photo_privacy==search.my_premium_status">
+          <div *ngIf="search.profile_photo!=''">
+            <i *ngIf="search.premium_status=='1'" class="fa-solid fa-crown"></i>
+            <img style="border: 2px solid black;" data-toggle="modal" data-target="#exampleModal"
+              class="imgnew premiumimg" (click)="callIMageForMemberID(search.member_id)"
+              [src]='imageURL+search.profile_photo' alt="">
+          </div>
+
+          <div *ngIf="search.profile_photo==''">
+            <i *ngIf="search.premium_status=='1'" class="fa-solid fa-crown"></i>
+            <img data-toggle="modal" data-target="#exampleModal" class="imgnew"
+              (click)="callIMageForMemberID(search.member_id)" src="{{genderImageURL}}" alt=''>
+          </div>
+        </div>
+        <!-- 2!=0 -->
+        <div *ngIf="search.photo_privacy!=search.my_premium_status">   
+          <div *ngIf="search.profile_photo!=''">
+       
+            <i *ngIf="search.premium_status=='1'" class="fa-solid fa-crown"></i>
+            <img style="border: 2px solid black;" data-toggle="modal" data-target="#exampleModal"
+              class="imgnew premiumimg" (click)="callIMageForMemberID(search.member_id)"
+              [src]='imageURL+search.profile_photo' alt="">
+          </div>
+
+          <div *ngIf="search.profile_photo==''">
+            <i *ngIf="search.premium_status=='1'" class="fa-solid fa-crown"></i>
+            <img data-toggle="modal" data-target="#exampleModal" class="imgnew"
+              (click)="callIMageForMemberID(search.member_id)" src="{{genderImageURL}}" alt=''>
+          </div>
+        </div>
+      </div>
+
+      <!-- keep all private , blur to all-->
+      <div *ngIf="search.photo_privacy=='3'">
+        <div *ngIf="search.profile_photo!=''">
+     
+          <i *ngIf="search.premium_status=='1'" class="fa-solid fa-crown"></i>
+          <img style="border: 2px solid black;" data-toggle="modal" data-target="#exampleModal"
+            class="imgnew premiumimg " (click)="callIMageForMemberID(search.member_id)"
+            [src]='imageURL+search.profile_photo' alt="">
+        </div>
+
+        <div *ngIf="search.profile_photo==''">
+          <i *ngIf="search.premium_status=='1'" class="fa-solid fa-crown"></i>
+          <img data-toggle="modal" data-target="#exampleModal" class="imgnew"
+            (click)="callIMageForMemberID(search.member_id)" src="{{genderImageURL}}" alt=''>
+        </div>
+
+      </div>
+
+      <!-- ***************************************image ***************************************************** -->
+
+
+              <!-- <img src="/assets/img/Saathidaar_PNG_logo/w-final.jpeg" class="mr-3" alt="..."> -->
+              <div class="media-body">
+                <ul>
+                  <li> <label for="">Name : </label>
+                    <label for="nameResult">{{search.first_name}} {{search.last_name}}  </label>
+                  </li>
+                  <li> <label for="">Age:</label>
+                    <label for="nameResult">{{search.mage}}  </label>
+                  </li>
+                  <li> <label for="">Marital Status: </label>
+                    <label for="nameResult">{{search.maritalStatus}}  </label>
+                  </li>
+                  <li> <label class="" for="">Religion:</label>
+                    <label class="" for="religionResult">{{search.religion}} </label>
+                  </li>
+                  <li>
+                  <label for=""> <a class="stretched-link" [routerLink]="" (click)="singleViewMemberDetails(search.member_id)" style="color: blue;">read more...</a></label><br>
+                  </li>
+                  <!-- <a href="#" class="stretched-link">Read More</a> -->
+                </ul>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="col-sm-12 col-lg-6 mt-3">
+            <!-- *ngFor="let search of searchMemberDetails" -->
+            <div class="media position-relative bgCard mt-2"  *ngFor="let recent of viewRecently">
+      <!-- **********************************image*************************** -->
+
+      <!-- visible to all -->
+      <div *ngIf="recent.photo_privacy=='1'">
+        <div *ngIf="recent.profile_photo!=''">
+          <i *ngIf="recent.premium_status=='1'" class="fa-solid fa-crown"></i>
+          <img style="border: 2px solid black;" data-toggle="modal" data-target="#exampleModal" class="imgnew "
+            (click)="callIMageForMemberID(recent.member_id)" [src]='imageURL+recent.profile_photo' alt="">
+          <!-- <button style="background-color: #742041;color: #fff;border: none;" type="submit" data-toggle="modal"
+            data-target="#exampleModal" (click)="callIMageForMemberID(recent.member_id)">See All Photo</button> -->
+        </div>
+
+        <div *ngIf="recent.profile_photo==''">
+          <i *ngIf="recent.premium_status=='1'" class="fa-solid fa-crown"></i>
+          <img data-toggle="modal" data-target="#exampleModal" class="imgnew"
+            (click)="callIMageForMemberID(recent.member_id)" src="{{genderImageURL}}" alt=''>
+        </div>
+      </div>
+
+      <!-- visible to premium members -->
+      <div *ngIf="recent.photo_privacy=='2'">
+                <!-- 2==2 -->
+        <div *ngIf="recent.photo_privacy==recent.my_premium_status">
+          <div *ngIf="recent.profile_photo!=''">
+            <i *ngIf="recent.premium_status=='1'" class="fa-solid fa-crown"></i>
+            <img style="border: 2px solid black;" data-toggle="modal" data-target="#exampleModal"
+              class="imgnew premiumimg" (click)="callIMageForMemberID(recent.member_id)"
+              [src]='imageURL+recent.profile_photo' alt="">
+          </div>
+
+          <div *ngIf="recent.profile_photo==''">
+            <i *ngIf="recent.premium_status=='1'" class="fa-solid fa-crown"></i>
+            <img data-toggle="modal" data-target="#exampleModal" class="imgnew"
+              (click)="callIMageForMemberID(recent.member_id)" src="{{genderImageURL}}" alt=''>
+          </div>
+        </div>
+        <!-- 2!=0 -->
+        <div *ngIf="recent.photo_privacy!=recent.my_premium_status">   
+          <div *ngIf="recent.profile_photo!=''">
+         
+            <i *ngIf="recent.premium_status=='1'" class="fa-solid fa-crown"></i>
+            <img style="border: 2px solid black;" data-toggle="modal" data-target="#exampleModal"
+              class="imgnew premiumimg" (click)="callIMageForMemberID(recent.member_id)"
+              [src]='imageURL+recent.profile_photo' alt="">
+          </div>
+
+          <div *ngIf="recent.profile_photo==''">
+            <i *ngIf="recent.premium_status=='1'" class="fa-solid fa-crown"></i>
+            <img data-toggle="modal" data-target="#exampleModal" class="imgnew"
+              (click)="callIMageForMemberID(recent.member_id)" src="{{genderImageURL}}" alt=''>
+          </div>
+        </div>
+      </div>
+
+      <!-- keep all private , blur to all-->
+      <div *ngIf="recent.photo_privacy=='3'">
+        <div *ngIf="recent.profile_photo!=''">
+       
+          <i *ngIf="recent.premium_status=='1'" class="fa-solid fa-crown"></i>
+          <img style="border: 2px solid black;" data-toggle="modal" data-target="#exampleModal"
+            class="imgnew premiumimg " (click)="callIMageForMemberID(recent.member_id)"
+            [src]='imageURL+recent.profile_photo' alt="">
+        </div>
+
+        <div *ngIf="recent.profile_photo==''">
+          <i *ngIf="recent.premium_status=='1'" class="fa-solid fa-crown"></i>
+          <img data-toggle="modal" data-target="#exampleModal" class="imgnew"
+            (click)="callIMageForMemberID(recent.member_id)" src="{{genderImageURL}}" alt=''>
+        </div>
+
+      </div>
+
+      <!-- ***************************************image ***************************************************** -->
+
+
+                <!-- <img src="/assets/img/Saathidaar_PNG_logo/w-final.jpeg" class="mr-3" alt="..."> -->
+                <div class="media-body">
+                  <ul>
+                    <li> <label for="">Name : </label>
+                      <label for="nameResult">{{recent.first_name}} {{recent.last_name}}   </label>
+                    </li>
+                    <li> <label for="">Age:</label>
+                      <label for="nameResult">{{recent.mage}}  </label>
+                    </li>
+                    <li> <label for="">Marital Status: </label>
+                      <label for="nameResult">{{recent.maritalStatus}}  </label>
+                    </li>
+                    <li> <label class="" for="">Religion:</label>
+                      <label class="" for="religionResult">{{recent.religion}} </label>
+                    </li>
+                   
+                  
+                    <li>
+                    <label for=""> <a class="stretched-link" [routerLink]="" (click)="singleViewMemberDetails(recent.member_id)" style="color: blue;">read more...</a></label><br>
+  
+                    </li>
+                    <!-- <a href="#" class="stretched-link">Read More</a> -->
+                  </ul>
+  
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+
+     

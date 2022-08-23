@@ -89,14 +89,14 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 	@Modifying
 	@Query(value = "update member_horoscope set country_of_birth= :country_of_birth, city_of_birth= :city_of_birth,hours= :hours,"
 			+ "minutes= :minutes,time=:time,time_status= :time_status,time_of_birth= :time_of_birth,"
-			+ "manglik= :manglik , date_of_birth=:date_of_birth"
+			+ "manglik= :manglik , hr_dob=:date_of_birth"
 			+ " where member_id= :member_id  ", nativeQuery = true)
 	Object updateHoroscopeDetails(int member_id, String country_of_birth, String city_of_birth, String hours,
 			String minutes, String time, String time_status, String time_of_birth, String manglik,String date_of_birth);
 	
 	@Transactional
 	@Modifying
-	@Query(value = "insert into member_horoscope (member_id,country_of_birth,city_of_birth,time_of_birth,time_status,manglik,hours,minutes,time,date_of_birth)"
+	@Query(value = "insert into member_horoscope (member_id,country_of_birth,city_of_birth,time_of_birth,time_status,manglik,hours,minutes,time,hr_dob)"
 			+ "values ("
 			+ ":member_id,:country_of_birth,:city_of_birth,:time_of_birth,:time_status,:manglik,:hours,:minutes,:time,:date_of_birth"
 			+ ")", nativeQuery = true)

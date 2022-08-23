@@ -1,0 +1,908 @@
+<body style="border: 1px solid #742041;">
+
+    <h1 class="  col-12"><b>My Profile</b></h1>
+    <!-- <a routerLink="/members/my-profile/edit">Edit</a> -->
+    <div class="container">
+        <div class="row mt-3 maindetails">
+        
+            <div class="col-lg-2 col-sm-12 img-2"  >
+                <!-- <img [src]='imageURL+profileIMags'  alt=""> -->
+
+                <div *ngIf="viewMemberModels.profile_photo==''">
+                    <img class="" data-toggle="modal" data-target="#exampleModal"   class="imgnew" (click)="callIMageForMemberID(viewMemberModels.member_id)" src="{{genderImageURL}}" alt=''>
+                  </div>
+          
+                  <div *ngIf="viewMemberModels.profile_photo!=''">
+                    <img class="" data-toggle="modal" data-target="#exampleModal"   class="imgnew" (click)="callIMageForMemberID(viewMemberModels.member_id)" [src]='imageURL+viewMemberModels.profile_photo' alt="">
+                    <!-- <img class="" data-toggle="modal" data-target="#exampleModal"   class="imgnew" (click)="callIMageForMemberID(search.member_id)" [src]='imageURL+search.images[0].member_images' alt=""> -->
+                  </div>
+                
+                
+                <a [routerLink]="" (click)="showAlbum()" class="box"><i class="fa-solid fa-camera"></i>View Album</a>
+            </div>
+              
+
+                         
+                    <div class="col-lg-5 col-sm-12  age-col">
+                        <table class="table table-borderless">
+                            <tr>
+                                <th scope="">First Name</th>
+                                <th scope="">:  {{viewMemberModels.first_name}}</th>
+                            </tr>
+                            <tr>
+                                <th scope="">Age </th>
+                                <th scope="">:  {{viewMemberModels.age}}</th>
+                            </tr>
+                            <tr>
+                                <th scope="">Height</th>
+                                <th scope="">: {{viewMemberModels.height}}</th>
+                            </tr>
+                            <tr>
+                                <th scope="">Marital Status</th>
+                                <th scope="">:  {{viewMemberModels.marital_status}}</th>
+                            </tr>
+                            <tr>
+                                <th scope="">Posted by</th>
+                                <th scope="">: {{viewMemberModels.profilecreatedby}}</th>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-lg-5 col-sm-12  age-col">
+                        <table class="table table-borderless">
+                            <tr>
+                                <th scope="">Religion</th>
+                                <th scope="">:  {{viewMemberModels.religion_name}}</th>
+                            </tr>
+                            <tr>
+                                <th scope=""> Community</th>
+                                <th scope="">:  {{viewMemberModels.caste}}</th>
+                            </tr>
+                            <tr>
+                                <th scope=""> Location</th>
+                                <th scope="">:  {{viewMemberModels.city}}</th>
+                            </tr>
+                            <tr>
+                                <th scope=""> Mother Tongue</th>
+                                <th scope="">  {{viewMemberModels.mother_tounge}}</th>
+                            </tr>
+                            <tr>
+                                <th scope=""> Gender</th>
+                                <th scope="">:  {{viewMemberModels.gender}}</th>
+                            </tr>
+                        </table>
+                    </div>
+                
+        </div>
+        <hr>
+    </div>
+
+
+      <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <h3>KYC Upload</h3>
+                <hr>
+    <li class="list-group-item col-sm-12 mt-1">
+        <label class="registration_label">Kyc Upload</label><br>
+        <span>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="Aadhaar_card" [(ngModel)]="updateMemberModels.Aadhaar_card">
+            <label class="form-check-label" for="inlineRadio1">Aadhaar</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"  value="pan_card" [(ngModel)]="updateMemberModels.Aadhaar_card">
+            <label class="form-check-label" for="inlineRadio2">Pan Card</label>
+          </div>
+        </span>
+      </li>
+      <li class="list-group-item col-sm-12 mt-1">
+        <label class="registration_label"> </label>
+        <span>
+          <input class="ab" type="file" placeholder="text" (change)="onselectFile($event)" />
+          <button type="button" class="btn btn-primary btn-sm"  aria-hidden="true" data-toggle="modal" data-target="#exampleModal1" (click)="saveImages()">Submit</button>
+        </span>
+      </li>
+            </div>
+            <!-- ***************************************connect Now *************************** -->
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button> -->
+<!-- Modal -->
+<div class="modal modal2 fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> -->
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> -->
+        </div>
+        <div class="modal-body modal-body2">
+        <div class="text-center">
+          <p style="font-size: 20px;"> Kyc Update </p>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ***************************************connect Now *************************** -->
+            <div class="col-6">
+                <h3>KYC Details</h3>
+                <hr>
+             
+                <table class="table table-borderless">
+                    <tr>
+                        <th scope="">Document Name</th>
+                        <th scope="">: {{kycDoumrntMember.document_name}}</th>
+                    </tr>
+                    <tr>
+                        <th scope="">Document</th>
+                        <th scope=""> <a style=" float: left;margin :0px; border:none;padding: 0px;color: blue;" href="{{kycDoumrntMember.document_path}}" target="_blank" ><i class="fa fa-file-text" aria-hidden="true"></i>
+                            Kyc Document </a></th>
+                    </tr>
+                    <tr>
+                        <th scope="">Document Type</th>
+                        <th scope="">: {{kycDoumrntMember.document_type}}</th>
+                    </tr>
+                    </table>
+            
+              
+            </div>
+            <hr>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h3>About Myself</h3>
+                <table class="table table-borderless">
+                <div  [innerHTML]="viewMemberModels.about_ourself"></div>
+                </table>
+            </div>
+            <hr>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h3>Basics & Lifestyle</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <hr>
+                <table class="table table-borderless">
+                    <tr>
+                        <th scope="">Age</th>
+                        <th scope="">: {{viewMemberModels.age}}</th>
+                    </tr>
+                    <tr>
+                        <th scope="">Date of Birth</th>
+                        <th scope="">:  {{viewMemberModels.date_of_birth}}</th>
+                    </tr>
+                    <tr>
+                        <th scope="">Marital Status</th>
+                        <th scope="">:  {{viewMemberModels.marital_status}}</th>
+                    </tr>
+                    <tr>
+                        <th scope="">Height</th>
+                        <th scope="">:  {{viewMemberModels.height}}</th>
+                    </tr>
+                    <tr>
+                        <th scope="">Grew up in</th>
+                        <th scope="">: {{viewMemberModels.city}}</th>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-6">
+                <hr>
+                <table class="table table-borderless">
+                    <tr>
+                        <th scope="">Diet</th>
+                        <th scope="">:  {{viewMemberModels.lifestyles}}</th>
+                    </tr>
+                    <!-- <tr>
+                        <th scope="">Personal Values</th>
+                        <th scope="">  Will tell you later</th>
+                    </tr> -->
+                    <!-- <tr>
+                        <th scope="">Sun Sign</th>
+                        <th scope="">  Leo</th>
+                    </tr> -->
+                    <tr>
+                        <th scope="">Blood Group</th>
+                        <th scope="">:  {{viewMemberModels.blood_group}}</th>
+                    </tr>
+                    <tr>
+                        <th scope="">Health Information
+                        </th>
+                        <th scope="">:  {{viewMemberModels.health_info}}</th>
+                    </tr>
+                    <!-- <tr>
+                        <th scope="">Disability
+                        </th>
+                        <th scope="">  None</th>
+                    </tr> -->
+                </table>
+                <a  routerLink="/members/my-profile/edit">Edit<i class="fa-solid fa-caret-right"> </i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            
+            <div class="col-12">
+                <h3>Religious Background</h3>
+            </div>
+
+        </div>
+        <div class="row">
+
+            <div class="col-6">
+                <hr>
+                <table class="table table-borderless">
+                    <tr>
+                        <th scope="">Religion</th>
+                        <th scope="">: {{viewMemberModels.religion_name}}</th>
+                    </tr>
+                    <tr>
+                        <th scope="">Community
+                        </th>
+                        <th scope="">:  {{viewMemberModels.caste}}</th>
+                    </tr>
+                    <tr>
+                        <th scope="">Sub community</th>
+                        <th scope="">:  {{viewMemberModels.sub_caste_name}}</th>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-6">
+                <hr>
+                <table class="table table-borderless">
+                    <tr>
+                        <th scope="">Mother Tongue</th>
+                        <th scope="">:  {{viewMemberModels.mother_tounge}}</th>
+                </tr>
+                    <tr  ng-if="viewMemberModels.religion_name == Hindu || viewMemberModels.religion_name == Jain">
+                        <th scope="">Gothra / Gothram  </th>
+                        <th scope="">: {{viewMemberModels.gothra}}</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <!-- <tr>
+                        <th scope="">Can speak</th>
+                        <th scope="">  Enter Now</th>
+                    </tr> -->
+                </table>
+                <a  routerLink="/members/my-profile/edit">Edit<i class="fa-solid fa-caret-right" routerLink="/members/my-profile/edit"></i></a>
+            </div>
+        </div>
+    </div>
+ 
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h3>Astro Details</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <hr>
+                <table class="table table-borderless">
+                    <tr>
+                        <th scope="">Manglik/Chevvai dosham
+                        </th>
+                        <th scope="">: {{viewMemberModels.manglik}}</th>
+                    </tr>
+                    <tr>
+                        <th scope="">Date of Birth
+                        </th>
+                        <th scope="">:  {{viewMemberModels.date_of_birth}}</th>
+                    </tr>
+                    <!-- <tr>
+                        <th scope="">Nakshatra
+                        </th>
+                        <th scope="">  {{viewMemberModels.nakshatra}}</th>
+                    </tr> -->
+                </table>
+            </div>
+
+            <div class="col-6">
+                <hr>
+                <table class="table table-borderless">
+                    <tr>
+                        <th scope="">Time of Birth
+                        </th>  
+                        <th scope="">:  {{viewMemberModels.time_of_birth}}   {{viewMemberModels.time_status}}</th>
+                    </tr>
+
+                    <tr>
+                        <th scope="">City of Birth
+                        </th>
+                        <th scope="">:  {{viewMemberModels.city_of_birth}} </th>
+                    </tr>
+                </table>
+                <a  routerLink="/members/my-profile/edit">Edit<i class="fa-solid fa-caret-right" routerLink="/members/my-profile/edit"></i></a>
+            </div>
+        </div>
+    </div> 
+
+    <div class="container">
+        <div class="row">
+        
+            <div class="col-12">
+                <h3>
+                    Family details</h3>
+            </div>
+        </div>
+        <div class="row">
+        
+            <div class="col-6">
+                <hr>
+                <table class="table table-borderless">
+                    <tr>
+                        <th scope="">Father's Status
+
+                        </th>
+                        <th scope="">:  {{viewMemberModels.father_status}}</th>
+                    </tr>
+                    <!-- <tr>
+                        <th scope="">Nature of Business
+                        </th>
+                        <th scope="">  {{viewMemberModels.father_status}}</th>
+                    </tr> -->
+                    <tr>
+                        <th scope="">Mother's Status
+                        </th> 
+                        <th scope=""> : {{viewMemberModels.mother_status}}</th>
+                    </tr>
+                    <tr>
+                        <th scope="">Family Location
+                        </th>
+                        <th scope="">:  {{viewMemberModels.family_location}}</th>
+                    </tr>
+                    <tr>
+                        <th scope="">Native Place
+                        </th>
+                        <th scope="">:  {{viewMemberModels.native_place}}</th>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-6">
+                <hr>
+                <table class="table table-borderless">
+                    <tr>
+                        <th scope="">No. of Brothers</th>
+                        <th scope="" ng-if="viewMemberModels.married_male">: {{viewMemberModels.married_male}} married </th>
+                        <!-- <th scope="" ng-if="viewMemberModels.unmarried_male">  {{viewMemberModels.unmarried_male}} unmarried </th> -->
+                    </tr>
+                    <tr>
+                        <th scope="">No. of Sisters
+                        </th>
+                        <th scope="" ng-if="viewMemberModels.married_female">: {{viewMemberModels.married_female}} married </th>
+                        <!-- <th scope="" ng-if="viewMemberModels.unmarried_female">  {{viewMemberModels.unmarried_female}} unmarried </th> -->
+                    </tr>
+                    <tr>
+                        <th scope="">Family Type
+                        </th>
+                        <th scope="">:  {{viewMemberModels.family_type}}</th>
+                    </tr>
+
+                  
+                    <tr>
+                        <th scope="">Family Affluence
+
+                        </th>
+                        <th scope="">:  {{viewMemberModels.family_affluence}}</th>
+                    </tr>
+
+                    <!-- <tr>
+                        <th scope="">City of Birth
+                        </th>
+                        <th scope="">  Nashik / india</th>
+                    </tr> -->
+
+                </table>
+                <a  routerLink="/members/my-profile/edit">Edit<i class="fa-solid fa-caret-right" routerLink="/members/my-profile/edit"></i></a>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            
+            <div class="col-12">
+                <h3>
+                    Education & Career</h3>
+            </div>
+
+        </div>
+        <div class="row">
+        
+
+            <div class="col-6">
+
+                <hr>
+
+                <table class="table table-borderless">
+                    <tr>
+                        <th scope="">Highest Qualification
+
+                        </th>
+                        <th scope="">:  {{viewMemberModels.highest_qualification}}</th>
+                    </tr>
+                    <tr>
+                        <th scope="">College(s) Attended
+
+
+                        </th>
+                        <th scope="">:  {{viewMemberModels.college_attended}}</th>
+                    </tr>
+
+                    <tr>
+                        <th scope="">Annual Income  
+                        </th>
+                        <th scope="">:  {{viewMemberModels.annual_income}}
+                        </th>
+                    </tr>
+
+
+                </table>
+
+
+            </div>
+
+            <div class="col-6">
+                <hr>
+
+                <table class="table table-borderless">
+                    <tr>
+                        <th scope="">Working With
+
+                        </th>
+                        <th scope="">:  {{viewMemberModels.working_with}}</th>
+                    </tr>
+
+                    <tr>
+                        <th scope="">Working As
+
+
+
+                        </th>
+                        <th scope="">:  {{viewMemberModels.working_as}}</th>
+                    </tr>
+
+                    <!-- <tr>
+                        <th scope="">Employer Name
+
+
+                        </th>
+                        <th scope="">  Enter Now</th>
+                    </tr> -->
+                </table>
+                <a  routerLink="/members/my-profile/edit">Edit<i class="fa-solid fa-caret-right" routerLink="/members/my-profile/edit"></i></a>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            
+            <div class="col-12">
+                <h3>
+                    Location of Groom</h3>
+            </div>
+
+        </div>
+        <div class="row">
+        
+
+            <div class="col-6">
+
+                <hr>
+
+                <table class="table table-borderless">
+                    <tr>
+                        <th scope="">Current Residence
+                        </th>
+                        <th scope="">:  {{viewMemberModels.city}}, {{viewMemberModels.country_name}}</th>
+                    </tr>
+                    <tr>
+                        <th scope="">State Of Residence
+                        </th>
+                        <th scope="">: {{viewMemberModels.state}}</th>
+                    </tr>
+
+                </table>
+
+
+            </div>
+
+            <div class="col-6">
+                <hr>
+
+                <table class="table table-borderless">
+                    <tr>
+                        <th scope="">Residency Status
+
+
+                        </th>
+                        <th scope="">:  {{viewMemberModels.city}}</th>
+                    </tr>
+
+                    <tr>
+                        <th scope="">Zip / Pin code
+
+
+
+
+                        </th>
+                        <th scope="">:  {{viewMemberModels.pincode}}</th>
+                    </tr>
+
+
+                </table>
+                <a  routerLink="/members/my-profile/edit">Edit<i class="fa-solid fa-caret-right" routerLink="/members/my-profile/edit"></i></a>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Partner Preferences -->
+<!-- 
+                    
+          <div class="container">
+              <div class="row">
+
+    
+
+
+            <div class="col-12 partner-main">
+                <h3>-----------------------------------Partner Preferences--------------------------------------</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-12">
+                    <h3>
+                        Basic Info</h3>
+                </div>
+    
+            </div>
+            <div class="row">
+                
+    
+                <div class="col-6">
+    
+                    <hr>
+                
+
+  <table class="table table-borderless">
+                        <tr>
+                            <th scope="">Age
+    
+    
+    
+                            </th>
+                            <th scope="">  23 to 28</th>
+                        </tr>
+                        <tr>
+                            <th scope="">Height
+    
+    
+    
+                            </th>
+                            <th scope="">  5' 4"(162cm) to 5' 10"(177cm)</th>
+                        </tr>
+    
+    
+                        <tr>
+                            <th scope="">Religion / Community
+    
+    
+    
+                            </th>
+                            <th scope="">  Hindu</th>
+                        </tr>
+                
+    </table>
+       
+                </div>
+    
+                <div class="col-6">
+                    <hr>
+    
+    
+                    <table class="table table-borderless">
+                        <tr>
+                            <th scope="">   Mother tongue
+    
+    
+                            </th>
+                            <th scope="">  English,Gujarati, Hindi
+                                </th>
+                        </tr>
+    
+                        <tr>
+                            <th scope="">Marital status
+                            </th>
+                            <th scope="">  Never Married
+                            </th>
+                        </tr>
+                    
+                    </table>
+                    <a  routerLink="/members/my-profile/edit">Edit<i class="fa-solid fa-caret-right" routerLink="/members/my-profile/edit"></i></a>
+    
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-12">
+                    <h3>
+                        Location Details</h3>
+                </div>
+    
+            </div>
+            <div class="row">
+                
+    
+                <div class="col-6">
+    
+                    <hr>
+                
+
+  <table class="table table-borderless">
+                        <tr>
+                            <th scope="">Country living in
+    
+    
+    
+                            </th>
+                            <th scope="">  India</th>
+                        </tr>
+                        <tr>
+                            <th scope="">State living in
+    
+    
+    
+                            </th>
+                            <th scope="">Gujarat, Himachal Pradesh, Madhya Pradesh, Maharashtra, Rajasthan, Uttar Pradesh</th>
+                        </tr>
+    </table>
+       
+                </div>
+    
+                <div class="col-6">
+                    <hr>
+    
+    
+                    <table class="table table-borderless">
+                        <tr>
+                            <th scope="">  City / District
+    
+    
+                            </th>
+                            <th scope="">  Doesn't Matter
+                                </th>
+                        </tr>
+                    
+                    </table>
+                    <a  routerLink="/members/my-profile/edit">Edit<i class="fa-solid fa-caret-right" routerLink="/members/my-profile/edit"></i></a>
+    
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-12">
+                    <h3>
+                        Education & Career</h3>
+                </div>
+    
+            </div>
+            <div class="row">
+                
+    
+                <div class="col-6">
+    
+                    <hr>
+                
+
+  <table class="table table-borderless">
+                        <tr>
+                            <th scope="">Education
+    
+    
+    
+                            </th>
+                            <th scope="">  Doctorate, Master, Bachelor / Undergraduate</th>
+                        </tr>
+                        <tr>
+                            <th scope="">Working with
+                         </th>
+                            <th scope="">Private Company, Government / Public Sector, Defense / Civil Services, Business / Self Employed</th>
+                        </tr>
+                        <tr>
+                            <th scope="">Profession area
+                         </th>
+                            <th scope="">  Administration & HR, Advertising, Media & Entertainment, Civil Services / Law Enforcement, Corporate... More </th>
+                        </tr>
+    </table>
+       
+                </div>
+    
+                <div class="col-6">
+                    <hr>
+    
+    
+                    <table class="table table-borderless">
+                        <tr>
+                            <th scope="">  Working as
+    
+    
+                            </th>
+                            <th scope="">Admin Professional, Human Resources Professional, Actor, Advertising Professional, Entertainment Pro..
+                                </th>
+                        </tr>
+
+
+                        <tr>
+                            <th scope="">Annual income
+    
+    
+                            </th>
+                            <th scope="">INR less than 1 lakh to 20 lakhs.
+                                </th>
+                        </tr>
+                    
+                    </table>
+                    <a  routerLink="/members/my-profile/edit">Edit<i class="fa-solid fa-caret-right" routerLink="/members/my-profile/edit"></i></a>
+    
+                </div>
+            </div>
+        </div>
+                
+        <div class="container">
+            <div class="row">
+            
+                <div class="col-12">
+                    <h3>
+                        Other Details</h3>
+                </div>
+    
+            </div>
+            <div class="row">
+            
+    
+                <div class="col-6">
+    
+                    <hr>
+                
+
+  <table class="table table-borderless">
+                        <tr>
+                            <th scope="">Profile created by
+                          </th>
+                            <th scope="">  Doesn't Matter</th>
+                        </tr>
+                    
+    </table>
+       
+                </div>
+    
+                <div class="col-6">
+                    <hr>
+    
+    
+                    <table class="table table-borderless">
+                        <tr>
+                            <th scope="">Diet
+    
+    
+                            </th>
+                            <th scope="">  Doesn't Matter
+                                </th>
+                        </tr>
+
+
+            
+                    </table>
+                    <a  routerLink="/members/my-profile/edit">Edit<i class="fa-solid fa-caret-right" routerLink="/members/my-profile/edit"></i></a>
+    
+                </div>
+            </div>
+        </div>
+    
+        <!-- My Contact detail -->
+
+        <div class="container">
+            <div class="row">
+
+          
+
+
+          <div class="col-12">
+              <h3>My Contact detail
+            </h3>
+          </div>
+        </div>
+      </div>
+ 
+      <div class="container">
+
+      <div class="row">
+               
+        
+
+        <div class="col-6">
+
+            
+            <table class="table table-borderless">
+                <tr>
+                    <th scope="">Mobile
+
+                    </th>
+                    <th scope="">: {{viewMemberModels.contact_number}}
+
+                        </th>
+                </tr>
+                
+                <tr>
+                    <th scope="">Relationship with the member
+
+                    </th>
+                    <th scope="">:  {{viewMemberModels.profilecreatedby}}
+
+                        </th>
+               
+                  
+                </tr>
+
+
+
+
+    
+            </table>
+
+            
+        </div>
+        <hr>
+
+      </div>
+    </div>
+
+</body>

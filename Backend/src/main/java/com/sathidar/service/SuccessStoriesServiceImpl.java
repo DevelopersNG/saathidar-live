@@ -34,16 +34,13 @@ public class SuccessStoriesServiceImpl implements SuccessStoriesService{
 				Random random = new Random();
 				String id = String.format("%04d", random.nextInt(10000));
 				
-				
 				//Constant constant = new Constant();
-
 				String uploadDir =System.getProperty("catalina.base") + "/webapps";
 				
 				String saveFolderPath = "/success_story/" + "success_story" + id + ".jpg";
-				successStoriesModel.setsuccess_photo(saveFolderPath);
+				successStoriesModel.setSuccess_photo(saveFolderPath);
 
 				uploadDir = uploadDir + "/success_story/";
-
 				File theDir = new File(uploadDir);
 				if (!theDir.exists()) {
 					theDir.mkdirs();
@@ -53,7 +50,7 @@ public class SuccessStoriesServiceImpl implements SuccessStoriesService{
 				byte[] data = java.util.Base64.getDecoder().decode(base64Image);
 			
 				int status = successStoriesRepository.saveMemberPhotos(successStoriesModel.getDescription(),
-						successStoriesModel.getsuccess_photo());
+						successStoriesModel.getSuccess_photo());
 				if (status > 0) {
 //					try (OutputStream stream = new FileOutputStream(uploadDir + "advertise" + id + ".jpg")) {
 //						stream.write(data);
@@ -80,7 +77,7 @@ public class SuccessStoriesServiceImpl implements SuccessStoriesService{
 			if (post != null) {
 				for (int i = 0; i < post.size(); i++) {
 					JSONObject jsonObj = new JSONObject();
-					jsonObj.put("images_path", post.get(i).getImage_path());
+					jsonObj.put("images_path", post.get(i).getSuccess_photo());
 					jsonObj.put("image_id", "" + post.get(i).getId());
 					resultArray.put(jsonObj);
 				}
