@@ -1977,7 +1977,7 @@ public class UpdateMemberEntityMangerFactory {
 		HashMap<String, String> map = new HashMap<>();
 		try {
 			Query q = em.createNativeQuery(
-					"SELECT country_of_birth,city_of_birth,time_status,manglik,hours,minutes,time FROM member_horoscope where status='ACTIVE' and member_id= :member_id");
+					"SELECT country_of_birth,city_of_birth,time_status,manglik,hours,minutes,time,date_of_birth FROM member_horoscope where status='ACTIVE' and member_id= :member_id");
 			q.setParameter("member_id", member_id);
 			List<Object[]> results = q.getResultList();
 			boolean status = false;
@@ -1992,6 +1992,7 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("hours", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("minutes", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("time", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("date_of_birth", convertNullToBlank(String.valueOf(obj[++i])));
 					status = true;
 				}
 			}
@@ -2618,7 +2619,7 @@ public class UpdateMemberEntityMangerFactory {
 				+ "fd.family_location as family_location,fd.native_place as native_place,fd.family_type as family_type,fd.family_values as family_values,fd.family_affluence as family_affluence,"
 				+ "fd.married_male as married_male,fd.unmarried_male as unmarried_male,fd.married_female as married_female,fd.unmarried_female as unmarried_female,"
 				+ "edu.highest_qualification as highest_qualification,edu.college_attended as college_attended,edu.working_with as working_with,edu.working_as as working_as,edu.employer_name as employer_name,edu.annual_income as annual_income,"
-				+ "mh.manglik,mh.nakshatra,mh.time_of_birth,mh.time_status,mh.city_of_birth ";
+				+ "mh.manglik,mh.nakshatra,mh.time_of_birth,mh.time_status,mh.city_of_birth,mh.date_of_birth ";
 		try {
 
 			String query = "SELECT " + columnName + "  FROM memberdetails as md "
@@ -2796,6 +2797,8 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("time_of_birth", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("time_status", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("city_of_birth", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("date_of_birth", convertNullToBlank(String.valueOf(obj[++i])));
+					
 
 					map.put("working_details", getCareerDetails);
 					map.put("FamilyDetails", getFamilyDetailsString);

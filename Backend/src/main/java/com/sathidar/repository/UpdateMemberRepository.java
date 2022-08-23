@@ -88,19 +88,20 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 	@Transactional
 	@Modifying
 	@Query(value = "update member_horoscope set country_of_birth= :country_of_birth, city_of_birth= :city_of_birth,hours= :hours,"
-			+ "minutes= :minutes,time=:time,time_status= :time_status,time_of_birth= :time_of_birth,manglik= :manglik "
+			+ "minutes= :minutes,time=:time,time_status= :time_status,time_of_birth= :time_of_birth,"
+			+ "manglik= :manglik , date_of_birth=:date_of_birth"
 			+ " where member_id= :member_id  ", nativeQuery = true)
 	Object updateHoroscopeDetails(int member_id, String country_of_birth, String city_of_birth, String hours,
-			String minutes, String time, String time_status, String time_of_birth, String manglik);
+			String minutes, String time, String time_status, String time_of_birth, String manglik,String date_of_birth);
 	
 	@Transactional
 	@Modifying
-	@Query(value = "insert into member_horoscope (member_id,country_of_birth,city_of_birth,time_of_birth,time_status,manglik,hours,minutes,time)"
+	@Query(value = "insert into member_horoscope (member_id,country_of_birth,city_of_birth,time_of_birth,time_status,manglik,hours,minutes,time,date_of_birth)"
 			+ "values ("
-			+ ":member_id,:country_of_birth,:city_of_birth,:time_of_birth,:time_status,:manglik,:hours,:minutes,:time"
+			+ ":member_id,:country_of_birth,:city_of_birth,:time_of_birth,:time_status,:manglik,:hours,:minutes,:time,:date_of_birth"
 			+ ")", nativeQuery = true)
 	Object insertHoroscopeDetails(int member_id, String country_of_birth, String city_of_birth, String hours,
-			String minutes, String time, String time_status, String time_of_birth, String manglik);
+			String minutes, String time, String time_status, String time_of_birth, String manglik , String date_of_birth);
 
 	
 	@Query(value="SELECT count(*) FROM member_horoscope where member_id= :member_id and status='ACTIVE'",nativeQuery=true)

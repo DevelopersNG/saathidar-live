@@ -55,6 +55,10 @@ public class PrivacyOptionsModel {
 	@Transient
 	private String valProfile_privacy;
 	
+	@Transient
+	private String date_of_birth;
+	
+	
 	
 //	************* for email alert ********************************
 
@@ -138,6 +142,13 @@ public class PrivacyOptionsModel {
 	}
 	public String getValAnnual_income() {
 		return valAnnual_income;
+	}
+	
+	public String getDate_of_birth() {
+		return date_of_birth;
+	}
+	public void setDate_of_birth(String date_of_birth) {
+		this.date_of_birth = date_of_birth;
 	}
 	public void setValAnnual_income(String valAnnual_income) {
 		this.valAnnual_income = valAnnual_income;
@@ -232,9 +243,14 @@ public class PrivacyOptionsModel {
 	public void setProfile_privacy(Integer profile_privacy) {
 		this.profile_privacy = profile_privacy;
 	}
+	
 	public PrivacyOptionsModel(Integer id, Integer phone, Integer email, Integer photo, Integer dob,
 			Integer annual_income, Integer horoscope, Integer visitors_setting, Integer shortlist_setting,
-			Integer profile_privacy) {
+			Integer profile_privacy, Integer member_id, String valPhone, String valEmail, String valPhoto,
+			String valDob, String valAnnual_income, String valHoroscope, String valVisitors_setting,
+			String valShortlist_setting, String valProfile_privacy, String date_of_birth, String premium_match_mail,
+			String recent_visitors_email, String contact_alert, String sms_alert, String message_received_alert,
+			String today_match_email) {
 		super();
 		this.id = id;
 		this.phone = phone;
@@ -246,6 +262,23 @@ public class PrivacyOptionsModel {
 		this.visitors_setting = visitors_setting;
 		this.shortlist_setting = shortlist_setting;
 		this.profile_privacy = profile_privacy;
+		this.member_id = member_id;
+		this.valPhone = valPhone;
+		this.valEmail = valEmail;
+		this.valPhoto = valPhoto;
+		this.valDob = valDob;
+		this.valAnnual_income = valAnnual_income;
+		this.valHoroscope = valHoroscope;
+		this.valVisitors_setting = valVisitors_setting;
+		this.valShortlist_setting = valShortlist_setting;
+		this.valProfile_privacy = valProfile_privacy;
+		this.date_of_birth = date_of_birth;
+		this.premium_match_mail = premium_match_mail;
+		this.recent_visitors_email = recent_visitors_email;
+		this.contact_alert = contact_alert;
+		this.sms_alert = sms_alert;
+		this.message_received_alert = message_received_alert;
+		this.today_match_email = today_match_email;
 	}
 	public PrivacyOptionsModel() {
 		super();

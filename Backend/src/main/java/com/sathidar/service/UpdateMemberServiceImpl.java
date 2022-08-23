@@ -395,12 +395,13 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 			
 			String time_of_birth=  checkNullValue(updateMember.getTime_of_birth());
 			String manglik= checkNullValue(updateMember.getManglik());
+			String date_of_birth= checkNullValue(updateMember.getDate_of_birth());
 			
 			int isAvailablerRecords=updateMemberRepository.isAvailablerHoroscopeRecords(member_id);
 			if(isAvailablerRecords>0) {
-				memberHoroscopeStatus=updateMemberRepository.updateHoroscopeDetails(member_id,country_of_birth,city_of_birth, hours,minutes,time ,time_status, time_of_birth,manglik);
+				memberHoroscopeStatus=updateMemberRepository.updateHoroscopeDetails(member_id,country_of_birth,city_of_birth, hours,minutes,time ,time_status, time_of_birth,manglik,date_of_birth);
 			}else {
-				memberHoroscopeStatus =updateMemberRepository.insertHoroscopeDetails(member_id,country_of_birth,city_of_birth, hours,minutes,time ,time_status, time_of_birth,manglik);
+				memberHoroscopeStatus =updateMemberRepository.insertHoroscopeDetails(member_id,country_of_birth,city_of_birth, hours,minutes,time ,time_status, time_of_birth,manglik,date_of_birth);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
