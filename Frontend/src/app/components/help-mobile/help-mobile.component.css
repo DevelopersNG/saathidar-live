@@ -1,0 +1,25 @@
+* {
+    font-family: 'Times New Roman', Times, serifs;font-style: italic;
+ }
+section
+{
+    border: 1px rgb(90, 7, 21) solid ;padding: 5px;background: seashell;
+}
+hr
+{
+    border: 1px solid #742041;
+}
+h1{
+    border-bottom: 1px solid #742041;color: #742041;font-family: 'Times New Roman', Times, serifs;font-style: italic;
+}
+h2{
+    font-family: 'Times New Roman', Times, serifs;font-style: italic;
+}
+ul li{
+    padding-top: 10px;list-style: none;font-family: 'Times New Roman', Times, serifs;font-style: italic;
+}
+.boderleft
+{
+    border-left: #742041 1px solid;
+    border-right:#742041 1px solid;
+}

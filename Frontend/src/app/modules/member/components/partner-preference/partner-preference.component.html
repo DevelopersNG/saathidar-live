@@ -1,0 +1,521 @@
+<body style="border: 1px solid #742041;">
+  <h1 class=" col-12"><b>Partner-Preference</b></h1>
+  <div class="container">
+    
+
+    <table style="margin:20px">
+      <tr>
+        <th style="width: 180px;">Age</th>
+        <th>
+          <span>
+            <select style="width: 255px;" name="religion" class=" js-religion" id="religion-partner-preference" [(ngModel)]="partner_preference_model.partner_from_age">
+              <option value="">Select</option>
+              <option value="18">18</option>
+              <option value="19">19</option>
+              <option value="20">20</option>
+              <option value="21">21</option>
+              <option value="22">22</option>
+              <option value="23">23</option>
+              <option value="24">24</option>
+              <option value="25">25</option>
+              <option value="26">26</option>
+              <option value="27">27</option>
+              <option value="28">28</option>
+              <option value="29">29</option>
+              <option value="30">30</option>
+              <option value="31">31</option>
+              <option value="32">32</option>
+              <option value="33">33</option>
+              <option value="34">34</option>
+              <option value="35">35</option>
+              <option value="36">36</option>
+              <option value="37">37</option>
+              <option value="38">38</option>
+              <option value="39">39</option>
+              <option value="40">40</option>
+            </select>
+          </span>
+          To
+          <span>
+            <select style="width: 255px;" name="religion" class=" js-religion" id="religion" [(ngModel)]="partner_preference_model.partner_to_age">
+
+              <option value="">Select</option>
+              <option value="18">18</option>
+              <option value="19">19</option>
+              <option value="20">20</option>
+              <option value="21">21</option>
+              <option value="22">22</option>
+              <option value="23">23</option>
+              <option value="24">24</option>
+              <option value="25">25</option>
+              <option value="26">26</option>
+              <option value="27">27</option>
+              <option value="28">28</option>
+              <option value="29">29</option>
+              <option value="30">30</option>
+              <option value="31">31</option>
+              <option value="32">32</option>
+              <option value="33">33</option>
+              <option value="34">34</option>
+              <option value="35">35</option>
+              <option value="36">36</option>
+              <option value="37">37</option>
+              <option value="38">38</option>
+              <option value="39">39</option>
+              <option value="40">40</option>
+            </select>
+          </span>
+
+          <!-- <div id="select-age"></div>
+        
+        </th> -->
+      </tr>
+    </table>
+
+    <table style="margin:20px">
+      <tr>
+        <th style="width: 180px;">Height
+        </th>
+        <th>
+          <span>
+            <select style="width: 255px;" name="religion" class=" js-religion" id="religion" [(ngModel)]="partner_preference_model.partner_from_height">
+              <option value="" label="Select">Select</option>
+              <option value="4ft 5in - 134cm" label="4ft 5in - 134cm">4ft 5in - 134cm</option>
+              <option value="4ft 6in - 137cm" label="4ft 6in - 137cm">4ft 6in - 137cm</option>
+              <option value="4ft 7in - 139cm" label="4ft 7in - 139cm">4ft 7in - 139cm</option>
+              <option value="4ft 8in - 142cm" label="4ft 8in - 142cm">4ft 8in - 142cm</option>
+              <option value="4ft 9in - 144cm" label="4ft 9in - 144cm">4ft 9in - 144cm</option>
+              <option value="4ft 10in - 147cm" label="4ft 10in - 147cm">4ft 10in - 147cm</option>
+              <option value="4ft 11in - 149cm" label="4ft 11in - 149cm">4ft 11in - 149cm</option>
+              <option value="5ft - 152cm" label="5ft - 152cm">5ft - 152cm</option>
+              <option value="5ft 1in - 154cm" label="5ft 1in - 154cm">5ft 1in - 154cm</option>
+              <option value="5ft 2in - 157cm" label="5ft 2in - 157cm">5ft 2in - 157cm</option>
+              <option value="5ft 3in - 160cm" label="5ft 3in - 160cm">5ft 3in - 160cm</option>
+              <option value="5ft 4in - 162cm" label="5ft 4in - 162cm">5ft 4in - 162cm</option>
+              <option value="5ft 5in - 165cm" label="5ft 5in - 165cm">5ft 5in - 165cm</option>
+              <option value="5ft 6in - 167cm" label="5ft 6in - 167cm">5ft 6in - 167cm</option>
+              <option value="5ft 7in - 170cm" label="5ft 7in - 170cm">5ft 7in - 170cm</option>
+              <option value="5ft 8in - 172cm" label="5ft 8in - 172cm">5ft 8in - 172cm</option>
+              <option value="5ft 9in - 175cm" label="5ft 9in - 175cm">5ft 9in - 175cm</option>
+              <option value="5ft 10in - 177cm" label="5ft 10in - 177cm" selected="selected">5ft 10in - 177cm</option>
+              <option value="5ft 11in - 180cm" label="5ft 11in - 180cm">5ft 11in - 180cm</option>
+              <option value="6ft - 182cm" label="6ft - 182cm">6ft - 182cm</option>
+              <option value="6ft 1in - 185cm" label="6ft 1in - 185cm">6ft 1in - 185cm</option>
+              <option value="6ft 2in - 187cm" label="6ft 2in - 187cm">6ft 2in - 187cm</option>
+              <option value="6ft 3in - 190cm" label="6ft 3in - 190cm">6ft 3in - 190cm</option>
+              <option value="6ft 4in - 193cm" label="6ft 4in - 193cm">6ft 4in - 193cm</option>
+              <option value="6ft 5in - 195cm" label="6ft 5in - 195cm">6ft 5in - 195cm</option>
+              <option value="6ft 6in - 198cm" label="6ft 6in - 198cm">6ft 6in - 198cm</option>
+              <option value="6ft 7in - 200cm" label="6ft 7in - 200cm">6ft 7in - 200cm</option>
+              <option value="6ft 8in - 203cm" label="6ft 8in - 203cm">6ft 8in - 203cm</option>
+              <option value="6ft 9in - 205cm" label="6ft 9in - 205cm">6ft 9in - 205cm</option>
+              <option value="6ft 10in - 208cm" label="6ft 10in - 208cm">6ft 10in - 208cm</option>
+              <option value="6ft 11in - 210cm" label="6ft 11in - 210cm">6ft 11in - 210cm</option>
+              <option value="7ft - 213cm" label="7ft - 213cm">7ft - 213cm</option>
+            </select>
+          </span>
+          To
+          <span>
+            <select style="width: 255px;" name="religion" class=" js-religion" id="religion" [(ngModel)]="partner_preference_model.partner_to_height">
+              <option value="" label="Select">Select</option>
+              <option value="4ft 5in - 134cm" label="4ft 5in - 134cm">4ft 5in - 134cm</option>
+              <option value="4ft 6in - 137cm" label="4ft 6in - 137cm">4ft 6in - 137cm</option>
+              <option value="4ft 7in - 139cm" label="4ft 7in - 139cm">4ft 7in - 139cm</option>
+              <option value="4ft 8in - 142cm" label="4ft 8in - 142cm">4ft 8in - 142cm</option>
+              <option value="4ft 9in - 144cm" label="4ft 9in - 144cm">4ft 9in - 144cm</option>
+              <option value="4ft 10in - 147cm" label="4ft 10in - 147cm">4ft 10in - 147cm</option>
+              <option value="4ft 11in - 149cm" label="4ft 11in - 149cm">4ft 11in - 149cm</option>
+              <option value="5ft - 152cm" label="5ft - 152cm">5ft - 152cm</option>
+              <option value="5ft 1in - 154cm" label="5ft 1in - 154cm">5ft 1in - 154cm</option>
+              <option value="5ft 2in - 157cm" label="5ft 2in - 157cm">5ft 2in - 157cm</option>
+              <option value="5ft 3in - 160cm" label="5ft 3in - 160cm">5ft 3in - 160cm</option>
+              <option value="5ft 4in - 162cm" label="5ft 4in - 162cm">5ft 4in - 162cm</option>
+              <option value="5ft 5in - 165cm" label="5ft 5in - 165cm">5ft 5in - 165cm</option>
+              <option value="5ft 6in - 167cm" label="5ft 6in - 167cm">5ft 6in - 167cm</option>
+              <option value="5ft 7in - 170cm" label="5ft 7in - 170cm">5ft 7in - 170cm</option>
+              <option value="5ft 8in - 172cm" label="5ft 8in - 172cm">5ft 8in - 172cm</option>
+              <option value="5ft 9in - 175cm" label="5ft 9in - 175cm">5ft 9in - 175cm</option>
+              <option value="5ft 10in - 177cm" label="5ft 10in - 177cm" selected="selected">5ft 10in - 177cm</option>
+              <option value="5ft 11in - 180cm" label="5ft 11in - 180cm">5ft 11in - 180cm</option>
+              <option value="6ft - 182cm" label="6ft - 182cm">6ft - 182cm</option>
+              <option value="6ft 1in - 185cm" label="6ft 1in - 185cm">6ft 1in - 185cm</option>
+              <option value="6ft 2in - 187cm" label="6ft 2in - 187cm">6ft 2in - 187cm</option>
+              <option value="6ft 3in - 190cm" label="6ft 3in - 190cm">6ft 3in - 190cm</option>
+              <option value="6ft 4in - 193cm" label="6ft 4in - 193cm">6ft 4in - 193cm</option>
+              <option value="6ft 5in - 195cm" label="6ft 5in - 195cm">6ft 5in - 195cm</option>
+              <option value="6ft 6in - 198cm" label="6ft 6in - 198cm">6ft 6in - 198cm</option>
+              <option value="6ft 7in - 200cm" label="6ft 7in - 200cm">6ft 7in - 200cm</option>
+              <option value="6ft 8in - 203cm" label="6ft 8in - 203cm">6ft 8in - 203cm</option>
+              <option value="6ft 9in - 205cm" label="6ft 9in - 205cm">6ft 9in - 205cm</option>
+              <option value="6ft 10in - 208cm" label="6ft 10in - 208cm">6ft 10in - 208cm</option>
+              <option value="6ft 11in - 210cm" label="6ft 11in - 210cm">6ft 11in - 210cm</option>
+              <option value="7ft - 213cm" label="7ft - 213cm">7ft - 213cm</option>
+            </select>
+          </span>
+
+
+
+        </th>
+      </tr>
+    </table>
+
+    <table style="margin:20px">
+      <tr>
+        <th style="width: 180px;">Marital status</th>
+
+        <th style="width: 75%;">
+
+          <ng-multiselect-dropdown class="customClass" [placeholder]="'Marital status'" [settings]="dropdownSettings"
+            [data]="dropdownList" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)"
+            (onSelectAll)="onSelectAll($event)">
+          </ng-multiselect-dropdown>
+        </th>
+      </tr>
+    </table>
+
+    <table style="margin:20px">
+      <tr>
+        <th style="width: 180px;">Religion</th>
+        <th style="width: 75%;">
+          <ng-multiselect-dropdown class="customClass" [placeholder]="'Religions'" [settings]="dropdownSettingsReligions"
+            [data]="dropdownListReligions" [(ngModel)]="selectedItemsReligions" (onSelect)="onItemSelectReligions($event)"
+            (onSelectAll)="onSelectAllReligions($event)">
+          </ng-multiselect-dropdown>
+        </th>
+      </tr>
+    </table>
+
+    <table style="margin:20px">
+      <tr>
+        <th style="width: 180px;">Community</th>
+        <th style="width: 75%;">
+          <ng-multiselect-dropdown class="customClass" [placeholder]="'Community'" [settings]="dropdownSettingsCast"
+            [data]="dropdownListCast" [(ngModel)]="selectedItemsCast" (onSelect)="onItemSelectCast($event)"
+            (onSelectAll)="onSelectAllCast($event)">
+          </ng-multiselect-dropdown>
+        </th>
+      </tr>
+    </table>
+
+
+    <table style="margin:20px">
+      <tr>
+        <th style="width: 180px;">Mother Tongue</th>
+
+        <th style="width: 75%;">
+
+          <ng-multiselect-dropdown class="customClass" [placeholder]="'Mother Tongue'"
+            [settings]="dropdownSettingsMotherTongue" [data]="dropdownListMotherTongue"
+            [(ngModel)]="selectedItemsMotherTongue" (onSelect)="onItemSelect($event)"
+            (onSelectAll)="onSelectAll($event)">
+          </ng-multiselect-dropdown>
+        </th>
+      </tr>
+    </table>
+
+    <table style="margin:20px">
+      <tr>
+        <th style="width: 180px;">Manglik / Chevvai Dosham</th>
+
+        <th>
+          <div style="margin-left:  15px;" style="margin-left:  15px;" class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="all"
+               [(ngModel)]="partner_preference_model.partner_manglik_all">
+            <label class="form-check-label" for="exampleRadios1">
+              Open to all
+            </label>
+          </div>
+        </th>
+
+        <th>
+          <div style="margin-left:  15px;" class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="No" 
+            [(ngModel)]="partner_preference_model.partner_manglik_all">
+            <label class="form-check-label" for="exampleRadios1">
+              No
+            </label>
+          </div>
+        </th>
+
+        <th>
+          <div style="margin-left:  15px;" class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="Yes"
+            [(ngModel)]="partner_preference_model.partner_manglik_all">
+            <label class="form-check-label" for="exampleRadios2">
+              Yes
+            </label>
+          </div>
+
+        </th>
+        <th>
+          <div style="margin-left:  15px;" class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="Don't Know"
+            [(ngModel)]="partner_preference_model.partner_manglik_all">
+            <label class="form-check-label" for="exampleRadios2">
+              Don't Know
+            </label>
+          </div>
+
+        </th>
+      </tr>
+    </table>
+
+    <h3>Location Details</h3>
+
+    <table style="margin:20px">
+      <tr>
+        <th style="width: 180px;">Country</th>
+
+        <th style="width: 75%;">
+
+          <ng-multiselect-dropdown class="customClass" [placeholder]="'Country'"
+          [settings]="dropdownSettingsCountry" [data]="dropdownListCountry"
+          [(ngModel)]="selectedItemsCountry" (onSelect)="onItemSelectCountry($event)"
+          (onSelectAll)="onSelectAllCountry($event)">
+        </ng-multiselect-dropdown> 
+        </th>
+      </tr>
+    </table>
+
+    <table style="margin:20px">
+      <tr>
+        <th style="width: 180px;">State</th>
+        <th style="width: 75%;">
+          <ng-multiselect-dropdown class="customClass" [placeholder]="'State'"
+          [settings]="dropdownSettingsState" [data]="dropdownListState"
+          [(ngModel)]="selectedItemsState" (onSelect)="onItemSelectState($event)"
+          (onSelectAll)="onSelectAllState($event)">
+        </ng-multiselect-dropdown> 
+        </th>
+      </tr>
+    </table>
+
+    <table style="margin:20px">
+      <tr>
+        <th style="width: 180px;">City / District</th>
+        <th style="width: 75%;">
+          <ng-multiselect-dropdown class="customClass" [placeholder]="'City'"
+          [settings]="dropdownSettingsCity" [data]="dropdownListCity"
+          [(ngModel)]="selectedItemsCity" (onSelect)="onItemSelectCity($event)"
+          (onSelectAll)="onSelectAllCity($event)">
+        </ng-multiselect-dropdown> 
+        </th>
+      </tr>
+    </table>
+    
+
+    <h3>Education & Profession Details</h3>
+
+    <table style="margin:20px">
+      <tr>
+        <th style="width: 180px;">Qualification</th>
+        <th style="width: 75%;">
+          <ng-multiselect-dropdown class="customClass" [placeholder]="'Qualification'"
+            [settings]="dropdownSettingsQualification" [data]="dropdownListQualification"
+            [(ngModel)]="selectedItemsQualification" (onSelect)="onItemSelect($event)"
+            (onSelectAll)="onSelectAll($event)">
+          </ng-multiselect-dropdown>
+        </th>
+      </tr>
+    </table>
+
+    <table style="margin:20px">
+      <tr>
+        <th style="width: 180px;">Working With</th>
+        <th style="width: 75%;">
+          <ng-multiselect-dropdown class="customClass" [placeholder]="'Working With'"
+            [settings]="dropdownSettingsWorkingWith" [data]="dropdownListWorkingWith"
+            [(ngModel)]="selectedItemsWorkingWith" (onSelect)="onItemSelect($event)"
+            (onSelectAll)="onSelectAll($event)">
+          </ng-multiselect-dropdown>
+        </th>
+      </tr>
+    </table>
+
+
+
+    <table style="margin:20px">
+      <tr>
+        <th style="width: 180px;">Profession Area</th>
+        <th style="width: 75%;">
+          <ng-multiselect-dropdown class="customClass" [placeholder]="'Profession Area'"
+            [settings]="dropdownSettingsProfessionArea" [data]="dropdownListProfessionArea"
+            [(ngModel)]="selectedItemsProfessionArea" (onSelect)="onItemSelect($event)"
+            (onSelectAll)="onSelectAll($event)">
+          </ng-multiselect-dropdown>
+        </th>
+      </tr>
+    </table>
+
+
+
+    <table style="margin:20px">
+      <tr>
+        <th style="width: 180px;">Annual income</th>
+        <th>
+          <span>
+            <select name="religion" class=" js-religion" id="religion"   [(ngModel)]="partner_preference_model.partner_annual_income">
+              <option value="Upto INR 1 Lakh" label="Upto INR 1 Lakh">Upto INR 1 Lakh</option>
+              <option value="INR 1 Lakh to 2 Lakh" label="INR 1 Lakh to 2 Lakh">INR 1 Lakh to 2 Lakh</option>
+              <option value="INR 2 Lakh to 4 Lakh" label="INR 2 Lakh to 4 Lakh">INR 2 Lakh to 4 Lakh</option>
+              <option value="INR 4 Lakh to 7 Lakh" label="INR 4 Lakh to 7 Lakh">INR 4 Lakh to 7 Lakh</option>
+              <option value="INR 7 Lakh to 10 Lakh" label="INR 7 Lakh to 10 Lakh">INR 7 Lakh to 10 Lakh</option>
+              <option value="INR 10 Lakh to 15 Lakh" label="INR 10 Lakh to 15 Lakh">INR 10 Lakh to 15 Lakh</option>
+              <option value="INR 15 Lakh to 20 Lakh" label="INR 15 Lakh to 20 Lakh" selected="selected">INR 15 Lakh to
+                20 Lakh</option>
+              <option value="INR 20 Lakh to 30 Lakh" label="INR 20 Lakh to 30 Lakh">INR 20 Lakh to 30 Lakh</option>
+              <option value="INR 30 Lakh to 50 Lakh" label="INR 30 Lakh to 50 Lakh">INR 30 Lakh to 50 Lakh</option>
+              <option value="INR 50 Lakh to 75 Lakh" label="INR 50 Lakh to 75 Lakh">INR 50 Lakh to 75 Lakh</option>
+              <option value="INR 75 Lakh to 1 Crore" label="INR 75 Lakh to 1 Crore">INR 75 Lakh to 1 Crore</option>
+              <option value="INR 1 Crore above" label="INR 1 Crore &amp; above">INR 1 Crore &amp; above</option>
+              <option value="Not applicable" label="Not applicable">Not applicable</option>
+            </select>
+          </span>
+        </th>
+      </tr>
+    </table>
+    <h3>Other Details</h3>
+
+    <table style="margin:20px">
+      <tr>
+        <th style="width: 180px;">Profile created by</th>
+        <th>
+
+          <div style="margin-left:  15px;" style="margin-left:  15px;" class="form-check">
+            <input class="form-check-input" type="radio" name="profilecreatedby" id="exampleRadios1" value="all"
+            [(ngModel)]="partner_preference_model.partner_profile_created">
+            <label class="form-check-label" for="exampleRadios1">
+              Open to all
+            </label>
+          </div>
+        </th>
+        <th>
+          <div style="margin-left:  15px;" style="margin-left:  15px;" class="form-check">
+            <input class="form-check-input" type="radio" name="profilecreatedby" id="exampleRadios2" value="Self"
+            [(ngModel)]="partner_preference_model.partner_profile_created">
+            <label class="form-check-label" for="exampleRadios2">
+              Self
+            </label>
+          </div>
+
+        </th>
+        <th>
+          <div style="margin-left:  15px;" style="margin-left:  15px;" class="form-check">
+            <input class="form-check-input" type="radio" name="profilecreatedby" id="exampleRadios2" value="Sibling"
+            [(ngModel)]="partner_preference_model.partner_profile_created">
+            <label class="form-check-label" for="exampleRadios3">
+              Sibling
+            </label>
+          </div>
+        </th>
+        <th>
+          <div style="margin-left:  15px;" style="margin-left:  15px;" class="form-check">
+            <input class="form-check-input" type="radio" name="profilecreatedby" id="exampleRadios2" value="Parents"
+            [(ngModel)]="partner_preference_model.partner_profile_created">
+            <label class="form-check-label" for="exampleRadios">
+              Parents
+            </label>
+          </div>
+        </th>
+        <th>
+          <div style="margin-left:  15px;" style="margin-left:  15px;" class="form-check">
+            <input class="form-check-input" type="radio" name="profilecreatedby" id="exampleRadios2" value="Relatives"
+            [(ngModel)]="partner_preference_model.partner_profile_created">
+            <label class="form-check-label" for="exampleRadios">
+              Relatives
+            </label>
+          </div>
+        </th>
+        <th>
+          <div style="margin-left:  15px;" style="margin-left:  15px;" class="form-check">
+            <input class="form-check-input" type="radio" name="profilecreatedby" id="exampleRadios2" value="Friends"
+            [(ngModel)]="partner_preference_model.partner_profile_created">
+            <label class="form-check-label" for="exampleRadios">
+              Friends
+            </label>
+          </div>
+        </th>
+
+
+      </tr>
+    </table>
+
+
+
+    <table style="margin:20px">
+      <tr>
+        <th style="width: 180px;">Diet</th>
+        <th>
+
+          <div style="margin-left:  15px;" class="form-check">
+            <input class="form-check-input" type="radio" name="Diet" id="exampleRadios1" value="all"
+            [(ngModel)]="partner_preference_model.partner_lifestyles">
+            <label class="form-check-label" for="exampleRadios1">
+              Open to all
+            </label>
+          </div>
+        </th>
+        <th>
+          <div style="margin-left:  15px;" class="form-check">
+            <input class="form-check-input" type="radio" name="Diet" id="exampleRadios2" value="Veg"
+            [(ngModel)]="partner_preference_model.partner_lifestyles">
+            <label class="form-check-label" for="exampleRadios2">
+              Veg
+            </label>
+          </div>
+
+        </th>
+        <th>
+          <div style="margin-left:  15px;" class="form-check">
+            <input class="form-check-input" type="radio" name="Diet" id="exampleRadios2" value="Non-veg"
+            [(ngModel)]="partner_preference_model.partner_lifestyles">
+            <label class="form-check-label" for="exampleRadios3">
+              Non-veg
+            </label>
+          </div>
+        </th>
+        <th>
+          <div style="margin-left:  15px;" class="form-check">
+            <input class="form-check-input" type="radio" name="Diet" id="exampleRadios2" value="Jain"
+            [(ngModel)]="partner_preference_model.partner_lifestyles">
+            <label class="form-check-label" for="exampleRadios">
+              Jain
+            </label>
+          </div>
+        </th>
+        <th>
+          <div style="margin-left:  15px;" class="form-check">
+            <input class="form-check-input" type="radio" name="Diet" id="exampleRadios2" value="Occasionally Non-Veg"
+            [(ngModel)]="partner_preference_model.partner_lifestyles">
+            <label class="form-check-label" for="exampleRadios">
+              Occasionally Non-Veg
+            </label>
+          </div>
+        </th>
+
+      </tr>
+    </table>
+
+
+    <div class="overlay">
+      <div id="loading-img"></div>
+  </div>
+  
+
+    <hr>
+
+   
+  </div>
+  <div class="vs"><button type="submit" (click)="updatePartnerPreference()" class="btn  vs">Save &
+    Continue</button></div>
+
+  <!-- <script src="/node_modules/jquery/dist/jquery.js"></script> -->
+
+
+  <script>
+
+        //         $(".chosen-select").chosen({
+        //   no_results_text: "Oops, nothing found!"
+        // })
+  </script>
+</body>

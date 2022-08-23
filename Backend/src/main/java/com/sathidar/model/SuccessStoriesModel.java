@@ -19,6 +19,7 @@ public class SuccessStoriesModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer  id;
 	
+	@Transient
 	private String image_path;
 	
 	private String success_photo;
@@ -64,14 +65,6 @@ public class SuccessStoriesModel {
 		this.id = id;
 	}
 
-	public String getsuccess_photo() {
-		return success_photo;
-	}
-
-	public void setsuccess_photo(String success_photo) {
-		this.success_photo = success_photo;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -86,8 +79,8 @@ public class SuccessStoriesModel {
 				+ ", image_base_urls=" + Arrays.toString(image_base_urls) + "]";
 	}
 
-
 	public SuccessStoriesModel() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 

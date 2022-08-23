@@ -1,0 +1,29 @@
+* 
+{
+    font-family: 'Times New Roman', Times, serifs;font-style: italic; 
+ }
+
+.bgmain
+{
+    border: 2px solid #742041;padding: 10px;;box-shadow: 0 0 11px rgb(33, 33, 33); 
+}
+hr
+{
+    border: #742041 2px solid;
+}
+.pop
+{
+    background-color: #742041;color: #fff;padding: 0px;
+}
+h3
+{
+    background-color: #742041 ;padding: 5px; color: #fff;
+}
+.btn-primary
+{
+    background-color: #742041;color: #fff;border: none;
+}
+.btn-primary:hover
+{
+    background-color: #742041;padding-left: 10px;padding-right: 10px;
+}

@@ -1,0 +1,567 @@
+<body>
+    <div class="container">
+        <div class="row">
+            <div class=" col-sm-12 col-lg-4">
+              <ul>
+                  
+                <li> <a class="nav-link" [routerLink]="" (click)="showAccount()"> Account Settings</a>
+                </li>
+                <li><a class="nav-link" [routerLink]=""  (click)="showContact()">Email/ SMS Alerts</a>
+                </li>
+                <li><a class="nav-link" [routerLink]="" (click)="showHidedeleteprofile()">Hide / Delete Profile</a>
+                </li>
+                <li><a class="nav-link" [routerLink]=""  (click)="showHelp()">Help</a>
+                </li>
+                <li><a class="nav-link" [routerLink]=""  (click)="showPrivacyOption()">Privacy Option</a>
+                </li>
+                <li><a class="nav-link" [routerLink]=""  (click)="showPrivacyPolicy()" >Privacy Policy</a>
+                </li>
+                <li><a class="nav-link" [routerLink]="" (click)="showTermConditions()">Term & Conditions</a>
+                </li>
+                
+                    </ul>
+            </div>
+          <div class="col-sm-12 col-lg-8 maindiv">
+                <div id="accordion">
+                    <div class="card">
+                      <div style="background-color: #742041;color: #fff;" class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                          <button  class="btn btn-link col-12" (click)="getMessageClear()" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                             <div  class="row">
+                                 <div class="col-4" style="color: #fff;">Phone</div>
+                                 <div class="col-4"  style="color: #fff;">{{privacyDetails.phone}}</div>
+                                 <div class="col-4"  style="color: #fff;">Edit</div>
+                             </div>
+                            
+                         <!-- <label  style="color: black;" for="">Phone</label><label  class="text-center"  style="color: black;" for="">Only Premium Member</label><label style="float: right;" for=""> Edit</label> -->
+                          </button>
+                        </h5>
+                      </div>
+                  
+                      <div id="collapseOne" class="collapse " aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                         <div class="row">
+                             <div class="col-4"></div>
+                             <div class="col-4">
+                               
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" [(ngModel)]="privacyDetails.phone" name="phone" id="exampleRadios2" value="Visible to all Member">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                      Visible to all Member
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="phone"  [(ngModel)]="privacyDetails.phone"  id="exampleRadios2" value="Visible to all Premium Members">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                      Visible to all Premium Members
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="phone"  [(ngModel)]="privacyDetails.phone" id="exampleRadios2" value="Keep this private">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                      Keep this private
+                                    </label>
+                                  </div>
+                                  </div>
+                             <div class="col-4">
+                              <button (click)="phoneDetails()" style="margin: 3px; background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Save</button>
+                                <button style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Cancel</button>
+                         <!-- Start Error Success -->
+                         <div *ngIf="phoneSuccess" style="color:green">
+                          {{phoneSuccess}}
+                        </div>
+                        <div *ngIf="phoneError" style="color:red">
+                          {{phoneError}}
+                        </div>
+                      <!-- End Error Success -->
+                              </div>
+                         </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+<!-- ******************************photo optin************************************* -->
+
+
+
+
+<div class="card">
+  <div style="background-color: #742041;color: #fff;" class="card-header" id="photo">
+    <h5 class="mb-0">
+      <button  class="btn btn-link col-12" (click)="getMessageClear()" data-toggle="collapse" data-target="#photoOption" aria-expanded="true" aria-controls="photoOption">
+         <div  class="row">
+             <div class="col-4" style="color: #fff;">Photo</div>
+             <div class="col-4"  style="color: #fff;">{{privacyDetails.photo}}</div>
+             <div class="col-4"  style="color: #fff;">Edit</div>
+         </div>
+        
+     <!-- <label  style="color: black;" for="">Phone</label><label  class="text-center"  style="color: black;" for="">Only Premium Member</label><label style="float: right;" for=""> Edit</label> -->
+      </button>
+    </h5>
+  </div>
+
+  <div id="photoOption" class="collapse " aria-labelledby="photo" data-parent="#accordion">
+    <div class="card-body">
+     <div class="row">
+         <div class="col-4"></div>
+         <div class="col-4">
+           
+           
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="photo" [(ngModel)]="privacyDetails.photo"   id="exampleRadios2" value="Visible to all Member">
+                <label class="form-check-label" for="exampleRadios2">
+                  Visible to all Member
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="photo" [(ngModel)]="privacyDetails.photo"  id="exampleRadios2" value="Visible to all Premium Members">
+                <label class="form-check-label" for="exampleRadios2">
+                  Visible to all Premium Members
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="photo" [(ngModel)]="privacyDetails.photo"  id="exampleRadios2" value="Keep this private">
+                <label class="form-check-label" for="exampleRadios2">
+                  Keep this private
+                </label>
+              </div>
+              <!-- <img  style="height: 200px;width:
+                 200px; border: #742041 1px solid;" src="/saathidaar/assets/img/download.jpg" alt=""> -->
+              <!-- <div class="photo">
+
+
+              </div> -->
+              </div>
+         <div class="col-4">
+          <button (click)="photoDetails()" style="margin: 3px; background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Save</button>
+            <button style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Cancel</button>
+     <!-- Start Error Success -->
+     <div *ngIf="photoSuccess" style="color:green">
+      {{photoSuccess}}
+    </div>
+    <div *ngIf="photoError" style="color:red">
+      {{photoError}}
+    </div>
+  <!-- End Error Success -->
+          </div>
+     </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div class="card">
+                      <div style="background-color: #742041;color: #fff;" class="card-header" id="headingTwo">
+                        <h5 class="mb-0">
+                          <button class="btn btn-link collapsed col-12" (click)="getMessageClear()" (click)="getMessageClear()" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <div class="row">
+                              <div class="col-4" style="color: #fff;">Email</div>
+                              <div class="col-4"  style="color: #fff;">{{privacyDetails.email}}</div>
+                              <div class="col-4"  style="color: #fff;">Edit</div>
+                          </div>
+                            <!-- <label style="color: black;" for="">Email</label><label  style="color: black;margin-left: 40px;" for=""> Visible to all Premium Members </label><label style="float: right;margin-left:40px;" for=""> Edit</label> -->
+                          </button>
+                        </h5>
+                      </div>
+                      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                   <div class="form-check">
+                                       <input class="form-check-input" type="radio" value=" Visible to all Member" [(ngModel)]="privacyDetails.email" name="Email" id="exampleRadios1">
+                                       <label class="form-check-label" for="exampleRadios1">
+                                        Visible to all Member
+                                       </label>
+                                     </div>
+                                     <div class="form-check">
+                                       <input class="form-check-input" type="radio" name="Email" value="Visible to all Premium Members" [(ngModel)]="privacyDetails.email" id="exampleRadios2">
+                                       <label class="form-check-label" for="exampleRadios2">
+                                        Visible to all Premium Members
+                                       </label>
+                                     </div>
+                                     <div class="form-check">
+                                       <input class="form-check-input" type="radio" name="Email" value="Keep this private" [(ngModel)]="privacyDetails.email"  id="exampleRadios2">
+                                       <label class="form-check-label" for="exampleRadios2">
+                                        Keep this private
+
+                                       </label>
+                                     </div>
+                                     <div class="form-check">
+                                       <input class="form-check-input" type="radio" name="Email" value="Visible to all your Matches (Expires with Membership)" [(ngModel)]="privacyDetails.email" id="exampleRadios2">
+                                       <label class="form-check-label" for="exampleRadios2">
+                                        Visible to all your Matches (Expires with Membership)
+                                       </label>
+                                     </div>
+                                   
+                                </div>
+                                <div class="col-4">
+                                   <button (click)="EmailDetails()" style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Save</button>                                     
+                                   <button style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Cancel</button>
+                                <!-- Start Error Success -->
+                         <div *ngIf="emailSuccess" style="color:green">
+                          {{emailSuccess}}
+                        </div>
+                        <div *ngIf="emailError" style="color:red">
+                          {{emailError}}
+                        </div>
+                      <!-- End Error Success -->
+                               
+                                  </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div style="background-color: #742041;color: #fff;" class="card-header" id="headingThree">
+                        <h5 class="mb-0">
+                          <button class="btn btn-link collapsed col-12"  (click)="getMessageClear()" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            <div class="row">
+                              <div class="col-4" style="color: #fff;">Date of Birth</div>
+                              <div class="col-4"  style="color: #fff;">{{privacyDetails.dob}}</div>
+                              <div class="col-4"  style="color: #fff;">Edit</div>
+                          </div>
+                            <!-- <label style="color: black;" for="">Date of Birth</label><label  style="color: black;margin-left: 40px;" for="">  -->
+                                
+<!-- Show only the Month & Year (mm/yyyy </label><label style="float: right;margin-left:40px;" for=""> Edit</label> -->
+                          </button>
+                        </h5>
+                      </div>
+                      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                   <div class="form-check">
+                                       <input class="form-check-input" type="radio" name="DateofBirth" value="Show my full Date of Birth (dd/mm/yyyy)" [(ngModel)]="privacyDetails.dob" id="exampleRadios1">
+                                       <label class="form-check-label" for="exampleRadios1">
+                                        Show my full Date of Birth (dd/mm/yyyy)
+                                       </label>
+                                     </div>
+                                     <div class="form-check">
+                                       <input class="form-check-input" type="radio" name="DateofBirth" value="Show only the Month & Year (mm/yyyy)"  [(ngModel)]="privacyDetails.dob" id="exampleRadios2">
+                                       <label class="form-check-label" for="exampleRadios2">
+                                        Show only the Month & Year (mm/yyyy)
+                                       </label>
+                                     </div>
+                      
+                                   
+                                </div>
+                                <div class="col-4">   
+                                   <button (click)="DOBDetails()" style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Save</button>                                   
+                                   <button style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Cancel</button>
+                               
+                      <!-- Start Error Success -->
+                         <div *ngIf="dobSuccess" style="color:green">
+                          {{dobSuccess}}
+                        </div>
+                        <div *ngIf="dobError" style="color:red">
+                          {{dobError}}
+                        </div>
+                      <!-- End Error Success -->
+                               
+                                  </div>
+                            </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+
+
+
+
+                    <div class="card">
+                        <div style="background-color: #742041;color: #fff;" class="card-header" id="headingThree4">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link collapsed col-12" (click)="getMessageClear()" data-toggle="collapse" data-target="#collapseThree4" aria-expanded="false" aria-controls="collapseThree">
+                              <div class="row">
+                                <div class="col-4" style="color: #fff;">Annual Income</div>
+                                <div class="col-4"  style="color: #fff;">{{privacyDetails.annual_income}}</div>
+                                <div class="col-4"  style="color: #fff;">Edit</div>
+                            </div>
+                                <!-- <label style="color: black;" for="">Annual Income</label><label  style="color: black;margin-left: 40px;" for=""> 
+                                    Visible to all Members </label><label style="float: right;margin-left:40px;" for=""> Edit</label> -->
+                            </button>
+                          </h5>
+                        </div>
+                        <div id="collapseThree4" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                          <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                   <div class="form-check">
+                                       <input class="form-check-input" type="radio" name="annual_income" value="Visible to all Members" [(ngModel)]="privacyDetails.annual_income" id="exampleRadios1">
+                                       <label class="form-check-label" for="exampleRadios1">
+                                        Visible to all Members
+                                       </label>
+                                     </div>
+                                     <div class="form-check">
+                                       <input class="form-check-input" type="radio" name="annual_income" value="Visible to all Premium Members" [(ngModel)]="privacyDetails.annual_income" id="exampleRadios2">
+                                       <label class="form-check-label" for="exampleRadios2">
+                                        Visible to all Premium Members
+                                       </label>
+                                     </div>  
+                                     <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="annual_income" value="Keep this private" [(ngModel)]="privacyDetails.annual_income" id="exampleRadios2">
+                                      <label class="form-check-label" for="exampleRadios2">
+                                       Keep this private
+                                      </label>
+                                    </div>                     
+                                </div>
+                                <div class="col-4">
+                                   <button (click)="AnnualDetails()" style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Save</button>
+                                   <button style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Cancel</button>
+                               
+                      <!-- Start Error Success -->
+                         <div *ngIf="annual_incomeSuccess" style="color:green">
+                          {{annual_incomeSuccess}}
+                        </div>
+                        <div *ngIf="annual_incomeError" style="color:red">
+                          {{annual_incomeError}}
+                        </div>
+                      <!-- End Error Success -->
+                               
+                                  </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+
+
+                      <div class="card">
+                        <div style="background-color: #742041;color: #fff;" class="card-header" id="headingThree10">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link collapsed col-12" (click)="getMessageClear()" data-toggle="collapse" data-target="#collapseThree10" aria-expanded="false" aria-controls="collapseThree">
+                              <div class="row">
+                                <!-- <label style="color: black;" for="">Horoscope</label><label  style="color: black;margin-left: 40px;" for="">  -->
+                                  <div class="col-4" style="color: #fff;">Horoscope</div>
+                                <div class="col-4"  style="color: #fff;">{{privacyDetails.horoscope}}</div>
+                                <div class="col-4"  style="color: #fff;">Edit</div>
+                            </div>
+                                <!-- <label style="color: black;" for="">Horoscope</label><label  style="color: black;margin-left: 40px;" for="">  -->
+                                    <!-- Visible to all Members </label><label style="float: right;margin-left:40px;" for=""> Edit</label> -->
+                            </button>
+                          </h5>
+                        </div>
+                        <div id="collapseThree10" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                          <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                   <div class="form-check">
+                                       <input class="form-check-input" value="Visible to all Member" [(ngModel)]="privacyDetails.horoscope" type="radio" name="Horoscope" id="exampleRadios1">
+                                       <label class="form-check-label" for="exampleRadios1">
+                                        Visible to all Member
+                                       </label>
+                                     </div>
+                                     <div class="form-check">
+                                       <input class="form-check-input" type="radio" name="Horoscope"  value="Visible to all Premium Members" [(ngModel)]="privacyDetails.horoscope" type="radio" name="Horoscope" id="exampleRadios2">
+                                       <label class="form-check-label" for="exampleRadios2">
+                                        Visible to all Premium Members
+                                       </label>
+                                     </div>
+
+
+                                     <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="Horoscope" id="exampleRadios2"  value="Keep this private" [(ngModel)]="privacyDetails.horoscope" type="radio" name="Horoscope">
+                                        <label class="form-check-label" for="exampleRadios2">
+                                          Keep this private
+                                        </label>
+                                      </div>
+                                </div>
+                                <div class="col-4">   
+                                   <button (click)="HoroscopeDetails()" style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Save</button>                                
+                                   <button style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Cancel</button>
+                      
+                      <!-- Start Error Success -->
+                         <div *ngIf="horoscopeSuccess" style="color:green">
+                          {{horoscopeSuccess}}
+                        </div>
+                        <div *ngIf="horoscopeError" style="color:red">
+                          {{horoscopeError}}
+                        </div>
+                      <!-- End Error Success -->
+                                  </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+
+<!-- 
+                      <div class="card">
+                        <div style="background-color: #742041;color: #fff;" class="card-header" id="headingThree5">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link collapsed col-12" (click)="getMessageClear()" data-toggle="collapse" data-target="#collapseThree5" aria-expanded="false" aria-controls="collapseThree">
+                              <div class="row">
+                           
+                                  <div class="col-4" style="color: #fff;"> Visitors Setting</div>
+                                <div class="col-4"  style="color: #fff;"> Let other Members know that I have visited their Profile  </div>
+                                <div class="col-4"  style="color: #fff;">Edit</div>
+                            </div>
+                             
+                            </button>
+                          </h5>
+                        </div>
+                        <div id="collapseThree5" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                          <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                   <div class="form-check">
+                                       <input class="form-check-input"  value="Let other Members know that I have visited their Profile" [(ngModel)]="privacyDetails. visitors_setting" type="radio" name="Horoscope" type="radio" name="VisitorsSetting" id="exampleRadios1">
+                                       <label class="form-check-label" for="exampleRadios1">
+                                        Let other Members know that I have visited their Profile
+                                       </label>
+                                     </div>
+                                     <div class="form-check">
+                                       <input class="form-check-input" type="radio"  value="Do not let other Members know that I have visited their Profile" [(ngModel)]="privacyDetails. visitors_setting" type="radio" name="Horoscope" name="VisitorsSetting" id="exampleRadios2">
+                                       <label class="form-check-label" for="exampleRadios2">
+                                        Do not let other Members know that I have visited their Profile
+                                       </label>
+                                     </div>
+                                </div>
+                                <div class="col-4">
+                                   <button (click)="AccountVisitorsDetails()" style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Save</button>                                   
+                                   <button style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Cancel</button>
+                      
+                         <div *ngIf="visitors_settingSuccess" style="color:green">
+                          {{visitors_settingSuccess}}
+                        </div>
+                        <div *ngIf="visitors_settingError" style="color:red">
+                          {{visitors_settingError}}
+                        </div>
+                    
+                              
+                                  </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card">
+                        <div style="background-color: #742041;color: #fff;" class="card-header" id="headingThree6">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link collapsed col-12" (click)="getMessageClear()" data-toggle="collapse" data-target="#collapseThree6" aria-expanded="false" aria-controls="collapseThree">
+                              <div class="row">
+                                  <div class="col-4" style="color: #fff;">Shortlist Setting</div>
+                                <div class="col-4"  style="color: #fff;">Let other Members know that <br> I have shortlisted their Profile  </div>
+                                <div class="col-4"  style="color: #fff;">Edit</div>
+                            </div>
+                            </button>
+                          </h5>
+                        </div>
+                        <div id="collapseThree6" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                          <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-4">
+                                    </div>
+                                <div class="col-4">
+                                   <div class="form-check">
+                                       <input class="form-check-input" type="radio" name="Shortlist"  value="Let other Members know that I have shortlisted their Profile" [(ngModel)]="privacyDetails.shortlist_setting" id="exampleRadios1">
+                                       <label class="form-check-label" for="exampleRadios1">
+                                        Let other Members know that I have shortlisted their Profile 
+                                       </label>
+                                     </div>
+                                     <div class="form-check">
+                                       <input class="form-check-input" type="radio" name="Shortlist"  value="Do not let other Members know that I have shortlisted their Profile" [(ngModel)]="privacyDetails.shortlist_setting" id="exampleRadios2">
+                                       <label class="form-check-label" for="exampleRadios2">
+                                        Do not let other Members know that I have shortlisted their Profile 
+                                       </label>
+                                     </div>
+                                </div>
+                                <div class="col-4">
+                                   <button (click)="ShortListDetails()" style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Save</button> 
+                                   <button style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Cancel</button>
+                               
+                         <div *ngIf="shortlist_settingSuccess" style="color:green">
+                          {{shortlist_settingSuccess}}
+                        </div>
+                        <div *ngIf="shortlist_settingError" style="color:red">
+                          {{shortlist_settingError}}
+                        </div>
+                               
+                                  </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+
+
+       
+                      <div class="card">
+                        <div style="background-color: #742041;color: #fff;" class="card-header" id="headingThree7">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link collapsed col-12" (click)="getMessageClear()" data-toggle="collapse" data-target="#collapseThree7" aria-expanded="false" aria-controls="collapseThree">
+                              <div class="row">
+                                <div class="col-4" style="color: #fff;">Profile Privacy</div>
+                                <div class="col-4"  style="color: #fff;"> Let other Members know that I have shortlisted their Profile </div>
+                                <div class="col-4"  style="color: #fff;">Edit</div>
+                            </div>
+                              
+                                
+                                   
+                            </button>
+
+                          </h5>
+                        </div>
+                        <div id="collapseThree7" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                          <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                   <div class="form-check">
+                                       <input class="form-check-input"  value="Visible to all, including unregistered visitors (Photo and Name will not be visible on Profile)" [(ngModel)]="privacyDetails.profile_privacy" type="radio" name="Shortlist" id="exampleRadios1">
+                                       <label class="form-check-label" for="exampleRadios1">
+                                  Visible to all, including unregistered visitors (Photo and Name will not be visible on Profile) 
+                                       </label>
+                                     </div>
+                                     <div class="form-check">
+                                       <input class="form-check-input"  value="Only visible to registered Members" [(ngModel)]="privacyDetails.profile_privacy" type="radio" name="Shortlist" id="exampleRadios2">
+                                       <label class="form-check-label" for="exampleRadios2">
+                                        Only visible to registered Members
+                                       </label>
+                                     </div>
+                                </div>
+                                <div class="col-4">
+                                   <button (click)="ProfilePrivacyDetails()" style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Save</button>
+                                   <button style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Cancel</button>
+                         <div *ngIf="profile_privacySuccess" style="color:green">
+                          {{profile_privacySuccess}}
+                        </div>
+
+                        <div *ngIf="profile_privacyError" style="color:red">
+                          {{profile_privacyError}}
+                        </div>
+                                  </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div> -->
+</div>
+</div>
+</div>
+</div>
+</body>

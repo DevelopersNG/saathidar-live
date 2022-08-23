@@ -1,0 +1,107 @@
+<div class="row mt-3">
+    <div class="col-3">
+        <li class="list-group-item ">
+            <label class="registration_label"> Member</label>
+            <span>
+              <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="ShowDetailsMember.primium_member">
+                <option value="" label="Select">Select</option>
+                <option value="Primium_Member" label="Primium Member">Primium Member</option>
+                <option value="Non_premimum member" label="Non premimum member">Non premimum member</option>
+          
+              </select>
+            </span>
+          </li>
+          
+    </div>
+    <div class="col-3">
+        <li class="list-group-item ">
+            <label class="registration_label"> Gender </label><br>
+            <span>
+              <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="ShowDetailsMember.gendar" >
+                <option value="" label="Select">Select</option>
+                <option value="Male" label="Male">Male</option>
+                <option value="Female" label="Female">Female</option>
+          
+              </select>
+            </span>
+          </li>
+    </div>
+    <div class="col-3">
+        <li class="list-group-item ">
+            <label class="registration_label"> Date </label><br>
+            <span>
+          <input style="padding: 10px;" type="date" [(ngModel)]="ShowDetailsMember.search_date_from">
+            </span>
+          </li>
+    </div>
+    <div class="col-3">
+        <li class="list-group-item ">
+            <label class="registration_label"> Date </label><br>
+            <span>
+          <input style="padding: 10px;" type="date" [(ngModel)]="ShowDetailsMember. search_date_to">
+            </span>
+          </li>
+
+    </div>
+    
+</div>
+
+<div class="row">
+  <div class="col-12 text-right mt-3">
+    <button type="button" class="btn btn-primary" (click)="getMemberData()">Search</button>
+  </div>
+</div>
+<div class="row mt-3">
+<div class="col-12">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Sr.No</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Age</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Date</th>
+            <th scope="col">Time</th>
+            <th scope="col">Marital Status</th>
+            <th scope="col">view</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td><button (click)="alldetails()" type="button" class="btn  btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button></td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td><button type="button" class="btn  btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button></td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td><button type="button" class="btn  btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button></td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+</div>

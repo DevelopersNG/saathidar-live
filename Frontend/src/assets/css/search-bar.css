@@ -1,0 +1,31 @@
+img
+{
+    height: 300px;width: auto;padding: 20px;
+}
+.colorbg
+{
+    background-color:#742041; margin-top: 20px;
+}
+li
+{
+    list-style: none; padding-top: 8px;color: white;font-size: 15px;
+}
+.fa-solid 
+{
+    padding: 10px;
+}
+label
+{
+    padding-left: 15px;
+}
+shadow {
+    box-shadow: 5px 5px 5px rgba(0,0,0,.100)!important;
+}
+.colorbg1
+{
+    background-color: #a1395f;
+}
+.stretched-link
+{
+    float: right;padding-top: 100px;font-size: 20px; border-bottom: 1px white solid;color:#ffff;
+}

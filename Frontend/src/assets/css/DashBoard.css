@@ -1,0 +1,120 @@
+*
+{
+    font-family: 'Times New Roman', Times, serif;
+}
+
+
+.navbar
+{
+    background-color:#742041; 
+} 
+.btn:not(:disabled):not(.disabled)
+{
+    color: #fff;
+}
+.navbar a
+{
+    color: #fff;
+
+}
+ .card input
+ {
+     margin-top: 10px;border: 1px #742041 solid;
+ }
+ .card
+ {
+    border: 1px #742041 solid; background-color:#742041;
+
+ }
+ .card
+ {
+     margin-top: 10px;
+ }
+.btn
+{
+    background-color:#742041; color: #fff;text-align: left;
+}
+.card .btn
+{
+    margin: 50px;
+}
+.Notifications
+{
+    margin-top: 50px;
+}
+button
+{
+    margin: 30px;padding: 70px; font-size: 18px;
+}
+.badge
+{
+    margin-left: 100px;
+}
+hr
+{
+border: 2px black dotted;
+}
+.bgcolor
+{
+    padding: 5px;background: seashell; 
+}
+.no-gutters img
+{
+    width: 100px;border-radius: 60%;
+}
+.media img
+{
+    width: 100px; border-radius: 50%;margin: 15px;
+}
+.media
+{
+    border: 1px black solid;
+}
+.media ul
+{
+    float: right;overflow: hidden;
+}
+.stretched-link
+{
+ padding-left: 300px;     
+}
+
+.media li
+{
+    float: left;color: black; padding-left: 0px;padding-right: 30px;font-size: 12px;overflow: hidden;
+}
+.Expectation
+{
+    width: 100px;height: auto;
+}
+
+
+
+
+
+
+/* footer */
+
+*
+{
+    font-family: Verdana, Geneva, Tahoma, sans-serif
+}
+footer 
+{height: 150px;width:100%;text-align: center;margin: auto;    background-color:#742041
+
+}
+li
+{
+   float:right;padding-left: 35px;padding-top: 10px; color: #fff;
+}
+ul{
+       float:left; list-style: none;
+}
+footer ul
+{
+    float:left; list-style: none;padding:50px ;
+}
+.fa-brands
+{
+    color: #fff;font-size: 30px;
+}
