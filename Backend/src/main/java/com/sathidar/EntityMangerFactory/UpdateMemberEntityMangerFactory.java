@@ -386,16 +386,16 @@ public class UpdateMemberEntityMangerFactory {
 
 					map.put("message", "success");
 					map.put("results", "1");
-
+					
 					// check request are sent to other member
 					Query queryRequest = em.createNativeQuery(
 							"SELECT request_status,block_status FROM member_request where  request_from_id= :member_from_id and request_to_id= :member_to_id");
-					queryRequest.setParameter("member_from_id", id);
-					queryRequest.setParameter("member_to_id", thisMemberID);
+					queryRequest.setParameter("member_from_id",id);
+					queryRequest.setParameter("member_to_id",thisMemberID);
 					JSONArray resultRequest = new JSONArray();
 					List<Object[]> result = queryRequest.getResultList();
 					int stsResults = 0;
-					if (results != null) {
+					if (result != null) {
 						for (Object[] objRequest : result) {
 							int j = 0;
 							stsResults = 1;
@@ -407,7 +407,6 @@ public class UpdateMemberEntityMangerFactory {
 						map.put("request_status", "");
 						map.put("block_status", "");
 					}
-
 					status = true;
 				}
 			}
@@ -799,8 +798,6 @@ public class UpdateMemberEntityMangerFactory {
 
 					json.put("income", myAnnualIncome);
 					json.put("member_id", memberID);
-					json.put("request_status", "");
-					json.put("block_status", "");
 
 					JSONArray jsonResultsArray = new JSONArray();
 					jsonResultsArray = uploadImagesService.getMemberAppPhotos("" + id);
@@ -844,7 +841,7 @@ public class UpdateMemberEntityMangerFactory {
 
 					JSONArray resultRequest = new JSONArray();
 					List<Object[]> result = query.getResultList();
-					if (results != null) {
+					if (result != null) {
 						for (Object[] objRequest : result) {
 							int j = 0;
 							json.put("request_status", convertNullToBlank(String.valueOf(objRequest[j])));
@@ -981,6 +978,9 @@ public class UpdateMemberEntityMangerFactory {
 
 //		******************************Query*************************************************************************
 
+//			search by height, country, religions  	
+			
+			
 			Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
@@ -1166,15 +1166,15 @@ public class UpdateMemberEntityMangerFactory {
 							json.put("photo_privacy", "3");
 						}
 
+						JSONArray resultRequest = new JSONArray();
 						// check request are sent to other member
 						Query query = em.createNativeQuery(
 								"SELECT request_status,block_status FROM member_request where  request_from_id= :member_from_id and request_to_id= :member_to_id");
 						query.setParameter("member_from_id", id);
 						query.setParameter("member_to_id", memberID);
-						JSONArray resultRequest = new JSONArray();
 						List<Object[]> result = query.getResultList();
 						int statusRequest = 0;
-						if (results != null) {
+						if (result != null) {
 							for (Object[] objRequest : result) {
 								int j = 0;
 								statusRequest = 1;
@@ -1186,7 +1186,6 @@ public class UpdateMemberEntityMangerFactory {
 						if (statusRequest == 0) {
 							json.put("request_status", "");
 							json.put("block_status", "");
-
 						}
 
 						resultArray.put(json);

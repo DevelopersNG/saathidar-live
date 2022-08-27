@@ -213,6 +213,10 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 	@Query(value="SELECT short_reg_status FROM users where id= :getUserID ",nativeQuery=true)
 	String getShortRegistrationStatus(int getUserID);
 
+
+	@Query(value="SELECT member_id FROM member where user_id= :user_id ",nativeQuery=true)
+	int getMemberIDByUserIDByMemberID(int user_id);
+
 //	String getDetailsFromOfInboxIDs(int id);
 //
 //	String getDetailsOfToInboxIDs(int id);

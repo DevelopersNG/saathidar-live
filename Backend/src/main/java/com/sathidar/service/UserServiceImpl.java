@@ -1,5 +1,6 @@
 package com.sathidar.service;
 
+import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +12,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.persistence.Query;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.tomcat.util.json.JSONParser;
@@ -53,7 +56,13 @@ public class UserServiceImpl implements UserService {
 	private UserEntityManagerFactory userEntityManagerFactory;
 
 	@Autowired
+	private UploadImagesService uploadImagesService;
+	
+	@Autowired
     private EmailService mailSender;
+	
+	@Autowired
+	private ServerEmailService serverEmailService;
 	
 	private static final Random RANDOM = new SecureRandom();
 	private static final String ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -273,6 +282,8 @@ public class UserServiceImpl implements UserService {
 		String gender=userEntityManagerFactory.getMemberGenderIDBy(userID);
 		String prodile_created_by=userEntityManagerFactory.getMemberProdileCreatedIDBy(userID);
 		String short_regst_status=userEntityManagerFactory.getMemberShortRegistStatus(userID);
+		int my_premium_status=uploadImagesService.getPremiumMemberStatus(memberID);
+		
 		
 		map.put("id",""+ userExists.getId());
 		map.put("firstName", userExists.getFirstName());
@@ -288,6 +299,7 @@ public class UserServiceImpl implements UserService {
 		map.put("franchise_code",franchiseCode);
 		map.put("results", "1");
 		map.put("short_regst_status", short_regst_status);
+		map.put("my_premium_status", ""+my_premium_status);
 		userExists.setMember_id(memberID);
 		userExists.setPassword("");
 		return map;
@@ -381,20 +393,12 @@ public class UserServiceImpl implements UserService {
 					if (getRoleID != 0) {
 						if (userEntityManagerFactory.saveRoleToMember(getRoleID, getLastInsertedID)) {
 							if(userEntityManagerFactory.insertRecordToMemberTable(user,getRoleID, getLastInsertedID)!=0) {
-//								 SimpleMailMessage message = new SimpleMailMessage();
-//								  message.setFrom("vikas.ngdigital@gmail.com");
-//								  message.setTo(user.getEmail());
-//								  message.setSubject("Registration Confirmation");
-//								  message.setText("Your User Name is "+user.getEmail()+"\n Your Password is "+user.getPhone()+" \n "
-//								  		+ "you can change username and password when confirmation is done  \n To confirm your e-mail address, please click the link below:\n"
-//								  		+ "http://localhost:9094/api/users/confirm?token="+user.getConfirmationToken());
-//								  message.setFrom("noreply@domain.com");
-//								status=true;
 								map=new HashMap<String, String>();
 								map.put("firstName", user.getFirstName());
 								map.put("lastName", user.getLastName());
 								map.put("username", user.getUsername());
 								map.put("phone", user.getPhone());
+								
 								map.put("member_id",""+ getLastInsertedID);
 								map.put("email", user.getEmail());
 								map.put("enabled",""+ user.getEnabled());
@@ -489,7 +493,8 @@ public class UserServiceImpl implements UserService {
 					"  </body>";
 			
 			
-			mailSender.send(email, "Saathidaar-Registrations", email_body);
+//			mailSender.send(email, "Saathidaar-Registrations", email_body);
+			serverEmailService.send(email, "Saathidar-Registrations", email_body);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -991,7 +996,8 @@ public class UserServiceImpl implements UserService {
 					"    </table>\r\n" + 
 					"  </body>\r\n" + 
 					"</html>";
-			mailSender.send(email, "Saathidar-Registrations", email_body);
+			serverEmailService.send(email, "Saathidar-Change Password", email_body);
+//			mailSender.send(email, "Saathidar-Registrations", email_body);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

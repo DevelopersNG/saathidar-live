@@ -386,4 +386,6 @@ public class UserEntityManagerFactory {
 		}
 		return franchise_code;
 	}
+
+	
 }

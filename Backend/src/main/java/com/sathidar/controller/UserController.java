@@ -86,6 +86,7 @@ public class UserController {
 		
 		return map;
 	}
+	
 //	@PostMapping(path = "/member/otp")
 //	public Map<String, String> sendOTP(@Validated @RequestBody User user) {
 //		HashMap<String, String> map = new HashMap<>();

@@ -706,7 +706,8 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					"    </table>\r\n" + 
 					"  </body>\r\n" + 
 					"</html>";
-			mailSender.send(emailId_to, "Saathidaar Invitations", email_body);
+//			mailSender.send(emailId_to, "Saathidaar Invitations", email_body);
+			serverEmailService.send(emailId_to, "Saathidar-Invitations", email_body);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1317,8 +1318,8 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				
 				
 				System.out.println("************* email id- " + emailId_to);
-				mailSender.send(emailId_to, "Accept Request- Saathidaar", email_body);
-//				serverEmailService.send(emailId_to, "Accept Request- Saathidaar", email_body);
+//				mailSender.send(emailId_to, "Accept Request- Saathidaar", email_body);
+				serverEmailService.send(emailId_to, "Accept Request- Saathidaar", email_body);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

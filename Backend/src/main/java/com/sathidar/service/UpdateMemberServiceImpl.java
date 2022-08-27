@@ -439,7 +439,7 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 	}
 	
 	@Override
-	public int updateRegistrationDetails(UpdateMember updateMember, int member_id) {
+	public int updateRegistrationDetails(UpdateMember updateMember, int user_id) {
 		Object memberUpdateStatus=null;
 	
 			double dHeight = 0.0;
@@ -449,6 +449,9 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 			// update member details
 			int memberDetails=0;	
 			try {
+				
+				int member_id=updateMemberRepository.getMemberIDByUserIDByMemberID(user_id);
+				
 				updateMember.setId(member_id);
 				System.out.println("save --- "+updateMember.getReligion());
 				
@@ -461,7 +464,7 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 
 				memberDetails	= updateMemberRepository.UpdateRegistrationDetails(member_id,dateOfBirth,marital_status,mHeight,religionID,countryID,mLifeStyles);
 				if(memberDetails>0) {
-					int user_id=updateMemberRepository.getUserIDByMemberID(member_id);
+//					user_id=updateMemberRepository.getUserIDByMemberID(member_id);
 					int sts=updateMemberRepository.updateShortRegstInUserTable(user_id);
 				}
 				memberUpdateStatus=true;
