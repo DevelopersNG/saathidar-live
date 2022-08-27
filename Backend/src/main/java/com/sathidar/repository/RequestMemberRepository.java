@@ -15,7 +15,7 @@ public interface RequestMemberRepository extends JpaRepository<RequestMemberMode
 	@Transactional
 	@Modifying
 	@Query(value="insert into member_request (request_from_id,request_to_id,request_status) values (:request_from_id,:request_to_id,:request_status)",nativeQuery = true)
-	Object sendRequestToMember(int request_from_id, int request_to_id, String request_status);
+	int sendRequestToMember(int request_from_id, int request_to_id, String request_status);
 	
 	@Query(value="select count(*) from member_request where request_from_id= :request_from_id and request_to_id= :request_to_id",nativeQuery = true)
 	int getSentRequestedMember(int request_from_id, int request_to_id);
@@ -23,7 +23,7 @@ public interface RequestMemberRepository extends JpaRepository<RequestMemberMode
 	@Transactional
 	@Modifying
 	@Query(value="update member_request set request_status= :requestStatus, block_by_id =0,block_status ='' where request_from_id= :requestFromId and request_to_id= :requestToId",nativeQuery = true)
-	Object requestAcceptedAndRejected(int requestFromId, int requestToId, String requestStatus);
+	int requestAcceptedAndRejected(int requestFromId, int requestToId, String requestStatus);
 
 	@Transactional
 	@Modifying
@@ -50,7 +50,7 @@ public interface RequestMemberRepository extends JpaRepository<RequestMemberMode
 //	String getEmailId(Integer request_to_id);
 
 	@Transactional
-	@Query(value="SELECT first_name,last_name,email_id FROM member where member_id= :request_to_id",nativeQuery = true)
+	@Query(value="SELECT first_name,last_name,email_id,member_number,contact_number FROM member where member_id= :request_to_id",nativeQuery = true)
 	List<Object[]> getUserNameEmailId(Integer request_to_id);
 
 	@Transactional

@@ -69,7 +69,6 @@ public class UserController {
 //		}
 //		return map;
 //	}
-//	
 
 	@PostMapping(path = "/users/register")
 	public Map<String, String> registerUser(@Validated @RequestBody User user) {

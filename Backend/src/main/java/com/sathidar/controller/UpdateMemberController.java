@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sathidar.EntityMangerFactory.UpdateMemberEntityMangerFactory;
+import com.sathidar.model.FilterSearchModel;
 import com.sathidar.model.UpdateMember;
 import com.sathidar.model.User;
+import com.sathidar.service.ServerEmailService;
 import com.sathidar.service.UpdateMemberService;
 import com.sathidar.service.UploadImagesService;
 
@@ -78,7 +80,6 @@ public class UpdateMemberController {
 			int login_id = 0;
 			map = updateMemberEntityMangerFactory.getMyProfileMember(id);
 			if(map!=null) {
-				
 				jsObject.put("data", map);
 				JSONArray jsonResultsArray = new JSONArray();
 				jsonResultsArray = uploadImagesService.getMemberAppPhotos(""+id);
@@ -232,8 +233,9 @@ public class UpdateMemberController {
 		HashMap<String, String> map = new HashMap<>();
 //		 System.out.println("sssssssssssssssssss-"+member_number);
 		map = updateMemberEntityMangerFactory.getDetailsByMemberID(member_number);
-		if (map == null) {
+		if (map.isEmpty()) {
 			map.put("message", "something wrong ! record not fetch...");
+			map.put("results", "0");
 		}
 		return map;
 	}
@@ -402,7 +404,7 @@ public class UpdateMemberController {
 			@PathVariable("login_id") int login_id) {
 		HashMap<String, String> map = new HashMap<>();
 		map = updateMemberEntityMangerFactory.getMatchPartnerPreference(member_id, login_id);
-		if (map == null) {
+		if (map.isEmpty()) {
 			map.put("results", "0");
 			map.put("message", "something wrong ! record not fetch...");
 		}
@@ -528,6 +530,38 @@ public class UpdateMemberController {
 		}
 		return jsObject.toString();
 	}
-	
 
+//	<------------------------------ add admin filter data -------------------->
+	
+	@GetMapping(value = "/member/filterSearch")
+	public String getNewMatches(@Validated @RequestBody FilterSearchModel filterSearchModel){
+		HashMap<String, String> map = new HashMap<>();
+		JSONObject jsObject = new JSONObject();
+		JSONArray jsonResultArray = new JSONArray();
+		UpdateMember updateMember = new UpdateMember();
+		jsonResultArray = updateMemberEntityMangerFactory.getAllMemberByFilter(filterSearchModel);
+		if (jsonResultArray != null) {
+			jsObject.put("data", jsonResultArray);
+			jsObject.put("results", "1");
+		} else {
+			jsObject.put("data", jsonResultArray);
+			jsObject.put("results", "0");
+		}
+		return jsObject.toString();
+	}
+	
+	@GetMapping(value = "/member/send-email-server")
+	public String getNewMatches(){
+		String success="false";
+		try {
+			ServerEmailService serverEmailService=new ServerEmailService();
+			String email_body="test mail by java code";
+			String emailId_to="vikasuttamaher@gmail.com";
+			serverEmailService.send(emailId_to, "Accept Request- Saathidaar", email_body);
+			success="true";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return success;
+	}
 }

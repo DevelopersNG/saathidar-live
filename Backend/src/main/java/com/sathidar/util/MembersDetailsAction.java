@@ -34,55 +34,80 @@ public class MembersDetailsAction {
 	public String getPhonePrivacy(int loginPremiumStatus, String thisMemberID, String contact_number) {
 		try {
 			int getStatus = privacyPolicyRepository.findByMember_Id(Integer.parseInt(thisMemberID));
-
-			if (getStatus > 0) {
+			StringBuffer buf = new StringBuffer(contact_number);
+			String number = buf.replace(4, buf.length() - 1, "******").toString();
+			
 				String results = privacyPolicyRepository.getPhoneRecords(Integer.parseInt(thisMemberID));
-
-				if (results != null) {
+				if (results != null && !results.equals("") ) {
 					// login user and current member are premium member
 					if (Integer.parseInt(results) == 2 && loginPremiumStatus > 0) {
 						return contact_number;
-					} else if (Integer.parseInt(results) == 3) {
-						// current member are set keep this private
-						StringBuffer buf = new StringBuffer(contact_number);
-						String number = buf.replace(4, buf.length() - 1, "******").toString();
+					} else if (Integer.parseInt(results) == 3) { // keep private
 						return number;
-					} else {
-						return contact_number;
+					} else if (Integer.parseInt(results) == 1 && loginPremiumStatus > 0) {
+						return contact_number; // other member are set visible to all and login user is premium member
+					
+					} else if (Integer.parseInt(results) == 1 && loginPremiumStatus==0) {
+						 // other member are set visible to all and login user is not premium member
+						return number;
+					}else if (loginPremiumStatus == 0) { 
+						return number;
 					}
 				} else {
-					return contact_number;
+					if (loginPremiumStatus>0) {
+						return contact_number;
+					}else {
+						return number;
+					}
 				}
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "";
 	}
 	
-	
-	
 	@Transactional
 	public String getEmailPrivacy(int loginPremiumStatus, String thisMemberID, String email) {
 		try {
+			String[] emialArray=email.split("@");
+			String firstString=emialArray[0];
+			String secondString=emialArray[1];
+			firstString=firstString.replaceAll(firstString, "*");
+			String replaceEmail="**********@"+secondString;
+			
 			int getStatus = privacyPolicyRepository.findByMember_Id(Integer.parseInt(thisMemberID));
-			if (getStatus > 0) {
+//			if (getStatus > 0) {
 				String results = privacyPolicyRepository.getEmailRecords(Integer.parseInt(thisMemberID));
-				if (results != null) {
+				if (results != null && !results.equals("") ) {
 					// login user and current member are premium member
 					if (Integer.parseInt(results) == 2 && loginPremiumStatus > 0) {
 						return email;
 					} else if (Integer.parseInt(results) == 3) {
 						StringBuffer buf = new StringBuffer(email);
 						String resemail = buf.replace(4, buf.length() - 1, "******").toString();
-						return resemail;
-					} else {
+						return replaceEmail;
+					} else if (Integer.parseInt(results) == 1 && loginPremiumStatus > 0) {
 						return email;
-					}
+					} else if (Integer.parseInt(results) == 1 && loginPremiumStatus==0) {
+						StringBuffer buf = new StringBuffer(email);
+						String resemail = buf.replace(4, buf.length() - 1, "******").toString();
+						return replaceEmail;
+					}else if (loginPremiumStatus == 0) {
+						StringBuffer buf = new StringBuffer(email);
+						String resemail = buf.replace(4, buf.length() - 1, "******").toString();
+						return replaceEmail;
+					} 
 				} else {
-					return email;
+					StringBuffer buf = new StringBuffer(email);
+					String resemail = buf.replace(4, buf.length() - 1, "******").toString();
+					if (loginPremiumStatus>0) {
+						return email;
+					}else {
+						return replaceEmail;
+					}
+					
 				}
-			}
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -93,21 +118,23 @@ public class MembersDetailsAction {
 	public String getAnnualIncomePrivacy(int loginPremiumStatus, String thisMemberID, String annual_income) {
 		try {
 			int getStatus = privacyPolicyRepository.findByMember_Id(Integer.parseInt(thisMemberID));
-			if (getStatus > 0) {
+//			if (getStatus > 0) {
 				String results = privacyPolicyRepository.getAnnualIncomeRecords(Integer.parseInt(thisMemberID));
-				if (results != null) {
+				if (results != null && !results.equals("") ) {
 					// login user and current member are premium member
 					if (Integer.parseInt(results) == 2 && loginPremiumStatus > 0) {
 						return annual_income;
 					} else if (Integer.parseInt(results) == 3) {
-						return "Keep This Private";
-					} else {
+						return "";
+					} else if (Integer.parseInt(results) == 1) {
+						return annual_income;
+					} else if (loginPremiumStatus == 0) {
 						return annual_income;
 					}
 				} else {
 					return annual_income;
 				}
-			}
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -118,28 +145,35 @@ public class MembersDetailsAction {
 	@Transactional
 	public String getDateOfBirthPrivacy(int loginPremiumStatus, String thisMemberID, String date_of_birth) {
 		try {
-			Date date = new Date();
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			String[] dateOfBirth=date_of_birth.split("-");
+			String year=dateOfBirth[0];
+			String month=dateOfBirth[1];
+			String day=dateOfBirth[2];
+			System.out.println(year+"-"+month+"-"+day);
 			int getStatus = privacyPolicyRepository.findByMember_Id(Integer.parseInt(thisMemberID));
-			if (getStatus > 0) {
+//			if (getStatus > 0) {
 				String results = privacyPolicyRepository.getDateOfBirthRecords(Integer.parseInt(thisMemberID));
-				if (results != null) {
+				if (results != null && !results.equals("") ) {
 					// dd/mm/yyyy format
-					if (Integer.parseInt(results) == 1) {
-						date = df.parse(date_of_birth);
-						DateFormat df1 = new SimpleDateFormat("dd/MM/yyyy");
-						return df1.format(date);
-					} else if (Integer.parseInt(results) == 2) {
-						date = df.parse(date_of_birth);
-						DateFormat df1 = new SimpleDateFormat("MM/yyyy");
-						return df1.format(date);
-					} else {
-						return date_of_birth;
+					if (Integer.parseInt(results) == 2 && loginPremiumStatus > 0) {
+						return year+"-"+month+"-"+day;
+					} else if (Integer.parseInt(results) == 3) {
+						return "**/**/****";
+					} else if (Integer.parseInt(results) == 1 && loginPremiumStatus > 0) {
+						return year+"-"+month+"-"+day;
+					}else if (Integer.parseInt(results) == 1 && loginPremiumStatus==0) {
+						return "**/**/****";
+					} else if (loginPremiumStatus == 0) {
+						return "**/**/****";
 					}
 				} else {
-					return date_of_birth;
+					if (loginPremiumStatus>0) {
+						return year+"-"+month+"-"+day;
+					}else {
+						return "**/**/****";
+					}
 				}
-			}
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

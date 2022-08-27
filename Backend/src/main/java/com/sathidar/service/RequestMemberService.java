@@ -1,5 +1,7 @@
 package com.sathidar.service;
 
+import java.util.HashMap;
+
 import org.json.JSONArray;
 
 import com.sathidar.model.RequestMemberModel;
@@ -27,4 +29,8 @@ public interface RequestMemberService {
 	JSONArray getBlockMember(String member_id);
 	
 	JSONArray GetAcceptedDetails(String member_id);
+
+	HashMap<String, String> RequestAcceptAndRejectedWithHashMap(RequestMemberModel requestMemberModel);
+
+	HashMap<String, String> SendRequestToMemberWithHashMap(RequestMemberModel requestMemberModel);
 }

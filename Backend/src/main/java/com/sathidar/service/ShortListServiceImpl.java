@@ -246,13 +246,32 @@ public class ShortListServiceImpl implements ShortListService {
 			if (photo_privacy_setting != null && !photo_privacy_setting.equals("")) {
 				json.put("photo_privacy", photo_privacy_setting);
 			} else {
-				json.put("photo_privacy", "1");
+				json.put("photo_privacy", "3");
 			}
 
+			// check request are sent to other member
+			Query queryRequest = em.createNativeQuery(
+					"SELECT request_status,block_status FROM member_request where  request_from_id= :member_from_id and request_to_id= :member_to_id");
+			queryRequest.setParameter("member_from_id", member_id);
+			queryRequest.setParameter("member_to_id", memberID);
+			JSONArray resultRequest = new JSONArray();
+			List<Object[]> result = queryRequest.getResultList();
+			int stsResults = 0;
+			if (result != null) {
+				for (Object[] objRequest : result) {
+					int j = 0;
+					stsResults = 1;
+					json.put("request_status", convertNullToBlank(String.valueOf(objRequest[j])));
+					json.put("block_status", convertNullToBlank(String.valueOf(objRequest[++j])));
+				}
+			}
+			if (stsResults == 0) {
+				json.put("request_status", "");
+				json.put("block_status", "");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return json;
 	}
 

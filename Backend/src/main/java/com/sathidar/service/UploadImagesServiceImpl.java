@@ -373,6 +373,33 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 		
 	}
 
+	@Override
+	public String getDateOfBirthFromMemberDetailsTable(int member_id) {
+		return uploadImagesRepository.getDateOfBirthFromMemberDetailsTable(member_id);
+	}
 
+	@Override
+	public String getPhonePrivacySettings(String memberID) {
+		return uploadImagesRepository.getPhonePrivacySettings(memberID);
+	}
 
+	@Override
+	public String getEmailPrivacySettings(String thisMemberID) {
+		return uploadImagesRepository.getEmailPrivacySettings(thisMemberID);
+	}
+
+	@Override
+	public String getDOBPrivacySettings(String thisMemberID) {
+		return uploadImagesRepository.getDOBPrivacySettings(thisMemberID);
+	}
+
+	@Override
+	public String getAnnualIncomePrivacySettings(String thisMemberID) {
+		return uploadImagesRepository.getAnnualIncomePrivacySettings(thisMemberID);
+	}
+
+	@Override
+	public int checkMemberIdAvailable(String member_id) {
+		return uploadImagesRepository.checkMemberIdAvailable(member_id);
+	}
 }
