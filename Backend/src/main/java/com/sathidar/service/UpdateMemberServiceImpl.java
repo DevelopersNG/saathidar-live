@@ -437,4 +437,44 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 		}
 		return result;
 	}
+	
+	@Override
+	public int updateRegistrationDetails(UpdateMember updateMember, int member_id) {
+		Object memberUpdateStatus=null;
+	
+			double dHeight = 0.0;
+			String  mHeight = "", marital_status = "", dateOfBirth = "",mLifeStyles = "";
+			int religionID = 0,countryID=0;
+			
+			// update member details
+			int memberDetails=0;	
+			try {
+				updateMember.setId(member_id);
+				System.out.println("save --- "+updateMember.getReligion());
+				
+				religionID= getNameByIDMangerFactory.getReligionID(checkNullValue(updateMember.getReligion().trim()));
+				dateOfBirth = checkNullValue(updateMember.getDate_of_birth().trim());
+				marital_status = checkNullValue(updateMember.getMarital_status().trim());
+				mHeight=checkNullValue(updateMember.getHeight().trim());
+				countryID= getNameByIDMangerFactory.getCountryIdByName(checkNullValue(updateMember.getCountry_name().trim()));
+				mLifeStyles = checkNullValue(updateMember.getLifestyles().trim());
+
+				memberDetails	= updateMemberRepository.UpdateRegistrationDetails(member_id,dateOfBirth,marital_status,mHeight,religionID,countryID,mLifeStyles);
+				if(memberDetails>0) {
+					int user_id=updateMemberRepository.getUserIDByMemberID(member_id);
+					int sts=updateMemberRepository.updateShortRegstInUserTable(user_id);
+				}
+				memberUpdateStatus=true;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	
+		return memberDetails;
+	}
+
+	@Override
+	public String getShortRegistrationStatus(int member_id) {
+		int getUserID=updateMemberRepository.getUserIDByMemberID(member_id);
+		return updateMemberRepository.getShortRegistrationStatus(getUserID);
+	}
 }

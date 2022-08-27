@@ -564,4 +564,35 @@ public class UpdateMemberController {
 		}
 		return success;
 	}
+	
+	
+//	******************** short registation form ************************************************************
+	
+	@PostMapping(path = "/member/short-registration/update/{member_id}")
+	public Map<String, String> updateRegistrationDetails(@Validated @RequestBody UpdateMember updateMember,
+			@PathVariable("member_id") int member_id) {
+		HashMap<String, String> map = new HashMap<>();
+		JSONObject jsObject = new JSONObject();
+		int status=updateMemberService.updateRegistrationDetails(updateMember, member_id);
+		if (status>0) {
+				map.put("results", "1");
+		} else {
+			map.put("results", "0");
+		}
+		return map;
+	}
+	
+	@GetMapping(value = "/member/get/short-registration/status/{member_id}")
+	public Map<String, String> getShortRegistrationStatus(@PathVariable("member_id") int member_id) {
+		HashMap<String, String> map = new HashMap<>();
+		String short_registration_status = updateMemberService.getShortRegistrationStatus(member_id);
+		if (short_registration_status==null && short_registration_status.equals("")) {
+			map.put("results", "0");
+			map.put("message", "something wrong ! record not fetch...");
+		}else {
+			map.put("results",short_registration_status);
+			map.put("message", "short registration form updated...");
+		}
+		return map;
+	}
 }

@@ -373,4 +373,17 @@ public class UserEntityManagerFactory {
 		}
 		return franchise_code;
 	}
+
+	public String getMemberShortRegistStatus(int userID) {
+		String franchise_code="";
+		try {
+			Query q = em.createNativeQuery("SELECT short_reg_status FROM users  where id= :UserID ");
+			q.setParameter("UserID", userID);
+			franchise_code =q.getSingleResult().toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			franchise_code="";
+		}
+		return franchise_code;
+	}
 }

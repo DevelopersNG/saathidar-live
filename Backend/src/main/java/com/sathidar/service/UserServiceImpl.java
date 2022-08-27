@@ -272,6 +272,7 @@ public class UserServiceImpl implements UserService {
 		String profile_id=userEntityManagerFactory.getMemberNumbersIDBy(userID);
 		String gender=userEntityManagerFactory.getMemberGenderIDBy(userID);
 		String prodile_created_by=userEntityManagerFactory.getMemberProdileCreatedIDBy(userID);
+		String short_regst_status=userEntityManagerFactory.getMemberShortRegistStatus(userID);
 		
 		map.put("id",""+ userExists.getId());
 		map.put("firstName", userExists.getFirstName());
@@ -286,6 +287,7 @@ public class UserServiceImpl implements UserService {
 		map.put("profile_created_by",prodile_created_by);
 		map.put("franchise_code",franchiseCode);
 		map.put("results", "1");
+		map.put("short_regst_status", short_regst_status);
 		userExists.setMember_id(memberID);
 		userExists.setPassword("");
 		return map;

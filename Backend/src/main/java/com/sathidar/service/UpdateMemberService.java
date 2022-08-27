@@ -21,5 +21,9 @@ public interface UpdateMemberService {
 
 	int getActivateMember(int member_id);
 
+	int updateRegistrationDetails(UpdateMember updateMember, int member_id);
+
+	String getShortRegistrationStatus(int member_id);
+
 
 }
