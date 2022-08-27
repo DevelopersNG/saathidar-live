@@ -225,6 +225,14 @@ public class DashboardServiceImpl implements DashboardService {
 					getNameByIDMangerFactory.getReligionNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
 			json.put("state", getNameByIDMangerFactory.getStateNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
 			json.put("city", getNameByIDMangerFactory.getCityNameByID(convertNullToBlank(String.valueOf(obj[++i]))));
+
+			// check photo settings
+				String photo_privacy_setting = uploadImagesService.getPhotoPrivacySettings(memberID);
+						if(photo_privacy_setting!=null && !photo_privacy_setting.equals("")) {
+							json.put("photo_privacy",photo_privacy_setting);
+						}else {
+							json.put("photo_privacy","3");
+						}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

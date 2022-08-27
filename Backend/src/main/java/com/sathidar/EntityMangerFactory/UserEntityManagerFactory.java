@@ -313,6 +313,18 @@ public class UserEntityManagerFactory {
 		return id;
 	}
 	
+	public String getMemberNumbersMemberIDBy(int member_id) {
+		String id="";
+		try {
+			Query q = em.createNativeQuery("SELECT member_number FROM member where member_id= :member_id");
+			q.setParameter("member_id", member_id);
+			id = q.getSingleResult().toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return id;
+	}
+	
 	public String getMemberGenderIDBy(int userID) {
 		String id="";
 		try {
@@ -347,5 +359,18 @@ public class UserEntityManagerFactory {
 			e.printStackTrace();
 		}
 		return id;
+	}
+
+	public String getFranciseCodeByUserID(int userID) {
+		String franchise_code="";
+		try {
+			Query q = em.createNativeQuery("SELECT franchise_code FROM users  where id= :UserID");
+			q.setParameter("UserID", userID);
+			franchise_code =q.getSingleResult().toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			franchise_code="";
+		}
+		return franchise_code;
 	}
 }

@@ -33,7 +33,6 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 	return "";
 	}
 	
-	
 	public int checkNullValueForNumeric(int value) {
 		
 		if(Integer.toString(value) != null) {
@@ -53,7 +52,6 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 					mExpectation = "",mhealth_info="",mblood_group="",mgothra="",methnic_corigin="",mpincode="",mabout_ourself="",subCast="",
 					prodile_created="",gender="",manglik="",nakshtra="";
 			int religionID = 0, casteID = 0, subCasteID = 0, age = 0,stateID=0,cityID=0,countryID=0;
-	
 			
 			try {
 //				prodile_created= checkNullValue(updateMember.getProfilecreatedby().trim());
@@ -63,7 +61,6 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			 
 			
 			// update member details
 			try {
@@ -83,9 +80,6 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 				subCast=checkNullValue(updateMember.getSub_caste_name().trim());
 				mgothra=checkNullValue(updateMember.getGothra().trim());
 				mabout_ourself=checkNullValue(updateMember.getAbout_ourself().trim());
-
-				
-				
 				
 				mNative ="";
 			//				mWeight=checkNullValue(updateMember.getWeight().trim());
@@ -114,7 +108,6 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 //				countryID=updateMember.getCountry_Id();
 //				stateID=updateMember.getState_Id();
 //				cityID=updateMember.getCity_Id();
-				
 				Object memberDetails= updateMemberRepository.UpdateAppBasicInfoMemberDetails(id,age,dateOfBirth,marital_status,noOfChildren,mHeight,mblood_group,mLifeStyles,
 						mother_tounge,mhealth_info,religionID,casteID,subCast,mgothra,mabout_ourself);
 				memberUpdateStatus=true;
@@ -396,13 +389,18 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 			String time_of_birth=  checkNullValue(updateMember.getTime_of_birth());
 			String manglik= checkNullValue(updateMember.getManglik());
 			String date_of_birth= checkNullValue(updateMember.getDate_of_birth());
-			
+			System.out.println("member id- "+member_id );
 			int isAvailablerRecords=updateMemberRepository.isAvailablerHoroscopeRecords(member_id);
+			
+			System.out.println("isAvailablerRecords id- "+isAvailablerRecords );
 			if(isAvailablerRecords>0) {
 				memberHoroscopeStatus=updateMemberRepository.updateHoroscopeDetails(member_id,country_of_birth,city_of_birth, hours,minutes,time ,time_status, time_of_birth,manglik,date_of_birth);
+				memberHoroscopeStatus=updateMemberRepository.updateDateOfBirthInMemberTable(member_id,date_of_birth);
 			}else {
 				memberHoroscopeStatus =updateMemberRepository.insertHoroscopeDetails(member_id,country_of_birth,city_of_birth, hours,minutes,time ,time_status, time_of_birth,manglik,date_of_birth);
+				memberHoroscopeStatus=updateMemberRepository.updateDateOfBirthInMemberTable(member_id,date_of_birth);
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -439,11 +437,4 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 		}
 		return result;
 	}
-
-
-
-	
-
-
-
 }

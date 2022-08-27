@@ -66,11 +66,26 @@ public interface UploadImagesRepository extends JpaRepository<UploadImagesModel,
 	@Query(value="select count(*) from recently_visitors where member_id= :login_id and visit_to_id= :id",nativeQuery = true)
 	int getVisitorsStatus(int login_id, int id);
 
-
 	@Transactional
 	@Modifying
 	@Query(value="update plans set deleteflag='Y' where plan_id= :member_id ",nativeQuery = true)
 	int deleteByPlanID(int member_id);
-	
 
+	@Query(value="select date_of_birth from memberdetails where member_id= :member_id",nativeQuery = true)
+	String getDateOfBirthFromMemberDetailsTable(int member_id);
+
+	@Query(value="select phone from privacy_options where member_id= :memberID",nativeQuery = true)
+	String getPhonePrivacySettings(String memberID);
+
+	@Query(value="select email from privacy_options where member_id= :memberID",nativeQuery = true)
+	String getEmailPrivacySettings(String memberID);
+
+	@Query(value="select dob from privacy_options where member_id= :memberID",nativeQuery = true)
+	String getDOBPrivacySettings(String memberID);
+
+	@Query(value="select annual_income from privacy_options where member_id= :memberID",nativeQuery = true)
+	String getAnnualIncomePrivacySettings(String memberID);
+
+	@Query(value="SELECT count(*) FROM memberdetails as md join member as m on md.member_id=m.member_id where m.member_number= :member_number and m.status='ACTIVE'",nativeQuery=true)
+	int checkMemberIdAvailable(String member_number);
 }

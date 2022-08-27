@@ -78,6 +78,7 @@ public class SuccessStoriesServiceImpl implements SuccessStoriesService{
 				for (int i = 0; i < post.size(); i++) {
 					JSONObject jsonObj = new JSONObject();
 					jsonObj.put("images_path", post.get(i).getSuccess_photo());
+					jsonObj.put("description", post.get(i).getDescription());
 					jsonObj.put("image_id", "" + post.get(i).getId());
 					resultArray.put(jsonObj);
 				}

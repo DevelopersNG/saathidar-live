@@ -43,4 +43,16 @@ public interface UploadImagesService {
 	int saveKYCToImage(UploadDocumentModel uploadImagesModel);
 
 	int deleteMemberplanDetails(int member_id);
+
+	String getDateOfBirthFromMemberDetailsTable(int member_id);
+
+	String getPhonePrivacySettings(String thisMemberID);
+
+	String getEmailPrivacySettings(String thisMemberID);
+
+	String getDOBPrivacySettings(String thisMemberID);
+
+	String getAnnualIncomePrivacySettings(String thisMemberID);
+
+	int checkMemberIdAvailable(String splitGetMemberID);
 }

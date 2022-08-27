@@ -2,6 +2,7 @@ package com.sathidar.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -16,10 +17,12 @@ import org.springframework.stereotype.Service;
 
 import com.sathidar.EntityMangerFactory.GetNameByIDMangerFactory;
 import com.sathidar.EntityMangerFactory.RequestBlockMemberEntityManagerFactory;
+import com.sathidar.EntityMangerFactory.UserEntityManagerFactory;
 import com.sathidar.exception.BadRequestException;
 import com.sathidar.model.RequestMemberModel;
 import com.sathidar.repository.RequestMemberRepository;
 import com.sathidar.util.MembersDetailsAction;
+import com.sathidar.util.TextLocalSMSSetting;
 
 @Service
 public class RequestMemberServiceImpl implements RequestMemberService {
@@ -40,7 +43,13 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 	private EmailService mailSender;
 
 	@Autowired
+	private ServerEmailService serverEmailService;
+	
+	@Autowired
 	private UploadImagesService uploadImagesService;
+
+	@Autowired
+	private UserEntityManagerFactory userEntityManagerFactory;
 
 	@Override
 	public JSONArray SendRequestToMember(RequestMemberModel requestMemberModel) {
@@ -69,7 +78,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			lst = getDetailsMemberByMember_id(Integer.parseInt(requestMemberModel.getRequest_from_id()));
 //			String emailId_to=requestMemberRepository.getEmailId(requestMemberModel.getRequest_to_id());
 
-			String fullName = "", emailId_to = "";
+			String fullName = "", emailId_to = "",member_number="",contact_number="";
 			List<Object[]> results = requestMemberRepository
 					.getUserNameEmailId(Integer.parseInt(requestMemberModel.getRequest_to_id()));
 			if (results != null) {
@@ -78,6 +87,8 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					fullName = convertNullToBlank(String.valueOf(obj[i]))
 							+ convertNullToBlank(String.valueOf(obj[++i]));
 					emailId_to = convertNullToBlank(String.valueOf(obj[++i]));
+					member_number = convertNullToBlank(String.valueOf(obj[++i]));
+					contact_number = convertNullToBlank(String.valueOf(obj[++i]));
 				}
 			}
 
@@ -95,17 +106,129 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				json.put("results", "0");
 //				throw new BadRequestException("request not send..");
 			} else {
+				// send sms 
+				try {
+					TextLocalSMSSetting textLocalSMSSetting = new TextLocalSMSSetting();
+					sendSMSTOUser(contact_number,member_number);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 				json.put("message", "request are send..");
 				json.put("results", "1");
 				// send the email/sms to other member
 			}
-
 			resultArray.put(json);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return resultArray;
+	}
+	
+//	@Override
+//	public JSONArray SendRequestToMember(RequestMemberModel requestMemberModel) {
+//
+//		Object requestMemberObject = null;
+//		JSONArray resultArray = new JSONArray();
+//
+//		try {
+//			JSONObject json = new JSONObject();
+//			int request_from_id = Integer.parseInt(requestMemberModel.getRequest_from_id());
+//			int request_to_id = Integer.parseInt(requestMemberModel.getRequest_to_id());
+//			String request_status = requestMemberModel.getRequest_status().trim();
+//
+//			int status = requestMemberRepository.getSentRequestedMember(request_from_id, request_to_id);
+//			if (status > 0) {
+//				requestMemberObject = requestMemberRepository.requestAcceptedAndRejected(request_from_id, request_to_id,
+//						request_status);
+//			} else {
+//				requestMemberObject = requestMemberRepository.sendRequestToMember(request_from_id, request_to_id,
+//						request_status);
+//			}
+//
+//			MembersDetailsAction membersDetailsAction = new MembersDetailsAction();
+//			// send email and sms to other member
+//			List lst = new ArrayList();
+//			lst = getDetailsMemberByMember_id(Integer.parseInt(requestMemberModel.getRequest_from_id()));
+////			String emailId_to=requestMemberRepository.getEmailId(requestMemberModel.getRequest_to_id());
+//
+//			String fullName = "", emailId_to = "",member_number="",contact_number="";
+//			List<Object[]> results = requestMemberRepository
+//					.getUserNameEmailId(Integer.parseInt(requestMemberModel.getRequest_to_id()));
+//			if (results != null) {
+//				for (Object[] obj : results) {
+//					int i = 0;
+//					fullName = convertNullToBlank(String.valueOf(obj[i]))
+//							+ convertNullToBlank(String.valueOf(obj[++i]));
+//					emailId_to = convertNullToBlank(String.valueOf(obj[++i]));
+//					member_number = convertNullToBlank(String.valueOf(obj[++i]));
+//					contact_number = convertNullToBlank(String.valueOf(obj[++i]));
+//				}
+//			}
+//
+//			System.out.println("email id - " + emailId_to + " , fullName -" + fullName);
+//
+//			String response = "";
+//			if (lst != null) {
+//				response = sentInvitationsByEmail(lst, emailId_to, fullName,
+//						Integer.parseInt(requestMemberModel.getRequest_from_id()));
+//			}
+//			System.out.println("response  -  " + response);
+//
+//			if (requestMemberObject == null) {
+//				json.put("message", "request not send..");
+//				json.put("results", "0");
+////				throw new BadRequestException("request not send..");
+//			} else {
+//				// send sms 
+//				try {
+//					TextLocalSMSSetting textLocalSMSSetting = new TextLocalSMSSetting();
+//					sendSMSTOUser(contact_number,member_number);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//				
+//				json.put("message", "request are send..");
+//				json.put("results", "1");
+//				// send the email/sms to other member
+//			}
+//			resultArray.put(json);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return resultArray;
+//	}
+	
+	public void sendSMSTOUser(String phoneNo,String memberNumber) {
+		try {
+			
+			HashMap<String,String> map=new HashMap<String,String>();
+			String messgeBody = "Hi, you have received interest from REG ID : "+memberNumber+"\r\n" + 
+					"If it sounds good then take the follow up.\r\n" + 
+					"\r\n" + 
+					"Regards, \r\n" + 
+					"Saathidaar.com";
+			TextLocalSMSSetting textLocalSMSSetting=new TextLocalSMSSetting();
+			String sender = "SDMMSG";
+			String response = textLocalSMSSetting.POSTSendSMS(phoneNo, sender, messgeBody);
+//
+////		String response = sendSMSAction.SendOtpSms(phoneNo, sender, smsMessage);
+//
+			final JSONObject obj = new JSONObject(response);
+			obj.toString();
+			String type = obj.getString("type");
+
+				if (type.equals("success")) {
+					map.put("message", "success");
+					map.put("result", "1");
+				} else if (type.equals("error")) {
+					map.put("message", "error");
+					map.put("result", "0");
+				}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 //	public String getEmailId(Integer request_to_id) {
@@ -589,12 +712,13 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		}
 		return respons;
 	}
-
+	
 	@Override
-	public JSONArray RequestAcceptAndRejected(RequestMemberModel requestMemberModel) {
+	public HashMap<String, String> RequestAcceptAndRejectedWithHashMap(RequestMemberModel requestMemberModel) {
 		Object requestMemberObject = null;
 		JSONArray resultArray = new JSONArray();
 		JSONObject json = new JSONObject();
+		HashMap<String, String> map=new HashMap<String, String>();
 		try {
 			
 			int request_from_id = Integer.parseInt(requestMemberModel.getRequest_from_id());
@@ -605,7 +729,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 //				requestMemberObject = requestMemberRepository.requestCanceled(request_from_id, request_to_id);
 //				request_status="Canceled";
 //			}else {
-			requestMemberObject = requestMemberRepository.requestAcceptedAndRejected(request_from_id, request_to_id,
+			int status = requestMemberRepository.requestAcceptedAndRejected(request_from_id, request_to_id,
 					request_status);
 //			}
 
@@ -630,13 +754,12 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				sendEmailToUser(lst, fullName, emailId_to, request_from_id);
 			}
 
-			if (requestMemberObject != null) {
-				json.put("message", "request are " + request_status + "..");
-				json.put("results", "1");
-			}
-			if (requestMemberObject == null) {
-				json.put("message", "request are not " + request_status + "..");
-				json.put("results", "0");
+			if (status>0) {
+				map.put("message", "request are " + request_status + "..");
+				map.put("results", "1");
+			}else {
+				map.put("message", "request are not " + request_status + "..");
+				map.put("results", "0");
 			}
 			
 			resultArray.put(json);
@@ -644,9 +767,67 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			json.put("results", "0");
 			e.printStackTrace();
 		}
-		return resultArray;
+		return map;
 	}
 
+	
+//	@Override
+//	public JSONArray RequestAcceptAndRejected(RequestMemberModel requestMemberModel) {
+//		Object requestMemberObject = null;
+//		JSONArray resultArray = new JSONArray();
+//		JSONObject json = new JSONObject();
+//		try {
+//			
+//			int request_from_id = Integer.parseInt(requestMemberModel.getRequest_from_id());
+//			int request_to_id = Integer.parseInt(requestMemberModel.getRequest_to_id());
+//			String request_status = requestMemberModel.getRequest_status().trim();
+//
+////			if(request_status.equals("Canceled")) {
+////				requestMemberObject = requestMemberRepository.requestCanceled(request_from_id, request_to_id);
+////				request_status="Canceled";
+////			}else {
+//			requestMemberObject = requestMemberRepository.requestAcceptedAndRejected(request_from_id, request_to_id,
+//					request_status);
+////			}
+//
+//			// for mail sending
+//			if (request_status.equals("Accepted")) {
+//				List lst = new ArrayList();
+//				lst = getDetailsMemberByMember_id(Integer.parseInt(requestMemberModel.getRequest_to_id()));
+//
+//				String fullName = "", emailId_to = "";
+//				List<Object[]> results = requestMemberRepository
+//						.getUserNameEmailId(Integer.parseInt(requestMemberModel.getRequest_from_id()));
+//				if (results != null) {
+//					for (Object[] obj : results) {
+//						int i = 0;
+//						fullName = convertNullToBlank(String.valueOf(obj[i])) + " "+ convertNullToBlank(String.valueOf(obj[++i]));
+//						emailId_to = convertNullToBlank(String.valueOf(obj[++i]));
+//					}
+//				}
+//
+////				getBackupDatabase();
+//
+//				sendEmailToUser(lst, fullName, emailId_to, request_from_id);
+//			}
+//
+//			if (requestMemberObject != null) {
+//				json.put("message", "request are " + request_status + "..");
+//				json.put("results", "1");
+//			}
+//			if (requestMemberObject == null) {
+//				json.put("message", "request are not " + request_status + "..");
+//				json.put("results", "0");
+//			}
+//			
+//			resultArray.put(json);
+//		} catch (Exception e) {
+//			json.put("results", "0");
+//			e.printStackTrace();
+//		}
+//		return resultArray;
+//	}
+	
 	private void getBackupDatabase() {
 //		String dbName = “dbName”;
 //		String dbUser = “dbUser”;
@@ -1137,6 +1318,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				
 				System.out.println("************* email id- " + emailId_to);
 				mailSender.send(emailId_to, "Accept Request- Saathidaar", email_body);
+//				serverEmailService.send(emailId_to, "Accept Request- Saathidaar", email_body);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1187,6 +1369,8 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				status = requestMemberRepository.insertBlockMembers(request_from_id, request_to_id, block_by_id,
 						block_status);
 			}
+			
+			// if id present in recently_visitors table then delete this id
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1217,8 +1401,13 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		try {
 			String getSentResuestedIDS = getSentsRequestedIDS(member_id);
 			
+			String rejectedQuery="";
 			String getRejectedIDS = getRejectedIDS(member_id);
-
+			if (getRejectedIDS != null && !getRejectedIDS.equals("")) {
+				rejectedQuery=" and m.member_id not in (" + getRejectedIDS + ")";
+			}
+			
+			
 			String sentResuestedQuery = "";
 			if (getSentResuestedIDS != null && !getSentResuestedIDS.equals("")) {
 				sentResuestedQuery = " and m.member_id in (" + getSentResuestedIDS + ")";
@@ -1226,7 +1415,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
 						+ " join member as m on md.member_id=m.member_id"
 						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where m.member_id!= :member_id " + sentResuestedQuery + blockQuery + getRejectedIDS);
+						+ " where m.member_id!= :member_id " + sentResuestedQuery + blockQuery + rejectedQuery);
 
 				q.setParameter("member_id", member_id);
 
@@ -1267,20 +1456,27 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			String getSentResuestedIDS = getSentsRequestedIDS(member_id);
 			
 			String getRejectedIDS = getRejectedIDS(member_id);
-
+			
+			String getRejectedQuery="";
+			if (getRejectedIDS != null && !getRejectedIDS.equals("")) {
+				getRejectedQuery= " and m.member_id not in (" + getRejectedIDS + ")";
+			}
+			
 			String sentResuestedQuery = "";
 			if (getSentResuestedIDS != null && !getSentResuestedIDS.equals("")) {
 				sentResuestedQuery = " and m.member_id in (" + getSentResuestedIDS + ")";
 
+				
+				
 				Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
 						+ " join member as m on md.member_id=m.member_id"
 						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where m.member_id!= :member_id " + sentResuestedQuery + blockQuery + getRejectedIDS);
+						+ " where m.member_id!= :member_id " + sentResuestedQuery + blockQuery + getRejectedQuery);
 
 				System.out.println("SELECT " + columnName + "  FROM memberdetails as md "
 						+ " join member as m on md.member_id=m.member_id"
 						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where m.member_id!= :member_id " + sentResuestedQuery + blockQuery + getRejectedIDS);
+						+ " where m.member_id!= :member_id " + sentResuestedQuery + blockQuery + getRejectedQuery );
 
 				q.setParameter("member_id", member_id);
 
@@ -1392,7 +1588,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			if(photo_privacy_setting!=null && !photo_privacy_setting.equals("")) {
 				json.put("photo_privacy",photo_privacy_setting);
 			}else {
-				json.put("photo_privacy","1");
+				json.put("photo_privacy","3");
 			}
 			
 			JSONArray jsonResultsArray = new JSONArray();
@@ -1602,7 +1798,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 
 			if (getMyAcceptedIDS != null && !getMyAcceptedIDS.equals("")) {
 				initationsQuery = " where md.member_id!=:member_id and md.member_id in (" + getMyAcceptedIDS + ")";
-				queryString = queryString + initationsQuery + getBlockedIDS;
+				queryString = queryString + initationsQuery + blockQuery;
 
 				Query q = em.createNativeQuery(queryString);
 				q.setParameter("member_id", member_id);
@@ -1721,12 +1917,12 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
 						+ " join member as m on md.member_id=m.member_id"
 						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where  md.member_id!= :member_id" + initationsQuery + getBlockedIDS);
+						+ " where  md.member_id!= :member_id" + initationsQuery + blockQuery);
 
 				System.out.println(" invitations -  SELECT " + columnName + "  FROM memberdetails as md "
 						+ " join member as m on md.member_id=m.member_id"
 						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where md.member_id!= :member_id" + initationsQuery + getBlockedIDS);
+						+ " where md.member_id!= :member_id" + initationsQuery + blockQuery);
 
 				q.setParameter("member_id", member_id);
 
@@ -2012,7 +2208,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					String queryString = "SELECT " + columnName + "  FROM memberdetails as md "
 							+ " join member as m on md.member_id=m.member_id"
 							+ " join member_education_career as mec on m.member_id=mec.member_id "
-							+ " where md.member_id= :member_id";
+							+ " where md.member_id= :member_id "+blockQuery+"";
 					Query qFrom = em.createNativeQuery(queryString);
 					qFrom.setParameter("member_id", request_to_id);
 					List<Object[]> memberFrom = qFrom.getResultList();
@@ -2098,7 +2294,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					String queryString = "SELECT " + columnName + "  FROM memberdetails as md "
 							+ " join member as m on md.member_id=m.member_id"
 							+ " join member_education_career as mec on m.member_id=mec.member_id "
-							+ " where md.member_id= :member_id";
+							+ " where md.member_id= :member_id "+blockQuery+"";
 					Query qFrom = em.createNativeQuery(queryString);
 					qFrom.setParameter("member_id", request_to_id);
 					List<Object[]> memberFrom = qFrom.getResultList();
@@ -2233,7 +2429,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			if(photo_privacy_setting!=null && !photo_privacy_setting.equals("")) {
 				json.put("photo_privacy",photo_privacy_setting);
 			}else {
-				json.put("photo_privacy","1");
+				json.put("photo_privacy","3");
 			}
 			
 			JSONArray jsonResultsArray = new JSONArray();
@@ -2382,11 +2578,6 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 						+ " join member_education_career as mec on m.member_id=mec.member_id "
 						+ " where m.status='ACTIVE' and md.member_id!= :member_id" + initationsQuery);
 
-				System.out.println(" blocks -  SELECT " + columnName + "  FROM memberdetails as md "
-						+ " join member as m on md.member_id=m.member_id"
-						+ " join member_education_career as mec on m.member_id=mec.member_id "
-						+ " where m.status='ACTIVE' and md.member_id!= :member_id" + initationsQuery);
-
 				q.setParameter("member_id", member_id);
 
 				List<Object[]> results = q.getResultList();
@@ -2459,5 +2650,83 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		}
 		return resultArray;
 	}
+
+	@Override
+	public JSONArray RequestAcceptAndRejected(RequestMemberModel requestMemberModel) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public HashMap<String, String> SendRequestToMemberWithHashMap(RequestMemberModel requestMemberModel) {
+		Object requestMemberObject = null;
+		JSONArray resultArray = new JSONArray();
+		HashMap<String, String> map=new HashMap<String, String>();
+		try {
+			JSONObject json = new JSONObject();
+			int request_from_id = Integer.parseInt(requestMemberModel.getRequest_from_id());
+			int request_to_id = Integer.parseInt(requestMemberModel.getRequest_to_id());
+			String request_status = requestMemberModel.getRequest_status().trim();
+			int getStatus=0;
+			int status = requestMemberRepository.getSentRequestedMember(request_from_id, request_to_id);
+			if (status > 0) {
+				getStatus = requestMemberRepository.requestAcceptedAndRejected(request_from_id, request_to_id,
+						request_status);
+			} else {
+				getStatus = requestMemberRepository.sendRequestToMember(request_from_id, request_to_id,
+						request_status);
+			}
+
+			MembersDetailsAction membersDetailsAction = new MembersDetailsAction();
+			// send email and sms to other member
+			List lst = new ArrayList();
+			lst = getDetailsMemberByMember_id(Integer.parseInt(requestMemberModel.getRequest_from_id()));
+//			String emailId_to=requestMemberRepository.getEmailId(requestMemberModel.getRequest_to_id());
+
+			String fullName = "", emailId_to = "",member_number="",contact_number="";
+			List<Object[]> results = requestMemberRepository
+					.getUserNameEmailId(Integer.parseInt(requestMemberModel.getRequest_to_id()));
+			if (results != null) {
+				for (Object[] obj : results) {
+					int i = 0;
+					fullName = convertNullToBlank(String.valueOf(obj[i]))
+							+ convertNullToBlank(String.valueOf(obj[++i]));
+					emailId_to = convertNullToBlank(String.valueOf(obj[++i]));
+					member_number = convertNullToBlank(String.valueOf(obj[++i]));
+					contact_number = convertNullToBlank(String.valueOf(obj[++i]));
+				}
+			}
+			
+			member_number=userEntityManagerFactory.getMemberNumbersMemberIDBy(Integer.parseInt(requestMemberModel.getRequest_from_id()));
+			String response = "";
+			if (lst != null) {
+				response = sentInvitationsByEmail(lst, emailId_to, fullName,
+						Integer.parseInt(requestMemberModel.getRequest_from_id()));
+			}
+
+			if (getStatus == 0) {
+				map.put("message", "request are not send..");
+				map.put("results", "0");
+//				throw new BadRequestException("request not send..");
+			} else {
+				// send sms 
+				try {
+					TextLocalSMSSetting textLocalSMSSetting = new TextLocalSMSSetting();
+					sendSMSTOUser(contact_number,member_number);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				map.put("message", "request are send..");
+				map.put("results", "1");
+				// send the email/sms to other member
+			}
+			resultArray.put(json);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+
 
 }

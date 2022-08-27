@@ -35,7 +35,6 @@ public class User extends AuditModel{
 
 	private String firstName;
 	
-
 	private String lastName;
 	
 	private String gender;
@@ -44,6 +43,8 @@ public class User extends AuditModel{
 	
 	private String status;
 
+	private String franchise_code;
+	
 	@Transient
 	private String oldPassword;
 	
@@ -82,6 +83,14 @@ public class User extends AuditModel{
 			)
 	private Set<Role> roles = new HashSet<>(); 
 	
+	public String getFranchise_code() {
+		return franchise_code;
+	}
+
+	public void setFranchise_code(String franchise_code) {
+		this.franchise_code = franchise_code;
+	}
+
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -106,8 +115,10 @@ public class User extends AuditModel{
 		otp="";
 		member_id="";
 		profilecreatedby="";
+		franchise_code="";	
 		setTempPassword(false);
 	}
+	
 	
 	public String getMember_id() {
 		return member_id;

@@ -40,19 +40,35 @@ public class RequestMemberController {
 	private EmailService mailSender;
 
 	@PostMapping(value = "/member/send-request")
-	private String SendRequestToMember(@Validated @RequestBody RequestMemberModel requestMemberModel) {
+	private HashMap<String, String> SendRequestToMember(@Validated @RequestBody RequestMemberModel requestMemberModel) {
 		JSONArray jsonResultsArray = new JSONArray();
-		jsonResultsArray = requestMemberService.SendRequestToMember(requestMemberModel);
-		return jsonResultsArray.toString();
+		HashMap<String, String> map=new HashMap<String, String>();
+		map = requestMemberService.SendRequestToMemberWithHashMap(requestMemberModel);
+		return map;
 	}
-
+	
+//	@PostMapping(value = "/member/send-request")
+//	private String SendRequestToMember(@Validated @RequestBody RequestMemberModel requestMemberModel) {
+//		JSONArray jsonResultsArray = new JSONArray();
+//		jsonResultsArray = requestMemberService.SendRequestToMember(requestMemberModel);
+//		return jsonResultsArray.toString();
+//	}
+	
 	@PostMapping(value = "/member/request-accept-reject")
-	private String RequestAcceptAndRejected(@Validated @RequestBody RequestMemberModel requestMemberModel) {
+	private HashMap<String, String> RequestAcceptAndRejected(@Validated @RequestBody RequestMemberModel requestMemberModel) {
 		JSONArray jsonResultsArray = new JSONArray();
-		jsonResultsArray = requestMemberService.RequestAcceptAndRejected(requestMemberModel);
-		return jsonResultsArray.toString();
+		HashMap<String, String> map=new HashMap<String, String>();
+		map = requestMemberService.RequestAcceptAndRejectedWithHashMap(requestMemberModel);
+		return map;
 	}
 
+//	@PostMapping(value = "/member/request-accept-reject")
+//	private String RequestAcceptAndRejected(@Validated @RequestBody RequestMemberModel requestMemberModel) {
+//		JSONArray jsonResultsArray = new JSONArray();
+//		jsonResultsArray = requestMemberService.RequestAcceptAndRejected(requestMemberModel);
+//		return jsonResultsArray.toString();
+//	}
+	
 	@PostMapping(value = "/member/block-member")
 	private String BlockMember(@Validated @RequestBody RequestMemberModel requestMemberModel) {
 		JSONObject jsObject = new JSONObject();
@@ -145,17 +161,25 @@ public class RequestMemberController {
 	}
 
 //	**************** send sms ***********************************************
+	
 	@PostMapping(value = "/member/send-sms")
 	private String sendSMSVIATextLocal(@Validated @RequestBody RequestMemberModel requestMemberModel) {
 		TextLocalSMSSetting textLocalSMSSetting = new TextLocalSMSSetting();
+		String regId="SDM002";
+//		String messgeBody = "Hi, you have received interest from REG ID : "+regId+"\r\n" + 
+//				"If it sounds good then take the follow up.\r\n" + 
+//				"\r\n" + 
+//				"Regards, \r\n" + 
+//				"Saathidaar.com";
+//
+//		String response = textLocalSMSSetting.POSTSendSMS(requestMemberModel.getPhone_number(), "SDMMSG", messgeBody);
+		
+		String otp="6002";
+		String messgeBody = "Hi, your verification code is "+otp+"\r\n" + 
+				"Saathidaar.com";
 
-		String messgeBody = "Hi, you have received i nterest from REG ID : 25666\r\n"
-				+ "If i t sounds good then take the follow up.\r\n" + "Regards,\r\n" + "Saathidaar.com";
-
-//		String messgeBody="Your Verification Code is 12315\r\n" + 
-//				"MyMealDabba.com";
-
-		String response = textLocalSMSSetting.POSTSendSMS(requestMemberModel.getPhone_number(), "SMMSG", messgeBody);
+		String response = textLocalSMSSetting.POSTSendSMS(requestMemberModel.getPhone_number(), "SDOTPM", messgeBody);		
+		
 		System.out.println("sms resonse - " + response);
 
 		return response;
