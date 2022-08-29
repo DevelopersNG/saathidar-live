@@ -31,6 +31,9 @@ public class ShortListServiceImpl implements ShortListService {
 	@Autowired
 	private UploadImagesService uploadImagesService;
 
+	@Autowired
+	private UpdateMemberService updateMemberService;
+	
 	@Override
 	public JSONArray AddToShortLists(ShortListsModel shortListsModel) {
 		Object requestMemberObject = null;
@@ -246,29 +249,25 @@ public class ShortListServiceImpl implements ShortListService {
 			if (photo_privacy_setting != null && !photo_privacy_setting.equals("")) {
 				json.put("photo_privacy", photo_privacy_setting);
 			} else {
-				json.put("photo_privacy", "3");
+				json.put("photo_privacy", "2");
 			}
 
-			// check request are sent to other member
-			Query queryRequest = em.createNativeQuery(
-					"SELECT request_status,block_status FROM member_request where  request_from_id= :member_from_id and request_to_id= :member_to_id");
-			queryRequest.setParameter("member_from_id", member_id);
-			queryRequest.setParameter("member_to_id", memberID);
-			JSONArray resultRequest = new JSONArray();
-			List<Object[]> result = queryRequest.getResultList();
-			int stsResults = 0;
-			if (result != null) {
-				for (Object[] objRequest : result) {
-					int j = 0;
-					stsResults = 1;
-					json.put("request_status", convertNullToBlank(String.valueOf(objRequest[j])));
-					json.put("block_status", convertNullToBlank(String.valueOf(objRequest[++j])));
-				}
+			// get Pending,Rejected,Canceled status
+			String request_status="";
+			String block_status="";
+			String getMemberStatus=updateMemberService.getMemberStatus(Integer.parseInt(member_id),memberID);
+			if(getMemberStatus!=null && !getMemberStatus.equals(""))
+			{
+				request_status=getMemberStatus;
 			}
-			if (stsResults == 0) {
-				json.put("request_status", "");
-				json.put("block_status", "");
+			json.put("request_status", request_status);
+			
+			String getMemberBlockStatus=updateMemberService.getMemberBlockStatus(Integer.parseInt(member_id),memberID);
+			if(getMemberBlockStatus!=null && !getMemberBlockStatus.equals(""))
+			{
+				block_status=getMemberBlockStatus;
 			}
+			json.put("block_status", block_status);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

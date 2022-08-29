@@ -45,6 +45,10 @@ public class User extends AuditModel{
 
 	private String franchise_code;
 	
+	private String short_reg_status;
+	
+	private String otp_verified;
+	
 	@Transient
 	private String oldPassword;
 	
@@ -83,6 +87,22 @@ public class User extends AuditModel{
 			)
 	private Set<Role> roles = new HashSet<>(); 
 	
+	public String getShort_reg_status() {
+		return short_reg_status;
+	}
+
+	public void setShort_reg_status(String short_reg_status) {
+		this.short_reg_status = short_reg_status;
+	}
+
+	public String getOtp_verified() {
+		return otp_verified;
+	}
+
+	public void setOtp_verified(String otp_verified) {
+		this.otp_verified = otp_verified;
+	}
+
 	public String getFranchise_code() {
 		return franchise_code;
 	}

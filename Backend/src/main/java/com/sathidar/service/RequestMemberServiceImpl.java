@@ -725,14 +725,16 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			int request_from_id = Integer.parseInt(requestMemberModel.getRequest_from_id());
 			int request_to_id = Integer.parseInt(requestMemberModel.getRequest_to_id());
 			String request_status = requestMemberModel.getRequest_status().trim();
-
-//			if(request_status.equals("Canceled")) {
-//				requestMemberObject = requestMemberRepository.requestCanceled(request_from_id, request_to_id);
-//				request_status="Canceled";
-//			}else {
-			int status = requestMemberRepository.requestAcceptedAndRejected(request_from_id, request_to_id,
+			
+			int status=0;
+			if(request_status.equals("Canceled")) {
+				status = requestMemberRepository.requestAcceptedAndRejected(request_to_id,request_from_id,request_status);
+				request_status="Canceled";
+			}else {
+			System.out.println("cancel query- "+request_from_id+","+request_to_id+","+request_status);
+			status = requestMemberRepository.requestAcceptedAndRejected(request_from_id, request_to_id,
 					request_status);
-//			}
+			}
 
 			// for mail sending
 			if (request_status.equals("Accepted")) {
@@ -1505,7 +1507,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		String ids = "";
 		try {
 			Query query = em.createNativeQuery(
-					"SELECT group_concat(request_to_id) FROM member_request where  request_from_id= :request_from_id");
+					"SELECT group_concat(request_to_id) FROM member_request where  request_from_id= :request_from_id and request_status='Pending'");
 			query.setParameter("request_from_id", member_id);
 			ids = query.getSingleResult().toString();
 		} catch (Exception e) {
@@ -1589,7 +1591,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			if(photo_privacy_setting!=null && !photo_privacy_setting.equals("")) {
 				json.put("photo_privacy",photo_privacy_setting);
 			}else {
-				json.put("photo_privacy","3");
+				json.put("photo_privacy","2");
 			}
 			
 			JSONArray jsonResultsArray = new JSONArray();
@@ -1598,14 +1600,14 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			json.put("images_count",jsonResultsArray.length());
 
 			String genderMessage = "";
-			if (gender != null && !gender.equals("")) {
-				if (gender.equalsIgnoreCase("male")) {
-					genderMessage = "him";
-				}
-				if (gender.equalsIgnoreCase("female")) {
-					genderMessage = "her";
-				}
-			}
+//			if (gender != null && !gender.equals("")) {
+//				if (gender.equalsIgnoreCase("male")) {
+//					genderMessage = "him";
+//				}
+//				if (gender.equalsIgnoreCase("female")) {
+//					genderMessage = "her";
+//				}
+//			}
 
 			List<Object[]> results = null;
 			Query query = em.createNativeQuery(
@@ -1624,7 +1626,11 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				query.setParameter("request_to_id", current_Member_ID);
 				results = query.getResultList();
 				messgae = " has invited you to connect on ";
+			} 
+			if (Status.equals("Block")) {
+				
 			}
+			
 
 			if (results != null) {
 				for (Object[] objResults : results) {
@@ -2441,12 +2447,12 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			String genderFromMessage = "", genderToMessage = "";
 			if (gender != null && !gender.equals("")) {
 				if (gender.equalsIgnoreCase("male")) {
-					genderFromMessage = "he";
-					genderToMessage = "his";
-				}
-				if (gender.equalsIgnoreCase("female")) {
 					genderFromMessage = "she";
 					genderToMessage = "her";
+				}
+				if (gender.equalsIgnoreCase("female")) {
+					genderFromMessage = "he";
+					genderToMessage = "his";
 				}
 			}
 
@@ -2461,10 +2467,10 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			}
 			if (Status.equals("Canceled")) {
 				if (status_from.equals("from")) {
-					messgae = genderFromMessage + " cancelled your request";
+					messgae = "you cancelled your request";
 				}
 				if (status_from.equals("to")) {
-					messgae = " you cancelled " + genderToMessage + " request";
+					messgae = genderFromMessage + " cancelled your request";
 				}
 			}
 			json.put("request_message", messgae);

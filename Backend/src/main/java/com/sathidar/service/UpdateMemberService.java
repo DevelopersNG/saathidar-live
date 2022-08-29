@@ -25,5 +25,9 @@ public interface UpdateMemberService {
 
 	String getShortRegistrationStatus(int member_id);
 
+	String getMemberStatus(int id, String memberID);
+
+	String getMemberBlockStatus(int login_id, String thisMemberID);
+
 
 }

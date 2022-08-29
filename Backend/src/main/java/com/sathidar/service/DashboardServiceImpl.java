@@ -231,7 +231,7 @@ public class DashboardServiceImpl implements DashboardService {
 						if(photo_privacy_setting!=null && !photo_privacy_setting.equals("")) {
 							json.put("photo_privacy",photo_privacy_setting);
 						}else {
-							json.put("photo_privacy","3");
+							json.put("photo_privacy","2");
 						}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -752,7 +752,7 @@ public class DashboardServiceImpl implements DashboardService {
 						if (photo_privacy_setting != null && !photo_privacy_setting.equals("")) {
 							json.put("photo_privacy", photo_privacy_setting);
 						} else {
-							json.put("photo_privacy", "1");
+							json.put("photo_privacy", "2");
 						}
 
 						// check request are sent to other member

@@ -7,15 +7,21 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sathidar.model.User;
+import com.sathidar.repository.UpdateMemberRepository;
 
 import antlr.collections.List;
 
 @Service
 public class UserEntityManagerFactory {
 
+	
+	@Autowired
+	UpdateMemberRepository updateMemberRepository;
+	
 	@PersistenceContext
 	private EntityManager em;
 
@@ -78,9 +84,10 @@ public class UserEntityManagerFactory {
 			// em.getTransaction().commit();
 			em.close();
 			
-			Query queryGetLastInsertedValue = em.createNativeQuery("SELECT LAST_INSERT_ID()");
-			BigInteger biid = (BigInteger) queryGetLastInsertedValue.getSingleResult();
-			int id = biid.intValue();
+			Query queryGetLastInsertedValue = em.createNativeQuery("SELECT member_id from member order by member_id desc limit 1");
+			int id=Integer.parseInt(queryGetLastInsertedValue.getSingleResult().toString());
+			//			BigInteger biid = (BigInteger) queryGetLastInsertedValue.getSingleResult();
+//			int id = biid.intValue();
 			
 			String number="";
 			int lengthOfID = String.valueOf(id).length(); 
@@ -133,7 +140,7 @@ public class UserEntityManagerFactory {
 			statsCount= queryHoroscopeCareer.executeUpdate();
 			// em.getTransaction().commit();
 			em.close();
-			memberStatus=1;
+			memberStatus=id;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -177,6 +184,37 @@ public class UserEntityManagerFactory {
 		return status;
 	}
 
+	@Transactional  
+	public boolean updateStatusActiveToMemberTable1(String token) {
+		boolean status=false;
+		try {
+			String user_id=updateMemberRepository.getUserID(token);
+			
+			if(user_id!=null && !user_id.equals("")) {
+				int statuss=updateMemberRepository.updateStatusActiveToMemberTable1(user_id,true,token);
+				if(statuss>0) {
+					status=true;
+				}
+			}
+			
+//			Query getIDQuery = em.createNativeQuery("SELECT id FROM users where confirmation_Token= :Token");
+//			getIDQuery.setParameter("Token", token);
+//			int user_id = Integer.parseInt(getIDQuery.getSingleResult().toString());
+//			if(user_id>0) {
+//				 Query updateEnableQuery = em.createNativeQuery(
+//							"update users set enabled= :Enabled where id= :UserID and confirmation_Token= :Token");
+//				   updateEnableQuery.setParameter("Enabled",1);
+//				   updateEnableQuery.setParameter("UserID",user_id);
+//				   updateEnableQuery.setParameter("Token", token);
+//				   updateEnableQuery.executeUpdate();
+//				   status=true;
+//			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return status;
+	}
+	
 	@Transactional
 	public boolean updateStatusActiveToMemberTable(String token) {
 		boolean status=false;

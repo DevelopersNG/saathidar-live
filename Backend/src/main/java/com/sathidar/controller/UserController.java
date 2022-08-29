@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sathidar.EntityMangerFactory.UserEntityManagerFactory;
+import com.sathidar.model.UpdateMember;
 import com.sathidar.model.User;
 //import com.sathidar.service.EmailService;
 import com.sathidar.service.UserService;
@@ -77,58 +78,58 @@ public class UserController {
 		return map;
 	}
 
-	@PostMapping(path = "/member/otp")
-	public Map<String, String> sendOTP(@Validated @RequestBody User user) {
-		HashMap<String, String> map = new HashMap<>();
-		
-		map.put("message", "success");
-		map.put("result", "1");
-		
-		return map;
-	}
-	
 //	@PostMapping(path = "/member/otp")
 //	public Map<String, String> sendOTP(@Validated @RequestBody User user) {
 //		HashMap<String, String> map = new HashMap<>();
-//		TextLocalSMSSetting textLocalSMSSetting=new TextLocalSMSSetting();
-////		String messageStatus = userService.isUserAlreadyRegister(user);
-////		if (messageStatus.equals("success")) {
-//			String otp = this.getOTP();
-//			String smsMessage = "Your Verification Code is "+otp+"\n" + 
-//					"Saathidaar.com";
-//////			String smsMessage = "Welcome to Saathidar.com. " + otp
-//////					+ "  is your OTP to login and start finding your soulmate here.\r\n" + "www.Saathidar.com";
-//			String sender = "SDMOTP";
-//			String phoneNo = user.getPhone().trim();
-//			String response = textLocalSMSSetting.POSTSendSMS(phoneNo, sender, smsMessage);
-////
-//////		String response = sendSMSAction.SendOtpSms(phoneNo, sender, smsMessage);
-////
-//			final JSONObject obj = new JSONObject(response);
-//			obj.toString();
-//			String type = obj.getString("type");
-//
-//			if (otp != null && !otp.equals("")) {
-//				if (type.equals("success")) {
-//					map.put("message", "success");
-//					map.put("result", "1");
-//					// save otp to db
-//					int status=userService.saveOTPDB(phoneNo,otp);
-//				} else if (type.equals("error")) {
-//					map.put("message", "error");
-//					map.put("result", "0");
-//				}
-//			} else {
-//				map.put("message", "error");
-//				map.put("result", "0");
-//			}
-////		} else {
-////			map.put("message", messageStatus);
-////			map.put("result", "0");
-////		}
-//
+//		
+//		map.put("message", "success");
+//		map.put("result", "1");
+//		
 //		return map;
 //	}
+	
+	@PostMapping(path = "/member/otp")
+	public Map<String, String> sendOTP(@Validated @RequestBody User user) {
+		HashMap<String, String> map = new HashMap<>();
+		TextLocalSMSSetting textLocalSMSSetting=new TextLocalSMSSetting();
+//		String messageStatus = userService.isUserAlreadyRegister(user);
+//		if (messageStatus.equals("success")) {
+			String otp = this.getOTP();
+			String smsMessage = "Your Verification Code is "+otp+"\n" + 
+					"Saathidaar.com";
+////			String smsMessage = "Welcome to Saathidar.com. " + otp
+////					+ "  is your OTP to login and start finding your soulmate here.\r\n" + "www.Saathidar.com";
+			String sender = "SDMOTP";
+			String phoneNo = user.getPhone().trim();
+			String response = textLocalSMSSetting.POSTSendSMS(phoneNo, sender, smsMessage);
+//
+////		String response = sendSMSAction.SendOtpSms(phoneNo, sender, smsMessage);
+//
+			final JSONObject obj = new JSONObject(response);
+			obj.toString();
+			String type = obj.getString("type");
+
+			if (otp != null && !otp.equals("")) {
+				if (type.equals("success")) {
+					map.put("message", "success");
+					map.put("result", "1");
+					// save otp to db
+					int status=userService.saveOTPDB(phoneNo,otp);
+				} else if (type.equals("error")) {
+					map.put("message", "error");
+					map.put("result", "0");
+				}
+			} else {
+				map.put("message", "error");
+				map.put("result", "0");
+			}
+//		} else {
+//			map.put("message", messageStatus);
+//			map.put("result", "0");
+//		}
+
+		return map;
+	}
 	
 //	@GetMapping(path = "/member/verify/otp")
 	@RequestMapping(value = "/member/verify/otp/{otp}/{phone}", method = RequestMethod.GET)
@@ -142,24 +143,40 @@ public class UserController {
 //		String otp = user.getOtp().trim();
 //		String otpVerifyStatus = sendSMSAction.VerifyOtpSms("OTP Verify", phoneNo, otp);
 		
-		String otpVerifyStatus="";
-		int updateStatus=userService.updateOTPStatus(phone,user_otp);
-		if(updateStatus>0) {
-			otpVerifyStatus="verified";
-		}
-		
-		final JSONObject obj = new JSONObject(otpVerifyStatus);
-		obj.toString();
-		String message = obj.getString("message");
-		String type = obj.getString("type");
-		
-		if (otpVerifyStatus != null && !otpVerifyStatus.equals("")) {
-			map.put("message", "OTP verified");
-			map.put("results", "1");
-		} else {
-			map.put("message",  "OTP not verified");
+		int count=userService.verifyUserService(user_otp,phone);
+		if(count>0) {
+			// save user otp table verify status=1
+			int updateStatus=userService.updateUSERTable(phone,user_otp);
+			if(updateStatus>0) {
+				map.put("message", "OTP verified");
+				map.put("results", "1");
+			}else {
+				map.put("message", "Somthing wrong ! OTP is not verify");
+				map.put("results", "0");
+			}
+		}else {
+			map.put("message", "OTP doesnt match");
 			map.put("results", "0");
 		}
+		
+		String otpVerifyStatus="";
+//		int updateStatus=userService.updateOTPStatus(phone,user_otp);
+//		if(updateStatus>0) {
+//			otpVerifyStatus="verified";
+//		}
+//		
+//		final JSONObject obj = new JSONObject(otpVerifyStatus);
+//		obj.toString();
+//		String message = obj.getString("message");
+//		String type = obj.getString("type");
+//		
+//		if (otpVerifyStatus != null && !otpVerifyStatus.equals("")) {
+//			map.put("message", "OTP verified");
+//			map.put("results", "1");
+//		} else {
+//			map.put("message",  "OTP not verified");
+//			map.put("results", "0");
+//		}
 		return map;
 	}
 
@@ -171,10 +188,25 @@ public class UserController {
 	public String confirm(@RequestParam("token") String token, User user) {
 //		User userResults = userService.confirmrUser(token);
 //		if(userResults!=null) {
-		String message = "User not confirmed.";
-		if (userEntityManagerFactory.updateStatusActiveToMemberTable(token)) {
-			message = "User confirmed.";
+		String status = "Something went wrong ! Please try again";
+		if (userEntityManagerFactory.updateStatusActiveToMemberTable1(token)) {
+			status = "Your verification is completed.";
 		}
+		String message = "<div style=\"text-align:center;\">\r\n" + 
+				"<h1>Thank you!</h1>\r\n" + 
+				"<p>"+status+"</p>\r\n" + 
+				"</div>\r\n" + 
+				"<script type=\"text/javascript\">\r\n" + 
+				"var count = 5;\r\n" + 
+				"var redirect = \"http://103.174.102.195:8080/saathidaar/#/\";\r\n" + 
+				"function countDown() {\r\n" + 
+				"if(count >= 0){\r\n" + 
+				"document.getElementById(\"timer\").innerHTML = count--;\r\n" + 
+				"setTimeout(\"countDown()\", 1000);\r\n" + 
+				"}else{\r\n" + 
+				"window.location.href = redirect;\r\n" + 
+				"}}countDown();\r\n" + 
+				"</script>";
 //		}
 		return message;
 	}
@@ -347,6 +379,36 @@ public class UserController {
 		return "";
 	}
 	
+	
+//	******************** short registation form ************************************************************
+	
+	@PostMapping(path = "/member/short-registration/update/{member_id}")
+	public Map<String, String> updateRegistrationDetails(@Validated @RequestBody UpdateMember updateMember,
+			@PathVariable("member_id") int user_id) {
+		HashMap<String, String> map = new HashMap<>();
+		JSONObject jsObject = new JSONObject();
+		int status=userService.updateRegistrationDetails(updateMember, user_id);
+		if (status>0) {
+				map.put("results", "1");
+		} else {
+			map.put("results", "0");
+		}
+		return map;
+	}
+	
+	@GetMapping(value = "/member/get/short-registration/status/{member_id}")
+	public Map<String, String> getShortRegistrationStatus(@PathVariable("member_id") int member_id) {
+		HashMap<String, String> map = new HashMap<>();
+		String short_registration_status = userService.getShortRegistrationStatus(member_id);
+		if (short_registration_status==null && short_registration_status.equals("")) {
+			map.put("results", "0");
+			map.put("message", "something wrong ! record not fetch...");
+		}else {
+			map.put("results",short_registration_status);
+			map.put("message", "short registration form updated...");
+		}
+		return map;
+	}
 	
 	
 }

@@ -176,10 +176,10 @@ public class RequestMemberController {
 //		String response = textLocalSMSSetting.POSTSendSMS(requestMemberModel.getPhone_number(), "SDMMSG", messgeBody);
 		
 		String otp="6002";
-		String messgeBody = "Your Verification Code is "+otp+"\r\n" + 
+		String messgeBody = "Hi, your verification code is "+otp+"\r\n" + 
 				"Saathidaar.com";
 
-		String response = textLocalSMSSetting.POSTSendSMS(requestMemberModel.getPhone_number(), "SDMOTP", messgeBody);		
+		String response = textLocalSMSSetting.POSTSendSMS(requestMemberModel.getPhone_number(), "SDOTPM", messgeBody);		
 		
 		System.out.println("sms resonse - " + response);
 

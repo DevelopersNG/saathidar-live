@@ -48,8 +48,8 @@ public class ServerEmailService {
 		    msg.setFrom(new InternetAddress(from_mail));
 		    msg.setContent(body, "text/html; charset=utf-8");
 		    msg.setRecipients(Message.RecipientType.TO,
-		            InternetAddress.parse("vikasuttamaher@gmail.com"));
-		    msg.setSubject("Test");
+		            InternetAddress.parse(to_email));
+		    msg.setSubject(subject);
 //		    msg.setText(body);
 		    Transport.send(msg,username,password);
 		    System.out.println("Sent message successfully...");
