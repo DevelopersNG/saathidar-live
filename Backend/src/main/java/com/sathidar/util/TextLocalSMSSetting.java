@@ -42,6 +42,7 @@ public class TextLocalSMSSetting {
 	
 	// post request
 	public String POSTSendSMS(String mphoneNumber, String msender, String mmessage) {
+		String status="";
 		try {
 			String message = "&message=" + mmessage;
 			String sender = "&sender=" + msender;
@@ -64,8 +65,9 @@ public class TextLocalSMSSetting {
 			return stringBuffer.toString();
 		} catch (Exception e) {
 		e.printStackTrace();
+		status="";
 		}
-		return "";
+		return status;
 	}
 	
 	

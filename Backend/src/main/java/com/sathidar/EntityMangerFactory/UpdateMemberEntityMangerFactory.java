@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.sathidar.model.FilterSearchModel;
 import com.sathidar.model.UpdateMember;
 import com.sathidar.repository.UpdateMemberRepository;
+import com.sathidar.service.UpdateMemberService;
 import com.sathidar.service.UploadImagesService;
 import com.sathidar.util.MatchesConstant;
 import com.sathidar.util.MembersDetailsAction;
@@ -49,6 +50,9 @@ public class UpdateMemberEntityMangerFactory {
 
 	@Autowired
 	private UserEntityManagerFactory userEntityManagerFactory;
+	
+	@Autowired
+	private UpdateMemberService updateMemberService;
 
 	public HashMap<String, String> getMemberIdByUserLoginId(int id) {
 		HashMap<String, String> map = new HashMap<>();
@@ -179,7 +183,7 @@ public class UpdateMemberEntityMangerFactory {
 					if (photo_privacy_setting != null && !photo_privacy_setting.equals("")) {
 						map.put("photo_privacy", photo_privacy_setting);
 					} else {
-						map.put("photo_privacy", "3");
+						map.put("photo_privacy", "2");
 					}
 
 					// check phone settings
@@ -241,7 +245,7 @@ public class UpdateMemberEntityMangerFactory {
 					contact_number = MembersDetailsAction.getPhonePrivacy(login_premium_status, thisMemberID,
 							contact_number);
 					map.put("contact_number", contact_number);
-
+					
 					// check email for premium member
 					email_id = convertNullToBlank(String.valueOf(obj[++i]));
 					map.put("profile_email_id", email_id);
@@ -386,28 +390,47 @@ public class UpdateMemberEntityMangerFactory {
 
 					map.put("message", "success");
 					map.put("results", "1");
-
+					
 					// check request are sent to other member
-					Query queryRequest = em.createNativeQuery(
-							"SELECT request_status,block_status FROM member_request where  request_from_id= :member_from_id and request_to_id= :member_to_id");
-					queryRequest.setParameter("member_from_id", id);
-					queryRequest.setParameter("member_to_id", thisMemberID);
-					JSONArray resultRequest = new JSONArray();
-					List<Object[]> result = queryRequest.getResultList();
-					int stsResults = 0;
-					if (results != null) {
-						for (Object[] objRequest : result) {
-							int j = 0;
-							stsResults = 1;
-							map.put("request_status", convertNullToBlank(String.valueOf(objRequest[j])));
-							map.put("block_status", convertNullToBlank(String.valueOf(objRequest[++j])));
-						}
+					// get Pending,Rejected,Canceled status
+					String request_status="";
+					String block_status="";
+					String getMemberStatus=updateMemberService.getMemberStatus(login_id,thisMemberID);
+					if(getMemberStatus!=null && !getMemberStatus.equals(""))
+					{
+						request_status=getMemberStatus;
 					}
-					if (stsResults == 0) {
-						map.put("request_status", "");
-						map.put("block_status", "");
+					map.put("request_status", request_status);
+					
+					
+					String getMemberBlockStatus=updateMemberService.getMemberBlockStatus(login_id,thisMemberID);
+					if(getMemberBlockStatus!=null && !getMemberBlockStatus.equals(""))
+					{
+						block_status=getMemberBlockStatus;
 					}
-
+					map.put("block_status", block_status);
+					
+					
+					
+//					Query queryRequest = em.createNativeQuery(
+//							"SELECT request_status,block_status FROM member_request where  request_from_id= :member_from_id and request_to_id= :member_to_id");
+//					queryRequest.setParameter("member_from_id",id);
+//					queryRequest.setParameter("member_to_id",thisMemberID);
+//					JSONArray resultRequest = new JSONArray();
+//					List<Object[]> result = queryRequest.getResultList();
+//					int stsResults = 0;
+//					if (result != null) {
+//						for (Object[] objRequest : result) {
+//							int j = 0;
+//							stsResults = 1;
+//							map.put("request_status", convertNullToBlank(String.valueOf(objRequest[j])));
+//							map.put("block_status", convertNullToBlank(String.valueOf(objRequest[++j])));
+//						}
+//					}
+//					if (stsResults == 0) {
+//						map.put("request_status", "");
+//						map.put("block_status", "");
+//					}
 					status = true;
 				}
 			}
@@ -799,8 +822,6 @@ public class UpdateMemberEntityMangerFactory {
 
 					json.put("income", myAnnualIncome);
 					json.put("member_id", memberID);
-					json.put("request_status", "");
-					json.put("block_status", "");
 
 					JSONArray jsonResultsArray = new JSONArray();
 					jsonResultsArray = uploadImagesService.getMemberAppPhotos("" + id);
@@ -836,24 +857,22 @@ public class UpdateMemberEntityMangerFactory {
 						json.put("photo_privacy", "1");
 					}
 
-					// check request are sent to other member
-					Query query = em.createNativeQuery(
-							"SELECT request_status,block_status FROM member_request where  request_from_id= :member_from_id and request_to_id= :member_to_id");
-					query.setParameter("member_from_id", id);
-					query.setParameter("member_to_id", memberID);
-
-					JSONArray resultRequest = new JSONArray();
-					List<Object[]> result = query.getResultList();
-					if (results != null) {
-						for (Object[] objRequest : result) {
-							int j = 0;
-							json.put("request_status", convertNullToBlank(String.valueOf(objRequest[j])));
-							json.put("block_status", convertNullToBlank(String.valueOf(objRequest[++j])));
-						}
-					} else {
-						json.put("request_status", "");
-						json.put("block_status", "");
+					// get Pending,Rejected,Canceled status
+					String request_status="";
+					String block_status="";
+					String getMemberStatus=updateMemberService.getMemberStatus(id,memberID);
+					if(getMemberStatus!=null && !getMemberStatus.equals(""))
+					{
+						request_status=getMemberStatus;
 					}
+					json.put("request_status", request_status);
+					
+					String getMemberBlockStatus=updateMemberService.getMemberBlockStatus(id,memberID);
+					if(getMemberBlockStatus!=null && !getMemberBlockStatus.equals(""))
+					{
+						block_status=getMemberBlockStatus;
+					}
+					json.put("block_status", block_status);
 
 					// get images of member id
 					JSONArray jsonResultsImageArray = uploadImagesService.getMemberPhotos(memberID);
@@ -981,6 +1000,9 @@ public class UpdateMemberEntityMangerFactory {
 
 //		******************************Query*************************************************************************
 
+//			search by height, country, religions  	
+			
+			
 			Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
@@ -1163,31 +1185,47 @@ public class UpdateMemberEntityMangerFactory {
 						if (photo_privacy_setting != null && !photo_privacy_setting.equals("")) {
 							json.put("photo_privacy", photo_privacy_setting);
 						} else {
-							json.put("photo_privacy", "3");
+							json.put("photo_privacy", "2");
 						}
 
-						// check request are sent to other member
-						Query query = em.createNativeQuery(
-								"SELECT request_status,block_status FROM member_request where  request_from_id= :member_from_id and request_to_id= :member_to_id");
-						query.setParameter("member_from_id", id);
-						query.setParameter("member_to_id", memberID);
-						JSONArray resultRequest = new JSONArray();
-						List<Object[]> result = query.getResultList();
-						int statusRequest = 0;
-						if (results != null) {
-							for (Object[] objRequest : result) {
-								int j = 0;
-								statusRequest = 1;
-								json.put("request_status", convertNullToBlank(String.valueOf(objRequest[j])));
-								json.put("block_status", convertNullToBlank(String.valueOf(objRequest[++j])));
-							}
+						// get Pending,Rejected,Canceled status
+						String request_status="";
+						String block_status="";
+						String getMemberStatus=updateMemberService.getMemberStatus(id,memberID);
+						if(getMemberStatus!=null && !getMemberStatus.equals(""))
+						{
+							request_status=getMemberStatus;
 						}
-
-						if (statusRequest == 0) {
-							json.put("request_status", "");
-							json.put("block_status", "");
-
+						json.put("request_status", request_status);
+						
+						String getMemberBlockStatus=updateMemberService.getMemberBlockStatus(id,memberID);
+						if(getMemberBlockStatus!=null && !getMemberBlockStatus.equals(""))
+						{
+							block_status=getMemberBlockStatus;
 						}
+						json.put("block_status", block_status);
+						
+//						JSONArray resultRequest = new JSONArray();
+//						// check request are sent to other member
+//						Query query = em.createNativeQuery(
+//								"SELECT request_status,block_status FROM member_request where  request_from_id= :member_from_id and request_to_id= :member_to_id");
+//						query.setParameter("member_from_id", id);
+//						query.setParameter("member_to_id", memberID);
+//						List<Object[]> result = query.getResultList();
+//						int statusRequest = 0;
+//						if (result != null) {
+//							for (Object[] objRequest : result) {
+//								int j = 0;
+//								statusRequest = 1;
+//								json.put("request_status", convertNullToBlank(String.valueOf(objRequest[j])));
+//								json.put("block_status", convertNullToBlank(String.valueOf(objRequest[++j])));
+//							}
+//						}
+//
+//						if (statusRequest == 0) {
+//							json.put("request_status", "");
+//							json.put("block_status", "");
+//						}
 
 						resultArray.put(json);
 
@@ -1797,8 +1835,18 @@ public class UpdateMemberEntityMangerFactory {
 			// TODO: handle exception
 		}
 		return resultArray;
-	}
+	}  
 
+	public HashMap<String, String> getDetailsByMemberWithLoginID(String MemberNumber,int login_id) {
+		HashMap<String, String> map = new HashMap<>();
+		int checkMemberIdAvailable = uploadImagesService.checkMemberIdAvailable(MemberNumber);
+		
+		if(checkMemberIdAvailable>0) {
+				map = this.getMemberNumber(MemberNumber, login_id);
+			}
+		return map;
+	}
+	
 	public HashMap<String, String> getDetailsByMemberID(String MemberNumber) {
 		HashMap<String, String> map = new HashMap<>();
 		int checkMemberIdAvailable = uploadImagesService.checkMemberIdAvailable(MemberNumber);
@@ -2915,6 +2963,23 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("working_as", workingAs);
 					map.put("employer_name", employerName);
 
+					// get Pending,Rejected,Canceled status
+					String request_status="";
+					String block_status="";
+					String getMemberStatus=updateMemberService.getMemberStatus(id,thisMemberID);
+					if(getMemberStatus!=null && !getMemberStatus.equals(""))
+					{
+						request_status=getMemberStatus;
+					}
+					map.put("request_status", request_status);
+					
+					String getMemberBlockStatus=updateMemberService.getMemberBlockStatus(id,thisMemberID);
+					if(getMemberBlockStatus!=null && !getMemberBlockStatus.equals(""))
+					{
+						block_status=getMemberBlockStatus;
+					}
+					map.put("block_status", block_status);
+					
 					// check annual income privacy
 					String annualIncome = convertNullToBlank(String.valueOf(obj[++i]));
 					map.put("annual_income", annualIncome);
@@ -3435,7 +3500,7 @@ public class UpdateMemberEntityMangerFactory {
 					if (photo_privacy_setting != null && !photo_privacy_setting.equals("")) {
 						map.put("photo_privacy", photo_privacy_setting);
 					} else {
-						map.put("photo_privacy", "3");
+						map.put("photo_privacy", "2");
 					}
 
 					// check phone settings
@@ -3643,26 +3708,22 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("message", "success");
 					map.put("results", "1");
 
-					// check request are sent to other member
-					Query queryRequest = em.createNativeQuery(
-							"SELECT request_status,block_status FROM member_request where  request_from_id= :member_from_id and request_to_id= :member_to_id");
-					queryRequest.setParameter("member_from_id", id);
-					queryRequest.setParameter("member_to_id", thisMemberID);
-					JSONArray resultRequest = new JSONArray();
-					List<Object[]> result = queryRequest.getResultList();
-					int stsResults = 0;
-					if (results != null) {
-						for (Object[] objRequest : result) {
-							int j = 0;
-							stsResults = 1;
-							map.put("request_status", convertNullToBlank(String.valueOf(objRequest[j])));
-							map.put("block_status", convertNullToBlank(String.valueOf(objRequest[++j])));
-						}
+					// get Pending,Rejected,Canceled status
+					String request_status="";
+					String block_status="";
+					String getMemberStatus=updateMemberService.getMemberStatus(login_id,thisMemberID);
+					if(getMemberStatus!=null && !getMemberStatus.equals(""))
+					{
+						request_status=getMemberStatus;
 					}
-					if (stsResults == 0) {
-						map.put("request_status", "");
-						map.put("block_status", "");
+					map.put("request_status", request_status);
+					
+					String getMemberBlockStatus=updateMemberService.getMemberBlockStatus(login_id,thisMemberID);
+					if(getMemberBlockStatus!=null && !getMemberBlockStatus.equals(""))
+					{
+						block_status=getMemberBlockStatus;
 					}
+					map.put("block_status", block_status);
 
 					status = true;
 				}

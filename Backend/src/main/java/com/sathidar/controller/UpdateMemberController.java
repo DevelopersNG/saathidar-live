@@ -228,18 +228,30 @@ public class UpdateMemberController {
 //		return updateMemberService.getDetailsByMemberID(member_number);
 //	}
 
-	@GetMapping(value = "/member/get-details-by-member-id/{member_number}")
+	@GetMapping(value = "/member/get-details-by-member-id/{member_number}/{}")
 	public Map<String, String> getDetailsByMemberID(@PathVariable("member_number") String member_number) {
 		HashMap<String, String> map = new HashMap<>();
 //		 System.out.println("sssssssssssssssssss-"+member_number);
 		map = updateMemberEntityMangerFactory.getDetailsByMemberID(member_number);
 		if (map.isEmpty()) {
-			map.put("message", "something wrong ! record not fetch...");
+			map.put("message", "Profile Id is not available");
 			map.put("results", "0");
 		}
 		return map;
 	}
 
+	@GetMapping(value = "/member/get-details-by-member-id/{member_number}/{login_member_id}")
+	public Map<String, String> getDetailsByMemberID(@PathVariable("member_number") String member_number,@PathVariable("login_member_id") String login_member_id) {
+		HashMap<String, String> map = new HashMap<>();
+//		 System.out.println("sssssssssssssssssss-"+member_number);
+		map = updateMemberEntityMangerFactory.getDetailsByMemberWithLoginID(member_number,Integer.parseInt(login_member_id));
+		if (map.isEmpty()) {
+			map.put("message", "Profile Id is not available");
+			map.put("results", "0");
+		}
+		return map;
+	}
+	
 	@PostMapping(value = "/member/get-all-member/{id}")
 	public String getAllMemberByFilter(@Validated @RequestBody UpdateMember updateMember, @PathVariable("id") int id) {
 		JSONArray jsonResultArray = new JSONArray();
@@ -564,4 +576,6 @@ public class UpdateMemberController {
 		}
 		return success;
 	}
+	
+
 }

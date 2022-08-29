@@ -16,7 +16,7 @@ import com.sathidar.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>  { 
 
-	@Query("SELECT u FROM User u WHERE u.username = :username and u.enabled='1'")
+	@Query(value="SELECT * FROM users as u WHERE u.username = :username and u.enabled='1' order by u.id desc limit 1",nativeQuery = true)
 	User findByUsername(String username);
 	
 	User findByConfirmationToken(String confirmationToken);
@@ -25,13 +25,16 @@ public interface UserRepository extends JpaRepository<User, Integer>  {
 	public User getUserByUsername(@Param("username") String username);
 
 //	@Query("SELECT u FROM User u WHERE u.email = :email and u.status='ACTIVE'")
-	@Query("SELECT u FROM User u WHERE u.email = :email and u.enabled='1'")
+	@Query("SELECT u FROM User u WHERE u.email = :email and u.enabled='1' and u.short_reg_status=1")
 	User findByEmail(String email);
 	
-//	@Query("SELECT u FROM User u WHERE u.phone = :phone and u.status='ACTIVE'")
-	@Query("SELECT u FROM User u WHERE u.phone = :phone and u.enabled='1'")
-	User findByPhone(String phone);
+//	@Query("SELECT count(*) FROM User  WHERE email = :email and phone = :phone and enabled='1' and short_reg_status=1 and otp_verified=1")
+//	int findByPhone(String phone,String email);
 
+	@Query("SELECT count(*) FROM User  WHERE phone = :phone and enabled='1' and short_reg_status=1 and otp_verified=1")
+	int findByPhone(String phone);
+
+	
 	@Query(value="SELECT count(*) FROM hide_member WHERE member_id = :ID",nativeQuery = true)
 	int isAvaialbeHideMember(int ID);
 
@@ -85,9 +88,26 @@ public interface UserRepository extends JpaRepository<User, Integer>  {
 	@Query(value="SELECT verify FROM tempsendotp where conactno= :phone and otp= :user_otp order by id desc limit 1;",nativeQuery = true)
 	int getVerifyOTP(String phone, String user_otp);
 	
-	
 	@Transactional
 	@Modifying    
 	@Query(value="update tempsendotp set verify=1 where conactno= :phone and otp= :user_otp order by id desc limit 1",nativeQuery = true)
 	int updateOTPStatus(String phone, String user_otp);
+
+	@Query(value="SELECT * FROM users where id= :user_id",nativeQuery = true)
+	List<User> getByUserID(int user_id);
+	
+	@Transactional
+	@Modifying
+	@Query(value = "update users set "
+			+ "  short_reg_status=1 where id= :user_id  ", nativeQuery = true)
+	int updateShortRegstInUserTable(int user_id);
+
+	@Query(value="SELECT count(*) FROM tempsendotp where conactno= :phone and otp= :user_otp order by id desc limit 1",nativeQuery = true)
+	int verifyUserService(String user_otp, String phone);
+
+	@Transactional
+	@Modifying
+	@Query(value = "update users set otp_verified='1' where phone= :phone order by id desc limit 1  ", nativeQuery = true)
+	int updateUSERTable(String phone);
+	
 }

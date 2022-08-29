@@ -3,6 +3,7 @@ package com.sathidar.service;
 import java.util.HashMap;
 import java.util.Optional;
 
+import com.sathidar.model.UpdateMember;
 import com.sathidar.model.User;
 
 import antlr.collections.List;
@@ -50,6 +51,14 @@ public interface UserService {
 	int getVerifyOTP(String phone, String user_otp);
 
 	int updateOTPStatus(String phone, String user_otp);
+
+	int updateRegistrationDetails(UpdateMember updateMember, int user_id);
+
+	String getShortRegistrationStatus(int member_id);
+
+	int verifyUserService(String user_otp, String phone);
+
+	int updateUSERTable(String phone, String user_otp);
 
 //	User logoutUser(User user);
 }

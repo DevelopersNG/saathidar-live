@@ -73,6 +73,9 @@ public class UpdateMember {
 	private Integer religion_id;
 	
 	@Transient
+	private String religion;
+	
+	@Transient
 	private String religion_name;
 
 	@Transient
@@ -282,6 +285,14 @@ public class UpdateMember {
 		return manglik;
 	}
 
+	public String getReligion() {
+		return religion;
+	}
+
+	public void setReligion(String religion) {
+		this.religion = religion;
+	}
+
 	public void setManglik(String manglik) {
 		this.manglik = manglik;
 	}
@@ -322,6 +333,7 @@ public class UpdateMember {
 		this.recentlyJoined = recentlyJoined;
 	}
 
+	
 	public String getAnnualIncome() {
 		return annualIncome;
 	}

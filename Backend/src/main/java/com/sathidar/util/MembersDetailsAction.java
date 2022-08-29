@@ -35,7 +35,7 @@ public class MembersDetailsAction {
 		try {
 			int getStatus = privacyPolicyRepository.findByMember_Id(Integer.parseInt(thisMemberID));
 			StringBuffer buf = new StringBuffer(contact_number);
-			String number = buf.replace(4, buf.length() - 1, "******").toString();
+			String number = buf.replace(5, buf.length(), "******").toString();
 			
 				String results = privacyPolicyRepository.getPhoneRecords(Integer.parseInt(thisMemberID));
 				if (results != null && !results.equals("") ) {
@@ -73,7 +73,7 @@ public class MembersDetailsAction {
 			String firstString=emialArray[0];
 			String secondString=emialArray[1];
 			firstString=firstString.replaceAll(firstString, "*");
-			String replaceEmail="**********@"+secondString;
+			String replaceEmail="******@"+secondString;
 			
 			int getStatus = privacyPolicyRepository.findByMember_Id(Integer.parseInt(thisMemberID));
 //			if (getStatus > 0) {

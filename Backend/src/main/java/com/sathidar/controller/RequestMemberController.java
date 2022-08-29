@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sathidar.model.RequestMemberModel;
 import com.sathidar.service.EmailService;
 import com.sathidar.service.RequestMemberService;
+import com.sathidar.service.ServerEmailService;
 import com.sathidar.util.Constant;
 import com.sathidar.util.SendSMSAction;
 import com.sathidar.util.TextLocalSMSSetting;
@@ -191,6 +192,8 @@ public class RequestMemberController {
 	private String sendEmailByGmail(@Validated @RequestBody RequestMemberModel requestMemberModel) {
 		String response = "";
 		Constant constant=new Constant();
+		
+		ServerEmailService serverEmailService=new ServerEmailService();
 		try {
 			String email_body = "<head>\r\n" + 
 					"    <meta charset=\"UTF-8\">\r\n" + 
@@ -267,7 +270,9 @@ public class RequestMemberController {
 					"\r\n" + 
 					"  </body>";
 //			email_body="test";
-			mailSender.send(requestMemberModel.getEmail_to(), requestMemberModel.getEmail_subject(), email_body);
+//			mailSender.send(requestMemberModel.getEmail_to(), requestMemberModel.getEmail_subject(), email_body);
+			
+			serverEmailService.send(requestMemberModel.getEmail_to(), requestMemberModel.getEmail_subject(), email_body);			
 			response="success";
 		} catch (Exception e) {
 			e.printStackTrace();

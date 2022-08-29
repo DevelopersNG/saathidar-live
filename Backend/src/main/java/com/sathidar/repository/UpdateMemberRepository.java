@@ -190,6 +190,55 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 			+ "  date_of_birth= :date_of_birth where member_id= :id  ", nativeQuery = true)
 	Object updateDateOfBirthInMemberTable(int id, String date_of_birth);
 
+
+	@Transactional
+	@Modifying
+	@Query(value = "update memberdetails set height= :mHeight, lifestyles= :mLifeStyles, "
+			+ "marital_status= :marital_status, date_of_birth= :dateOfBirth,"
+			+ " religion_id= :religionID,"
+			+  " country_id= :countryID"
+			+ " where member_id= :member_id  ", nativeQuery = true)
+	int UpdateRegistrationDetails(int member_id, String dateOfBirth, String marital_status, String mHeight,
+			int religionID, int countryID, String mLifeStyles);
+
+	@Query(value="SELECT user_id FROM member where member_id= :member_id ",nativeQuery=true)
+	int getUserIDByMemberID(int member_id);
+
+	@Transactional
+	@Modifying
+	@Query(value = "update users set "
+			+ "  short_reg_status=1 where id= :user_id  ", nativeQuery = true)
+	int updateShortRegstInUserTable(int user_id);
+
+	@Query(value="SELECT short_reg_status FROM users where id= :getUserID ",nativeQuery=true)
+	String getShortRegistrationStatus(int getUserID);
+
+	@Query(value="SELECT member_id FROM member where user_id= :user_id ",nativeQuery=true)
+	int getMemberIDByUserIDByMemberID(int user_id);
+
+	@Query(value="SELECT request_status FROM member_request where  request_from_id= :login_member_id and request_to_id= :memberID ",nativeQuery=true)
+	String getMemberStatus(int login_member_id, String memberID);
+
+	@Query(value="SELECT block_status FROM member_request where  request_from_id= :login_member_id and request_to_id= :memberID ",nativeQuery=true)
+	String getMemberBlockStatus(int login_member_id, String memberID);
+
+
+	@Transactional
+	@Modifying
+	@Query(value = "insert into tempsendotp (conactno,otp,user_id) values (:phone_no,:otp,:user_id)", nativeQuery = true)
+	int saveOTPOfUserID(String phone_no, int user_id,String otp);
+
+	@Query(value="SELECT block_status FROM member_request where  request_from_id= :login_member_id and request_to_id= :memberID ",nativeQuery=true)
+	int getLastInsertedValueInMemberTable();
+
+	@Query(value="SELECT id FROM users where confirmation_Token= :token",nativeQuery=true)
+	String getUserID(String token);
+
+	@Transactional
+	@Modifying
+	@Query(value = "update users set enabled= :Enabled where id= :UserID and confirmation_Token= :Token", nativeQuery = true)
+	int updateStatusActiveToMemberTable1(String UserID, boolean Enabled, String Token);
+
 //	String getDetailsFromOfInboxIDs(int id);
 //
 //	String getDetailsOfToInboxIDs(int id);
