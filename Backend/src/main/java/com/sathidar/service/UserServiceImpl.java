@@ -399,7 +399,7 @@ public class UserServiceImpl implements UserService {
 		String password = user.getPhone();// set passowrd to phone number by default
 		if (password.isEmpty()) {
 			map.put("message","Invalid password");
-			map.put("result","0");
+			map.put("results","0");
 			return map;
 		}else {
 			String encodedPassword = encoder.encode(password);
@@ -416,7 +416,7 @@ public class UserServiceImpl implements UserService {
 			int userByPhoneExists = userRepository.findByPhone(user.getPhone());
 			if (userByPhoneExists>0) {
 					map.put("message"," Member Already Registered.");
-					map.put("result","0");
+					map.put("results","0");
 					return map;
 //					message=user.getEmail() + " already registered.";
 //				message=user.getPhone() + " already registered.";
@@ -1523,6 +1523,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int updateUSERTable(String phone, String user_otp) {
 		return userRepository.updateUSERTable(phone);
+	}
+
+	@Override
+	public int updatePasswordEmail(String email, String otp) {
+		return userRepository.updatChangeePasswordEmail(email,otp);
+	}
+
+	@Override
+	public int verifyUserEmailService(String user_otp, String email) {
+		return userRepository.verifyUserEmailService(user_otp,email);
 	}
 	
 //	@Override
