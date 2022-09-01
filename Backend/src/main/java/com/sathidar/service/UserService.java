@@ -60,5 +60,9 @@ public interface UserService {
 
 	int updateUSERTable(String phone, String user_otp);
 
+	int updatePasswordEmail(String email, String otp);
+
+	int verifyUserEmailService(String user_otp, String email);
+
 //	User logoutUser(User user);
 }

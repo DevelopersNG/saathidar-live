@@ -164,23 +164,6 @@ public class UserController {
 		}
 		
 		String otpVerifyStatus="";
-//		int updateStatus=userService.updateOTPStatus(phone,user_otp);
-//		if(updateStatus>0) {
-//			otpVerifyStatus="verified";
-//		}
-//		
-//		final JSONObject obj = new JSONObject(otpVerifyStatus);
-//		obj.toString();
-//		String message = obj.getString("message");
-//		String type = obj.getString("type");
-//		
-//		if (otpVerifyStatus != null && !otpVerifyStatus.equals("")) {
-//			map.put("message", "OTP verified");
-//			map.put("results", "1");
-//		} else {
-//			map.put("message",  "OTP not verified");
-//			map.put("results", "0");
-//		}
 		return map;
 	}
 
@@ -319,6 +302,37 @@ public class UserController {
 		String status = userService.getHideProfileStatus(member_id);
 		map.put("months", status);
 		map.put("results", "1");
+		return map;
+	}
+	
+	@RequestMapping(value = "/member/verify/otp/email/{otp}/{email}", method = RequestMethod.GET)
+	public Map<String, String> confirmEMAILOTP(User user, @PathVariable("otp") String user_otp,
+			@PathVariable("email") String email) {
+		HashMap<String, String> map = new HashMap<>();
+		user.setOtp(user_otp);
+		user.setEmail(email);
+		
+//		String phoneNo = "91" + user.getPhone().trim();
+//		String otp = user.getOtp().trim();
+//		String otpVerifyStatus = sendSMSAction.VerifyOtpSms("OTP Verify", phoneNo, otp);
+		
+		int count=userService.verifyUserEmailService(user_otp,email);
+		if(count>0) {
+			// save user otp table verify status=1
+//			int updateStatus=userService.updateUSERTable(phone,user_otp);
+//			if(updateStatus>0) {
+				map.put("message", "OTP verified");
+				map.put("results", "1");
+//			}else {
+//				map.put("message", "Somthing wrong ! OTP is not verify");
+//				map.put("results", "0");
+//			}
+		}else {
+			map.put("message", "OTP doesnt match");
+			map.put("results", "0");
+		}
+		
+		String otpVerifyStatus="";
 		return map;
 	}
 	
@@ -646,7 +660,15 @@ public class UserController {
 		 		+ "\r\n"
 		 		+ "";
 		try {
-			serverEmailService.send(user.getEmail(), "Saathidar-Change Password", email_body);
+			int status=userService.updatePasswordEmail(user.getEmail(),otp);
+			if(status>0) {
+				serverEmailService.send(user.getEmail(), "Saathidaar-Change Password", email_body);
+				map.put("results", "1");
+				map.put("message", "success");
+			}else {
+				map.put("message", "error");
+				map.put("results", "0");
+			}
 			
 			
 //			String otp = this.getOTP();
@@ -668,7 +690,7 @@ public class UserController {
 //					map.put("result", "1");
 //				} else if (type.equals("error")) {
 //					map.put("message", "error");
-//					map.put("result", "0");
+//					
 //				}
 //			} else {
 //				map.put("message", "error");
@@ -677,6 +699,8 @@ public class UserController {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			map.put("message", "error");
+			map.put("results", "0");
 		}
 		return map;
 	}

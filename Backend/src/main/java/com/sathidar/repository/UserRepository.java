@@ -109,5 +109,13 @@ public interface UserRepository extends JpaRepository<User, Integer>  {
 	@Modifying
 	@Query(value = "update users set otp_verified='1' where phone= :phone order by id desc limit 1  ", nativeQuery = true)
 	int updateUSERTable(String phone);
+
+	@Transactional
+	@Modifying    
+	@Query(value="insert into change_pswd (email,otp) values (:email,:otp)",nativeQuery = true)
+	int updatChangeePasswordEmail(String email, String otp);
+
+	@Query(value="SELECT count(*) FROM change_pswd where email= :email and otp= :user_otp order by id desc limit 1",nativeQuery = true)
+	int verifyUserEmailService(String user_otp, String email);
 	
 }
