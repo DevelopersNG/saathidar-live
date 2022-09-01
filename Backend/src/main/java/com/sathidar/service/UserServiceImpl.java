@@ -255,7 +255,7 @@ public class UserServiceImpl implements UserService {
 //		User userExists = userRepository.findByUsername(user.getUsername());
 		
 		User userExists=new User();
-		Query q = em.createNativeQuery("SELECT id,role,username,password,enabled,short_reg_status,otp_verified,phone FROM users WHERE username = :username and short_reg_status=1 ORDER BY id DESC LIMIT 1");
+		Query q = em.createNativeQuery("SELECT id,role,username,password,enabled,short_reg_status,otp_verified,phone,first_name,last_name,email FROM users WHERE username = :username and short_reg_status=1 ORDER BY id DESC LIMIT 1");
 		q.setParameter("username", user.getUsername());
 		List<Object[]> results = q.getResultList();
 		boolean status = false;
@@ -275,6 +275,9 @@ public class UserServiceImpl implements UserService {
 				userExists.setShort_reg_status(convertNullToBlank(String.valueOf(obj[++i])));
 				userExists.setOtp_verified(convertNullToBlank(String.valueOf(obj[++i])));
 				userExists.setPhone(convertNullToBlank(String.valueOf(obj[++i])));
+				userExists.setFirstName(convertNullToBlank(String.valueOf(obj[++i])));
+				userExists.setLastName(convertNullToBlank(String.valueOf(obj[++i])));
+				userExists.setEmail(convertNullToBlank(String.valueOf(obj[++i])));
 				status = true;
 			}
 		}

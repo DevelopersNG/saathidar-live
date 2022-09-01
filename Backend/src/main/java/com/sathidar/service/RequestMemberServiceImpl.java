@@ -2703,11 +2703,26 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					contact_number = convertNullToBlank(String.valueOf(obj[++i]));
 				}
 			}
+			 String contact_number1 = null;
+			List<Object[]> results1 = requestMemberRepository
+					
+					.getUserNameEmailId(Integer.parseInt(requestMemberModel.getRequest_from_id()));
+			String fullName1 = null;
+			if (results1 != null) {
+				for (Object[] obj : results1) {
+					int i = 0;
+					fullName1 = convertNullToBlank(String.valueOf(obj[i]))
+							+ convertNullToBlank(String.valueOf(obj[++i]));
+					emailId_to = convertNullToBlank(String.valueOf(obj[++i]));
+					member_number = convertNullToBlank(String.valueOf(obj[++i]));
+					contact_number1 = convertNullToBlank(String.valueOf(obj[++i]));
+				}
+			}
 			
 			member_number=userEntityManagerFactory.getMemberNumbersMemberIDBy(Integer.parseInt(requestMemberModel.getRequest_from_id()));
 			String response = "";
 			if (lst != null) {
-				response = sentInvitationsByEmail(lst, emailId_to, fullName,
+				response = sentInvitationsByEmail(lst, emailId_to, fullName1,
 						Integer.parseInt(requestMemberModel.getRequest_from_id()));
 			}
 
@@ -2719,7 +2734,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				// send sms 
 				try {
 					TextLocalSMSSetting textLocalSMSSetting = new TextLocalSMSSetting();
-					sendSMSTOUser(contact_number,member_number);
+					sendSMSTOUser(contact_number1,member_number);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
