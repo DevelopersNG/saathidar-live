@@ -129,6 +129,14 @@ public class DashboardServiceImpl implements DashboardService {
 			String premium_matches_count=GetNewPremiumMatchesDashboardCount(member_id, "PREMIUM_MATCHES");
 			json.put("premium_matches_count", "" + premium_matches_count);
 
+			int login_premium_status = uploadImagesService.getPremiumMemberStatus("" + member_id);
+			if (login_premium_status > 0) {
+				json.put("my_premium_status", "2");
+			} else {
+				json.put("my_premium_status", "0");
+			}
+			
+			
 			resultArray.put(json);
 		} catch (Exception e) {
 			e.printStackTrace();
