@@ -72,6 +72,9 @@ public interface UserRepository extends JpaRepository<User, Integer>  {
 	@Query(value="SELECT * FROM users u WHERE u.phone = :phone and u.enabled='1'",nativeQuery = true)
 	List<User> getEmailByPhoneNumber(String phone);
 
+	@Query(value="SELECT * FROM users u WHERE u.email = :email and u.enabled='1'",nativeQuery = true)
+	List<User> getDetailsByEmailBy(String email);
+	
 	@Transactional
 	@Modifying    
 	@Query(value="update users set password= :generatePassword where id= :id",nativeQuery = true)

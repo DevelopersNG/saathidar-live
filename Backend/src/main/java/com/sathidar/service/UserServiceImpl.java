@@ -964,7 +964,8 @@ public class UserServiceImpl implements UserService {
 	public String updateForgotPassword(User user) {
 		String res="";
 		try {
-			List<User> getUser=userRepository.getEmailByPhoneNumber(user.getPhone());
+//			List<User> getUser=userRepository.getEmailByPhoneNumber(user.getPhone());
+			List<User> getUser=userRepository.getDetailsByEmailBy(user.getEmail());
 			if(getUser!=null) {
 				for(int i=0;i<getUser.size();i++) {
 				String generatePassword=generatePassword();
