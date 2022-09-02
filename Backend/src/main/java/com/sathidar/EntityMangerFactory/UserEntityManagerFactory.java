@@ -425,5 +425,37 @@ public class UserEntityManagerFactory {
 		return franchise_code;
 	}
 
+	public String getFirstNameByEmail(String email) {
+		String first_name="";
+		try {
+			Query q = em.createNativeQuery("SELECT first_name FROM users email = :email and short_reg_status= :short_reg_status and otp_verified= :otp_verified and enabled= :enabled");
+			q.setParameter("email", email);
+			q.setParameter("short_reg_status", 1);
+			q.setParameter("otp_verified", 1);
+			q.setParameter("enabled", true);
+			first_name =q.getSingleResult().toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			first_name="";
+		}
+		return first_name;
+	}
+
+	public String getLastNameByEmail(String email) {
+		String first_name="";
+		try {
+			Query q = em.createNativeQuery("SELECT last_name FROM users email = :email and short_reg_status= :short_reg_status and otp_verified= :otp_verified and enabled= :enabled");
+			q.setParameter("email", email);
+			q.setParameter("short_reg_status", 1);
+			q.setParameter("otp_verified", 1);
+			q.setParameter("enabled", true);
+			first_name =q.getSingleResult().toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			first_name="";
+		}
+		return first_name;
+	}
+
 	
 }

@@ -854,7 +854,7 @@ public class UpdateMemberEntityMangerFactory {
 					if (photo_privacy_setting != null && !photo_privacy_setting.equals("")) {
 						json.put("photo_privacy", photo_privacy_setting);
 					} else {
-						json.put("photo_privacy", "1");
+						json.put("photo_privacy", "2");
 					}
 
 					// get Pending,Rejected,Canceled status
@@ -2197,7 +2197,6 @@ public class UpdateMemberEntityMangerFactory {
 					String myHeight = convertNullToBlank(String.valueOf(obj[++i]));
 					String myLifeStyles = convertNullToBlank(String.valueOf(obj[++i]));
 					String myAge = convertNullToBlank(String.valueOf(obj[++i]));
-
 					String myMaritalStatus = convertNullToBlank(String.valueOf(obj[++i]));
 					String myMotherTongue = convertNullToBlank(String.valueOf(obj[++i]));
 					String myGender = convertNullToBlank(String.valueOf(obj[++i]));
@@ -2421,16 +2420,23 @@ public class UpdateMemberEntityMangerFactory {
 							if (!p_from_age.equals("") && !p_to_age.equals("")) {
 								int partner_from_age = Integer.parseInt(p_from_age);
 								int partner_to_age = Integer.parseInt(p_to_age);
-								int my_age = Integer.parseInt(myAge);
+								
+								if(!myAge.equals("")) {
+									int my_age = Integer.parseInt(myAge);
 
-								if (partner_from_age <= my_age && partner_to_age >= my_age) {
-									map.put("partner_age", p_from_age + " to " + p_to_age);
-									map.put("my_age", "Yes");
-									++matchCount;
-								} else {
-									map.put("partner_age", p_from_age + " to " + p_to_age);
-									map.put("my_age", "NO");
+									if (partner_from_age <= my_age && partner_to_age >= my_age) {
+										map.put("partner_age", p_from_age + " to " + p_to_age);
+										map.put("my_age", "Yes");
+										++matchCount;
+									} else {
+										map.put("partner_age", p_from_age + " to " + p_to_age);
+										map.put("my_age", "NO");
+									}
+								}else {
+									map.put("partner_age", "");
+									map.put("my_age", "BLANK");
 								}
+								
 								++matchPreference;
 							} else {
 								map.put("partner_age", "");
@@ -3263,7 +3269,7 @@ public class UpdateMemberEntityMangerFactory {
 						if (photo_privacy_setting != null && !photo_privacy_setting.equals("")) {
 							json.put("photo_privacy", photo_privacy_setting);
 						} else {
-							json.put("photo_privacy", "1");
+							json.put("photo_privacy", "2");
 						}
 
 						/*

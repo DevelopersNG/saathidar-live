@@ -340,11 +340,11 @@ public class UserController {
 	public Map<String, String> forgotPasswordOTP(@Validated @RequestBody User user) {
 		HashMap<String, String> map = new HashMap<>();
 		String otp = this.getOTP();
-		  String email_body="\r\n"
-		 		+ "\r\n"
-		 		+ "\r\n"
-		 		+ "<!doctype html>\r\n"
-		 		+ "<html>\r\n"
+		
+		String firstName=userEntityManagerFactory.getFirstNameByEmail(user.getEmail());
+		String lastName=userEntityManagerFactory.getLastNameByEmail(user.getEmail());
+
+		String email_body="<html>\r\n"
 		 		+ "  <head>\r\n"
 		 		+ "    <meta name=\"viewport\" content=\"width=device-width\" />\r\n"
 		 		+ "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\r\n"
@@ -618,7 +618,7 @@ public class UserController {
 		 		+ "                    <tr>\r\n"
 		 		+ "                      <td>\r\n"
 		 		+ "                        <h1><img src=\"http://103.174.102.195:8080/saathidaar_logo/saathidaar_logo.jpeg\" alt=\"\"></h1>\r\n"
-		 		+ "                        <h2>Hi [Name]</h2>\r\n"
+		 		+ "                        <h2>Hi "+firstName+"&nbsp;  "+lastName+"</h2>\r\n"
 		 		+ "                        <h5>Hi, your verification code is <strong> "+otp+"</strong></h5>\r\n"
 		 		+ "                        <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"btn btn-primary\">\r\n"
 		 		+ "                          <tbody>\r\n"
@@ -659,17 +659,17 @@ public class UserController {
 		 		+ "</html>\r\n"
 		 		+ "\r\n"
 		 		+ "";
+		
 		try {
 			int status=userService.updatePasswordEmail(user.getEmail(),otp);
 			if(status>0) {
-				serverEmailService.send(user.getEmail(), "Saathidaar-Change Password", email_body);
+				serverEmailService.send(user.getEmail(), "Saathidaar-Forgot Password", email_body);
 				map.put("results", "1");
 				map.put("message", "success");
 			}else {
 				map.put("message", "error");
 				map.put("results", "0");
 			}
-			
 			
 //			String otp = this.getOTP();
 ////			String smsMessage = "Your Verification Code is " + otp + " Saathidaar.com";
@@ -699,7 +699,7 @@ public class UserController {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			map.put("message", "error");
+			map.put("message","error");
 			map.put("results", "0");
 		}
 		return map;

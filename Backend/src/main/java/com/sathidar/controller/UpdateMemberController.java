@@ -228,7 +228,7 @@ public class UpdateMemberController {
 //		return updateMemberService.getDetailsByMemberID(member_number);
 //	}
 
-	@GetMapping(value = "/member/get-details-by-member-id/{member_number}/{}")
+	@GetMapping(value = "/member/get-details-by-member-id/{member_number}")
 	public Map<String, String> getDetailsByMemberID(@PathVariable("member_number") String member_number) {
 		HashMap<String, String> map = new HashMap<>();
 //		 System.out.println("sssssssssssssssssss-"+member_number);
