@@ -150,6 +150,8 @@ public class ShortListServiceImpl implements ShortListService {
 				} else {
 					resultArray = null;
 				}
+			} else {
+				resultArray = null;
 			}
 
 		} catch (Exception e) {

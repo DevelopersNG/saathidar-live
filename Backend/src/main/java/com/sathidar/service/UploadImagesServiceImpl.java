@@ -151,6 +151,8 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 					jsonObj.put("image_id", "" + post.get(i).getId());
 					resultArray.put(jsonObj);
 				}
+			}else {
+				resultArray=null;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -359,6 +361,8 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 					jsonObj.put("kyc_status", "" + post.get(i).getKyc_status());
 					resultArray.put(jsonObj);
 				}
+			}else{
+				resultArray=null;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

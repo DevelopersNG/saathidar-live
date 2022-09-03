@@ -92,6 +92,22 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				}
 			}
 
+			 String contact_number1 = null;
+				List<Object[]> results1 = requestMemberRepository
+						
+						.getUserNameEmailId(Integer.parseInt(requestMemberModel.getRequest_from_id()));
+				String fullName1 = null;
+				if (results1 != null) {
+					for (Object[] obj1 : results1) {
+						int i = 0;
+						fullName1 = convertNullToBlank(String.valueOf(obj1[i]))
+								+ convertNullToBlank(String.valueOf(obj1[++i]));
+						emailId_to = convertNullToBlank(String.valueOf(obj1[++i]));
+						member_number = convertNullToBlank(String.valueOf(obj1[++i]));
+						contact_number1 = convertNullToBlank(String.valueOf(obj1[++i]));
+					}
+				}
+			
 			System.out.println("email id - " + emailId_to + " , fullName -" + fullName);
 
 			String response = "";
@@ -109,7 +125,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				// send sms 
 				try {
 					TextLocalSMSSetting textLocalSMSSetting = new TextLocalSMSSetting();
-					sendSMSTOUser(contact_number,member_number);
+					sendSMSTOUser(contact_number1,member_number);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -2172,6 +2188,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			System.out.println("details print deleted count - "+ statusCount);
 		} catch (Exception e) {
 			e.printStackTrace();
+			resultArray=null;
 		}
 		return new_json_array;
 	}
@@ -2308,7 +2325,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					if (memberFrom != null) {
 						for (Object[] memberObj : memberFrom) {
 							// your request is decline
-							json = getCommonDeleteJsonOutout(memberObj, member_id, request_status, "", creation_date);
+							json = getCommonDeleteJsonOutout(memberObj, member_id, request_status, "request_accept_sent_from", creation_date);
 							resultArray.put(json);
 							flag=true;
 						}
@@ -2340,7 +2357,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					if (memberTo != null) {
 						for (Object[] memberObj : memberTo) {
 							// you declient request
-							json = getCommonDeleteJsonOutout(memberObj, member_id, request_status, "", creation_date);
+							json = getCommonDeleteJsonOutout(memberObj, member_id, request_status, "",creation_date);
 							resultArray.put(json);
 							flag=true;
 						}
@@ -2436,7 +2453,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			if(photo_privacy_setting!=null && !photo_privacy_setting.equals("")) {
 				json.put("photo_privacy",photo_privacy_setting);
 			}else {
-				json.put("photo_privacy","3");
+				json.put("photo_privacy","2");
 			}
 			
 			JSONArray jsonResultsArray = new JSONArray();
@@ -2473,6 +2490,13 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					messgae = genderFromMessage + " cancelled your request";
 				}
 			}
+			
+			if(status_from.equals("request_accept_sent_from")) {
+				json.put("request_sent_from", "1");
+			}else {
+				json.put("request_message", "0");
+			}
+			
 			json.put("request_message", messgae);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2709,13 +2733,13 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					.getUserNameEmailId(Integer.parseInt(requestMemberModel.getRequest_from_id()));
 			String fullName1 = null;
 			if (results1 != null) {
-				for (Object[] obj : results1) {
+				for (Object[] obj1 : results1) {
 					int i = 0;
-					fullName1 = convertNullToBlank(String.valueOf(obj[i]))
-							+ convertNullToBlank(String.valueOf(obj[++i]));
-					emailId_to = convertNullToBlank(String.valueOf(obj[++i]));
-					member_number = convertNullToBlank(String.valueOf(obj[++i]));
-					contact_number1 = convertNullToBlank(String.valueOf(obj[++i]));
+					fullName1 = convertNullToBlank(String.valueOf(obj1[i]))
+							+ convertNullToBlank(String.valueOf(obj1[++i]));
+					emailId_to = convertNullToBlank(String.valueOf(obj1[++i]));
+					member_number = convertNullToBlank(String.valueOf(obj1[++i]));
+					contact_number1 = convertNullToBlank(String.valueOf(obj1[++i]));
 				}
 			}
 			
@@ -2734,7 +2758,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				// send sms 
 				try {
 					TextLocalSMSSetting textLocalSMSSetting = new TextLocalSMSSetting();
-					sendSMSTOUser(contact_number1,member_number);
+					sendSMSTOUser(contact_number,member_number);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

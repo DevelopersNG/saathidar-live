@@ -390,7 +390,7 @@ public class DashboardServiceImpl implements DashboardService {
 		return ids;
 	}
 
-	private String getPremiumMemberIDForMatches() {
+	private String getPremiumMemberIDForMatches(String member_id) {
 		String ids = "";
 		try {
 			// check request are sent to other member
@@ -437,6 +437,7 @@ public class DashboardServiceImpl implements DashboardService {
 	{
 		String premiumCount="";
 		try {
+			boolean status = false;
 			String matches_id = "", premium_ids = "";
 
 			String ids = "";
@@ -449,7 +450,7 @@ public class DashboardServiceImpl implements DashboardService {
 			}
 			ids = "";
 			if (matches_status.equals("PREMIUM_MATCHES")) {
-				ids = getPremiumMemberIDForMatches();
+				ids = getPremiumMemberIDForMatches(id);
 				if (!ids.equals("")) {
 					premium_ids = " and m.member_id in (" + ids + ")";
 				}
@@ -465,7 +466,7 @@ public class DashboardServiceImpl implements DashboardService {
 				hideMemberIdsQuery = hideMemberIdsQuery + " and m.member_id not in (" + getMembersHideIDs + ") ";
 			}
 
-//			********************** begin check member is block or not , gets ids *********************************
+//			********************** begin check member  is block or not , gets ids *********************************
 
 			String getBlockedMemberQuery = "";
 			String getMembersBlockIDs = getBlockedIDS("" + id);
@@ -483,6 +484,14 @@ public class DashboardServiceImpl implements DashboardService {
 //			String columnName = "m.member_id as member_id,height,lifestyles,known_languages,first_name,last_name,"
 //					+ "gender,md.age,contact_number,profilecreatedby,md.marital_status,mother_tounge,"
 //					+ "date_of_birth,mec.annual_income,country_id,cast_id,subcaste_id,religion_id,state_id,city_id";
+			String columnName = "first_name,last_name, m.member_id, height,lifestyles,md.age,"
+					+ "md.marital_status as maritalStatus,mother_tounge,gender,profile_photo_id,"
+					+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :member_id )) as country_name,country_id,"
+					+ "(select state_name from states where state_id=(select state_id from memberdetails where member_id= :member_id)) as state,state_id,"
+					+ "(select city_name from city where city_id=(select city_id from memberdetails where member_id= :member_id)) as city,city_id,"
+					+ "(select religion_name from religion where religion_id=(select religion_id from memberdetails where member_id= :member_id)) as religion,religion_id,"
+					+ "(select cast_name from cast where cast_id=(select cast_id from memberdetails where member_id= :member_id )) as caste,cast_id,"
+					+ "edu.highest_qualification as highest_qualification,edu.working_with as working_with,edu.working_as as working_as,edu.annual_income as annual_income";
 
 //			******************************Opposite Gender Search*************************************************************************
 			String genderQuery = "";
@@ -499,13 +508,11 @@ public class DashboardServiceImpl implements DashboardService {
 			String l_strQuery = "SELECT count(*) FROM memberdetails as md "
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
-					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + premium_ids + genderQuery
+					+ " where m.member_id!= :member_id and m.status='ACTIVE' " + premium_ids + genderQuery
 					+ hideMemberIdsQuery + getBlockedMemberQuery + " order by m.member_id desc";
 			Query q = em.createNativeQuery(l_strQuery);
-
 			q.setParameter("member_id", id);
-			String first_name = "", last_name = "";
-			premiumCount = q1.getSingleResult().toString();
+			premiumCount=q.getSingleResult().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -528,7 +535,7 @@ public class DashboardServiceImpl implements DashboardService {
 			}
 			ids = "";
 			if (matches_status.equals("PREMIUM_MATCHES")) {
-				ids = getPremiumMemberIDForMatches();
+				ids = getPremiumMemberIDForMatches(id);
 				if (!ids.equals("")) {
 					premium_ids = " and m.member_id in (" + ids + ")";
 				}
@@ -586,7 +593,7 @@ public class DashboardServiceImpl implements DashboardService {
 			String l_strQuery = "SELECT " + columnName + "  FROM memberdetails as md "
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
-					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + premium_ids + genderQuery
+					+ " where m.member_id!= :member_id and m.status='ACTIVE' " + premium_ids + genderQuery
 					+ hideMemberIdsQuery + getBlockedMemberQuery + " order by m.member_id desc";
 			Query q = em.createNativeQuery(l_strQuery);
 
@@ -709,6 +716,7 @@ public class DashboardServiceImpl implements DashboardService {
 							matchesStatus = true;
 						}
 					}
+					
 					matchesStatus = true;
 					if (matchesStatus) {
 						json.put("first_name", first_name);
@@ -719,7 +727,8 @@ public class DashboardServiceImpl implements DashboardService {
 						json.put("mage", myAge);
 						json.put("religion", myReligionName);
 						json.put("maritalStatus", myMaritalStatus);
-
+						json.put("city", myCityName);
+						
 						myAnnualIncome = MembersDetailsAction.getAnnualIncomePrivacy(premiumStatus, memberID,
 								myAnnualIncome);
 

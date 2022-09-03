@@ -194,6 +194,11 @@ public class UserEntityManagerFactory {
 				int statuss=updateMemberRepository.updateStatusActiveToMemberTable1(user_id,true,token);
 				if(statuss>0) {
 					status=true;
+					int checkOTPVerified=updateMemberRepository.getStatusOTPVerified(user_id);
+					if(checkOTPVerified>0) {
+						// update status=active to member table
+						int updateStatusActiveToMember=updateMemberRepository.updateStatusACTIVEToMemberTable(user_id);
+					}
 				}
 			}
 			

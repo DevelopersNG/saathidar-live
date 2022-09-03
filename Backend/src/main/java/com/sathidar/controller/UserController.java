@@ -159,7 +159,7 @@ public class UserController {
 				map.put("results", "0");
 			}
 		}else {
-			map.put("message", "OTP doesnt match");
+			map.put("message", "OTP doesn't match");
 			map.put("results", "0");
 		}
 		
@@ -323,6 +323,10 @@ public class UserController {
 //			if(updateStatus>0) {
 				map.put("message", "OTP verified");
 				map.put("results", "1");
+				
+				
+				
+				
 //			}else {
 //				map.put("message", "Somthing wrong ! OTP is not verify");
 //				map.put("results", "0");

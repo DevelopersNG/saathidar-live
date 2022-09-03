@@ -255,12 +255,15 @@ public class UserServiceImpl implements UserService {
 //		User userExists = userRepository.findByUsername(user.getUsername());
 		
 		User userExists=new User();
-		Query q = em.createNativeQuery("SELECT id,role,username,password,enabled,short_reg_status,otp_verified,phone,first_name,last_name,email FROM users WHERE username = :username and short_reg_status=1 ORDER BY id DESC LIMIT 1");
+//		Query q = em.createNativeQuery("SELECT id,role,username,password,enabled,short_reg_status,otp_verified,phone,first_name,last_name,email FROM users WHERE username = :username and short_reg_status=1 and otp_verified=1 and enabled=1 ORDER BY id DESC LIMIT 1");
+		Query q = em.createNativeQuery("SELECT id,role,username,password,enabled,short_reg_status,otp_verified,phone,first_name,last_name,email FROM users WHERE username = :username and short_reg_status=1 and otp_verified=1 and enabled=1");
 		q.setParameter("username", user.getUsername());
 		List<Object[]> results = q.getResultList();
 		boolean status = false;
+		int cnt=0;
 		if (results != null) {
 			for (Object[] obj : results) {
+				cnt=1;
 				int i = 0;
 				userExists.setId(Integer.parseInt(String.valueOf(obj[i])));
 				userExists.setRole(convertNullToBlank(String.valueOf(obj[++i])));
@@ -280,28 +283,34 @@ public class UserServiceImpl implements UserService {
 				userExists.setEmail(convertNullToBlank(String.valueOf(obj[++i])));
 				status = true;
 			}
+		}else{
+			userExists=null;
 		}
-
+		
+		if(cnt==0) {
+			userExists=null;
+		}
+		
 		HashMap<String, String> map=new HashMap<String, String>();
 		try {
 			if (userExists == null) {
 				map.put("results", "0");
-				map.put("message", "User not found");
+				map.put("message", "User name does not exits.");
 				return map;
 //				throw new BadRequestException("Invalid user name.");
 			}
 			
-			if(!userExists.getEnabled()) {
-				map.put("results", "0");
-				map.put("message", "please check your email for verification");
-				return map;
-			}
+//			if(!userExists.getEnabled()) {
+//				map.put("results", "0");
+//				map.put("message", "please check your email for verification");
+//				return map;
+//			}
 			
-			if(userExists.getOtp_verified()==null && userExists.getOtp_verified().equals("")) {
-				map.put("results", "0");
-				map.put("message", "OTP is not verified");
-				return map;
-			}
+//			if(userExists.getOtp_verified()==null && userExists.getOtp_verified().equals("")) {
+//				map.put("results", "0");
+//				map.put("message", "OTP is not verified.");
+//				return map;
+//			}
 			
 			String password = user.getPassword();
 			if (!encoder.matches(password, userExists.getPassword())) {
@@ -818,11 +827,11 @@ public class UserServiceImpl implements UserService {
 				"              <!-- START MAIN CONTENT AREA -->\r\n" + 
 				"              <tr>\r\n" + 
 				"                <td class=\"wrapper\">\r\n" + 
-				"   <h4 style=\"text-align: center;\">You have successfully completed user registration on <strong>saathidaar.com</strong></h4>\r\n" + 
-				"                  <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\r\n" + 
+							"                  <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\r\n" + 
 				"                    <tr>\r\n" + 
 				"                      <td>\r\n" + 
 				"                        <h1><img src=\"http://103.174.102.195:8080/saathidaar_logo/saathidaar_logo.jpeg\" alt=\"\"></h1>\r\n" + 
+				"   					 <h4 style=\"text-align: center;\">You have successfully completed user registration on <strong>saathidaar.com</strong></h4>\r\n" + 
 				"                        <h2>Hi "+firstName+ " " +lastName+", </h2>\r\n" + 
 				"                        <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"btn btn-primary\">\r\n" + 
 				"                          <tbody>\r\n" + 
@@ -888,7 +897,7 @@ public class UserServiceImpl implements UserService {
 				"</html>";
 			
 //			mailSender.send(email, "Saathidaar-Registrations", email_body);
-			serverEmailService.send(email, "Saathidar-Registrations", email_body);
+			serverEmailService.send(email, "Saathidaar-Registration", email_body);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

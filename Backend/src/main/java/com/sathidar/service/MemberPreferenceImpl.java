@@ -132,19 +132,29 @@ public class MemberPreferenceImpl implements MemberPreferenceService {
 						
 					}else { 
 						if(category.equals("religions")) {
-							results=results+","+getNameByIDMangerFactory.getReligionID(splitArray[i]);
+							if(splitArray[i]!=null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
+								results=results+","+getNameByIDMangerFactory.getReligionID(splitArray[i]);
+							}
 						}
 						if(category.equals("cast")) {
-							results=results+","+getNameByIDMangerFactory.getCasteID(splitArray[i]);
+							if(splitArray[i]!=null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
+								results=results+","+getNameByIDMangerFactory.getCasteID(splitArray[i]);							
+							}
 						}
 						if(category.equals("country")) {
-							results=results+","+getNameByIDMangerFactory.getCountryIdByName(splitArray[i]);
+							if(splitArray[i]!=null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
+								results=results+","+getNameByIDMangerFactory.getCountryIdByName(splitArray[i]);	
+							}
 						}
 						if(category.equals("state")) {
-							results=results+","+getNameByIDMangerFactory.getStateIdByName(splitArray[i]);
+							if(splitArray[i]!=null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
+								results=results+","+getNameByIDMangerFactory.getStateIdByName(splitArray[i]);
+							}
 						}
 						if(category.equals("city")) {
+							if(splitArray[i]!=null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
 							results=results+","+getNameByIDMangerFactory.getCityidByName(splitArray[i]);
+							}
 						}
 					}
 				}

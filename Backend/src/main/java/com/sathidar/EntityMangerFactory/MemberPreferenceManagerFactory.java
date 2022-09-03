@@ -89,7 +89,7 @@ public class MemberPreferenceManagerFactory {
 		return map;
 	}
 
-	
+		
 	public String checkIsQuammaSeperatedValue(String val,String category) {
 		String results="";
 		if(val!=null && !val.equals("")) {
@@ -112,22 +112,31 @@ public class MemberPreferenceManagerFactory {
 						if(category.equals("city")) {
 							results=getNameByIDMangerFactory.getCityNameByID(splitArray[i]);
 						}
-						
 					}else { 
 						if(category.equals("religions")) {
-							results=results+","+getNameByIDMangerFactory.getReligionNameByID(splitArray[i]);
+							if(splitArray[i]!=null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
+								results=results+","+getNameByIDMangerFactory.getReligionNameByID(splitArray[i]);
+							}
 						}
 						if(category.equals("cast")) {
-							results=results+","+getNameByIDMangerFactory.getCasteNameByID(splitArray[i]);
+							if(splitArray[i]!=null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
+								results=results+","+getNameByIDMangerFactory.getCasteNameByID(splitArray[i]);
+							}
 						}
 						if(category.equals("country")) {
-							results=results+","+getNameByIDMangerFactory.getCountryNameByID(splitArray[i]);
+							if(splitArray[i]!=null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
+								results=results+","+getNameByIDMangerFactory.getCountryNameByID(splitArray[i]);
+							}
 						}
 						if(category.equals("state")) {
-							results=results+","+getNameByIDMangerFactory.getStateNameByID(splitArray[i]);
+							if(splitArray[i]!=null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
+								results=results+","+getNameByIDMangerFactory.getStateNameByID(splitArray[i]);
+							}
 						}
 						if(category.equals("city")) {
-							results=results+","+getNameByIDMangerFactory.getCityNameByID(splitArray[i]);
+							if(splitArray[i]!=null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
+								results=results+","+getNameByIDMangerFactory.getCityNameByID(splitArray[i]);
+							}
 						}
 					}
 				}
