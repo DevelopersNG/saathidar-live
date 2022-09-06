@@ -64,5 +64,7 @@ public interface UserService {
 
 	int verifyUserEmailService(String user_otp, String email);
 
+	int isAvailableEmail(String email);
+
 //	User logoutUser(User user);
 }

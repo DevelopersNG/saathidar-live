@@ -20,8 +20,7 @@ public class DropDownEntityManagerFactory {
 	public JSONArray getCountryName() {
 		JSONArray resultArray = new JSONArray();
 		try {
-			Query q = em.createNativeQuery(
-					"SELECT country_id,country_name FROM country where status='ACTIVE'");
+			Query q = em.createNativeQuery("SELECT country_id,country_name FROM country where status='ACTIVE'");
 //			Query q = em.createNativeQuery(
 //					"SELECT id,country_name FROM country where status='ACTIVE'");
 			List<Object[]> results = q.getResultList();
@@ -34,9 +33,9 @@ public class DropDownEntityManagerFactory {
 					resultArray.put(json);
 				}
 			}
-			if(resultArray==null) {
+			if (resultArray == null) {
 				JSONObject json = new JSONObject();
-				json.put("message","records not foundr");
+				json.put("message", "records not foundr");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -47,7 +46,7 @@ public class DropDownEntityManagerFactory {
 	public JSONArray getStateName(int country_id) {
 		JSONArray resultArray = new JSONArray();
 		try {
-			
+
 			Query q = em.createNativeQuery(
 					"SELECT state_id,state_name FROM states where country_id= :CountryID and status='ACTIVE'");
 			q.setParameter("CountryID", country_id);
@@ -61,9 +60,9 @@ public class DropDownEntityManagerFactory {
 					resultArray.put(json);
 				}
 			}
-			if(resultArray==null) {
+			if (resultArray == null) {
 				JSONObject json = new JSONObject();
-				json.put("message","records not foundr");
+				json.put("message", "records not foundr");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -74,7 +73,7 @@ public class DropDownEntityManagerFactory {
 	public JSONArray getCityName(int state_id) {
 		JSONArray resultArray = new JSONArray();
 		try {
-			
+
 			Query q = em.createNativeQuery(
 					"SELECT city_id,city_name FROM city where state_id= :StateID and status='ACTIVE'");
 			q.setParameter("StateID", state_id);
@@ -88,9 +87,9 @@ public class DropDownEntityManagerFactory {
 					resultArray.put(json);
 				}
 			}
-			if(resultArray==null) {
+			if (resultArray == null) {
 				JSONObject json = new JSONObject();
-				json.put("message","records not foundr");
+				json.put("message", "records not foundr");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -101,9 +100,8 @@ public class DropDownEntityManagerFactory {
 	public JSONArray getReligionName() {
 		JSONArray resultArray = new JSONArray();
 		try {
-			
-			Query q = em.createNativeQuery(
-					"SELECT religion_id,religion_name FROM religion where status='ACTIVE'");
+
+			Query q = em.createNativeQuery("SELECT religion_id,religion_name FROM religion where status='ACTIVE'");
 			List<Object[]> results = q.getResultList();
 			if (results != null) {
 				for (Object[] obj : results) {
@@ -114,9 +112,9 @@ public class DropDownEntityManagerFactory {
 					resultArray.put(json);
 				}
 			}
-			if(resultArray==null) {
+			if (resultArray == null) {
 				JSONObject json = new JSONObject();
-				json.put("message","records not foundr");
+				json.put("message", "records not foundr");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -127,7 +125,7 @@ public class DropDownEntityManagerFactory {
 	public JSONArray getCastName(int religion_id) {
 		JSONArray resultArray = new JSONArray();
 		try {
-			
+
 			Query q = em.createNativeQuery(
 					"SELECT cast_id,cast_name FROM cast where religion_id= :ReligionID and status='ACTIVE'");
 			q.setParameter("ReligionID", religion_id);
@@ -141,9 +139,9 @@ public class DropDownEntityManagerFactory {
 					resultArray.put(json);
 				}
 			}
-			if(resultArray==null) {
+			if (resultArray == null) {
 				JSONObject json = new JSONObject();
-				json.put("message","records not foundr");
+				json.put("message", "records not foundr");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -159,15 +157,13 @@ public class DropDownEntityManagerFactory {
 	public JSONArray getCityNameByStateName(String state_name) {
 		JSONArray resultArray = new JSONArray();
 		try {
-			
-			
-			Query q = em.createNativeQuery(
-					"SELECT state_id FROM states where state_name= :state_name and status='ACTIVE'");
+
+			Query q = em
+					.createNativeQuery("SELECT state_id FROM states where state_name= :state_name and status='ACTIVE'");
 			q.setParameter("state_name", state_name);
 			String state_id = q.getSingleResult().toString();
-			
-			 q = em.createNativeQuery(
-					"SELECT city_id,city_name FROM city where state_id= :StateID and status='ACTIVE'");
+
+			q = em.createNativeQuery("SELECT city_id,city_name FROM city where state_id= :StateID and status='ACTIVE'");
 			q.setParameter("StateID", state_id);
 			List<Object[]> results = q.getResultList();
 			if (results != null) {
@@ -179,9 +175,9 @@ public class DropDownEntityManagerFactory {
 					resultArray.put(json);
 				}
 			}
-			if(resultArray==null) {
+			if (resultArray == null) {
 				JSONObject json = new JSONObject();
-				json.put("message","records not foundr");
+				json.put("message", "records not foundr");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -192,14 +188,13 @@ public class DropDownEntityManagerFactory {
 	public JSONArray getCastNameByReligionName(String religion_name) {
 		JSONArray resultArray = new JSONArray();
 		try {
-			
+
 			Query q = em.createNativeQuery(
 					"SELECT religion_id FROM religion where religion_name= :religion_name and status='ACTIVE'");
 			q.setParameter("religion_name", religion_name);
 			String religion_id = q.getSingleResult().toString();
-			
-			
-		  q = em.createNativeQuery(
+
+			q = em.createNativeQuery(
 					"SELECT cast_id,cast_name FROM cast where religion_id= :ReligionID and status='ACTIVE'");
 			q.setParameter("ReligionID", religion_id);
 			List<Object[]> results = q.getResultList();
@@ -212,9 +207,9 @@ public class DropDownEntityManagerFactory {
 					resultArray.put(json);
 				}
 			}
-			if(resultArray==null) {
+			if (resultArray == null) {
 				JSONObject json = new JSONObject();
-				json.put("message","records not foundr");
+				json.put("message", "records not foundr");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -225,9 +220,8 @@ public class DropDownEntityManagerFactory {
 	public JSONArray getStateList() {
 		JSONArray resultArray = new JSONArray();
 		try {
-			
-			Query q = em.createNativeQuery(
-					"SELECT state_id,state_name FROM states where status='ACTIVE'");
+
+			Query q = em.createNativeQuery("SELECT state_id,state_name FROM states where status='ACTIVE'");
 			List<Object[]> results = q.getResultList();
 			if (results != null) {
 				for (Object[] obj : results) {
@@ -238,9 +232,9 @@ public class DropDownEntityManagerFactory {
 					resultArray.put(json);
 				}
 			}
-			if(resultArray==null) {
+			if (resultArray == null) {
 				JSONObject json = new JSONObject();
-				json.put("message","records not foundr");
+				json.put("message", "records not foundr");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -254,9 +248,8 @@ public class DropDownEntityManagerFactory {
 //			Query q = em.createNativeQuery(
 //					"SELECT state_id FROM states where status='ACTIVE' ");
 //			String state_id = q.getSingleResult().toString();
-			
-			 Query q = em.createNativeQuery(
-					"SELECT city_id,city_name FROM city where status='ACTIVE'");
+
+			Query q = em.createNativeQuery("SELECT city_id,city_name FROM city where status='ACTIVE'");
 //			q.setParameter("StateID", state_id);
 			List<Object[]> results = q.getResultList();
 			if (results != null) {
@@ -268,9 +261,9 @@ public class DropDownEntityManagerFactory {
 					resultArray.put(json);
 				}
 			}
-			if(resultArray==null) {
+			if (resultArray == null) {
 				JSONObject json = new JSONObject();
-				json.put("message","records not foundr");
+				json.put("message", "records not foundr");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -281,9 +274,8 @@ public class DropDownEntityManagerFactory {
 	public JSONArray getAllCastList() {
 		JSONArray resultArray = new JSONArray();
 		try {
-			
-			Query q = em.createNativeQuery(
-					"SELECT cast_id,cast_name FROM cast where status='ACTIVE'");
+
+			Query q = em.createNativeQuery("SELECT cast_id,cast_name FROM cast where status='ACTIVE'");
 			List<Object[]> results = q.getResultList();
 			if (results != null) {
 				for (Object[] obj : results) {
@@ -294,9 +286,9 @@ public class DropDownEntityManagerFactory {
 					resultArray.put(json);
 				}
 			}
-			if(resultArray==null) {
+			if (resultArray == null) {
 				JSONObject json = new JSONObject();
-				json.put("message","records not foundr");
+				json.put("message", "records not foundr");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -307,13 +299,13 @@ public class DropDownEntityManagerFactory {
 	public JSONArray getStateNameByCountryName(String country_name) {
 		JSONArray resultArray = new JSONArray();
 		try {
-			
+
 			Query q = em.createNativeQuery(
 					"SELECT country_id FROM country where country_name= :country_name and status='ACTIVE'");
 			q.setParameter("country_name", country_name);
 			String country_id = q.getSingleResult().toString();
-			
-			 q = em.createNativeQuery(
+
+			q = em.createNativeQuery(
 					"SELECT state_id,state_name FROM states where country_id= :CountryID and status='ACTIVE'");
 			q.setParameter("CountryID", country_id);
 			List<Object[]> results = q.getResultList();
@@ -326,14 +318,80 @@ public class DropDownEntityManagerFactory {
 					resultArray.put(json);
 				}
 			}
-			if(resultArray==null) {
+			if (resultArray == null) {
 				JSONObject json = new JSONObject();
-				json.put("message","records not foundr");
+				json.put("message", "records not foundr");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return resultArray;
 	}
-	
+
+	public JSONArray getMultipleStateName(int[] country_ids) {
+		JSONArray resultArray = new JSONArray();
+		try {
+
+			for (int i = 0; i < country_ids.length; i++) {
+				int country_id = country_ids[i];
+
+//			Query q = em.createNativeQuery(
+//					"SELECT country_id FROM country where country_name= :country_name and status='ACTIVE'");
+//			q.setParameter("country_name", country_name);
+//			String country_id = q.getSingleResult().toString();
+
+				Query q = em.createNativeQuery(
+						"SELECT state_id,state_name FROM states where country_id= :CountryID and status='ACTIVE'");
+				q.setParameter("CountryID", country_id);
+				List<Object[]> results = q.getResultList();
+				if (results != null) {
+					for (Object[] obj : results) {
+						JSONObject json = new JSONObject();
+						int j = 0;
+						json.put("state_id", String.valueOf(obj[j]));
+						json.put("state_name", String.valueOf(obj[++j]));
+						resultArray.put(json);
+					}
+				}
+			}
+			if (resultArray.isEmpty()) {
+				JSONObject json = new JSONObject();
+				json.put("message", "records not found");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultArray;
+	}
+
+	public JSONArray getMultipleCityName(int[] state_ids) {
+		JSONArray resultArray = new JSONArray();
+		try {
+			for (int i = 0; i < state_ids.length; i++) {
+				int state_id = state_ids[i];
+
+			
+			Query q = em.createNativeQuery("SELECT city_id,city_name FROM city where status='ACTIVE' and state_id= :StateID");
+			q.setParameter("StateID", state_id);
+			List<Object[]> results = q.getResultList();
+			if (results != null) {
+				for (Object[] obj : results) {
+					JSONObject json = new JSONObject();
+					int j = 0;
+					json.put("city_id", String.valueOf(obj[j]));
+					json.put("city_name", String.valueOf(obj[++j]));
+					resultArray.put(json);
+				}
+			}
+		}
+			if (resultArray.isEmpty()) {
+				JSONObject json = new JSONObject();
+				json.put("message", "records not foundr");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultArray;
+	}
+
 }

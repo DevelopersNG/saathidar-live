@@ -48,30 +48,33 @@ import com.sathidar.service.AdminUploadPhotoService;
 //			}
 			
 //			
-//			@PostMapping("/member/decline/photo")
-//			public HashMap<String, String> deleteMemberPhotos(AdminUploadPhotoModel adminUploadPhotoModel) {
-//				HashMap<String, String> map = new HashMap<>();
-//				int status = adminUploadPhotoService.deleteImages(adminUploadPhotoModel);
-//				if (status > 0) {
-//					map.put("results", "1");
-//				} else {
-//					map.put("results", "0");
-//				}
-//				return map;
-//			}
-//		
+			@PostMapping("/member/decline/photo/{id}")
+			public HashMap<String, String> deleteMemberPhotos(@PathVariable Integer id,AdminUploadPhotoModel adminUploadPhotoModel) {
+				HashMap<String, String> map = new HashMap<>();
+				adminUploadPhotoModel.setId(id);
+				System.out.println("decline id- "+ adminUploadPhotoModel.getId());
+				int status = adminUploadPhotoService.deleteImages(adminUploadPhotoModel);
+				if (status > 0) {
+					map.put("results", "1");
+				} else {
+					map.put("results", "0");
+				}
+				return map;
+			}
 //			
-//			@PostMapping("approve/photo/{id}")
-//			public HashMap<String, String> saveMemberKYCPhotoUpload(AdminUploadPhotoModel adminUploadPhotoModel, @RequestParam("document") MultipartFile multipartFile) {
-//				HashMap<String, String> map = new HashMap<>();
-//				 adminUploadPhotoModel = adminUploadPhotoService.ApprovePhoto(adminUploadPhotoModel,multipartFile);
-//				if (adminUploadPhotoModel != null) {
-//					map.put("results", "1");
-//				} else {
-//					map.put("results", "0");
-//				}
-//				return map;
-//			}
+			@PostMapping("/member/approve/photo/{id}")
+			public HashMap<String, String> saveMemberKYCPhotoUpload(@PathVariable Integer id,AdminUploadPhotoModel adminUploadPhotoModel) {
+				HashMap<String, String> map = new HashMap<>();
+				adminUploadPhotoModel.setId(id);
+				System.out.println("decline id- "+ adminUploadPhotoModel.getId());
+				int status = adminUploadPhotoService.ApprovePhoto(adminUploadPhotoModel);
+				if (status > 0) {
+					map.put("results", "1");
+				} else {
+					map.put("results", "0");
+				}
+				return map;
+			}
 //
 //			@GetMapping(value = "/kyc/get/photo/{id}")
 //			private String getKycPhotos(@PathVariable String photo_id) {

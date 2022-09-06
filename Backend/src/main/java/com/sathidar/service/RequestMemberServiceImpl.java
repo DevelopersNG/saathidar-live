@@ -743,14 +743,8 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			String request_status = requestMemberModel.getRequest_status().trim();
 			
 			int status=0;
-			if(request_status.equals("Canceled")) {
-				status = requestMemberRepository.requestAcceptedAndRejected(request_to_id,request_from_id,request_status);
-				request_status="Canceled";
-			}else {
-			System.out.println("cancel query- "+request_from_id+","+request_to_id+","+request_status);
 			status = requestMemberRepository.requestAcceptedAndRejected(request_from_id, request_to_id,
 					request_status);
-			}
 
 			// for mail sending
 			if (request_status.equals("Accepted")) {
@@ -774,10 +768,10 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			}
 
 			if (status>0) {
-				map.put("message", "request are " + request_status + "..");
+				map.put("message", "request are " + request_status.toLowerCase() + "..");
 				map.put("results", "1");
 			}else {
-				map.put("message", "request are not " + request_status + "..");
+				map.put("message", "request are not " + request_status.toLowerCase() + "..");
 				map.put("results", "0");
 			}
 			
@@ -2494,7 +2488,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			if(status_from.equals("request_accept_sent_from")) {
 				json.put("request_sent_from", "1");
 			}else {
-				json.put("request_message", "0");
+				json.put("request_sent_from", "0");
 			}
 			
 			json.put("request_message", messgae);

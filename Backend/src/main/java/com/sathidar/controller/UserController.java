@@ -665,16 +665,21 @@ public class UserController {
 		 		+ "";
 		
 		try {
-			int status=userService.updatePasswordEmail(user.getEmail(),otp);
-			if(status>0) {
-				serverEmailService.send(user.getEmail(), "Saathidaar-Forgot Password", email_body);
-				map.put("results", "1");
-				map.put("message", "success");
+			int isAvailableEmail=userService.isAvailableEmail(user.getEmail());
+			if(isAvailableEmail>0) {
+				int status=userService.updatePasswordEmail(user.getEmail(),otp);
+				if(status>0) {
+					serverEmailService.send(user.getEmail(), "Saathidaar-Forgot Password", email_body);
+					map.put("results", "1");
+					map.put("message", "success");
+				}else {
+					map.put("message", "error");
+					map.put("results", "0");
+				}
 			}else {
-				map.put("message", "error");
+				map.put("message", "email doesn't exits");
 				map.put("results", "0");
 			}
-			
 //			String otp = this.getOTP();
 ////			String smsMessage = "Your Verification Code is " + otp + " Saathidaar.com";
 //			// send email

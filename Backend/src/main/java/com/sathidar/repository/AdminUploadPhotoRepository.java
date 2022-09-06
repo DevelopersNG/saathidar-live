@@ -11,7 +11,8 @@ package com.sathidar.repository;
 	import org.springframework.stereotype.Repository;
 
 	import com.sathidar.model.AdminKycModel;
-	import com.sathidar.model.UploadImagesModel;
+import com.sathidar.model.AdminUploadPhotoModel;
+import com.sathidar.model.UploadImagesModel;
 
 
 
@@ -40,9 +41,17 @@ package com.sathidar.repository;
 //
 //		int deleteByPhotoIDDeleteFlagY(Integer id);
 //
-//		int deleteByPhotoIDDeleteFlagN(Integer photo_id);
+		@Transactional
+		@Modifying
+		@Query(value="update member_photo set status='reject' where id= :photo_id and deleteflag='N'",nativeQuery = true)
+		int deleteByPhotoIDDeleteFlagN(Integer photo_id);
 //
 //		List<UploadImagesModel> getPhoto_Id(String photo_id);
+
+		@Transactional
+		@Modifying
+		@Query(value="update member_photo set aprrove=1,status='approved' where id= :photo_id and deleteflag='N'",nativeQuery = true)
+		int approvePhoto(Integer photo_id);
 
 		//List<UploadImagesModel> getById(Object kyc_id);
 

@@ -1544,6 +1544,11 @@ public class UserServiceImpl implements UserService {
 	public int verifyUserEmailService(String user_otp, String email) {
 		return userRepository.verifyUserEmailService(user_otp,email);
 	}
+
+	@Override
+	public int isAvailableEmail(String email) {
+		return userRepository.isAvailableEmail(email);
+	}
 	
 //	@Override
 //	public User logoutUser(User user) {

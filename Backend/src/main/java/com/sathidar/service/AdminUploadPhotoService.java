@@ -18,7 +18,7 @@ import com.sathidar.model.UploadImagesModel;
 //		int deleteImagesById(AdminUploadPhotoModel uploadImagesModel);
 //   
 //
-//		public int deleteImages(AdminUploadPhotoModel adminUploadPhotoModel);
+		public int deleteImages(AdminUploadPhotoModel adminUploadPhotoModel);
 //
 //		JSONArray getMemberPhotos(String kyc_id);
 //
@@ -26,8 +26,8 @@ import com.sathidar.model.UploadImagesModel;
 //
 //		AdminUploadPhotoModel UploadPhoto(AdminUploadPhotoModel adminUploadPhotoModel, MultipartFile multipartFile);
 //
-//		AdminUploadPhotoModel ApprovePhoto(AdminUploadPhotoModel adminUploadPhotoModel, MultipartFile multipartFile);
-//
 //		JSONArray getPhotos(String Photo_id);
+
+		public int ApprovePhoto(AdminUploadPhotoModel adminUploadPhotoModel);
 	
 }

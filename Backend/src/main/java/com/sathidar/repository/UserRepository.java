@@ -120,5 +120,8 @@ public interface UserRepository extends JpaRepository<User, Integer>  {
 
 	@Query(value="SELECT count(*) FROM change_pswd where email= :email and otp= :user_otp order by id desc limit 1",nativeQuery = true)
 	int verifyUserEmailService(String user_otp, String email);
+
+	@Query(value="SELECT count(*) FROM users where email= :email",nativeQuery = true)
+	int isAvailableEmail(String email);
 	
 }
