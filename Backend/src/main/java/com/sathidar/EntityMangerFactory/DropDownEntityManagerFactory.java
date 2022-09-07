@@ -370,20 +370,91 @@ public class DropDownEntityManagerFactory {
 			for (int i = 0; i < state_ids.length; i++) {
 				int state_id = state_ids[i];
 
-			
-			Query q = em.createNativeQuery("SELECT city_id,city_name FROM city where status='ACTIVE' and state_id= :StateID");
-			q.setParameter("StateID", state_id);
-			List<Object[]> results = q.getResultList();
-			if (results != null) {
-				for (Object[] obj : results) {
-					JSONObject json = new JSONObject();
-					int j = 0;
-					json.put("city_id", String.valueOf(obj[j]));
-					json.put("city_name", String.valueOf(obj[++j]));
-					resultArray.put(json);
+				Query q = em.createNativeQuery(
+						"SELECT city_id,city_name FROM city where status='ACTIVE' and state_id= :StateID");
+				q.setParameter("StateID", state_id);
+				List<Object[]> results = q.getResultList();
+				if (results != null) {
+					for (Object[] obj : results) {
+						JSONObject json = new JSONObject();
+						int j = 0;
+						json.put("city_id", String.valueOf(obj[j]));
+						json.put("city_name", String.valueOf(obj[++j]));
+						resultArray.put(json);
+					}
 				}
 			}
+			if (resultArray.isEmpty()) {
+				JSONObject json = new JSONObject();
+				json.put("message", "records not foundr");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return resultArray;
+	}
+
+	public JSONArray getMultiplesStateName(String country_ids) {
+		JSONArray resultArray = new JSONArray();
+		try {
+			String[] splitArray = new String[20];
+			if (country_ids.contains(",")) {
+				splitArray = country_ids.split(",");
+			} else {
+				splitArray[0] = country_ids;
+			}
+
+			for (int i = 0; i < splitArray.length; i++) {
+				String country_id = splitArray[i];
+				Query q = em.createNativeQuery(
+						"SELECT state_id,state_name FROM states where country_id= :CountryID and status='ACTIVE'");
+				q.setParameter("CountryID", country_id);
+				List<Object[]> results = q.getResultList();
+				if (results != null) {
+					for (Object[] obj : results) {
+						JSONObject json = new JSONObject();
+						int j = 0;
+						json.put("state_id", String.valueOf(obj[j]));
+						json.put("state_name", String.valueOf(obj[++j]));
+						resultArray.put(json);
+					}
+				}
+			}
+			if (resultArray.isEmpty()) {
+				resultArray = null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultArray;
+	}
+
+	public JSONArray getMultiplesCityName(String state_ids) {
+		JSONArray resultArray = new JSONArray();
+		try {
+			String[] splitArray = new String[25];
+			if (state_ids.contains(",")) {
+				splitArray = state_ids.split(",");
+			} else {
+				splitArray[0] = state_ids;
+			}
+
+			for (int i = 0; i < splitArray.length; i++) {
+				String state_id = splitArray[i];
+				Query q = em.createNativeQuery(
+						"SELECT city_id,city_name FROM city where status='ACTIVE' and state_id= :StateID");
+				q.setParameter("StateID", state_id);
+				List<Object[]> results = q.getResultList();
+				if (results != null) {
+					for (Object[] obj : results) {
+						JSONObject json = new JSONObject();
+						int j = 0;
+						json.put("city_id", String.valueOf(obj[j]));
+						json.put("city_name", String.valueOf(obj[++j]));
+						resultArray.put(json);
+					}
+				}
+			}
 			if (resultArray.isEmpty()) {
 				JSONObject json = new JSONObject();
 				json.put("message", "records not foundr");

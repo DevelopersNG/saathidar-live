@@ -3350,37 +3350,63 @@ public class UpdateMemberEntityMangerFactory {
 
 	private String setWhereClauseForGetAllMemberforAdmin(FilterSearchModel filterSearchModel) {
 		String whereClause = "";
-
 		try {
+			if (filterSearchModel.getMembership() != null && !filterSearchModel.getMembership().equals("") && filterSearchModel.getMembership().equals("premium member")) {
+				String getPremiumID = GetMemberShipId();
+				if (getPremiumID != null && !getPremiumID.equals("")) {
+					whereClause += " and m.memberID in (" + getPremiumID + ")";
+				}
+				
+				if (filterSearchModel.getFrom_date() != null && !filterSearchModel.getFrom_date().equals("")) {
+					String memberID = MemberFromDate(filterSearchModel.getFrom_date());
+					if (memberID != null && !memberID.equals("")) {
+						whereClause += " and m.memberID in (" + memberID + ")";
+					}
+				}
 
+				if (filterSearchModel.getTo_date() != null && !filterSearchModel.getTo_date().equals("")) {
+					String memberID = MemberToDate(filterSearchModel.getTo_date());
+					if (memberID != null && !memberID.equals("")) {
+						whereClause += " and m.memberID in (" + memberID + ")";
+					}
+				}
+//				String planID = getPlanId(filterSearchModel.getMembership());
+//				String memberID = MemberShipId(planID);
+//				if (memberID != null && !memberID.equals("")) {
+//					whereClause += " and m.memberID in (" + memberID + ")";
+//				}
+			}
+			
+			if (filterSearchModel.getMembership() != null && !filterSearchModel.getMembership().equals("") && filterSearchModel.getMembership().equals("non premium member")) {
+				String getPremiumID = GetMemberShipId();
+				if (getPremiumID != null && !getPremiumID.equals("")) {
+					whereClause += " and m.memberID not in (" + getPremiumID + ")";
+				}
+				
+				if (filterSearchModel.getFrom_date() != null && !filterSearchModel.getFrom_date().equals("")) {
+					String memberID = MemberFromDate(filterSearchModel.getFrom_date());
+					if (memberID != null && !memberID.equals("")) {
+						whereClause += " and m.memberID in (" + memberID + ")";
+					}
+				}
+
+				if (filterSearchModel.getTo_date() != null && !filterSearchModel.getTo_date().equals("")) {
+					String memberID = MemberToDate(filterSearchModel.getTo_date());
+					if (memberID != null && !memberID.equals("")) {
+						whereClause += " and m.memberID in (" + memberID + ")";
+					}
+				}
+			}
+			
+			
+			
+			
+			
 			if (filterSearchModel.getGender() != null && !filterSearchModel.getGender().equals("")) {
 				whereClause += " and gender ='" + filterSearchModel.getGender() + "'";
 			}
 
-			if (filterSearchModel.getFrom_date() != null && !filterSearchModel.getFrom_date().equals("")) {
 
-				String memberID = MemberFromDate(filterSearchModel.getFrom_date());
-				if (memberID != null && !memberID.equals("")) {
-					whereClause += " and m.memberID in (" + memberID + ")";
-				}
-			}
-
-			if (filterSearchModel.getTo_date() != null && !filterSearchModel.getTo_date().equals("")) {
-
-				String memberID = MemberToDate(filterSearchModel.getTo_date());
-				if (memberID != null && !memberID.equals("")) {
-					whereClause += " and m.memberID in (" + memberID + ")";
-				}
-			}
-
-			if (filterSearchModel.getMembership() != null && !filterSearchModel.getMembership().equals("")) {
-
-				String planID = getPlanId(filterSearchModel.getMembership());
-				String memberID = MemberShipId(planID);
-				if (memberID != null && !memberID.equals("")) {
-					whereClause += " and m.memberID in (" + memberID + ")";
-				}
-			}
 			/*
 			 * if (filterSearchModel.getMember() != null &&
 			 * !filterSearchModel.getMember().equals("")) { whereClause += " and md.age <="
@@ -3396,18 +3422,19 @@ public class UpdateMemberEntityMangerFactory {
 		return whereClause;
 	}
 
-	private String MemberShipId(String planID) {
+	
+	private String GetMemberShipId() {
 		String result = "";
 		try {
 //					Query q = em.createNativeQuery("SELECT group_concat(member_id) FROM hide_member where status=0");
-			Query q = em.createNativeQuery("SELECT group_concat(member_id) FROM premium_member where plan_id = '"
-					+ planID + "' AND deleteflag='N' ");
+			Query q = em.createNativeQuery("SELECT group_concat(member_id) FROM premium_member where deleteflag='N' ");
 			result = q.getSingleResult().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
+	
 
 	private String getPlanId(String membership) {
 		String result = "";

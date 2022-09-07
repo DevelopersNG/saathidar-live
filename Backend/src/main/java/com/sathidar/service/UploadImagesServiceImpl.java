@@ -149,6 +149,7 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 					JSONObject jsonObj = new JSONObject();
 					jsonObj.put("member_images", post.get(i).getImage_path());
 					jsonObj.put("image_id", "" + post.get(i).getId());
+					jsonObj.put("photo_status", "" + post.get(i).getPhoto_status());
 					resultArray.put(jsonObj);
 				}
 			}else {
@@ -178,6 +179,7 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 					jsonObj.put("member_images", "data:image/jpeg;base64," + base64Encoded);
 //					jsonObj.put("member_images",""+ base64Encoded);
 					jsonObj.put("image_id", "" + post.get(i).getId());
+					jsonObj.put("photo_status", "" + post.get(i).getPhoto_status());
 					resultArray.put(jsonObj);
 				}
 			}

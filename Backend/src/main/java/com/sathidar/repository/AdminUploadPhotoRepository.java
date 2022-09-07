@@ -43,14 +43,14 @@ import com.sathidar.model.UploadImagesModel;
 //
 		@Transactional
 		@Modifying
-		@Query(value="update member_photo set status='reject' where id= :photo_id and deleteflag='N'",nativeQuery = true)
+		@Query(value="update member_photo set photo_status=2 , status='reject' where id= :photo_id and deleteflag='N'",nativeQuery = true)
 		int deleteByPhotoIDDeleteFlagN(Integer photo_id);
 //
 //		List<UploadImagesModel> getPhoto_Id(String photo_id);
 
 		@Transactional
 		@Modifying
-		@Query(value="update member_photo set aprrove=1,status='approved' where id= :photo_id and deleteflag='N'",nativeQuery = true)
+		@Query(value="update member_photo set photo_status=1,status='approved' where id= :photo_id and deleteflag='N'",nativeQuery = true)
 		int approvePhoto(Integer photo_id);
 
 		//List<UploadImagesModel> getById(Object kyc_id);

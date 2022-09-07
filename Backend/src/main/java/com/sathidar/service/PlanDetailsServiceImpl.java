@@ -6,17 +6,92 @@ import java.util.function.Function;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
+import org.springframework.stereotype.Service;
 
 import com.sathidar.model.PlanDetailsModel;
 import com.sathidar.model.ShortListsModel;
 import com.sathidar.repository.PlanDetailsRepository;
 
+@Service
 public class PlanDetailsServiceImpl implements PlanDetailsService {
+
+	@Autowired
+	private  PlanDetailsRepository  planDetailsRepository;
+	
+	@Override
+	public int setValidFeatureID(String feature_id) {
+		return planDetailsRepository.setValidFeatureID(feature_id);
+	}
+	
+	@Override
+	public int setInValidFeatureID(String feature_id) {
+		return planDetailsRepository.setInValidFeatureID(feature_id);
+	}
+
+	@Override
+	public int updatePlanFeaturesByID(String feature_id, PlanDetailsModel planDetailsModel) {
+		return planDetailsRepository.setInValidFeatureID(feature_id,planDetailsModel.getFeature_name());
+	}
+
+	@Override
+	public int updatePlanDetails(PlanDetailsModel planDetailsModel) {
+		int status=0;
+		try {
+			int plan_id=planDetailsModel.getId();
+			String plan_name=planDetailsModel.getPlan_name();
+			String plan_validity=planDetailsModel.getPlan_validity();
+			String plan_price=planDetailsModel.getPlan_price();
+			String plan_discount=planDetailsModel.getPlan_discount();
+			String discount_price=planDetailsModel.getDiscount_price();
+			
+		    status=planDetailsRepository.updatePlanDetails(plan_id,plan_name,plan_validity,plan_price,plan_discount,discount_price);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return status;
+	}
+
+	@Override
+	public int addPlanDetails(PlanDetailsModel planDetailsModel) {
+		int status=0;
+		try {
+//			int plan_id=planDetailsModel.getId();
+			String plan_name=planDetailsModel.getPlan_name();
+			String plan_validity=planDetailsModel.getPlan_validity();
+			String plan_price=planDetailsModel.getPlan_price();
+			String plan_discount=planDetailsModel.getPlan_discount();
+			String discount_price=planDetailsModel.getDiscount_price();
+			
+			int isAvailable=planDetailsRepository.isAvailablePlan(plan_name);
+			if(isAvailable>0) {
+				status=2;
+			}else {
+				   status=planDetailsRepository.insertPlanDetails(plan_name,plan_validity,plan_price,plan_discount,discount_price);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return status;
+	}
+
+	@Override
+	public int deletePlanDetails(int plan_id) {
+		return planDetailsRepository.deletePlanDetails(plan_id);
+	}
+
+	
+//	@Override
+//	public int updatePlanDetails(PlanDetailsModel planDetailsModel) {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
+	
 //	
 //	@Override
 //	public JSONArray AddPlans(PlanDetailsModel planDetailsModel) {
@@ -237,4 +312,8 @@ public class PlanDetailsServiceImpl implements PlanDetailsService {
 //		// TODO Auto-generated method stub
 //		return null;
 //	}
+
+
+
+	
 }
