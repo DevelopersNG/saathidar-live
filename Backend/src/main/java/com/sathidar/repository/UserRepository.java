@@ -72,7 +72,7 @@ public interface UserRepository extends JpaRepository<User, Integer>  {
 	@Query(value="SELECT * FROM users u WHERE u.phone = :phone and u.enabled='1'",nativeQuery = true)
 	List<User> getEmailByPhoneNumber(String phone);
 
-	@Query(value="SELECT * FROM users u WHERE u.email = :email and u.enabled='1'",nativeQuery = true)
+	@Query(value="SELECT * FROM users u WHERE u.email = :email and u.enabled='1' and u.short_reg_status=1 and u.otp_verified=1 ",nativeQuery = true)
 	List<User> getDetailsByEmailBy(String email);
 	
 	@Transactional

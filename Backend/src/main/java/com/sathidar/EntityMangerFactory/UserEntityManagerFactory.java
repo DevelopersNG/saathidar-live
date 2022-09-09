@@ -433,7 +433,7 @@ public class UserEntityManagerFactory {
 	public String getFirstNameByEmail(String email) {
 		String first_name="";
 		try {
-			Query q = em.createNativeQuery("SELECT first_name FROM users email = :email and short_reg_status= :short_reg_status and otp_verified= :otp_verified and enabled= :enabled");
+			Query q = em.createNativeQuery("SELECT first_name FROM users where email = :email and short_reg_status= :short_reg_status and otp_verified= :otp_verified and enabled= :enabled order by id desc limit 1");
 			q.setParameter("email", email);
 			q.setParameter("short_reg_status", 1);
 			q.setParameter("otp_verified", 1);
@@ -449,7 +449,7 @@ public class UserEntityManagerFactory {
 	public String getLastNameByEmail(String email) {
 		String first_name="";
 		try {
-			Query q = em.createNativeQuery("SELECT last_name FROM users email = :email and short_reg_status= :short_reg_status and otp_verified= :otp_verified and enabled= :enabled");
+			Query q = em.createNativeQuery("SELECT last_name FROM users where email = :email and short_reg_status= :short_reg_status and otp_verified= :otp_verified and enabled= :enabled order by id desc limit 1");
 			q.setParameter("email", email);
 			q.setParameter("short_reg_status", 1);
 			q.setParameter("otp_verified", 1);

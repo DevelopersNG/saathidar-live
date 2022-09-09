@@ -46,6 +46,8 @@ import com.sathidar.model.User;
 import com.sathidar.repository.UpdateMemberRepository;
 import com.sathidar.repository.UserRepository;
 import com.sathidar.service.EmailService;
+import com.sathidar.util.Constant;
+import com.sathidar.util.EmailBodyClass;
 import com.sathidar.util.TextLocalSMSSetting;
 
 @Service
@@ -228,7 +230,19 @@ public class UserServiceImpl implements UserService {
 
 		userExists.setPassword("");
 		userExists.setId(0);
-		this.sendEmailTOUserForForgotPassword(userExists.getFirstName(),userExists.getLastName(),userExists.getUsername(),userExists.getPhone(),user.getNewPassword());
+//		this.sendEmailTOUserForForgotPassword(userExists.getFirstName(),userExists.getLastName(),userExists.getUsername(),userExists.getPhone(),user.getNewPassword());
+		
+		Constant constant=new Constant();
+		EmailBodyClass emailBodyClass =new EmailBodyClass();
+				 
+		String imageLink=constant.project_logo;
+		String email_body=emailBodyClass.ForgotPasswordMail(userExists.getFirstName(),userExists.getLastName(),userExists.getUsername(),userExists.getPhone(),user.getNewPassword(),imageLink);		
+		try {
+			serverEmailService.send(user.getEmail(), "Saathidaar-Change Password", email_body);					
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		map.put("results", "1");
 		map.put("message", "password changed...");
 		return map;
@@ -447,6 +461,9 @@ public class UserServiceImpl implements UserService {
 					map.put("results","1");
 					map.put("message","User First Step Completed...");
 				}
+//				this.sendEmailTOUser(user.getFirstName(),user.getLastName(),user.getEmail(),user.getPhone(),user.getConfirmationToken());
+				
+				
 //				return map;
 //				if (tempUser == null) {
 ////					throw new BadRequestException(user.getUsername() + " is not registered.");
@@ -508,56 +525,6 @@ public class UserServiceImpl implements UserService {
 		  		+ "http://103.174.102.195:8080/saathidaar_backend/api/users/confirm?token="+confirmationToken +"<div>";
 		try {
 			String email_body="";
-//			String email_body="<head>\r\n" + 
-//					"    <meta charset=\"UTF-8\">\r\n" + 
-//					"    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n" + 
-//					"    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n" + 
-//					"    <style>\r\n" + 
-//					"        .container{height: 150px; width: 400px;border: #742041 1px solid ;margin-top: 5px;}\r\n" + 
-//					"        .image{float: left;}\r\n" + 
-//					"        .details {float: right;}\r\n"
-//					+ "		 table{border-collapse: collapse;}" + 
-//					"       table tr th {text-align: left;border:1px solid}\r\n" + 
-//					"       table tr td { text-align: left;}\r\n" + 
-//					"       img{height: 150px;}\r\n" + 
-//					"       .bg{background-color: #742041;}\r\n" + 
-//					"    </style>\r\n" + 
-//					"</head>"
-//					+ "<body style=\"width: 400px;\">"
-//					+ "<div style=\"background-color: #742041;\"><img style=\"width:300px ;\" src=\"http://103.174.102.195:8080/saathidaar_logo/saathidaar_logo.jpeg\" alt=\"\"></div>"
-//					+ " <div class=\"image\">\r\n" + 
-//					"    <p style=\"float: left;\">Hi</p><br>\r\n" + 
-//					"   <h4 style=\"text-align: center;\">You have successfully completed user registration on <strong>saathidaar.com</strong></h4>\r\n" + 
-//					"   <table style=\"width: 100%;border: #742041 1px solid;\" class=\"table\">\r\n" + 
-//					"    <thead>\r\n" + 
-//					"      <tr >\r\n" + 
-//					"        <th scope=\"col\">User Email</th>\r\n" + 
-//					"        <th scope=\"col\">"+email+"</th>\r\n" + 
-//					"      </tr>\r\n" + 
-//					"      <tr>\r\n" + 
-//					"        <th scope=\"col\">User Password</th>\r\n" + 
-//					"        <th scope=\"col\">"+phone+"</th>\r\n" + 
-//					"      </tr>\r\n" + 
-//					"      <tr>\r\n" + 
-//					"        <th scope=\"col\">First Name </th>\r\n" + 
-//					"        <th scope=\"col\">"+firstName+"</th>\r\n" + 
-//					"      </tr>\r\n" + 
-//					"      <tr>\r\n" + 
-//					"        <th scope=\"col\">Last Name</th>\r\n" + 
-//					"        <th scope=\"col\">"+lastName+"</th>\r\n" + 
-//					"      </tr>\r\n" + 
-//					"    </thead>\r\n" + 
-//					"  </table>\r\n" + 
-//					" </div>\r\n" + 
-//					" <div class=\"details\">";
-//		email_body=email_body+mailMessage+ ""
-//					+ "</div>\r\n"
-//					+ "<br>"
-//					+ "<div style=\"margin-top: 15px;\">If you wish to make any changes please visit the My account page on the website.\r\n" + 
-//					"May you find your soulmate here! Thank You!\r</div>\n" + 
-//					"" + 
-//					"  </body>";
-			
 		email_body="<html>\r\n" + 
 				"  <head>\r\n" + 
 				"    <meta name=\"viewport\" content=\"width=device-width\" />\r\n" + 
@@ -984,7 +951,17 @@ public class UserServiceImpl implements UserService {
 				// update the password
 				String encodedPassword = encoder.encode(generatePassword);
 				int status=userRepository.updatePassword(getUser.get(i).getId(),encodedPassword);
-				this.sendEmailTOUserForForgotPassword(getUser.get(i).getFirstName(),getUser.get(i).getLastName(),getUser.get(i).getEmail(),getUser.get(i).getPhone(),generatePassword);
+//				this.sendEmailTOUserForForgotPassword(getUser.get(i).getFirstName(),getUser.get(i).getLastName(),getUser.get(i).getEmail(),getUser.get(i).getPhone(),generatePassword);
+				
+				 Constant constant=new Constant();
+				 EmailBodyClass emailBodyClass =new EmailBodyClass();
+				 String imageLink=constant.project_logo;
+				 String email_body=emailBodyClass.ForgotPasswordMail(getUser.get(i).getFirstName(),getUser.get(i).getLastName(),getUser.get(i).getEmail(),getUser.get(i).getPhone(),generatePassword,imageLink);		
+				 try {
+						serverEmailService.send(getUser.get(i).getEmail(), "Saathidaar-Forgot Password", email_body);					
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				res="true";
 
 			}
@@ -1402,8 +1379,6 @@ public class UserServiceImpl implements UserService {
 					+ "profilecreatedby, role,"
 					+ " username, otp_verified, franchise_code, short_reg_status";
 			
-
-			
 			User user=new User();
 			
 			String query1="select "+queryColumnName+" from users where id= :id";
@@ -1484,14 +1459,26 @@ public class UserServiceImpl implements UserService {
 				int sts = updateMemberRepository.saveOTPOfUserID(user.getPhone().trim(),user_id,otp);
 				
 				// send email
-				String to=user.getEmail();
-				String subject="Saathidaar Registration Confirmation";
+//				String to=user.getEmail();
+//				String subject="Saathidaar Registration Confirmation";
+//				try {
+//					this.sendEmailTOUser(user.getFirstName(),user.getLastName(),user.getEmail(),user.getPhone(),user.getConfirmationToken());
+////					 mailSender.send(to, subject, mailMessage);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}  
+				
+				Constant constant=new Constant();
+				EmailBodyClass emailBodyClass =new EmailBodyClass();
+						 
+				String imageLink=constant.project_logo;
+				String email_body=emailBodyClass.RegistrationMail(user.getFirstName(),user.getLastName(),user.getEmail(),user.getPhone(),user.getConfirmationToken(),imageLink);		
 				try {
-					this.sendEmailTOUser(user.getFirstName(),user.getLastName(),user.getEmail(),user.getPhone(),user.getConfirmationToken());
-//					 mailSender.send(to, subject, mailMessage);
+					serverEmailService.send(user.getEmail(), "Saathidaar-Registration Confirmation", email_body);					
 				} catch (Exception e) {
 					e.printStackTrace();
-				}  
+				}
+				
 				memberUpdateStatus = true;
 				memberDetails=1;
 			} else {
