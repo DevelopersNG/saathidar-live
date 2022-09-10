@@ -381,26 +381,16 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User loginAdmin(User user) {
-		User userExists = userRepository.findByUsername(user.getUsername());
-
-		if (userExists == null) {
-			throw new BadRequestException("Invalid admin name.");
-		}
-
+		User userExists = userRepository.findByUsernameAdmin(user.getUsername());
+	    System.out.println(user.getUsername());
+	    System.out.println(user.getPassword());
+	    System.out.println(userExists.getPassword());
 		String password = user.getPassword();
-		if (!encoder.matches(password, userExists.getPassword())) {
-			throw new BadRequestException("Invalid user name and password combination.");
+		if (!encoder.matches(password, userExists.getPassword()) || userExists == null || userExists.getRole().toString().equals("USER")) {
+			userExists=null;
+//			throw new BadRequestException("Invalid user name and password combination.");
 		}
-
-		if (!userExists.getEnabled()) {
-			throw new BadRequestException("The admin is not enabled.");
-		}
-
-		if (userExists.getRole().toString().equals("USER") || userExists.getRole().toString().equals("GUEST")) {
-			throw new BadRequestException("YOUR ARE NOT AUTHORIZED");
-		}
-
-		userExists.setPassword("");
+//		userExists.setPassword("");
 		return userExists;
 	}
 

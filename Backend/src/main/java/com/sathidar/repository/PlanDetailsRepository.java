@@ -53,4 +53,12 @@ public interface PlanDetailsRepository  extends JpaRepository<PlanDetailsModel, 
 		@Modifying
 		@Query(value="update plans set  plan_status='De-Active' where plan_id= :plan_id",nativeQuery = true)
 		int deletePlanDetails(int plan_id);
+
+		@Query(value="select plan_id from plans where plan_name= :plan_name and plan_status='ACTIVE'",nativeQuery = true)
+		int getPlanNameByID(String plan_name);
+
+		@Transactional
+		@Modifying
+		@Query(value="insert into plan_list (features,plan_id) values (:features,:getPlanID)",nativeQuery = true)
+		int insertFeaturesName(String features, int getPlanID);
 }

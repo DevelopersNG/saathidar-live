@@ -41,7 +41,6 @@ import javax.persistence.Transient;
 		
 		@Transient
 		private String feature_name;
-	
 
 		public PlanDetailsModel(Integer id, String plan_name, String plan_validity, String plan_price,
 				String plan_discount, String member_id, String plan_status) {

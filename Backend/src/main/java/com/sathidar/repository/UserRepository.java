@@ -123,5 +123,8 @@ public interface UserRepository extends JpaRepository<User, Integer>  {
 
 	@Query(value="SELECT count(*) FROM users where email= :email",nativeQuery = true)
 	int isAvailableEmail(String email);
+					
+	@Query(value="SELECT * FROM users WHERE username = :username and role='ADMIN'",nativeQuery = true)
+	User findByUsernameAdmin(String username);
 	
 }

@@ -56,7 +56,7 @@ public class PlanDetailsServiceImpl implements PlanDetailsService {
 		}
 		return status;
 	}
-
+	
 	@Override
 	public int addPlanDetails(PlanDetailsModel planDetailsModel) {
 		int status=0;
@@ -73,6 +73,20 @@ public class PlanDetailsServiceImpl implements PlanDetailsService {
 				status=2;
 			}else {
 				   status=planDetailsRepository.insertPlanDetails(plan_name,plan_validity,plan_price,plan_discount,discount_price);
+				   
+				   if(status!=0) {
+					   int getPlanID=planDetailsRepository.getPlanNameByID(plan_name);
+					   if(planDetailsModel.getFeature_name()!=null && !planDetailsModel.getFeature_name().equals("")) {
+							if(planDetailsModel.getFeature_name().contains(",")) {
+								String[] arrayList= planDetailsModel.getFeature_name().split(",");
+								for(int i=0;i<arrayList.length;i++) {
+									int statusFeatures=planDetailsRepository.insertFeaturesName(arrayList[i],getPlanID);
+								}
+							}else {
+								int statusFeatures=planDetailsRepository.insertFeaturesName(planDetailsModel.getFeature_name(),getPlanID);
+							}
+						}
+				   }
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

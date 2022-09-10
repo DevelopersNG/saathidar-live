@@ -89,7 +89,7 @@ import com.sathidar.service.PlanDetailsService;
 		}
 		
 		@PostMapping(value = "/plan/add")
-		private String addPlanDetails(@RequestBody PlanDetailsModel planDetailsModel) {
+		private HashMap<String, String> addPlanDetails(@RequestBody PlanDetailsModel planDetailsModel) {
 			HashMap<String, String> map=new HashMap<String, String>();
 			int status = planDetailsService.addPlanDetails(planDetailsModel);
 			if (status >0) {
@@ -102,11 +102,11 @@ import com.sathidar.service.PlanDetailsService;
 			} else {
 	            map.put("results", "0");
 			}
-			return map.toString();
+			return map;
 		}
 		
 		@PostMapping(value = "/plan/delete/{plan_id}")
-		public String deletePlanDetails(@PathVariable("plan_id") int plan_id,@RequestBody PlanDetailsModel planDetailsModel) {
+		public HashMap<String, String> deletePlanDetails(@PathVariable("plan_id") int plan_id,@RequestBody PlanDetailsModel planDetailsModel) {
 			HashMap<String, String> map=new HashMap<String, String>();
 			int status = planDetailsService.deletePlanDetails(plan_id);
 			if (status >0) {
@@ -114,7 +114,7 @@ import com.sathidar.service.PlanDetailsService;
 			} else {
 	            map.put("results", "0");
 			}
-			return map.toString();
+			return map;
 		}
 		
 //		private JSONArray GetAllDetails(String plan_id) {
