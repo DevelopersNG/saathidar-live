@@ -55,7 +55,11 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 				
 				String saveFolderPath = "/member_images/" + uploadDocumentModel.getMember_id() + "/" + uploadDocumentModel.getDocument_name();
 
+				
+				uploadDir="/opt/tomcat/webapps";
 				uploadDir = uploadDir + "/member_images/" + uploadDocumentModel.getMember_id() + "";
+
+//				uploadDir = uploadDir + "/member_images/" + uploadDocumentModel.getMember_id() + "";
 
 				File theDir = new File(uploadDir);
 				if (!theDir.exists()) {
@@ -296,12 +300,10 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 		return uploadImagesRepository.getPhotoPrivacySettings(memberID);
 	}
 
-
 	@Override
 	public int getShortListStatus(String from_Id,String thisMemberID) {
 		return uploadImagesRepository.getShortListStatus(from_Id,thisMemberID);
 	}
-
 
 	@Override
 	public int getVisitorsStatus(int login_id, int id) {

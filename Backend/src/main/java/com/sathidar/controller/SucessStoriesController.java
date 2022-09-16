@@ -59,11 +59,10 @@ public class SucessStoriesController {
 		return jsObject.toString();
 	}
 	
-
-		
 	@PostMapping(path = "/success/story/delete/{id}")
-	public HashMap<String, String> deleteImages(@Validated int id ) {
+	public HashMap<String, String> deleteImages(@PathVariable String id ) {
 		HashMap<String, String> map = new HashMap<>();
+		System.out.println("id- "+ id);
 		int results = successStoriesService.deleteImagesById(id);
 		if (results > 0) {
 			map.put("results", "1");
@@ -71,7 +70,5 @@ public class SucessStoriesController {
 			map.put("results", "0");
 		}
 		return map;
-	
-}
-	
+	}
 }

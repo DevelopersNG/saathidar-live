@@ -1353,7 +1353,7 @@ public class UserServiceImpl implements UserService {
 		Object memberUpdateStatus = null;
 
 		double dHeight = 0.0;
-		String mHeight = "", marital_status = "", dateOfBirth = "", mLifeStyles = "";
+		String mHeight = "", marital_status = "", dateOfBirth = "", mLifeStyles = "",mAge="";
 		int religionID = 0, countryID = 0;
 
 		// update member details
@@ -1427,9 +1427,10 @@ public class UserServiceImpl implements UserService {
 				countryID = getNameByIDMangerFactory
 						.getCountryIdByName(checkNullValue(updateMember.getCountry_name().trim()));
 				mLifeStyles = checkNullValue(updateMember.getLifestyles().trim());
+				mAge = checkNullValue(updateMember.getAge().toString().trim());
 
 				memberDetails = updateMemberRepository.UpdateRegistrationDetails(member_id, dateOfBirth, marital_status,
-						mHeight, religionID, countryID, mLifeStyles);
+						mHeight, religionID, countryID, mLifeStyles, mAge);
 				if (memberDetails > 0) {
 //						user_id=updateMemberRepository.getUserIDByMemberID(member_id);
 					int sts = userRepository.updateShortRegstInUserTable(user_id);

@@ -1,6 +1,8 @@
 package com.sathidar.controller;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -175,14 +177,12 @@ public class RequestMemberController {
 //
 //		String response = textLocalSMSSetting.POSTSendSMS(requestMemberModel.getPhone_number(), "SDMMSG", messgeBody);
 		
-		String otp="6002";
+		String otp = this.getOTP();
 		String messgeBody = "Hi, your verification code is "+otp+"\r\n" + 
 				"Saathidaar.com";
-
 		String response = textLocalSMSSetting.POSTSendSMS(requestMemberModel.getPhone_number(), "SDOTPM", messgeBody);		
-		
+		int status=requestMemberService.saveOTPDB(requestMemberModel.getPhone_number(),otp);
 		System.out.println("sms resonse - " + response);
-
 		return response;
 	}
 
@@ -278,6 +278,10 @@ public class RequestMemberController {
 			e.printStackTrace();
 		}
 		return response;
+	}
+	
+	private String getOTP() {
+		return new DecimalFormat("0000").format(new Random().nextInt(9999));
 	}
 
 }

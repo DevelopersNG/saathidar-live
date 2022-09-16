@@ -196,10 +196,10 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 	@Query(value = "update memberdetails set height= :mHeight, lifestyles= :mLifeStyles, "
 			+ "marital_status= :marital_status, date_of_birth= :dateOfBirth,"
 			+ " religion_id= :religionID,"
-			+  " country_id= :countryID"
+			+  " country_id= :countryID, age= :mAge "
 			+ " where member_id= :member_id  ", nativeQuery = true)
 	int UpdateRegistrationDetails(int member_id, String dateOfBirth, String marital_status, String mHeight,
-			int religionID, int countryID, String mLifeStyles);
+			int religionID, int countryID, String mLifeStyles, String mAge);
 
 	@Query(value="SELECT user_id FROM member where member_id= :member_id ",nativeQuery=true)
 	int getUserIDByMemberID(int member_id);

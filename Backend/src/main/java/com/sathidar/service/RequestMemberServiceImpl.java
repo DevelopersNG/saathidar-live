@@ -2669,5 +2669,11 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		return map;
 	}
 
+	@Override
+	public int saveOTPDB(String phone_number, String otp) {
+		return requestMemberRepository.saveOTPDB(phone_number,otp);
+	}
+
+
 
 }

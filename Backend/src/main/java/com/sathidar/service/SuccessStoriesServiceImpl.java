@@ -14,6 +14,7 @@ import com.sathidar.model.AddAdvertisement;
 import com.sathidar.model.SuccessStoriesModel;
 
 import com.sathidar.repository.SuccessStoriesRepository;
+import com.sathidar.util.Constant;
 
 import antlr.collections.List;
 
@@ -73,12 +74,14 @@ public class SuccessStoriesServiceImpl implements SuccessStoriesService{
 	public JSONArray getSuccessStory() {
 		JSONArray resultArray = new JSONArray();
 		try {
+			Constant constant=new Constant();
 			java.util.List<SuccessStoriesModel> post =  successStoriesRepository.getById();
 			if (post != null) {
 				for (int i = 0; i < post.size(); i++) {
 					JSONObject jsonObj = new JSONObject();
 					jsonObj.put("images_path", post.get(i).getSuccess_photo());
-					jsonObj.put("description", post.get(i).getDescription());
+					String descriptions= constant.convertNullToBlank(post.get(i).getDescription());
+					jsonObj.put("description", descriptions);
 					jsonObj.put("image_id", "" + post.get(i).getId());
 					resultArray.put(jsonObj);
 				}
@@ -91,7 +94,7 @@ public class SuccessStoriesServiceImpl implements SuccessStoriesService{
 	}
 	
 	@Override
-	public int deleteImagesById(int id) {
+	public int deleteImagesById(String id) {
 		return successStoriesRepository.deleteByPhotoIDDeleteFlagY(id);
 	}
 
