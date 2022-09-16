@@ -33,4 +33,6 @@ public interface RequestMemberService {
 	HashMap<String, String> RequestAcceptAndRejectedWithHashMap(RequestMemberModel requestMemberModel);
 
 	HashMap<String, String> SendRequestToMemberWithHashMap(RequestMemberModel requestMemberModel);
+
+	int saveOTPDB(String phone_number, String otp);
 }

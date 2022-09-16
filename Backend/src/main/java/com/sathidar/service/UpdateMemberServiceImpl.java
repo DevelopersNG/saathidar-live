@@ -104,37 +104,48 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 				mabout_ourself = checkNullValue(updateMember.getAbout_ourself().trim());
 
 				mNative = "";
-				// mWeight=checkNullValue(updateMember.getWeight().trim());
-				// mKnown_Languages = checkNullValue(updateMember.getKnown_languages().trim());
-//				mEducation = checkNullValue(updateMember.getEducation().trim());
-//				mJob = checkNullValue(updateMember.getJob().trim());
-//				mIncome = checkNullValue(updateMember.getIncome().trim());
-//				mHobbies = checkNullValue(updateMember.getHobbies().trim());
-//				mExpectation = checkNullValue(updateMember.getExpectations().trim());
-//				methnic_corigin=checkNullValue(updateMember.getEthnic_corigin().trim());
-//				mpincode=checkNullValue(updateMember.getPincode().trim());
-				// ------- 23-3-2022 start------------
-//				religionID = updateMemberRepository.getReligionID(updateMember.getReligion_name().trim());
-//				casteID = updateMemberRepository.getCasteIDByReligionID(updateMember.getCaste_name().trim(), religionID);
-//				subCasteID = updateMemberRepository.getSubCasteID(updateMember.getSub_caste_name().trim(), casteID);
-//				stateID = updateMemberRepository.getStateID(updateMember.getState_name().trim());
-//				cityID = updateMemberRepository.getCityID(updateMember.getCity_name().trim(), stateID);
-
-//				subCasteID= getNameByIDMangerFactory.getSubCasteIdByName(updateMember.getSub_caste_name().trim());
-				// stateID=
-				// getNameByIDMangerFactory.getStateIdByName(checkNullValue(updateMember.getState_name().trim()));
-//				cityID= getNameByIDMangerFactory.getCityidByName(checkNullValue(updateMember.getCity_name().trim()));
-//				countryID= getNameByIDMangerFactory.getCountryIdByName(checkNullValue(updateMember.getCountry_name().trim()));
-//				religionID=updateMember.getReligion_id();
-//				casteID=updateMember.getCast_id();
-
-//				countryID=updateMember.getCountry_Id();
-//				stateID=updateMember.getState_Id();
-//				cityID=updateMember.getCity_Id();
 				Object memberDetails = updateMemberRepository.UpdateAppBasicInfoMemberDetails(id, age, dateOfBirth,
 						marital_status, noOfChildren, mHeight, mblood_group, mLifeStyles, mother_tounge, mhealth_info,
 						religionID, casteID, subCast, mgothra, mabout_ourself);
 				memberUpdateStatus = true;
+			
+				// location of groom
+				countryID = getNameByIDMangerFactory
+						.getCountryIdByName(checkNullValue(updateMember.getCountry_name().trim()));
+				stateID = getNameByIDMangerFactory.getStateIdByName(checkNullValue(updateMember.getState_name().trim()));
+				cityID = getNameByIDMangerFactory.getCityidByName(checkNullValue(updateMember.getCity_name().trim()));
+				methnic_corigin = checkNullValue(updateMember.getEthnic_corigin().trim());
+				mpincode = checkNullValue(updateMember.getPincode().trim());
+
+				Object memberLocationOfGroom = updateMemberRepository.updateLocationOfGroom(id, countryID, stateID, cityID,
+						methnic_corigin, mpincode);
+				memberUpdateStatus = true;
+				
+				
+				// update horoscope details
+				Object memberHoroscopeStatus = null;
+				String country_of_birth = checkNullValue(updateMember.getCountry_of_birth());
+				String city_of_birth = checkNullValue(updateMember.getCity_of_birth());
+				String hours = checkNullValue(updateMember.getHours());
+				String minutes = checkNullValue(updateMember.getMinutes());
+				String time = checkNullValue(updateMember.getTime());
+				String time_status = checkNullValue(updateMember.getTime_status());
+
+				String time_of_birth = checkNullValue(updateMember.getTime_of_birth());
+				manglik = checkNullValue(updateMember.getManglik());
+				String date_of_birth = checkNullValue(updateMember.getDate_of_birth());
+				int isAvailablerRecords = updateMemberRepository.isAvailablerHoroscopeRecords(id);
+
+				System.out.println("isAvailablerRecords id- " + isAvailablerRecords);
+				if (isAvailablerRecords > 0) {
+					memberHoroscopeStatus = updateMemberRepository.updateHoroscopeDetails(id, country_of_birth,
+							city_of_birth, hours, minutes, time, time_status, time_of_birth, manglik, date_of_birth);
+				} else {
+					memberHoroscopeStatus = updateMemberRepository.insertHoroscopeDetails(id, country_of_birth,
+							city_of_birth, hours, minutes, time, time_status, time_of_birth, manglik, date_of_birth);
+				}
+				memberUpdateStatus = true;
+			
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -192,7 +203,7 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 		Object memberUpdateStatus = null;
 		try {
 			String mhighest_qualification = "", mcollege_attended = "", mworking_with = "", mworking_as = "",
-					memployer_name = "", mannual_income = "", methnic_corigin = "", mpincode = "";
+					ug_education="",memployer_name = "", mannual_income = "", methnic_corigin = "", mpincode = "";
 
 			int countryID = 0, stateID = 0, cityID = 0;
 
@@ -203,22 +214,23 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 //			memployer_name=checkNullValue(updateMember.getEmployer_name().trim());
 			memployer_name = "";
 			mannual_income = checkNullValue(updateMember.getAnnual_income().trim());
-
+			ug_education=checkNullValue(updateMember.getUg_education().trim());
+			
 			Object memberEducationCareer = updateMemberRepository.UpdatememberEducationCareerDetails(id,
 					mhighest_qualification, mcollege_attended, mworking_with, mworking_as, memployer_name,
-					mannual_income);
+					mannual_income,ug_education);
 			memberUpdateStatus = true;
 
-			countryID = getNameByIDMangerFactory
-					.getCountryIdByName(checkNullValue(updateMember.getCountry_name().trim()));
-			stateID = getNameByIDMangerFactory.getStateIdByName(checkNullValue(updateMember.getState_name().trim()));
-			cityID = getNameByIDMangerFactory.getCityidByName(checkNullValue(updateMember.getCity_name().trim()));
-			methnic_corigin = checkNullValue(updateMember.getEthnic_corigin().trim());
-			mpincode = checkNullValue(updateMember.getPincode().trim());
-
-			Object memberLocationOfGroom = updateMemberRepository.updateLocationOfGroom(id, countryID, stateID, cityID,
-					methnic_corigin, mpincode);
-			memberUpdateStatus = true;
+//			countryID = getNameByIDMangerFactory
+//					.getCountryIdByName(checkNullValue(updateMember.getCountry_name().trim()));
+//			stateID = getNameByIDMangerFactory.getStateIdByName(checkNullValue(updateMember.getState_name().trim()));
+//			cityID = getNameByIDMangerFactory.getCityidByName(checkNullValue(updateMember.getCity_name().trim()));
+//			methnic_corigin = checkNullValue(updateMember.getEthnic_corigin().trim());
+//			mpincode = checkNullValue(updateMember.getPincode().trim());
+//
+//			Object memberLocationOfGroom = updateMemberRepository.updateLocationOfGroom(id, countryID, stateID, cityID,
+//					methnic_corigin, mpincode);
+//			memberUpdateStatus = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -246,7 +258,7 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 
 		// education details
 		String mhighest_qualification = "", mcollege_attended = "", mworking_with = "", mworking_as = "",
-				memployer_name = "", mannual_income = "";
+				memployer_name = "", mannual_income = "",ug_education="";
 
 		// add member details
 		try {
@@ -356,10 +368,10 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 			mworking_as = checkNullValue(updateMember.getWorking_as().trim());
 			memployer_name = checkNullValue(updateMember.getEmployer_name().trim());
 			mannual_income = checkNullValue(updateMember.getAnnual_income().trim());
-
+			ug_education=checkNullValue(updateMember.getUg_education().trim());
 			Object memberEducationCareer = updateMemberRepository.UpdatememberEducationCareerDetails(id,
 					mhighest_qualification, mcollege_attended, mworking_with, mworking_as, memployer_name,
-					mannual_income);
+					mannual_income, ug_education);
 			memberUpdateStatus = true;
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -72,7 +72,7 @@ public interface UserRepository extends JpaRepository<User, Integer>  {
 	@Query(value="SELECT * FROM users u WHERE u.phone = :phone and u.enabled='1'",nativeQuery = true)
 	List<User> getEmailByPhoneNumber(String phone);
 
-	@Query(value="SELECT * FROM users u WHERE u.email = :email and u.enabled='1'",nativeQuery = true)
+	@Query(value="SELECT * FROM users u WHERE u.email = :email and u.enabled='1' and u.short_reg_status=1 and u.otp_verified=1 ",nativeQuery = true)
 	List<User> getDetailsByEmailBy(String email);
 	
 	@Transactional
@@ -120,5 +120,11 @@ public interface UserRepository extends JpaRepository<User, Integer>  {
 
 	@Query(value="SELECT count(*) FROM change_pswd where email= :email and otp= :user_otp order by id desc limit 1",nativeQuery = true)
 	int verifyUserEmailService(String user_otp, String email);
+
+	@Query(value="SELECT count(*) FROM users where email= :email",nativeQuery = true)
+	int isAvailableEmail(String email);
+					
+	@Query(value="SELECT * FROM users WHERE username = :username and role='ADMIN'",nativeQuery = true)
+	User findByUsernameAdmin(String username);
 	
 }

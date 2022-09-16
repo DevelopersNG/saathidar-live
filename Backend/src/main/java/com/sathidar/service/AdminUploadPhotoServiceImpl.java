@@ -25,14 +25,10 @@ package com.sathidar.service;
 		@Service
 		public class AdminUploadPhotoServiceImpl implements AdminUploadPhotoService {
 
-//			@Autowired
-//			private AdminUploadPhotoRepository adminUploadPhotoRepository;
-//		
-//            @Autowired
-//            private AdminUploadPhotoModel adminUploadPhotoModel;
-//			
-//
-//			public int saveToImage( AdminUploadPhotoModel adminUploadPhotoModel) {
+			@Autowired
+			private AdminUploadPhotoRepository adminUploadPhotoRepository;
+
+			//			public int saveToImage( AdminUploadPhotoModel adminUploadPhotoModel) {
 ////				return uploadImagesRepository.save(uploadImagesModel) ;
 //				int response = 0;
 //				try {
@@ -77,10 +73,9 @@ package com.sathidar.service;
 //				return response;
 //			}
 //			
-//			@Override
-//			public int deleteImages(AdminUploadPhotoModel adminUploadPhotoModel) {
-//				return adminUploadPhotoRepository.deleteByPhotoIDDeleteFlagN(adminUploadPhotoModel.getId());
-//			}
+			public int deleteImages(AdminUploadPhotoModel adminUploadPhotoModel) {
+				return adminUploadPhotoRepository.deleteByPhotoIDDeleteFlagN(adminUploadPhotoModel.getId());
+			}
 //
 //			@Override
 //			public JSONArray getPhotos(String photo_id) {
@@ -128,12 +123,6 @@ package com.sathidar.service;
 //			}
 //
 //			@Override
-//			public JSONArray getApprovedPhotos(String photo_id) {
-//				// TODO Auto-generated method stub
-//				return null;
-//			}
-//
-//			@Override
 //			public AdminUploadPhotoModel UploadPhoto(AdminUploadPhotoModel adminUploadPhotoModel,
 //					MultipartFile multipartFile) {
 //				// TODO Auto-generated method stub
@@ -146,6 +135,9 @@ package com.sathidar.service;
 //				// TODO Auto-generated method stub
 //				return null;
 //			}
-
 			
+			@Override
+			public int ApprovePhoto(AdminUploadPhotoModel adminUploadPhotoModel) {
+				return adminUploadPhotoRepository.approvePhoto(adminUploadPhotoModel.getId());
+			}
 		}

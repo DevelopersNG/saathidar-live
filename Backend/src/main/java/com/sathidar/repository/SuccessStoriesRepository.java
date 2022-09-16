@@ -21,7 +21,7 @@ public interface SuccessStoriesRepository extends JpaRepository<SuccessStoriesMo
 	@Transactional
 	@Modifying
 	@Query(value="update success_story set deleteflag='Y' where id= :id ",nativeQuery = true)
-	int deleteByPhotoIDDeleteFlagY(Integer id);
+	int deleteByPhotoIDDeleteFlagY(String id);
 
 	@Query(value="select * from success_story where deleteflag='N'",nativeQuery = true)
 	List<SuccessStoriesModel> getById();

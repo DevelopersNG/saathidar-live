@@ -67,10 +67,10 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 	@Transactional
 	@Modifying
 	@Query(value = "update member_education_career set highest_qualification= :mhighest_qualification, college_attended= :mcollege_attended,working_with= :mworking_with,"
-			+ "working_as= :mworking_as,employer_name=:memployer_name,annual_income= :mannual_income "
+			+ "working_as= :mworking_as,employer_name=:memployer_name,annual_income= :mannual_income,ug_education= :ug_education "
 			+ " where member_id= :id  ", nativeQuery = true)
 	Object UpdatememberEducationCareerDetails(int id, String mhighest_qualification, String mcollege_attended,
-			String mworking_with, String mworking_as, String memployer_name, String mannual_income);
+			String mworking_with, String mworking_as, String memployer_name, String mannual_income,String ug_education);
 
 	@Transactional
 	@Modifying
@@ -196,10 +196,10 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 	@Query(value = "update memberdetails set height= :mHeight, lifestyles= :mLifeStyles, "
 			+ "marital_status= :marital_status, date_of_birth= :dateOfBirth,"
 			+ " religion_id= :religionID,"
-			+  " country_id= :countryID"
+			+  " country_id= :countryID, age= :mAge "
 			+ " where member_id= :member_id  ", nativeQuery = true)
 	int UpdateRegistrationDetails(int member_id, String dateOfBirth, String marital_status, String mHeight,
-			int religionID, int countryID, String mLifeStyles);
+			int religionID, int countryID, String mLifeStyles, String mAge);
 
 	@Query(value="SELECT user_id FROM member where member_id= :member_id ",nativeQuery=true)
 	int getUserIDByMemberID(int member_id);
@@ -238,6 +238,14 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 	@Modifying
 	@Query(value = "update users set enabled= :Enabled where id= :UserID and confirmation_Token= :Token", nativeQuery = true)
 	int updateStatusActiveToMemberTable1(String UserID, boolean Enabled, String Token);
+
+	@Query(value="SELECT count(*) FROM users where id= :user_id and otp_verified=1",nativeQuery=true)
+	int getStatusOTPVerified(String user_id);
+
+	@Transactional
+	@Modifying
+	@Query(value = "update member set status='ACTIVE' where user_id= :user_id", nativeQuery = true)
+	int updateStatusACTIVEToMemberTable(String user_id);
 
 //	String getDetailsFromOfInboxIDs(int id);
 //

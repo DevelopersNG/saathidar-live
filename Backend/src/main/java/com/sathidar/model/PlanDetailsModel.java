@@ -30,11 +30,17 @@ import javax.persistence.Transient;
 		@Column(name="plan_discount")
 		private String plan_discount;
 	
+		@Column(name="discount_price")
+		private String discount_price;
+		
 		@Transient
 		private String member_id;
 		
 		@Transient
 		private String plan_status;
+		
+		@Transient
+		private String feature_name;
 
 		public PlanDetailsModel(Integer id, String plan_name, String plan_validity, String plan_price,
 				String plan_discount, String member_id, String plan_status) {
@@ -51,6 +57,22 @@ import javax.persistence.Transient;
 		public PlanDetailsModel(Integer planId, String planName, String planValidity, String planDiscount,
 				String planPrice, boolean b) {
 			// TODO Auto-generated constructor stub
+		}
+		
+		public String getDiscount_price() {
+			return discount_price;
+		}
+
+		public void setDiscount_price(String discount_price) {
+			this.discount_price = discount_price;
+		}
+
+		public String getFeature_name() {
+			return feature_name;
+		}
+
+		public void setFeature_name(String feature_name) {
+			this.feature_name = feature_name;
 		}
 
 		public Integer getId() {
@@ -116,35 +138,12 @@ import javax.persistence.Transient;
 					+ ", plan_status=" + plan_status + "]";
 		}
 
-		public Integer getPlanId() {
-			// TODO Auto-generated method stub
-			return null;
+		public PlanDetailsModel() {
+			super();
+			// TODO Auto-generated constructor stub
 		}
 
-		public String getPlanName() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public String getPlanValidity() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public String getPlanDiscount() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public String getPlanPrice() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public String getPlanVaidity() {
-			// TODO Auto-generated method stub
-			return null;
-		}
+		
 		
 	}
 		

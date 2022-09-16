@@ -27,39 +27,97 @@ import com.sathidar.service.PlanDetailsService;
 
 	@CrossOrigin ("*")
 	@RestController
-	@RequestMapping("/api")
+	@RequestMapping("/api/admin")
 	public class PlanDetailsController {
 //		
 //		@Autowired
 //		private  PlanDetailsRepository  planDetailsRepository;
 //		
-//		
-//		@Autowired 
-//		private PlanDetailsService planDetailsService;
-//		
-//		
-//		List <PlanDetailsModel> planList = new ArrayList<PlanDetailsModel>();	
-//		
+		@Autowired 
+		private PlanDetailsService planDetailsService;
+
+		// List <PlanDetailsModel> planList = new ArrayList<PlanDetailsModel>();	
 //
 //		// get plan details
 //		
-//
-//		@GetMapping(value = "member/plandetails")
-//		private String GetAllPlanDetails(@PathVariable String plan_id,String plan_name, String plan_validity,String plan_discount,String plan_price) {
-//			JSONArray jsonResultsArray = new JSONArray();
-//			JSONObject jsObject = new JSONObject();
-//			jsonResultsArray = GetAllDetails(plan_id);
-//			if (jsonResultsArray != null) {
-//				jsObject.put("data", jsonResultsArray);
-//				jsObject.put("results", "1");
-//			} else {
-//				jsObject.put("data", jsonResultsArray);
-//	            jsObject.put("results", "0");
-//			}
-//			return jsObject.toString();
-//		}
+		@PostMapping(value = "/plan/features/valid/{feature_id}")
+		private HashMap<String, String> ValidPlanListAdmin(@PathVariable String feature_id,@RequestBody PlanDetailsModel planDetailsModel) {
+			HashMap<String, String> map=new HashMap<String, String>();
+			int status = planDetailsService.setValidFeatureID(feature_id);
+			if (status >0) {
+				map.put("results", "1");
+			} else {
+	            map.put("results", "0");
+			}
+			return map;
+		}
+		
+		@PostMapping(value = "/plan/features/invalid/{feature_id}")
+		private HashMap<String, String> InValidPlanListAdmin(@PathVariable String feature_id,@RequestBody PlanDetailsModel planDetailsModel) {
+			HashMap<String, String> map=new HashMap<String, String>();
+			int status = planDetailsService.setInValidFeatureID(feature_id);
+			if (status >0) {
+				map.put("results", "1");
+			} else {
+	            map.put("results", "0");
+			}
+			return map;
+		}
+		
+		@PostMapping(value = "/plan/features/update/{feature_id}")
+		private HashMap<String, String> updatePlanFeaturesByID(@PathVariable String feature_id,@RequestBody PlanDetailsModel planDetailsModel) {
+			HashMap<String, String> map=new HashMap<String, String>();
+			int status = planDetailsService.updatePlanFeaturesByID(feature_id,planDetailsModel);
+			if (status >0) {
+				map.put("results", "1");
+			} else {
+	            map.put("results", "0");
+			}
+			return map;
+		}
+		
+		@PostMapping(value = "/plan/update")
+		private String updatePlanDetails(@RequestBody PlanDetailsModel planDetailsModel) {
+			HashMap<String, String> map=new HashMap<String, String>();
+			int status = planDetailsService.updatePlanDetails(planDetailsModel);
+			if (status >0) {
+				map.put("results", "1");
+			} else {
+	            map.put("results", "0");
+			}
+			return map.toString();
+		}
+		
+		@PostMapping(value = "/plan/add")
+		private HashMap<String, String> addPlanDetails(@RequestBody PlanDetailsModel planDetailsModel) {
+			HashMap<String, String> map=new HashMap<String, String>();
+			int status = planDetailsService.addPlanDetails(planDetailsModel);
+			if (status >0) {
+				if(status==2) {
+					map.put("results", "0");
+					map.put("message", "Plan Name Already Exits");
+				}else {
+					map.put("results", "1");
+				}
+			} else {
+	            map.put("results", "0");
+			}
+			return map;
+		}
+		
+		@PostMapping(value = "/plan/delete/{plan_id}")
+		public HashMap<String, String> deletePlanDetails(@PathVariable("plan_id") int plan_id,@RequestBody PlanDetailsModel planDetailsModel) {
+			HashMap<String, String> map=new HashMap<String, String>();
+			int status = planDetailsService.deletePlanDetails(plan_id);
+			if (status >0) {
+				map.put("results", "1");
+			} else {
+	            map.put("results", "0");
+			}
+			return map;
+		}
+		
 //		private JSONArray GetAllDetails(String plan_id) {
-//			
 //			return null;
 //		}
 //		
@@ -78,6 +136,7 @@ import com.sathidar.service.PlanDetailsService;
 //		      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 //		    }
 //		  }
+		
 //		@PostMapping(path = "/plan/update/{plan_id}")
 //		public String updatePlan(@Validated @RequestBody PlanDetailsModel planDetailsModel, @PathVariable("plan_id") int plan_id, Object member_id) {
 //
@@ -107,12 +166,7 @@ import com.sathidar.service.PlanDetailsService;
 //		}
 //		
 //		
-//		@PostMapping(value = "/plan/delete/{plan_id}")
-//		public String deletePlanDetails(@PathVariable("plan_id") int plan_id) {
-//			 JSONArray jsonResultArray = new JSONArray();
-//			 jsonResultArray=PlanDetailsManagerFactory.deletePlanDetails(plan_id);
-//			 return jsonResultArray.toString();
-//		}
+	
 		
 		
 		

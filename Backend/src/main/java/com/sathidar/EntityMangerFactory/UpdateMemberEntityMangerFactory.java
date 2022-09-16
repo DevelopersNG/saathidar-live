@@ -115,7 +115,8 @@ public class UpdateMemberEntityMangerFactory {
 				+ "fd.family_location as family_location,fd.native_place as native_place,fd.family_type as family_type,fd.family_values as family_values,fd.family_affluence as family_affluence,"
 				+ "fd.married_male as married_male,fd.unmarried_male as unmarried_male,fd.married_female as married_female,fd.unmarried_female as unmarried_female,"
 				+ "edu.highest_qualification as highest_qualification,edu.college_attended as college_attended,edu.working_with as working_with,edu.working_as as working_as,edu.employer_name as employer_name,edu.annual_income as annual_income,"
-				+ "mh.manglik,mh.nakshatra,mh.time_of_birth,mh.time_status,mh.city_of_birth,mh.hr_dob as horo";
+				+ "mh.manglik,mh.nakshatra,mh.time_of_birth,mh.time_status,mh.city_of_birth,mh.hr_dob as horo,"
+				+ "mh.country_of_birth,mh.hours,mh.minutes,mh.time";
 		try {
 
 			String query = "SELECT " + columnName + "  FROM memberdetails as md "
@@ -378,13 +379,20 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("annual_income", annualIncome);
 
 					// 14th row
+					//+ "mh.country_of_birth,mh.hours,mh.minutes,mh.time,mh.time_of_birth";
 					map.put("manglik", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("nakshatra", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("time_of_birth", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("time_status", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("city_of_birth", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("horoscope_date_of_birth", convertNullToBlank(String.valueOf(obj[++i])));
-
+					map.put("country_of_birth", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("hours", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("minutes", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("time", convertNullToBlank(String.valueOf(obj[++i])));
+					
+					
+					
 					map.put("working_details", getCareerDetails);
 					map.put("FamilyDetails", getFamilyDetailsString);
 
@@ -500,26 +508,26 @@ public class UpdateMemberEntityMangerFactory {
 				familyDetails = mGender + " father is " + fatherStatus + ".";
 			}
 			if (fatherCompanyName != null && !fatherCompanyName.equals("")) {
-				familyDetails += mGender + " father work with  " + fatherCompanyName + ".";
+				familyDetails += mGender + " father working with  " + fatherCompanyName + ".";
 			}
 			if (fatherDesignation != null && !fatherDesignation.equals("")) {
 				familyDetails += mGender + " father designation is  " + fatherDesignation + ".";
 			}
 			if (fatherBusinessName != null && !fatherBusinessName.equals("")) {
-				familyDetails += mGender + " father business is  " + fatherBusinessName + ".";
+				familyDetails += mGender + " father business is in " + fatherBusinessName + ".";
 			}
 			// about mother
 			if (motherStatus != null && !motherStatus.equals("")) {
 				familyDetails += mGender + " mother is " + motherStatus + ".";
 			}
 			if (motherCompanyName != null && !motherCompanyName.equals("")) {
-				familyDetails += mGender + " mother work with  " + motherCompanyName + ".";
+				familyDetails += mGender + " mother working with  " + motherCompanyName + ".";
 			}
 			if (motherDesignation != null && !motherDesignation.equals("")) {
 				familyDetails += mGender + " mother designation is  " + motherDesignation + ".";
 			}
 			if (motherBusinesNname != null && !motherBusinesNname.equals("")) {
-				familyDetails += mGender + " mother business is  " + motherBusinesNname + ".";
+				familyDetails += mGender + " mother business is in " + motherBusinesNname + ".";
 			}
 			if (familyLocation != null && !familyLocation.equals("")) {
 				familyDetails += " family location is  " + familyLocation + ".";
@@ -811,6 +819,7 @@ public class UpdateMemberEntityMangerFactory {
 					json.put("first_name", first_name);
 					json.put("last_name", last_name);
 					json.put("gender", myGender);
+					json.put("city", myCityName);
 					if (!myAge.equals(""))
 						myAge = myAge + " yrs";
 					json.put("mage", myAge);
@@ -824,7 +833,7 @@ public class UpdateMemberEntityMangerFactory {
 					json.put("member_id", memberID);
 
 					JSONArray jsonResultsArray = new JSONArray();
-					jsonResultsArray = uploadImagesService.getMemberAppPhotos("" + id);
+					jsonResultsArray = uploadImagesService.getMemberAppPhotos("" + memberID);
 					json.put("images", jsonResultsArray);
 					json.put("images_count", jsonResultsArray.length());
 
@@ -1151,8 +1160,9 @@ public class UpdateMemberEntityMangerFactory {
 						json.put("income", myAnnualIncome);
 						json.put("member_id", memberID);
 //						json.put("request_status", "");
-						json.put("block_status", "");
+						json.put("block_status", ""); 
 						json.put("profile_photo", getProfilePath);
+						json.put("city", myCityName);
 
 						JSONArray jsonResultsArray = new JSONArray();
 						jsonResultsArray = uploadImagesService.getMemberAppPhotos(memberID);
@@ -2312,7 +2322,7 @@ public class UpdateMemberEntityMangerFactory {
 							String partner_religions_ids = convertNullToBlank(String.valueOf(objPartner[++j]));
 							if (!partner_religions_ids.equals("")) {
 								religionsName = checkIsQuammaSeperatedValue(partner_religions_ids, "religions");
-
+								
 								if (partner_religions_ids.contains(myReligionID)) {
 									checkBothKeywordsForReligionAndCast = "Yes";
 								} else {
@@ -2340,7 +2350,19 @@ public class UpdateMemberEntityMangerFactory {
 
 							if (!checkBothKeywordsForReligionAndCast.equals("")) {
 								if (checkBothKeywordsForReligionAndCast.contains("Yes")) {
-									map.put("partner_religions", religionsName + ":" + castName);
+									String religionsWithCastName="";
+									if(religionsName!=null && !religionsName.equals("")) {
+										religionsWithCastName=religionsName;
+									} 
+									if(castName!=null && !castName.equals("")) {
+										if(religionsName!=null && !religionsName.equals("")) {
+											religionsWithCastName=religionsName  + ":" + castName;
+										}else {
+											religionsWithCastName=castName;
+										} 
+									}
+									
+									map.put("partner_religions", religionsWithCastName);
 									map.put("my_religions", "Yes");
 									++matchCount;
 
@@ -2505,15 +2527,15 @@ public class UpdateMemberEntityMangerFactory {
 							if (!myGender.equals("")) {
 								if (myGender.equals("female") || myGender.equals("Female")) {
 									title = "What he is looking for";
-									gender_preference = "his preference";
+									gender_preference = "his Preferences";
 								}
 								if (myGender.equals("male") || myGender.equals("male")) {
 									title = "What She is looking for";
-									gender_preference = "her preference";
+									gender_preference = "her Preferences";
 								}
 							} else {
 								title = "What is looking for";
-								gender_preference = "preference";
+								gender_preference = "Preferences";
 							}
 
 							JSONArray jsonResultsArray = new JSONArray();
@@ -2566,19 +2588,29 @@ public class UpdateMemberEntityMangerFactory {
 
 					} else {
 						if (category.equals("religions")) {
-							results = results + "," + getNameByIDMangerFactory.getReligionNameByID(splitArray[i]);
+							if(splitArray[i]!=null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
+								results = results + "," + getNameByIDMangerFactory.getReligionNameByID(splitArray[i]);
+							}
 						}
 						if (category.equals("cast")) {
-							results = results + "," + getNameByIDMangerFactory.getCasteNameByID(splitArray[i]);
+							if(splitArray[i]!=null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
+								results = results + "," + getNameByIDMangerFactory.getCasteNameByID(splitArray[i]);
+							}
 						}
 						if (category.equals("country")) {
-							results = results + "," + getNameByIDMangerFactory.getCountryNameByID(splitArray[i]);
+							if(splitArray[i]!=null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
+								results = results + "," + getNameByIDMangerFactory.getCountryNameByID(splitArray[i]);
+							}	
 						}
 						if (category.equals("state")) {
-							results = results + "," + getNameByIDMangerFactory.getStateNameByID(splitArray[i]);
+							if(splitArray[i]!=null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
+								results = results + "," + getNameByIDMangerFactory.getStateNameByID(splitArray[i]);
+							}
 						}
 						if (category.equals("city")) {
-							results = results + "," + getNameByIDMangerFactory.getCityNameByID(splitArray[i]);
+							if(splitArray[i]!=null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
+								results = results + "," + getNameByIDMangerFactory.getCityNameByID(splitArray[i]);
+							}
 						}
 					}
 				}
@@ -2796,8 +2828,9 @@ public class UpdateMemberEntityMangerFactory {
 				+ "fd.mother_status as mother_status, fd.mother_company_name as mother_company_name,fd.mother_designation as mother_designation,fd.mother_business_name as mother_business_name,"
 				+ "fd.family_location as family_location,fd.native_place as native_place,fd.family_type as family_type,fd.family_values as family_values,fd.family_affluence as family_affluence,"
 				+ "fd.married_male as married_male,fd.unmarried_male as unmarried_male,fd.married_female as married_female,fd.unmarried_female as unmarried_female,"
-				+ "edu.highest_qualification as highest_qualification,edu.college_attended as college_attended,edu.working_with as working_with,edu.working_as as working_as,edu.employer_name as employer_name,edu.annual_income as annual_income,"
-				+ "mh.manglik,mh.nakshatra,mh.time_of_birth,mh.time_status,mh.city_of_birth,mh.hr_dob ";
+				+ "edu.highest_qualification as highest_qualification,edu.college_attended as college_attended,edu.working_with as working_with,edu.working_as as working_as,edu.employer_name as employer_name,edu.annual_income as annual_income,edu.ug_education as ugedu,"
+				+ "mh.manglik,mh.nakshatra,mh.time_of_birth,mh.time_status,mh.city_of_birth,mh.hr_dob,"
+				+ "mh.country_of_birth,mh.hours,mh.minutes,mh.time ";
 		try {
 
 			String query = "SELECT " + columnName + "  FROM memberdetails as md "
@@ -2989,15 +3022,20 @@ public class UpdateMemberEntityMangerFactory {
 					// check annual income privacy
 					String annualIncome = convertNullToBlank(String.valueOf(obj[++i]));
 					map.put("annual_income", annualIncome);
-
-					// 14th row
+					map.put("ug_education", convertNullToBlank(String.valueOf(obj[++i])));
+							// 14th row
 					map.put("manglik", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("nakshatra", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("time_of_birth", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("time_status", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("city_of_birth", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("horoscope_date_of_birth", convertNullToBlank(String.valueOf(obj[++i])));
-
+					map.put("country_of_birth", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("hours", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("minutes", convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("time", convertNullToBlank(String.valueOf(obj[++i])));
+					
+					
 					map.put("working_details", getCareerDetails);
 					map.put("FamilyDetails", getFamilyDetailsString);
 
@@ -3312,37 +3350,63 @@ public class UpdateMemberEntityMangerFactory {
 
 	private String setWhereClauseForGetAllMemberforAdmin(FilterSearchModel filterSearchModel) {
 		String whereClause = "";
-
 		try {
+			if (filterSearchModel.getMembership() != null && !filterSearchModel.getMembership().equals("") && filterSearchModel.getMembership().equals("premium member")) {
+				String getPremiumID = GetMemberShipId();
+				if (getPremiumID != null && !getPremiumID.equals("")) {
+					whereClause += " and m.memberID in (" + getPremiumID + ")";
+				}
+				
+				if (filterSearchModel.getFrom_date() != null && !filterSearchModel.getFrom_date().equals("")) {
+					String memberID = MemberFromDate(filterSearchModel.getFrom_date());
+					if (memberID != null && !memberID.equals("")) {
+						whereClause += " and m.memberID in (" + memberID + ")";
+					}
+				}
 
+				if (filterSearchModel.getTo_date() != null && !filterSearchModel.getTo_date().equals("")) {
+					String memberID = MemberToDate(filterSearchModel.getTo_date());
+					if (memberID != null && !memberID.equals("")) {
+						whereClause += " and m.memberID in (" + memberID + ")";
+					}
+				}
+//				String planID = getPlanId(filterSearchModel.getMembership());
+//				String memberID = MemberShipId(planID);
+//				if (memberID != null && !memberID.equals("")) {
+//					whereClause += " and m.memberID in (" + memberID + ")";
+//				}
+			}
+			
+			if (filterSearchModel.getMembership() != null && !filterSearchModel.getMembership().equals("") && filterSearchModel.getMembership().equals("non premium member")) {
+				String getPremiumID = GetMemberShipId();
+				if (getPremiumID != null && !getPremiumID.equals("")) {
+					whereClause += " and m.memberID not in (" + getPremiumID + ")";
+				}
+				
+				if (filterSearchModel.getFrom_date() != null && !filterSearchModel.getFrom_date().equals("")) {
+					String memberID = MemberFromDate(filterSearchModel.getFrom_date());
+					if (memberID != null && !memberID.equals("")) {
+						whereClause += " and m.memberID in (" + memberID + ")";
+					}
+				}
+
+				if (filterSearchModel.getTo_date() != null && !filterSearchModel.getTo_date().equals("")) {
+					String memberID = MemberToDate(filterSearchModel.getTo_date());
+					if (memberID != null && !memberID.equals("")) {
+						whereClause += " and m.memberID in (" + memberID + ")";
+					}
+				}
+			}
+			
+			
+			
+			
+			
 			if (filterSearchModel.getGender() != null && !filterSearchModel.getGender().equals("")) {
 				whereClause += " and gender ='" + filterSearchModel.getGender() + "'";
 			}
 
-			if (filterSearchModel.getFrom_date() != null && !filterSearchModel.getFrom_date().equals("")) {
 
-				String memberID = MemberFromDate(filterSearchModel.getFrom_date());
-				if (memberID != null && !memberID.equals("")) {
-					whereClause += " and m.memberID in (" + memberID + ")";
-				}
-			}
-
-			if (filterSearchModel.getTo_date() != null && !filterSearchModel.getTo_date().equals("")) {
-
-				String memberID = MemberToDate(filterSearchModel.getTo_date());
-				if (memberID != null && !memberID.equals("")) {
-					whereClause += " and m.memberID in (" + memberID + ")";
-				}
-			}
-
-			if (filterSearchModel.getMembership() != null && !filterSearchModel.getMembership().equals("")) {
-
-				String planID = getPlanId(filterSearchModel.getMembership());
-				String memberID = MemberShipId(planID);
-				if (memberID != null && !memberID.equals("")) {
-					whereClause += " and m.memberID in (" + memberID + ")";
-				}
-			}
 			/*
 			 * if (filterSearchModel.getMember() != null &&
 			 * !filterSearchModel.getMember().equals("")) { whereClause += " and md.age <="
@@ -3358,18 +3422,19 @@ public class UpdateMemberEntityMangerFactory {
 		return whereClause;
 	}
 
-	private String MemberShipId(String planID) {
+	
+	private String GetMemberShipId() {
 		String result = "";
 		try {
 //					Query q = em.createNativeQuery("SELECT group_concat(member_id) FROM hide_member where status=0");
-			Query q = em.createNativeQuery("SELECT group_concat(member_id) FROM premium_member where plan_id = '"
-					+ planID + "' AND deleteflag='N' ");
+			Query q = em.createNativeQuery("SELECT group_concat(member_id) FROM premium_member where deleteflag='N' ");
 			result = q.getSingleResult().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
+	
 
 	private String getPlanId(String membership) {
 		String result = "";

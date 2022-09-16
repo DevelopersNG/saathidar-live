@@ -55,7 +55,11 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 				
 				String saveFolderPath = "/member_images/" + uploadDocumentModel.getMember_id() + "/" + uploadDocumentModel.getDocument_name();
 
+				
+				uploadDir="/opt/tomcat/webapps";
 				uploadDir = uploadDir + "/member_images/" + uploadDocumentModel.getMember_id() + "";
+
+//				uploadDir = uploadDir + "/member_images/" + uploadDocumentModel.getMember_id() + "";
 
 				File theDir = new File(uploadDir);
 				if (!theDir.exists()) {
@@ -149,8 +153,11 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 					JSONObject jsonObj = new JSONObject();
 					jsonObj.put("member_images", post.get(i).getImage_path());
 					jsonObj.put("image_id", "" + post.get(i).getId());
+					jsonObj.put("photo_status", "" + post.get(i).getPhoto_status());
 					resultArray.put(jsonObj);
 				}
+			}else {
+				resultArray=null;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -176,6 +183,7 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 					jsonObj.put("member_images", "data:image/jpeg;base64," + base64Encoded);
 //					jsonObj.put("member_images",""+ base64Encoded);
 					jsonObj.put("image_id", "" + post.get(i).getId());
+					jsonObj.put("photo_status", "" + post.get(i).getPhoto_status());
 					resultArray.put(jsonObj);
 				}
 			}
@@ -292,12 +300,10 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 		return uploadImagesRepository.getPhotoPrivacySettings(memberID);
 	}
 
-
 	@Override
 	public int getShortListStatus(String from_Id,String thisMemberID) {
 		return uploadImagesRepository.getShortListStatus(from_Id,thisMemberID);
 	}
-
 
 	@Override
 	public int getVisitorsStatus(int login_id, int id) {
@@ -359,6 +365,8 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 					jsonObj.put("kyc_status", "" + post.get(i).getKyc_status());
 					resultArray.put(jsonObj);
 				}
+			}else{
+				resultArray=null;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -146,6 +146,7 @@ public class UpdateMember {
 //	------ education details start--------------------
 	
 	private String highest_qualification;
+	private String ug_education;
 	private String college_attended;
 	private String working_with;
 	private String working_as;
@@ -201,6 +202,14 @@ public class UpdateMember {
 	private String time;
 	private String nakshatra;
 	
+	public String getUg_education() {
+		return ug_education;
+	}
+
+	public void setUg_education(String ug_education) {
+		this.ug_education = ug_education;
+	}
+
 	public Integer getActivate_id() {
 		return activate_id;
 	}

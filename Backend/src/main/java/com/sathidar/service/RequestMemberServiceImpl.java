@@ -21,6 +21,8 @@ import com.sathidar.EntityMangerFactory.UserEntityManagerFactory;
 import com.sathidar.exception.BadRequestException;
 import com.sathidar.model.RequestMemberModel;
 import com.sathidar.repository.RequestMemberRepository;
+import com.sathidar.util.Constant;
+import com.sathidar.util.EmailBodyClass;
 import com.sathidar.util.MembersDetailsAction;
 import com.sathidar.util.TextLocalSMSSetting;
 
@@ -92,14 +94,39 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				}
 			}
 
+			 String contact_number1 = null;
+				List<Object[]> results1 = requestMemberRepository
+						
+						.getUserNameEmailId(Integer.parseInt(requestMemberModel.getRequest_from_id()));
+				String fullName1 = null;
+				if (results1 != null) {
+					for (Object[] obj1 : results1) {
+						int i = 0;
+						fullName1 = convertNullToBlank(String.valueOf(obj1[i])) +" "+ convertNullToBlank(String.valueOf(obj1[++i]));
+						emailId_to = convertNullToBlank(String.valueOf(obj1[++i]));
+						member_number = convertNullToBlank(String.valueOf(obj1[++i]));
+						contact_number1 = convertNullToBlank(String.valueOf(obj1[++i]));
+					}
+				}
+			
 			System.out.println("email id - " + emailId_to + " , fullName -" + fullName);
 
 			String response = "";
 			if (lst != null) {
-				response = sentInvitationsByEmail(lst, emailId_to, fullName,
-						Integer.parseInt(requestMemberModel.getRequest_from_id()));
+//				response = sentInvitationsByEmail(lst, emailId_to, fullName,
+//						Integer.parseInt(requestMemberModel.getRequest_from_id()));
+				
+				 Constant constant=new Constant();
+				 EmailBodyClass emailBodyClass =new EmailBodyClass();
+						 
+				String imageLink=constant.project_logo;
+				String email_body=emailBodyClass.sendInvitationsMailToMember(lst, fullName, emailId_to, Integer.parseInt(requestMemberModel.getRequest_from_id()),imageLink);		
+				try {
+					serverEmailService.send(emailId_to, "Saathidaar-Invitation", email_body);					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
-			System.out.println("response  -  " + response);
 
 			if (requestMemberObject == null) {
 				json.put("message", "request not send..");
@@ -109,7 +136,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				// send sms 
 				try {
 					TextLocalSMSSetting textLocalSMSSetting = new TextLocalSMSSetting();
-					sendSMSTOUser(contact_number,member_number);
+					sendSMSTOUser(contact_number1,member_number);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -262,72 +289,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			String mother_tongue = convertNullToBlank(lst.get(11).toString());
 
 //			************************** new start *******************************	
-			String email_body="";
-			
-			
-//			email_body = "<head>\r\n" + "    <meta charset=\"UTF-8\">\r\n"
-//					+ "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n"
-//					+ "    <title>Saathidar</title>\r\n" + "    <style>\r\n"
-//					+ "        .container{height: 150px; width: 400px;border: #742041 1px solid ;margin-top: 5px;}\r\n"
-//					+ "        table {font-family: arial, sans-serif;border-collapse: collapse;width: 100%;}\r\n"
-//					+ "td, th {font-size: 12px;text-align: left;padding: 8px;\r\n"
-//					+ "}img{height: 150px;}.bg{background-color: #742041;}button{background-color: #742041;color: #ffff;margin: 5px;}\r\n"
-//					+ "    </style>\r\n" + "</head>\r\n" + "<body style=\"width: 400px;\">\r\n"
-//					+ "    <div style=\"background-color: #742041;\"><img style=\"width:300px ;\" src=\"http://103.150.186.33:8080/saathidaar_logo/saathidaar_logo.jpeg\" alt=\"\"></div>\r\n"
-//					+ " <div class=\"image\">\r\n"
-//					+ "   <h4 style=\"text-align: center;color: #742041;font-size: 20px;\">Invitation to become your Saathidaar!!!\r\n"
-//					+ "</h4>\r\n" + "<p style=\"float: left;\"><strong>Hi " + fullName + ",</strong></p><br>\r\n"
-//					+ "<p><strong>" + first_name + " " + last_name
-//					+ " </strong>has invited you to connect. Let\'s Respond</p>\r\n"
-//					+ "   <table style=\"width: 100%;border: #742041 1px solid;\" class=\"table\">\r\n"
-//					+ "    <thead>\r\n";
-//
-//			if (!age.equals("")) {
-//				email_body = email_body + "      <tr >\r\n" + "        <th  scope=\"col\">Age  </th>\r\n"
-//						+ "        <th  scope=\"col\">: " + age + " </th>\r\n" + "      </tr>\r\n";
-//			}
-//
-//			if (!height.equals("")) {
-//				email_body = email_body + "      <tr >\r\n" + "        <th  scope=\"col\"> Height </th>\r\n"
-//						+ "        <th  scope=\"col\">: " + height + "</th>\r\n" + "      </tr>\r\n";
-//			}
-//
-//			email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Marital Status </th>\r\n"
-//					+ "        <th scope=\"col\">: " + marital_status + "</th>\r\n" + "      </tr>\r\n";
-//
-//			if (!education.equals("")) {
-//				email_body = email_body +
-//
-//						"      <tr >\r\n" + "        <th  scope=\"col\">Education </th>\r\n"
-//						+ "        <th  scope=\"col\">: " + education + "</th>\r\n" + "      </tr>\r\n";
-//			}
-//
-//			if (!profession.equals("")) {
-//				email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Profession </th>\r\n"
-//						+ "        <th scope=\"col\">: " + profession + "</th>\r\n" + "      </tr>\r\n";
-//			}
-//
-//			if (!religions.equals("")) {
-//				email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Religion / Community </th>\r\n"
-//						+ "        <th scope=\"col\">: " + religions + "</th>\r\n" + "      </tr>\r\n";
-//			}
-// 
-//			if (!mother_tongue.equals("")) {
-//				email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Mother Tongue </th>\r\n"
-//						+ "        <th scope=\"col\">: " + mother_tongue + "</th>\r\n" + "      </tr>\r\n";
-//			}
-//
-//			if (!city.equals("")) {
-//				email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Location </th>\r\n"
-//						+ "        <th scope=\"col\">: " + city + "</th>\r\n" + "      </tr>\r\n";
-//			}
-//
-//			email_body = email_body + "    </thead>\r\n" + "  </table>\r\n"
-//					+ "  <a href=\"http://103.150.186.33:8080/saathidaar/member-profile/" + from_id
-//					+ "\"  style=\"text-align: center;color: #742041;font-size: 20px;\">View Full Profile</a>\r\n"
-//					+ " </div>\r\n" + " <div class=\"details\"></div>\r\n" + "  </body>";
-
-			email_body="<html>\r\n" + 
+			 String email_body="<html>\r\n" + 
 					"  <head>\r\n" + 
 					"    <meta name=\"viewport\" content=\"width=device-width\" />\r\n" + 
 					"    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\r\n" + 
@@ -707,7 +669,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					"  </body>\r\n" + 
 					"</html>";
 //			mailSender.send(emailId_to, "Saathidaar Invitations", email_body);
-			serverEmailService.send(emailId_to, "Saathidar-Invitations", email_body);
+			serverEmailService.send(emailId_to, "Saathidaar-Invitation", email_body);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -727,14 +689,8 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			String request_status = requestMemberModel.getRequest_status().trim();
 			
 			int status=0;
-			if(request_status.equals("Canceled")) {
-				status = requestMemberRepository.requestAcceptedAndRejected(request_to_id,request_from_id,request_status);
-				request_status="Canceled";
-			}else {
-			System.out.println("cancel query- "+request_from_id+","+request_to_id+","+request_status);
 			status = requestMemberRepository.requestAcceptedAndRejected(request_from_id, request_to_id,
 					request_status);
-			}
 
 			// for mail sending
 			if (request_status.equals("Accepted")) {
@@ -753,15 +709,26 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				}
 
 //				getBackupDatabase();
+				
+//				sendEmailToUser(lst, fullName, emailId_to, request_from_id);
+				 Constant constant=new Constant();
+				 EmailBodyClass emailBodyClass =new EmailBodyClass();
+				String imageLink=constant.project_logo;
+				String email_body=emailBodyClass.accceptRequestMemberEmail(lst, fullName, emailId_to,request_from_id,imageLink);		
+				try {
+					serverEmailService.send(emailId_to, "Saathidaar-Accept Request", email_body);					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
-				sendEmailToUser(lst, fullName, emailId_to, request_from_id);
+							
 			}
 
 			if (status>0) {
-				map.put("message", "request are " + request_status + "..");
+				map.put("message", "request are " + request_status.toLowerCase() + "..");
 				map.put("results", "1");
 			}else {
-				map.put("message", "request are not " + request_status + "..");
+				map.put("message", "request are not " + request_status.toLowerCase() + "..");
 				map.put("results", "0");
 			}
 			
@@ -872,72 +839,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				String mother_tongue = convertNullToBlank(lst.get(11).toString());
 
 //			************************** new start *******************************	
-				String email_body="";
-//			    email_body = "<head>\r\n" + "    <meta charset=\"UTF-8\">\r\n"
-//						+ "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n"
-//						+ "    <title>Saathidar</title>\r\n" + "    <style>\r\n"
-//						+ "        .container{height: 150px; width: 400px;border: #742041 1px solid ;margin-top: 5px;}\r\n"
-//						+ "        table {font-family: arial, sans-serif;border-collapse: collapse;width: 100%;}\r\n"
-//						+ "td, th {font-size: 12px;text-align: left;padding: 8px;\r\n"
-//						+ "}img{height: 150px;}.bg{background-color: #742041;}button{background-color: #742041;color: #ffff;margin: 5px;}\r\n"
-//						+ "    </style>\r\n" + "</head>\r\n" + "<body style=\"width: 400px;\">\r\n"
-//						+ "    <div style=\"background-color: #742041;\"><img style=\"width:300px ;\" src=\"http://103.150.186.33:8080/saathidaar_logo/saathidaar_logo.jpeg\" alt=\"\"></div>\r\n"
-//						+ " <div class=\"image\">\r\n"
-//						+ "   <h4 style=\"text-align: center;color: #742041;font-size: 20px;\">It\'s a Match!!!\r\n"
-//						+ "\r\n" + "</h4>\r\n" + "<p style=\"float: left;\"><strong>Hi " + fullName
-//						+ ",</strong></p><br>\r\n" + "<p><strong>" + first_name + " " + last_name
-//						+ " </strong>has accepted your request to connect. Let\'s take this forward</p>\r\n"
-//						+ "   <table style=\"width: 100%;border: #742041 1px solid;\" class=\"table\">\r\n"
-//						+ "    <thead>\r\n";
-//
-//				if (!age.equals("")) {
-//					email_body = email_body + "      <tr >\r\n" + "        <th  scope=\"col\">Age  </th>\r\n"
-//							+ "        <th  scope=\"col\">: " + age + " </th>\r\n" + "      </tr>\r\n";
-//				}
-//
-//				if (!height.equals("")) {
-//					email_body = email_body + "      <tr >\r\n" + "        <th  scope=\"col\"> Height </th>\r\n"
-//							+ "        <th  scope=\"col\">: " + height + "</th>\r\n" + "      </tr>\r\n";
-//				}
-//
-//				email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Marital Status </th>\r\n"
-//						+ "        <th scope=\"col\">: " + marital_status + "</th>\r\n" + "      </tr>\r\n";
-//
-//				if (!education.equals("")) {
-//					email_body = email_body +
-//
-//							"      <tr >\r\n" + "        <th  scope=\"col\">Education </th>\r\n"
-//							+ "        <th  scope=\"col\">: " + education + "</th>\r\n" + "      </tr>\r\n";
-//				}
-//
-//				if (!profession.equals("")) {
-//					email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Profession </th>\r\n"
-//							+ "        <th scope=\"col\">: " + profession + "</th>\r\n" + "      </tr>\r\n";
-//				}
-//
-//				if (!religions.equals("")) {
-//					email_body = email_body + "      <tr>\r\n"
-//							+ "        <th scope=\"col\">Religion / Community </th>\r\n"
-//							+ "        <th scope=\"col\">: " + religions + "</th>\r\n" + "      </tr>\r\n";
-//				}
-//
-//				if (!mother_tongue.equals("")) {
-//					email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Mother Tongue </th>\r\n"
-//							+ "        <th scope=\"col\">: " + mother_tongue + "</th>\r\n" + "      </tr>\r\n";
-//				}
-//
-//				if (!city.equals("")) {
-//					email_body = email_body + "      <tr>\r\n" + "        <th scope=\"col\">Location </th>\r\n"
-//							+ "        <th scope=\"col\">: " + city + "</th>\r\n" + "      </tr>\r\n";
-//				}
-//
-//				email_body = email_body + "    </thead>\r\n" + "  </table>\r\n"
-//						+ "  <a href=\"http://localhost:4200/members/profile/" + request_to_id
-//						+ "\"  style=\"text-align: center;color: #742041;font-size: 20px;\">View Full Profile</a>\r\n"
-//						+ " </div>\r\n" + " <div class=\"details\"></div>\r\n" + "  </body>";
-
-				
-				email_body="<html>\r\n" + 
+			String	email_body="<html>\r\n" + 
 						"  <head>\r\n" + 
 						"    <meta name=\"viewport\" content=\"width=device-width\" />\r\n" + 
 						"    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\r\n" + 
@@ -2172,6 +2074,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			System.out.println("details print deleted count - "+ statusCount);
 		} catch (Exception e) {
 			e.printStackTrace();
+			resultArray=null;
 		}
 		return new_json_array;
 	}
@@ -2308,7 +2211,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					if (memberFrom != null) {
 						for (Object[] memberObj : memberFrom) {
 							// your request is decline
-							json = getCommonDeleteJsonOutout(memberObj, member_id, request_status, "", creation_date);
+							json = getCommonDeleteJsonOutout(memberObj, member_id, request_status, "request_accept_sent_from", creation_date);
 							resultArray.put(json);
 							flag=true;
 						}
@@ -2340,7 +2243,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					if (memberTo != null) {
 						for (Object[] memberObj : memberTo) {
 							// you declient request
-							json = getCommonDeleteJsonOutout(memberObj, member_id, request_status, "", creation_date);
+							json = getCommonDeleteJsonOutout(memberObj, member_id, request_status, "",creation_date);
 							resultArray.put(json);
 							flag=true;
 						}
@@ -2436,7 +2339,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			if(photo_privacy_setting!=null && !photo_privacy_setting.equals("")) {
 				json.put("photo_privacy",photo_privacy_setting);
 			}else {
-				json.put("photo_privacy","3");
+				json.put("photo_privacy","2");
 			}
 			
 			JSONArray jsonResultsArray = new JSONArray();
@@ -2473,6 +2376,13 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					messgae = genderFromMessage + " cancelled your request";
 				}
 			}
+			
+			if(status_from.equals("request_accept_sent_from")) {
+				json.put("request_sent_from", "1");
+			}else {
+				json.put("request_sent_from", "0");
+			}
+			
 			json.put("request_message", messgae);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2690,15 +2600,14 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			lst = getDetailsMemberByMember_id(Integer.parseInt(requestMemberModel.getRequest_from_id()));
 //			String emailId_to=requestMemberRepository.getEmailId(requestMemberModel.getRequest_to_id());
 
-			String fullName = "", emailId_to = "",member_number="",contact_number="";
+			String fullName = "", emailId_send_to = "",emailId_to="",member_number="",contact_number="";
 			List<Object[]> results = requestMemberRepository
 					.getUserNameEmailId(Integer.parseInt(requestMemberModel.getRequest_to_id()));
 			if (results != null) {
 				for (Object[] obj : results) {
 					int i = 0;
-					fullName = convertNullToBlank(String.valueOf(obj[i]))
-							+ convertNullToBlank(String.valueOf(obj[++i]));
-					emailId_to = convertNullToBlank(String.valueOf(obj[++i]));
+					fullName = convertNullToBlank(String.valueOf(obj[i]))+ " "+ convertNullToBlank(String.valueOf(obj[++i]));
+					emailId_send_to = convertNullToBlank(String.valueOf(obj[++i]));
 					member_number = convertNullToBlank(String.valueOf(obj[++i]));
 					contact_number = convertNullToBlank(String.valueOf(obj[++i]));
 				}
@@ -2709,21 +2618,31 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					.getUserNameEmailId(Integer.parseInt(requestMemberModel.getRequest_from_id()));
 			String fullName1 = null;
 			if (results1 != null) {
-				for (Object[] obj : results1) {
+				for (Object[] obj1 : results1) {
 					int i = 0;
-					fullName1 = convertNullToBlank(String.valueOf(obj[i]))
-							+ convertNullToBlank(String.valueOf(obj[++i]));
-					emailId_to = convertNullToBlank(String.valueOf(obj[++i]));
-					member_number = convertNullToBlank(String.valueOf(obj[++i]));
-					contact_number1 = convertNullToBlank(String.valueOf(obj[++i]));
+					fullName1 = convertNullToBlank(String.valueOf(obj1[i])) +" "+ convertNullToBlank(String.valueOf(obj1[++i]));
+					emailId_to = convertNullToBlank(String.valueOf(obj1[++i]));
+					member_number = convertNullToBlank(String.valueOf(obj1[++i]));
+					contact_number1 = convertNullToBlank(String.valueOf(obj1[++i]));
 				}
 			}
-			
 			member_number=userEntityManagerFactory.getMemberNumbersMemberIDBy(Integer.parseInt(requestMemberModel.getRequest_from_id()));
 			String response = "";
 			if (lst != null) {
-				response = sentInvitationsByEmail(lst, emailId_to, fullName1,
-						Integer.parseInt(requestMemberModel.getRequest_from_id()));
+//				response = sentInvitationsByEmail(lst, emailId_to, fullName1,
+//						Integer.parseInt(requestMemberModel.getRequest_from_id()));
+				
+				 Constant constant=new Constant();
+				 EmailBodyClass emailBodyClass =new EmailBodyClass();
+						 
+				String imageLink=constant.project_logo;
+				String email_body=emailBodyClass.sendInvitationsMailToMember(lst, fullName, emailId_send_to, Integer.parseInt(requestMemberModel.getRequest_from_id()),imageLink);		
+				try {
+					serverEmailService.send(emailId_send_to, "Saathidaar-Invitation", email_body);					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 			}
 
 			if (getStatus == 0) {
@@ -2734,7 +2653,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				// send sms 
 				try {
 					TextLocalSMSSetting textLocalSMSSetting = new TextLocalSMSSetting();
-					sendSMSTOUser(contact_number1,member_number);
+					sendSMSTOUser(contact_number,member_number);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -2749,6 +2668,12 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 		}
 		return map;
 	}
+
+	@Override
+	public int saveOTPDB(String phone_number, String otp) {
+		return requestMemberRepository.saveOTPDB(phone_number,otp);
+	}
+
 
 
 }

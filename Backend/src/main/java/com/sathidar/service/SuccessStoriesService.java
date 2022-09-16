@@ -10,7 +10,7 @@ public interface SuccessStoriesService {
 	
 	public abstract int saveToImage(SuccessStoriesModel successStoriesModel);
 
-	public abstract int deleteImagesById(int id);
+	public abstract int deleteImagesById(String id);
 
 	JSONArray getSuccessStory();
 

@@ -72,6 +72,9 @@ public interface RequestMemberRepository extends JpaRepository<RequestMemberMode
 	@Query(value="delete from member_request  where request_from_id= :request_to_id and request_to_id= :request_from_id",nativeQuery = true)
 	Object requestCanceled(int request_from_id, int request_to_id);
 
-	
+	@Transactional
+	@Modifying    
+	@Query(value="insert into tempsendotp (conactno,otp) values (:phoneNo,:otp)",nativeQuery = true)
+	int saveOTPDB(String phoneNo, String otp);
 	
 }

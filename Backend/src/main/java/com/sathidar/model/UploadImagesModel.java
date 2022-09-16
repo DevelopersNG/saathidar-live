@@ -47,6 +47,7 @@ public class UploadImagesModel {
 	
 	private String image_name;
 	
+	private String photo_status;
 	
 	@Transient
 	private String document_name;
@@ -63,6 +64,14 @@ public class UploadImagesModel {
 	@Transient
 	private String image_id;
 	
+	public String getPhoto_status() {
+		return photo_status;
+	}
+
+	public void setPhoto_status(String photo_status) {
+		this.photo_status = photo_status;
+	}
+
 	public String getDocument_type() {
 		return document_type;
 	}

@@ -305,7 +305,7 @@ public class UpdateMemberController {
 		if(getID==1) {
 			message="Your profile is activated";
 		}else if(getID==0){
-			message="Your profile is de-activated";
+			message="Your profile is deactivated";
 		}
 		if (updateMemberService.activateMember(updateMember) > 0) {
 			map.put("results", "1");
@@ -543,6 +543,7 @@ public class UpdateMemberController {
 		return jsObject.toString();
 	}
 
+	
 //	<------------------------------ add admin filter data -------------------->
 	
 

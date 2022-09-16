@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sathidar.EntityMangerFactory.DropDownEntityManagerFactory;
@@ -187,5 +188,63 @@ public class DropDownController {
 		 jsObject.put("cast",jsonResultArray);
 		 return jsObject.toString();
 	}
+
+	// ******************************** multiple country-state-city by id******************************
 	
+	@GetMapping(value = "/get/multiple/state")
+	public String getMultipleStateName(@RequestParam("country_ids") int[] country_ids) {
+		 JSONObject jsObject = new JSONObject();
+		 JSONArray jsonResultArray = new JSONArray();
+		 jsonResultArray=dropDownEntityManagerFactory.getMultipleStateName(country_ids);
+		 if(jsonResultArray!=null)
+			 jsObject.put("results",1);
+		 else
+			 jsObject.put("results",0);
+		 jsObject.put("state",jsonResultArray);
+		 return jsObject.toString();
+	}
+	
+	@GetMapping(value = "/get/multiple/city")
+	public String getMultipleCityName(@RequestParam("state_ids") int[] state_ids) {
+		 JSONObject jsObject = new JSONObject();
+		 JSONArray jsonResultArray = new JSONArray();
+		 jsonResultArray=dropDownEntityManagerFactory.getMultipleCityName(state_ids);
+		 if(jsonResultArray!=null)
+			 jsObject.put("results",1);
+		 else
+			 jsObject.put("results",0);
+		 jsObject.put("cities",jsonResultArray);
+		 return jsObject.toString();
+	}
+	
+//	*****************************  by quamma ********************************************************
+
+	@GetMapping(value = "/get/multiples/state")
+	public String getMultipleStateName(@RequestParam("country_ids") String country_ids) {
+		 JSONObject jsObject = new JSONObject();
+		 JSONArray jsonResultArray = new JSONArray();
+		 jsonResultArray=dropDownEntityManagerFactory.getMultiplesStateName(country_ids);
+		 if(jsonResultArray!=null)
+			 jsObject.put("results",1);
+		 else
+			 jsObject.put("results",0);
+		 jsObject.put("state",jsonResultArray);
+		 return jsObject.toString();
+	}
+	
+	@GetMapping(value = "/get/multiples/city")
+	public String getMultipleCityName(@RequestParam("state_ids") String state_ids) {
+		 JSONObject jsObject = new JSONObject();
+		 JSONArray jsonResultArray = new JSONArray();
+		 jsonResultArray=dropDownEntityManagerFactory.getMultiplesCityName(state_ids);
+		 if(jsonResultArray!=null)
+			 jsObject.put("results",1);
+		 else
+			 jsObject.put("results",0);
+		 jsObject.put("cities",jsonResultArray);
+		 return jsObject.toString();
+	}
+
 }
+
+
