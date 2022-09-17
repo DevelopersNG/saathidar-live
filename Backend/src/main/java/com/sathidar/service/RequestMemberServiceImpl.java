@@ -2425,10 +2425,10 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					lstAdd.add(education);
 					lstAdd.add(profession);
 
-					religions = religions;
-					if (!caste.equals("")) {
-						religions = religions + " / " + caste;
-					}
+//					religions = religions;
+//					if (!caste.equals("")) {
+//						religions = religions + " / " + caste;
+//					}
 
 					lstAdd.add(religions);
 					lstAdd.add(city);

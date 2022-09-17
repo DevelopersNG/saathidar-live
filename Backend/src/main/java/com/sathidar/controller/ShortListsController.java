@@ -30,9 +30,19 @@ public class ShortListsController {
 
 	@PostMapping(value="/member/add-to-shortlist")
 	private String AddToShortLists(@Validated @RequestBody ShortListsModel shortListsModel) {
-		JSONArray jsonResultsArray=new JSONArray();
-		jsonResultsArray= shortListService.AddToShortLists(shortListsModel);
-		return jsonResultsArray.toString();
+//		JSONArray jsonResultsArray=new JSONArray();
+//		jsonResultsArray= shortListService.AddToShortLists(shortListsModel);
+//		return jsonResultsArray.toString();
+		JSONObject jsObject = new JSONObject();
+		int status = shortListService.AddToShortLists(shortListsModel);
+		if (status > 0) {
+			jsObject.put("message", "Added To Shortlist");
+			jsObject.put("results", "1");
+		} else {
+			jsObject.put("message", "Shortlist Not Added");
+			jsObject.put("results", "0");
+		}
+		return jsObject.toString();
 	}
 	
 	@GetMapping(value="/shortlist/get/all/{member_id}")
@@ -53,8 +63,15 @@ public class ShortListsController {
 	
 	@PostMapping(value="/member/remove-to-shortlist")
 	private String RemoveToShortLists(@Validated @RequestBody ShortListsModel shortListsModel) {
-		JSONArray jsonResultsArray=new JSONArray();
-		jsonResultsArray= shortListService.RemoveToShortLists(shortListsModel);
-		return jsonResultsArray.toString();
+		JSONObject jsObject = new JSONObject();
+		int status = shortListService.RemoveToShortLists(shortListsModel);
+		if (status > 0) {
+			jsObject.put("message", "Remove From Shortlist");
+			jsObject.put("results", "1");
+		} else {
+			jsObject.put("message", "Shortlist Not Removed");
+			jsObject.put("results", "0");
+		}
+		return jsObject.toString();
 	}
 }

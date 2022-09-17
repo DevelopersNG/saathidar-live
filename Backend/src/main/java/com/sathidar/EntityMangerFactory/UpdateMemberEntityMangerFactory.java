@@ -1801,7 +1801,7 @@ public class UpdateMemberEntityMangerFactory {
 		JSONArray resultArray = new JSONArray();
 		try {
 			Query q = em.createNativeQuery(
-					"SELECT plan_id,plan_name,plan_validity,plan_price FROM plans where plan_status='ACTIVE'");
+					"SELECT plan_id,plan_name,plan_validity,plan_price,plan_discount,discount_price FROM plans where plan_status='ACTIVE'");
 			List<Object[]> results = q.getResultList();
 			boolean status = false;
 
@@ -1814,6 +1814,9 @@ public class UpdateMemberEntityMangerFactory {
 					json.put("plan_name", convertNullToBlank(String.valueOf(obj[++i])));
 					json.put("plan_validity", convertNullToBlank(String.valueOf(obj[++i])));
 					json.put("plan_price", convertNullToBlank(String.valueOf(obj[++i])));
+					json.put("plan_discount", convertNullToBlank(String.valueOf(obj[++i])));
+					json.put("plan_discount_price", convertNullToBlank(String.valueOf(obj[++i])));
+					
 
 					// getting plan list as per plan name and id
 					JSONArray jsonArrayPlanList = new JSONArray();
@@ -2331,7 +2334,6 @@ public class UpdateMemberEntityMangerFactory {
 							} else {
 								checkBothKeywordsForReligionAndCast = "BLANK";
 							}
-							++appMatchPreference;
 
 							// Match Cast
 							String castName = "";
@@ -2346,7 +2348,6 @@ public class UpdateMemberEntityMangerFactory {
 							} else {
 								checkBothKeywordsForReligionAndCast = checkBothKeywordsForReligionAndCast + ",BLANK";
 							}
-							++appMatchPreference;
 
 							if (!checkBothKeywordsForReligionAndCast.equals("")) {
 								if (checkBothKeywordsForReligionAndCast.contains("Yes")) {

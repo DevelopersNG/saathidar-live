@@ -35,31 +35,22 @@ public class ShortListServiceImpl implements ShortListService {
 	private UpdateMemberService updateMemberService;
 	
 	@Override
-	public JSONArray AddToShortLists(ShortListsModel shortListsModel) {
+	public int AddToShortLists(ShortListsModel shortListsModel) {
 		Object requestMemberObject = null;
 		JSONArray resultArray = new JSONArray();
-
+		int status=0;
 		try {
 			JSONObject json = new JSONObject();
 			String shortlist_from_id = shortListsModel.getShortlist_from_id();
 			String shortlist_to_id = shortListsModel.getShortlist_to_id();
 			String shortlist_status = shortListsModel.getShortlist_status();
-			requestMemberObject = shortListsRepository.addToShortListMember(shortlist_from_id, shortlist_to_id,
+			status = shortListsRepository.addToShortListMember(shortlist_from_id, shortlist_to_id,
 					shortlist_status);
-			json.put("message", "added to shortlists");
-			json.put("results", "1");
-
-			if (requestMemberObject == null) {
-				json.put("message", "not added to shortlists");
-				json.put("results", "0");
-			}
-
-			resultArray.put(json);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return resultArray;
+		return status;
 	}
 	
 	
@@ -284,30 +275,21 @@ public class ShortListServiceImpl implements ShortListService {
 	}
 
 	@Override
-	public JSONArray RemoveToShortLists(ShortListsModel shortListsModel) {
+	public int RemoveToShortLists(ShortListsModel shortListsModel) {
 		Object requestMemberObject = null;
 		JSONArray resultArray = new JSONArray();
-
+		int status=0;
 		try {
 			JSONObject json = new JSONObject();
 			String shortlist_from_id = shortListsModel.getShortlist_from_id();
 			String shortlist_to_id = shortListsModel.getShortlist_to_id();
 			String shortlist_status = shortListsModel.getShortlist_status();
-			requestMemberObject = shortListsRepository.removeToShortListMember(shortlist_from_id, shortlist_to_id,
+			status = shortListsRepository.removeToShortListMember(shortlist_from_id, shortlist_to_id,
 					shortlist_status);
-			json.put("message", "remove from shortlists");
-			json.put("results", "1");
-
-			if (requestMemberObject == null) {
-				json.put("message", "not remove from shortlists");
-				json.put("results", "0");
-			}
-
-			resultArray.put(json);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return resultArray;
+		return status;
 	}
 
 }
