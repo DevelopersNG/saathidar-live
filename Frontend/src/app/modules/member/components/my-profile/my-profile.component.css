@@ -1,6 +1,7 @@
-* {
-    font-family: 'Times New Roman', Times, serifs;font-style: italic;
- }
+*
+{
+    font-family: 'Times New Roman', Times, serif;
+}
 h1
 {
     background-color: #742041;color: #fff;padding: 10px;
@@ -16,6 +17,10 @@ body
 {
     box-shadow: 0 0 11px #742041; 
 
+}
+button {
+    background-image: linear-gradient(to right,#680F32,#D11861);margin-left: 25px;color: #fff;
+    /* box-shadow: 0 4px 15px 0 rgba(69, 3, 49, 0.75); */
 }
 
 .row
@@ -36,7 +41,7 @@ hr
 }
 .table th
 {
-    padding: 1px;font-size: 15px;
+    padding: 2px;font-size: 15px;
 }
 .table{
    margin: 10px;
@@ -75,3 +80,8 @@ a:hover
     margin-top: -11px;
     color: #742041;
 }
+.btn-hover.color-1 {
+    background-image: linear-gradient(to right,#680F32,#D11861);
+    /* box-shadow: 0 4px 15px 0 rgba(69, 3, 49, 0.75); */
+  }
+  

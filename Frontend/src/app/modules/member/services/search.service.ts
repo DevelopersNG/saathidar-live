@@ -1,39 +1,74 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
+import { HttpHeaders } from '@angular/common/http';
 
-// const baseUrl = 'http://localhost:8080/api';
-// const baseUrl = 'http://192.168.1.37:8080/api';
+
 // const baseUrl ="http://103.150.186.33:8080/saathidaar_backend/api"
-const baseUrl = 'http://103.150.186.33:8080/saathidaar_backend/api'
+const baseUrl = 'http://103.174.102.195:8080/saathidaar_backend/api'
+// const baseUrl = 'http://103.150.186.33:8080/saathidaar_backend/api'
 // const baseUrl ="http://69.49.247.33:8080/saathidaar_backend"
+// const baseUrl = 'http://192.168.1.34:8088/api';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class SearchService {
+  getScriptSrc //allowed
+    () {
+    throw new Error('Method not implemented.');
+  }
 
   constructor(private http: HttpClient) { }
+
+
+  // **************************** azim work **************************************
+
+  getMyLatLong(city:any){
+
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   'Authorization': `Basic AIzaSyC-NPkY9u8EgOBKbbj5nXv0Rh0xiSjg6rI`
+    // })
+   
+    const headers = new HttpHeaders().set(
+      'Authorization',`Bearer AIzaSyC-NPkY9u8EgOBKbbj5nXv0Rh0xiSjg6rI`)
+    return this.http.get("https://geocode.xyz/"+city+"?geoit=json")
+ }
+
+
+  // getMyLatLong(){
+  //     const header=new Headers();
+  //     this.createAuthorizationHeaders(header);
+  //     return this.http.get("https://geocode.xyz/pune?geoit=json", { headers: headers })
+    // }
+
+ createAuthorizationHeaders(headers: Headers){
+  headers.append('Content-Type','application/json');
+  headers.append('key','AIzaSyC-NPkY9u8EgOBKbbj5nXv0Rh0xiSjg6rI');
+ }
 
   getMemberDetailsByMemberID(memberID: any, login_member_id: any): Observable<any> {
     return this.http.get(baseUrl + "/member/get-details/" + memberID + "/" + login_member_id);
   }
 
   getMyProfile(memberID: any): Observable<any> {
-    return this.http.get(baseUrl + "/member/my-profile/" + memberID );
+    return this.http.get(baseUrl + "/member/my-profile/" + memberID);
   }
-
-
   getCountryName(): Observable<any> {
     return this.http.get(baseUrl + "/get/country");
   }
 
   getStateNameByCountryID(CountryID: any): Observable<any> {
-    return this.http.get(baseUrl + "/get/state-name/" + CountryID);
+    // return this.http.get(baseUrl + "/get/state-name/" + CountryID);
+    return this.http.get(baseUrl + "/get/multiples/state?country_ids=" + CountryID);
   }
+  
 
   getCityNameByStateID(StateID: any): Observable<any> {
-    return this.http.get(baseUrl + "/get/city-name/" + StateID);
+    return this.http.get(baseUrl + "/get/multiples/city?state_ids=" + StateID);
+    // return this.http.get(baseUrl + "/get/city-name/" + StateID);
   }
 
   // ********************** religion - cast *****************************
@@ -122,7 +157,7 @@ export class SearchService {
   // ********************** search by profile id *********************
 
   checkProfileIDIsAvailable(member_id: any): Observable<any> {
-    return this.http.get(baseUrl + "/member/get-details-by-member-id" + member_id);
+    return this.http.get(baseUrl + "/member/get-details-by-member-id/" + member_id);
   }
 
   // ******************** set partner preference *************************
@@ -141,7 +176,7 @@ export class SearchService {
   searchNewMatchesAllMember(member_id: any): Observable<any> {
     return this.http.get(baseUrl + "/member/new/matches/" + member_id);
   }
- 
+
 
 
   searchMyMatchesAllMember(member_id: any): Observable<any> {
@@ -162,54 +197,54 @@ export class SearchService {
 
   // *********************  premium member ***********************
   callNewPreiumMatchesDetails(member_id: any): Observable<any> {
-    return this.http.get(baseUrl + "/new/premium/matches/dashboard/"+member_id);
+    return this.http.get(baseUrl + "/new/premium/matches/dashboard/" + member_id);
   }
 
   // *******************  get plan details ******************************
   getMemberPlansDetails(): Observable<any> {
-    return this.http.get(baseUrl+"/member/plans-details");
+    return this.http.get(baseUrl + "/member/plans-details");
   }
 
   // ************************ upload photo *************************************
   uploadImages(data: any): Observable<any> {
     return this.http.post(baseUrl + "/member/upload/photo", data);
   }
-  
+
   // uploadImages(data: any): Observable<any> {
   //   return this.http.post(baseUrl + "/member/uploads/photo",data);
   // }
 
-  getData(member_id:any): Observable<any> {
-    return this.http.get(baseUrl+"/member/get/photo/"+member_id);
+  getData(member_id: any): Observable<any> {
+    return this.http.get(baseUrl + "/member/get/photo/" + member_id);
   }
 
   // deleteImage(member_id:any): Observable<any> {
   //   return this.http.post(baseUrl+"/member/delete/photo/"+member_id);
   // }
 
-  deleteImage(data:any): Observable<any> {
-    return this.http.post(baseUrl + "/member/delete/photo",data);
+  deleteImage(data: any): Observable<any> {
+    return this.http.post(baseUrl + "/member/delete/photo", data);
   }
-   // ********************** URL Image **********************************************44
+  // ********************** URL Image **********************************************44
 
- getDataImageDataByURL(member_id: any): Observable<any> {
-  return this.http.get(baseUrl+"/member/app/get/photo/"+member_id);
- }
+  getDataImageDataByURL(member_id: any): Observable<any> {
+    return this.http.get(baseUrl + "/member/app/get/photo/" + member_id);
+  }
   // *******************************set profile***************************
-  setProfileImage(image_id:any,member_id:any,data:any): Observable<any> {
-    return this.http.post(baseUrl + "/member/profile/photo/"+member_id+"/"+image_id,data);
+  setProfileImage(image_id: any, member_id: any, data: any): Observable<any> {
+    return this.http.post(baseUrl + "/member/profile/photo/" + member_id + "/" + image_id, data);
   }
 
-  uploadKycDetails(data:any): Observable<any> {
-    return this.http.post(baseUrl + "/member/upload/kyc/photo",data);
+  uploadKycDetails(data: any): Observable<any> {
+    return this.http.post(baseUrl + "/member/upload/kyc/photo", data);
   }
 
   callKycDoucument(member_id: any): Observable<any> {
-    return this.http.get(baseUrl+"/member/app/get/kyc/photo/"+member_id);
-   }
-   sentRequests(data: any): Observable<any> {
-    return this.http.post(baseUrl+"/member/send-request",data);
-    
+    return this.http.get(baseUrl + "/member/app/get/kyc/photo/" + member_id);
+  }
+  sentRequests(data: any): Observable<any> {
+    return this.http.post(baseUrl + "/member/send-request", data);
+
   }
 
 } 

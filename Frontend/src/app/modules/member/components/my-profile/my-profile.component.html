@@ -1,33 +1,30 @@
 <body style="border: 1px solid #742041;">
-
     <h1 class="  col-12"><b>My Profile</b></h1>
     <!-- <a routerLink="/members/my-profile/edit">Edit</a> -->
     <div class="container">
         <div class="row mt-3 maindetails">
-        
             <div class="col-lg-2 col-sm-12 img-2"  >
                 <!-- <img [src]='imageURL+profileIMags'  alt=""> -->
 
                 <div *ngIf="viewMemberModels.profile_photo==''">
-                    <img class="" data-toggle="modal" data-target="#exampleModal"   class="imgnew" (click)="callIMageForMemberID(viewMemberModels.member_id)" src="{{genderImageURL}}" alt=''>
+                        <img class="" data-toggle="modal" data-target="#exampleModal"   class="imgnew" (click)="callIMageForMemberID(viewMemberModels.member_id)" src="{{genderImageURL}}" alt=''>
+                        <button  (click)="showAlbum()" class="box"><i class="fa-solid fa-camera"></i>Upload Photo</button>
                   </div>
           
                   <div *ngIf="viewMemberModels.profile_photo!=''">
                     <img class="" data-toggle="modal" data-target="#exampleModal"   class="imgnew" (click)="callIMageForMemberID(viewMemberModels.member_id)" [src]='imageURL+viewMemberModels.profile_photo' alt="">
+                    <button  (click)="showAlbum()" class="box"><i class="fa-solid fa-camera"></i>Upload Photo</button>       
                     <!-- <img class="" data-toggle="modal" data-target="#exampleModal"   class="imgnew" (click)="callIMageForMemberID(search.member_id)" [src]='imageURL+search.images[0].member_images' alt=""> -->
                   </div>
-                
-                
-                <a [routerLink]="" (click)="showAlbum()" class="box"><i class="fa-solid fa-camera"></i>View Album</a>
+             
             </div>
-              
-
-                         
                     <div class="col-lg-5 col-sm-12  age-col">
                         <table class="table table-borderless">
+
                             <tr>
                                 <th scope="">First Name</th>
-                                <th scope="">:  {{viewMemberModels.first_name}}</th>
+                                <th scope="">
+                                    :  {{viewMemberModels.first_name}}</th>
                             </tr>
                             <tr>
                                 <th scope="">Age </th>
@@ -42,7 +39,7 @@
                                 <th scope="">:  {{viewMemberModels.marital_status}}</th>
                             </tr>
                             <tr>
-                                <th scope="">Posted by</th>
+                                <th scope="">Profile created by</th>
                                 <th scope="">: {{viewMemberModels.profilecreatedby}}</th>
                             </tr>
                         </table>
@@ -59,11 +56,14 @@
                             </tr>
                             <tr>
                                 <th scope=""> Location</th>
-                                <th scope="">:  {{viewMemberModels.city}}</th>
+                                <th scope="">:  
+                                    {{viewMemberModels.city === '' ? 'Not Specified' : viewMemberModels.city }}
+                                    <!-- {{viewMemberModels.city}} -->
+                                </th>
                             </tr>
                             <tr>
                                 <th scope=""> Mother Tongue</th>
-                                <th scope="">  {{viewMemberModels.mother_tounge}}</th>
+                                <th scope=""> : {{viewMemberModels.mother_tounge}}</th>
                             </tr>
                             <tr>
                                 <th scope=""> Gender</th>
@@ -71,52 +71,44 @@
                             </tr>
                         </table>
                     </div>
-                
         </div>
         <hr>
     </div>
-
-
       <div class="container">
         <div class="row">
             <div class="col-6">
                 <h3>KYC Upload</h3>
                 <hr>
+                
     <li class="list-group-item col-sm-12 mt-1">
         <label class="registration_label">Kyc Upload</label><br>
         <span>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="Aadhaar_card" [(ngModel)]="updateMemberModels.Aadhaar_card">
+            <input class="form-check-input"  type="radio" name="inlineRadioOptions" id="inlineRadio1" value="Aadhaar_card" [(ngModel)]="updateMemberModels.Aadhaar_card">
             <label class="form-check-label" for="inlineRadio1">Aadhaar</label>
           </div>
+          
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"  value="pan_card" [(ngModel)]="updateMemberModels.Aadhaar_card">
+            <input class="form-check-input"  type="radio" name="inlineRadioOptions" id="inlineRadio2"  value="pan_card" [(ngModel)]="updateMemberModels.Aadhaar_card">
             <label class="form-check-label" for="inlineRadio2">Pan Card</label>
           </div>
         </span>
       </li>
+
       <li class="list-group-item col-sm-12 mt-1">
         <label class="registration_label"> </label>
         <span>
-          <input class="ab" type="file" placeholder="text" (change)="onselectFile($event)" />
-          <button type="button" class="btn btn-primary btn-sm"  aria-hidden="true" data-toggle="modal" data-target="#exampleModal1" (click)="saveImages()">Submit</button>
+          <input  class="ab" type="file" placeholder="text"     (change)="onselectFile($event)" />
+          <button type="button" class="btn btn-primary btn-sm"   (click)="saveImages()">Submit</button>
         </span>
       </li>
-            </div>
-            <!-- ***************************************connect Now *************************** -->
-<!-- Button trigger modal -->
-<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  Launch demo modal
-</button> -->
-<!-- Modal -->
-<div class="modal modal2 fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    </div>
+
+<!-- aria-hidden="true" data-toggle="modal" data-target="#exampleModal1" -->
+<!-- <div class="modal modal2 fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <!-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> -->
-          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button> -->
         </div>
         <div class="modal-body modal-body2">
         <div class="text-center">
@@ -125,29 +117,32 @@
         </div>
       </div>
     </div>
-  </div>
-  <!-- ***************************************connect Now *************************** -->
+  </div> -->
+
             <div class="col-6">
                 <h3>KYC Details</h3>
                 <hr>
-             
                 <table class="table table-borderless">
                     <tr>
-                        <th scope="">Document Name</th>
-                        <th scope="">: {{kycDoumrntMember.document_name}}</th>
+                        <th scope="">Document Name </th>
+                        <th scope="">
+                        : {{kycDoumrntMember.document_name}}
+
+                    </th>
                     </tr>
                     <tr>
-                        <th scope="">Document</th>
-                        <th scope=""> <a style=" float: left;margin :0px; border:none;padding: 0px;color: blue;" href="{{kycDoumrntMember.document_path}}" target="_blank" ><i class="fa fa-file-text" aria-hidden="true"></i>
+                        <th scope="">Document </th>
+                        <th scope=""> <a style=" float: left;margin :0px; border:none;padding: 0px;color: blue;" 
+                            href="{{kycDoumrntMember.document_path}}" 
+                            target="_blank" ><i class="fa fa-file-text" aria-hidden="true"></i>
                             Kyc Document </a></th>
                     </tr>
                     <tr>
-                        <th scope="">Document Type</th>
+                        <th scope="">Document Type </th>
                         <th scope="">: {{kycDoumrntMember.document_type}}</th>
+                        <th scope=""> {{documtType}}</th>
                     </tr>
                     </table>
-            
-              
             </div>
             <hr>
         </div>
@@ -231,17 +226,13 @@
             </div>
         </div>
     </div>
-
     <div class="container">
         <div class="row">
-            
             <div class="col-12">
                 <h3>Religious Background</h3>
             </div>
-
         </div>
         <div class="row">
-
             <div class="col-6">
                 <hr>
                 <table class="table table-borderless">
@@ -260,7 +251,6 @@
                     </tr>
                 </table>
             </div>
-
             <div class="col-6">
                 <hr>
                 <table class="table table-borderless">
@@ -326,7 +316,6 @@
                     </tr> -->
                 </table>
             </div>
-
             <div class="col-6">
                 <hr>
                 <table class="table table-borderless">
@@ -335,7 +324,6 @@
                         </th>  
                         <th scope="">:  {{viewMemberModels.time_of_birth}}   {{viewMemberModels.time_status}}</th>
                     </tr>
-
                     <tr>
                         <th scope="">City of Birth
                         </th>
@@ -346,7 +334,6 @@
             </div>
         </div>
     </div> 
-
     <div class="container">
         <div class="row">
         
@@ -429,7 +416,6 @@
             </div>
         </div>
     </div>
-
     <div class="container">
         <div class="row">
             
@@ -437,30 +423,21 @@
                 <h3>
                     Education & Career</h3>
             </div>
-
         </div>
         <div class="row">
-        
-
             <div class="col-6">
-
                 <hr>
-
                 <table class="table table-borderless">
                     <tr>
                         <th scope="">Highest Qualification
-
                         </th>
                         <th scope="">:  {{viewMemberModels.highest_qualification}}</th>
                     </tr>
                     <tr>
                         <th scope="">College(s) Attended
-
-
                         </th>
                         <th scope="">:  {{viewMemberModels.college_attended}}</th>
                     </tr>
-
                     <tr>
                         <th scope="">Annual Income  
                         </th>
@@ -888,20 +865,16 @@
                     <th scope="">:  {{viewMemberModels.profilecreatedby}}
 
                         </th>
-               
-                  
                 </tr>
-
-
-
-
-    
+                <tr>
+                    <th scope="">Franchise code
+                    </th>
+                    <th scope="">:  {{viewMemberModels.franchise_code}}
+                        </th>
+                </tr>
             </table>
-
-            
         </div>
         <hr>
-
       </div>
     </div>
 

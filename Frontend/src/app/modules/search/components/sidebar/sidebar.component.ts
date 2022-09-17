@@ -20,6 +20,7 @@ export class SidebarComponent implements OnInit {
     private sharingService: SharingService) { }
 
   ngOnInit(): void {
+    
     this.member_id = localStorage.getItem('login_credentials');
     // alert(this.member_id);
     this.getReligionList();

@@ -24,14 +24,17 @@ import { MemberProfileComponent } from './components/member-profile/member-profi
 import { HelpMobileComponent } from './components/help-mobile/help-mobile.component';
 import { TermConditionMobileComponent } from './components/term-condition-mobile/term-condition-mobile.component';
 import { PrivacyPolicyMobileComponent } from './components/privacy-policy-mobile/privacy-policy-mobile.component';
-
+import { PremiumToLoginComponent } from './components/premium-to-login/premium-to-login.component';
+import { MemberBasicDetailsComponent } from './components/member-basic-details/member-basic-details.component';
+import { GooglePlaceModule} from 'ngx-google-places-autocomplete'
+import { CommonModule } from "@angular/common";
 
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchComponent, 
-    LandingPageComponent,UpdatePremiumComponent, MembersearchComponent, AdminLoginComponent, AdminDashboardComponent, DashboardComponent, AdminHeaderComponent, AdminFooterComponent, AllCountMatchesComponent, MemberProfileComponent, HelpMobileComponent, TermConditionMobileComponent, PrivacyPolicyMobileComponent,
+    LandingPageComponent,UpdatePremiumComponent, MembersearchComponent, AdminLoginComponent, AdminDashboardComponent, DashboardComponent, AdminHeaderComponent, AdminFooterComponent, AllCountMatchesComponent, MemberProfileComponent, HelpMobileComponent, TermConditionMobileComponent, PrivacyPolicyMobileComponent, PremiumToLoginComponent, MemberBasicDetailsComponent,
   ],
   imports: [
     NgMultiSelectDropDownModule.forRoot(),
@@ -43,6 +46,8 @@ import { PrivacyPolicyMobileComponent } from './components/privacy-policy-mobile
     RouterModule,
     BrowserAnimationsModule,
     MatProgressSpinnerModule,
+    GooglePlaceModule,
+    CommonModule
   ],
   // providers: [ SearchComponent,NgxNavigationWithDataComponent,{provide: LocationStrategy, useClass: HashLocationStrategy}],
   providers: [ SearchComponent,NgxNavigationWithDataComponent],

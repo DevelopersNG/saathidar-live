@@ -1,0 +1,164 @@
+<body>
+<div class="container-fulid">
+    <div class="row mt-3">
+        <div class="col-4"> </div>
+        <div class="col-4 btn-hover color-1 shadow-lg p-3 mb-5 bg-white rounded">
+                <div class="form-group">
+                  <label class="registration_label">Country Living In </label>
+                  <span> 
+                    <select name="religion"  class="forminput js-religion" id="religion"  [(ngModel)]="memberBasicForm.Country">
+                      <option value="Select">Select</option>
+                      <option *ngFor="let cName of countryName" [value]="cName.country_name">{{cName.country_name}}</option>
+                    </select>
+                  </span>
+                </div>
+                <div class="errorMessage">
+                  {{CountrynameError}}
+              </div>
+                  <div class="mt-3">
+                    <label class="registration_label">Marital Status </label><br>
+                    <span>
+                      <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="memberBasicForm.marital_status">
+                        <option value="never married">  Never married</option>
+                        <option value="married">Married</option>
+                        <option selected="selected" value="awaiting divorce">Awaiting divorce </option>
+                        <option selected="selected" value="divorce">Divorce</option>
+                        <option selected="selected" value="widowed">Widowed</option>
+                      </select>
+                    </span>
+                  </div>  
+                  <div class="errorMessage">
+                  {{maritalStatusnameError}}          
+                  </div>
+                  <div class="form-group mt-2">
+                    <label for="exampleInputEmail1">Date of Birth</label>
+                    <input type="date" class="form-control"  [(ngModel)]="memberBasicForm.Date_of_birth" id="exampleInputEmail1" aria-describedby="emailHelp">
+                  </div>
+                  <div class="errorMessage">
+                    {{DateofbirthnameError}}          
+                    </div>
+                  <div class="form-group">
+                    <label class="registration_label">Height</label>
+                    
+          <span>
+            <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="memberBasicForm.Height">
+              <option value="4ft 5in - 134cm" label="4ft 5in - 134cm">4ft 5in - 134cm</option>
+              <option value="4ft 6in - 137cm" label="4ft 6in - 137cm">4ft 6in - 137cm</option>
+              <option value="4ft 7in - 139cm" label="4ft 7in - 139cm">4ft 7in - 139cm</option>
+              <option value="4ft 8in - 142cm" label="4ft 8in - 142cm">4ft 8in - 142cm</option>
+              <option value="4ft 9in - 144cm" label="4ft 9in - 144cm">4ft 9in - 144cm</option>
+              <option value="4ft 10in - 147cm" label="4ft 10in - 147cm">4ft 10in - 147cm</option>
+              <option value="4ft 11in - 149cm" label="4ft 11in - 149cm">4ft 11in - 149cm</option>
+              <option value="5ft - 152cm" label="5ft - 152cm">5ft - 152cm</option>
+              <option value="5ft 1in - 154cm" label="5ft 1in - 154cm">5ft 1in - 154cm</option>
+              <option value="5ft 2in - 157cm" label="5ft 2in - 157cm">5ft 2in - 157cm</option>
+              <option value="5ft 3in - 160cm" label="5ft 3in - 160cm">5ft 3in - 160cm</option>
+              <option value="5ft 4in - 162cm" label="5ft 4in - 162cm">5ft 4in - 162cm</option>
+              <option value="5ft 5in - 165cm" label="5ft 5in - 165cm">5ft 5in - 165cm</option>
+              <option value="5ft 6in - 167cm" label="5ft 6in - 167cm">5ft 6in - 167cm</option>
+              <option value="5ft 7in - 170cm" label="5ft 7in - 170cm">5ft 7in - 170cm</option>
+              <option value="5ft 8in - 172cm" label="5ft 8in - 172cm">5ft 8in - 172cm</option>
+              <option value="5ft 9in - 175cm" label="5ft 9in - 175cm">5ft 9in - 175cm</option>
+              <option value="5ft 10in - 177cm" label="5ft 10in - 177cm" selected="selected">5ft 10in - 177cm</option>
+              <option value="5ft 11in - 180cm" label="5ft 11in - 180cm">5ft 11in - 180cm</option>
+              <option value="6ft - 182cm" label="6ft - 182cm">6ft - 182cm</option>
+              <option value="6ft 1in - 185cm" label="6ft 1in - 185cm">6ft 1in - 185cm</option>
+              <option value="6ft 2in - 187cm" label="6ft 2in - 187cm">6ft 2in - 187cm</option>
+              <option value="6ft 3in - 190cm" label="6ft 3in - 190cm">6ft 3in - 190cm</option>
+              <option value="6ft 4in - 193cm" label="6ft 4in - 193cm">6ft 4in - 193cm</option>
+              <option value="6ft 5in - 195cm" label="6ft 5in - 195cm">6ft 5in - 195cm</option>
+              <option value="6ft 6in - 198cm" label="6ft 6in - 198cm">6ft 6in - 198cm</option>
+              <option value="6ft 7in - 200cm" label="6ft 7in - 200cm">6ft 7in - 200cm</option>
+              <option value="6ft 8in - 203cm" label="6ft 8in - 203cm">6ft 8in - 203cm</option>
+              <option value="6ft 9in - 205cm" label="6ft 9in - 205cm">6ft 9in - 205cm</option>
+              <option value="6ft 10in - 208cm" label="6ft 10in - 208cm">6ft 10in - 208cm</option>
+              <option value="6ft 11in - 210cm" label="6ft 11in - 210cm">6ft 11in - 210cm</option>
+              <option value="7ft - 213cm" label="7ft - 213cm">7ft - 213cm</option>
+            </select>
+          </span>
+                  </div>
+                  <div class="errorMessage">
+                    {{HeightnameError}}          
+  
+                    </div>
+                  <div class="form-group">
+                    <label class="registration_label">Religion</label>
+                    <span>
+                      <!-- (change)="gothraShowAndHide($event)" -->
+                      <select  name="religion" class="forminput js-religion" id="religion-details"
+                         [(ngModel)]="memberBasicForm.Religion">
+                        <option *ngFor="let relName of religionName" [value]="relName.religion_name">{{relName.religion_name}}</option>            </select>
+                    </span>
+                  </div>
+                  <div class="errorMessage">
+                  {{ReligionnameError}}
+                  </div>
+                  <!-- <div class="form-group" *ngIf="isShowCastAndSubCast">
+                      <label class="registration_label">Cast</label>
+                      <span>
+                        <select name="religion" class="forminput js-religion" id="cast-details" [(ngModel)]="memberBasicForm.Cast">
+                          <option *ngFor="let cstName of casteName" [value]="cstName.cast_name">{{cstName.cast_name}}</option>
+                        </select>
+                    </span>
+                  </div> -->
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Diet</label>
+                    <span>
+                      <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="memberBasicForm.Diet">
+                        <option value="Veg">Veg</option>
+                        <option value="Non-veg">Non-veg</option>
+                        <option selected="selected" value="Jain">Jain </option>
+                        <option selected="selected" value="Occasionally Non-Veg">Occasionally Non-Veg</option>
+                      </select>
+                    </span>
+                  </div>
+                  <div class="errorMessage">
+                  {{DietnameError}}
+                  </div>
+                  <div class="col-12 d-flex justify-content-center" >
+                    <button type="submit" class="btn-hover color-2"  (click)="BasicForm(user_id)">Submit</button>
+                   </div>
+        </div>
+        <div class="col-4"> </div>
+    </div>
+</div>
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':otpDisplay}">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" aria-label="Close"
+                  (click)="onCloseHandledForOTP()"><span aria-hidden="true">&times;</span></button>
+          </div>
+           <div class="modal-body">
+              <form>
+                  <div class="form-group">
+                      <h5 class="m-0">Mobile phone verification</h5><span class="mobile-text">Enter the
+                          OTP we just send on your Mobile Number </span>
+                      <div class="d-flex flex-row mt-5">
+                          <input style="text-align: center;" type="text" class="form-control"
+                              autofocus=""  [(ngModel)]="shortRegistrationModel.otp"
+                              (change)="onChangeOTP($event)" id="control12" maxlength='4'></div>
+
+                      <!-- <input maxlength='6' class="otp" [(ngModel)]="shortRegistrationModel.otp"
+                          (change)="onChangeOTP($event)" /> -->
+                      <div class="text-center mt-5"><span class="d-block mobile-text">Didn't receive the
+                              OTP?</span><span class="font-weight-bold text-danger cursor"
+                              >Click Resend</span></div>
+                      <!-- <button type="submit" class="btn btn-primary" (click)="login()">resend</button> -->
+                  </div>
+                  <div style="text-align: center;" *ngIf="hideSubmit">
+                  <button style="background-color: #742041;color: #fff;" type="submit" class="btn btn-primary"
+                  (click)="OtpVerifyAndShortRegisteration()">Submit</button>
+                  <div>
+                    <label class="errorMessage">{{otpErrorMessage}}</label>
+                    <label class="successMessage">{{otpMessage}}</label>
+                    <label class="errorMessage">{{memberRegistrationMessage}}</label>
+                </div>
+                  <p>Your OTP Verified and Confirmation Link Sent on Your registered Email </p>
+                </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+</body>

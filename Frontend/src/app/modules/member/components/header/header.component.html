@@ -1,9 +1,7 @@
-<script src="js/jquery-1.11.2.min.js"></script>
- <div class="navbar d-flex justify-content-center " id="navbarSupportedContent">
-  <img src="/saathidaar/assets/img/logoo.jpg.png" alt="" class="im1">
+ <!-- <div class="navbar d-flex justify-content-center " id="navbarSupportedContent">
+  <img src="/saathidaar/assets/img/saathidaar-logo-main.png" alt="" class="im1">
   <div class="subnav">
-    <div> <button class="subnavbtn "   (click)="addEventHandler()" aria-haspopup="true" aria-expanded="false">My Saathidaar
-      </button>
+    <div> <button class="subnavbtn "   (click)="addEventHandler()" aria-haspopup="true" aria-expanded="false">My Saathidaar</button>
     </div>
   </div>
   <div class="subnav">
@@ -16,10 +14,7 @@
       </button>
     </div>
   </div>
-  <div  class="subnav">
-    <div> <button  class="subnavbtn "  (click)="showSearch()">Search <i class="fa fa-search" aria-hidden="true"></i></button>
-    </div>
-  </div>
+
   <div class="subnav">
     <div><button   class="subnavbtn " (click)="showUpgradeNow()"> Upgrade Now <i class="fa-solid fa-crown"></i></button></div>
   </div>
@@ -33,15 +28,78 @@
         </button>
       </div>
       </div>
-</div>
+</div>  -->
+
+<nav class="navbar navbar-expand-lg ">
+  <img src="/saathidaar/assets/img/saathidaar-logo-main.png" alt="" class="im1">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      
+      <li class="nav-item active">
+        <div class="subnav">
+          <div> <button class="subnavbtn "   (click)="addEventHandler()" aria-haspopup="true" aria-expanded="false">My Saathidaar</button>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <div class="subnav">
+          <div> <button class="subnavbtn " (click)="addEventMatches()" aria-haspopup="true" aria-expanded="false">Matches <i class="fa fa-user-plus" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <div class="subnav">
+          <div> <button class="subnavbtn " (click)="addEventInbox()" aria-haspopup="true" aria-expanded="false">Inbox <i class="fa fa-inbox" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <div class="subnav">
+          <div><button   class="subnavbtn " (click)="showUpgradeNow()"> Upgrade Now <i class="fa-solid fa-crown"></i></button></div>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <div class="subnav">
+          <div> <button class="subnavbtn" (click)="addEventProfile()" aria-haspopup="true" aria-expanded="false">Settings <i class="fa-solid fa-gear"></i>
+            </button>
+          </div>
+          </div>
+      </li>
+      
+    </ul>
+
+    <form class="form-inline my-2 my-lg-0">
+
+      <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
+      <div class="subnav">
+        <div> <button class="subnavbtn " (click)="logout()">Logout <i class="fa fa-sign-out" aria-hidden="true"></i>
+          </button>
+        </div>
+        </div>
+
+    </form>
+  </div>
+</nav>
+
 <div class="subnav-content1" *ngIf="mySaathidar">
   <div class="header1">
     <a [routerLink]="" (click)="showDashboard()"  id="header2">Dashboard</a>
     <a [routerLink]="" (click)="showMyProfile()" id="header2">My Profile</a>
-    <a [routerLink]="" (click)="showPartnerPreference()"  id="header2">Partner Preference</a>
+    <a [routerLink]="" (click)="showPartnerPreference()"  id="header2">Partner Preference (Search)</a>
     <a [routerLink]="" (click)="showHorosscope()"  id="header2">Horoscope </a>
   </div>
 </div>
+
 <div class="subnav-content1" *ngIf="myInbox">
   <div class="header1">
     <a [routerLink]="" (click)="showInvitations()" id="header2">New Invitations</a>
@@ -50,6 +108,7 @@
     <a [routerLink]="" (click)="showDeleted()" id="header2">Deleted</a>
   </div>
 </div>
+
 <div class="subnav-content1" *ngIf="myMatches">
   <div class="header1">
     <a [routerLink]="" (click)="showNewMatches()" id="header2">New Matches</a>
@@ -59,6 +118,7 @@
     <a [routerLink]="" (click)="showView()" id="header2">View</a>
   </div>
 </div>
+
 <div class="subnav-content1" *ngIf="myProfile">
   <div class="header1">
     <a [routerLink]="" (click)="showAccount()" id="header2">Account</a>
@@ -68,4 +128,5 @@
     <a [routerLink]="" (click)="privacyshow()" id="header2">Privacy </a>
   </div>
 </div>
+
 

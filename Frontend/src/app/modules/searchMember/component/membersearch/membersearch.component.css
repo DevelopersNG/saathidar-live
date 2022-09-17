@@ -1,8 +1,7 @@
-* 
+*
 {
-    font-family: 'Times New Roman', Times, serifs;font-style: italic; 
- }
-
+    font-family: 'Times New Roman', Times, serif;
+}
 h3
 {
     background-color: #742041; color:#fff; padding: 10px;
@@ -25,7 +24,10 @@ select{
     text-overflow: ellipsis;
     background-color: #fff;color: black;
 }
-
+button {
+    background-image: linear-gradient(to right,#680F32,#D11861);
+    /* box-shadow: 0 4px 15px 0 rgba(69, 3, 49, 0.75); */
+}
 .row
 
 {

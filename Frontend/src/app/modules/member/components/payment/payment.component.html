@@ -2,7 +2,6 @@
     <!-- <nav class="navbar navbar-light bg-light" style="background-color: #ffffff!important;">
         <a class="navbar-brand"></a>
     </nav> -->
-
     <div class="alert alert-success" id="pay-success" style="display:none;">
         <strong>Payment Completed Successfully</strong>
     </div>
@@ -10,7 +9,6 @@
         <div class="row">
             <div class="col-3"></div>
         <div class="col-6 bgmain ">
-
             <h1 style="text-align:left; margin: auto;background-color: #742041;padding: 5px; color: #fff;">
                 <b>Saathidaar Membership</b></h1>
             <hr>
@@ -50,10 +48,7 @@
     </div>
 </form>
 <!-- razorpay -->
-
-
 <!-- <script type="text/javascript">
-
     function doPost(path, requestObject, isAsync) {
         var resp;
         $.ajax({
@@ -68,8 +63,6 @@
         })
         return resp;
     }
-
-
 </script> -->
 
 <script>
@@ -115,11 +108,9 @@
         alert(response.error.metadata.order_id);
         alert(response.error.metadata.payment_id);
 });
-
     document.getElementById('rzp-button1').onclick = function(e){
     alert("f");
     rzp1.open();
     e.preventDefault();
 }
-
 </script>

@@ -15,7 +15,7 @@ export class RefineSearchComponent implements OnInit {
   searchByJSONDetails: any;
   member_id: any;  
   memberIDs: any;
-  imageURL='http://103.150.186.33:8080'
+  imageURL='http://103.174.102.195:8080'
   genderImageURL='/saathidaar/assets/img'
   demoUrlsActive : string[] = [];
   demoUrls:any;

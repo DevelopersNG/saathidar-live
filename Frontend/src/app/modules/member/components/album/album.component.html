@@ -8,7 +8,6 @@
 <img  [src]='seturl' class="rounded mx-auto d-block img-thumbnail " alt="..." data-remote="urls" data-type="image" > 
 <p style="color: #fff;text-align: center;">SET PROFILE PHOTO </p>
 </div>
-
 <div class="col-lg-2"></div>
 </div>
 <div><img style="border: none; width:100%;height: 60px;background-color: transparent;"  src="/saathidaar/assets/img/Scroll_ROD1.png" alt="">
@@ -20,12 +19,15 @@
 <div style="padding-top: 100px;;"  class="row">
 <div  *ngFor="let url of urls;  let  i=index"   class="col-3 mt-1"  data-target="#myCarousel"    data-slide-to="i">
 <img   [src]='url' style="height: 70px ;width: 70px;"  class="bgcolor" (click)="showimage(url)" alt="..." >
-</div>  
+</div> 
+
+
 <div  *ngFor="let url of demoUrls;  let  i=index"   class="col-3 mt-1"  data-target="#myCarousel"    data-slide-to="i" >
 <button style="background: transparent; border: none;" type="submit"  (click)="deleteImage(url.image_id)"><i class="fa fa-trash" aria-hidden="true"></i></button>
 <img  [src]='imageURL+url.member_images'  style="height: 70px ;width: 70px;" (click)="setProfileImage(url.image_id)"  class="bgcolor" (click)="showimage(imageURL+url.member_images)" alt="..." >
 <!-- <button type="button" class="btn btn-primary btn-sm" (click)="setProfileImage(url.image_id)">profile</button> -->
 </div>
+
 <div *ngIf="UploadPhotoThree" class="fileUpload">
       <input class="upload" type="file" (change)="onselectFile($event)" multiple/>
       <span><i style="font-size: 40px;" class="fa fa-plus-circle" aria-hidden="true"></i></span>
@@ -34,13 +36,10 @@
 </div> 
 </div>
 </div>
-
-
 <!-- <div  *ngFor="let url of demoUrls;  let  i=index"   class="col-3 mt-1"  data-target="#myCarousel"    data-slide-to="i" >
       <img src="{{url.member_images}}"  style="height: 70px ;width: 70px;"  class="bgcolor" (click)="showimage(url)" alt="..." >
 </div> -->
 </div>
-    
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
@@ -58,12 +57,8 @@
           <div class="col-4 popup-photo"><i class="fa-regular fa-circle-check"></i> PHOTOS YOU CAN UPLOAD
           </div>
           <div class="col-8"><i class="fa-solid fa-xmark"></i> PHOTOS YOU CANNOT UPLOAD</div>
-
-
-
         </div>
         <div class="row img-popup">
-
           <div class="col-2"><img src="/saathidaar/assets/img/main-thumb-passport.jpeg" alt=""></div>
           <div class="col-2"><img src="/saathidaar/assets/img/full-pic.jpg" alt=""></div>
           <div class="col-2"><img src="/saathidaar/assets/img/images-one-side.jpg" alt=""></div>
@@ -71,21 +66,15 @@
           <div class="col-2"><img src="/saathidaar/assets/img/248-2484313_group-of-men-png-pluspng-group-of-men.png" alt="">
           </div>
           <div class="col-2"><img src="/saathidaar/assets/img/logo-hide-img.jpg" alt=""></div>
-
-
-
         </div>
-
         <h5 class="mt-5"><i class="fa-solid fa-lightbulb"></i>Basic Rules:</h5>
         <p><i class="fa-solid fa-right-long"></i>Smile. Your matches are more likely to respond.</p>
         <p><i class="fa-solid fa-right-long"></i>Add recent and clear photos.</p>
         <p><i class="fa-solid fa-right-long"></i>You can upload 3 photos to your profile. Each photo must
           be less than 50KB and in jpg, gif,
           png, bmp or tiff format.</p>
-
         <h5 class="mt-5"><i class="fa-solid fa-lightbulb"></i>Beyond these basic rules, here are some
           reasons we reject photos::</h5>
-
         <p><i class="fa-solid fa-right-long"></i>You are the focus of your profile. Do not add group photos.
         </p>
         <p><i class="fa-solid fa-right-long"></i>Sideways or upside-down photos are likely to be rejected.
@@ -93,15 +82,12 @@
         <p><i class="fa-solid fa-right-long"></i>Watermarked, digitally enhanced, morphed photos or photos
           with your personal information
           will be rejected.</p>
-
         <p><i class="fa-solid fa-right-long"></i>Do not upload irrelevant photographs such as celebrity
           photos or obscene photos. It may lead
           to deactivation of your profile and membership.</p>
-
       </div>
       <div class="modal-footer">
         <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-     
       </div>
     </div>
   </div>

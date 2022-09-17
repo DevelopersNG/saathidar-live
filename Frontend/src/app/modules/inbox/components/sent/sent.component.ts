@@ -16,7 +16,7 @@ export class SentComponent implements OnInit {
     demoUrlsActive : string[] = [];
     demoUrls:any;
     member_id:any;
-    imageURL='http://103.150.186.33:8080'
+    imageURL='http://103.174.102.195:8080'
     gender:any;
     genderImageURL='/saathidaar/assets/img'
   ngOnInit(): void {
@@ -78,9 +78,10 @@ if(this.gender=='female' || this.gender=='Female'){
     this.inbox_service.getSentDetails(member_id)
     .subscribe(
       (results: any) => {
-        // alert(JSON.stringify(results.data))
 
         this.sentDetails =results.data;
+        // alert(JSON.stringify(this.sentDetails.length))
+
         this.loader = false;
       },
       (      error: any) => {
@@ -152,10 +153,8 @@ check(val:any){
           // this.loader = false;
           console.log(error);
           window.location.reload();
-
         });
   }
-
   deletedMemberRequests(memberID:string){
     const data={
       request_from_id:memberID,
@@ -185,7 +184,6 @@ check(val:any){
       block_by_id:this.member_id,
       block_status:"Block"
     }
-   
     this.inbox_service.blockmember(data)
       .subscribe(
         results => {

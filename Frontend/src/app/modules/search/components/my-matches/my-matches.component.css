@@ -1,6 +1,7 @@
-* {
-    font-family: 'Times New Roman', Times, serifs;font-style: italic;
- }
+*
+{
+    font-family: 'Times New Roman', Times, serif;
+}
 .container
 {
     padding: 0px;margin: 0px;
@@ -34,15 +35,19 @@ button
     height: 170px;width: 140px;border: #742041 1px solid;padding: 2px;
 }
 
+
 label
 {
     padding-left: 12px;
 }
 
+
+
 hr
 {
     border-bottom: #742041 2px solid;padding: 0px;
 }
+
 
 .buttonclass
 {

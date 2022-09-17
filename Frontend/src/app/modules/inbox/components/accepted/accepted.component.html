@@ -2,12 +2,8 @@
     <!-- <button data-toggle="modal" data-target="#exampleModal" >image</button> -->
     <link href="/assets/icon/css/all.css" rel="stylesheet"> 
 <div class="row bg-img "  id="eachRow"  *ngFor="let search of acceptedDetails">
-
-
     <div style="height: 200px;" class="col-lg-3 col-md-4 col-sm-12 imgnew">
-
       <!-- **********************************image*************************** -->
-
       <!-- visible to all -->
       <div *ngIf="search.photo_privacy=='1'">
         <div *ngIf="search.profile_photo!=''">
@@ -45,7 +41,7 @@
         <!-- 2!=0 -->
         <div *ngIf="search.photo_privacy!=search.my_premium_status">   
           <div *ngIf="search.profile_photo!=''">
-            <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Visible to Premium Members
+            <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Image Shown to Premium Member's Only
               <br>
               <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans </a>
             </span>
@@ -66,7 +62,7 @@
       <!-- keep all private , blur to all-->
       <div *ngIf="search.photo_privacy=='3'">
         <div *ngIf="search.profile_photo!=''">
-          <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Visible to Premium Members
+          <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Image Shown to Premium Member's Only
             <br>
             <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans </a>
           </span>
@@ -117,7 +113,7 @@
             </div>
             <div  class="city-state" id="padding-class">
               
-                Income: {{search.income}}
+              City: {{search.city}}
                 <a [routerLink]="" (click)="singleViewMemberDetails(search.member_id)"
                     style="color: blue;">read more...</a>
                     <tr>
@@ -171,11 +167,11 @@
         </div>
     </div>
 
-<div class="row  Requests-hide"*ngIf="acceptedDetails.length == 0">
+<div class="row  Requests-hide" *ngIf="acceptedDetails.length == 0">
     <div class="col-lg-4">
     </div>
     <div class="col-lg-4">
-        <img  style="width: 200px;height: 200px;"   src="/saathidaar/assets/img/sad-image.jpg" alt="">
+      <img  style="width: 200px;height: 200px;"   src="/saathidaar/assets/img/sad-image.jpg" alt="">
         <p style="color:darkcyan ;">
             There are no accepted invitations<br>
             <!-- <a href="">View My Matches</a> -->

@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import * as jQuery from 'jquery';
 import { SearchService } from '../../services/search.service';
 
+
 @Component({
   selector: 'app-album',
   templateUrl: './album.component.html',
@@ -24,7 +25,8 @@ imagecount:any=0
   name = 'Test display image';
   imageurls:string="";
   // thumbnail: any;
-  imageURL='http://103.150.186.33:8080'
+  // imageURL='http://103.150.186.33:8080'
+  imageURL='http://103.174.102.195:8080'
   ngOnInit(): void {
 // *****************************show image ***************
     this.member_id = localStorage.getItem('login_credentials');
@@ -52,9 +54,6 @@ if(this.imagecount==2 )
    });
 }
 // *********************************************** End
-
-  
-
   setImages(val:any){
   // alert(val)
     return val.data[0].member_images;
@@ -68,7 +67,7 @@ if(this.imagecount==2 )
    urls : string[] = [];
    onselectFile(event:any) {
     if (event.target.files &&  event.target.files[0]) {
-      if (event.target.files[0].size < 500000) {
+      // if (event.target.files[0].size < 500000) {
       var File = event.target.files.length;
       if(this.imagecount<=1)
       {
@@ -89,22 +88,18 @@ if(this.imagecount==2 )
   {
     alert('only two photo upload')
   }
-    }else
-    {
-      alert('Each photo must be less than 50KB')
-    }
-
-  
+    // }else
+    // {
+    //   alert('Each photo must be less than 50KB')
+    // }
     }
   }
-  
   seturl:any;
   showimage(url:any)
 {
  this.seturl=url;
 
 }
-
   saveImages(){
     const data={
       image_base_urls:this.urls,
@@ -123,7 +118,6 @@ if(this.imagecount==2 )
   }
 
   // *********************************new line code image******************************
-  
   deleteImage(image_id:any) {
     const data={
       id:image_id
@@ -135,7 +129,6 @@ if(this.imagecount==2 )
      console.log(error);
    });
   }
-
 //  ****************************set profile********************
 setprofileMemberImage:any;
 image_id:any
@@ -158,7 +151,6 @@ setProfileImage(id:any)
     });
 }
 //  ****************************set profile********************
-
 }
 
   

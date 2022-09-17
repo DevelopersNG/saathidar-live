@@ -1,15 +1,13 @@
 * {
-    font-family: 'Times New Roman', Times, serifs;font-style: italic;
+    font-family:  'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
  }
- * {
-    font-family: 'Times New Roman', Times, serifs;font-style: italic;
- }
+
+
 ul{
     list-style: none; background-color:#742041
-}
-li a
+} a
 {
-    color: black; border-bottom: 1px white solid;color: #fff;
+    color: black;color: #fff;
 
 }
 .fa-solid
@@ -35,4 +33,12 @@ p
 a:hover
 {
     color: #fff; border: #fff 1px solid;
+}
+.btn-hover.color-1 {
+    background-image: linear-gradient(to right,#680F32,#D11861);
+    /* box-shadow: 0 4px 15px 0 rgba(69, 3, 49, 0.75); */
+  }
+  .linkAllColor
+{
+    background-color: #742041;border-bottom: 1px solid #ffff;
 }

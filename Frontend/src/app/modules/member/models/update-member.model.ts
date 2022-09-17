@@ -21,6 +21,8 @@ export class UpdateMember {
     no_of_children: string;
     date_of_birth: string;
     age: string;
+    ug_education:string;
+
 
 
     // religious backdround
@@ -67,14 +69,9 @@ export class UpdateMember {
     married_female: number;
     unmarried_female: number;
     country_name:string;
-
-
-    
     // astro details
     manglik:string;
     nakshatra:string;
-
-
     // kyc detaild
     Aadhaar_card:string;
     pan_card:string;

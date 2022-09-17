@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminDashboardComponent } from '../component/admin-dashboard/admin-dashboard.component';
 import { AllCountMatchesComponent } from '../component/all-count-matches/all-count-matches.component';
 import { DashboardComponent } from '../component/dashboard/dashboard.component';
-import { MemberDetailsComponent } from '../component/member-details/member-details.component';
+import { MemberDetailsShowComponent } from '../component/member-details-show/member-details-show.component';
 import { UpdatePremiumComponent } from '../component/update-premium/update-premium.component';
 
 
@@ -14,13 +14,11 @@ const routes: Routes = [
       { path: 'setting', component: AdminDashboardComponent},
       { path: 'allCount-matches', component: AllCountMatchesComponent},
       { path: 'primium-update', component: UpdatePremiumComponent },
-      { path: 'member-details', component: MemberDetailsComponent },
+      { path: 'member-details/:member_id', component: MemberDetailsShowComponent },
       {path:'', redirectTo:'/admin/setting',pathMatch:'full'}
     ]
   }
-
 ];
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

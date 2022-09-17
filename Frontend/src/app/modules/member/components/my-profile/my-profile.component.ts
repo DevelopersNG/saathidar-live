@@ -13,9 +13,9 @@ export class MyProfileComponent implements OnInit {
   constructor(private searchService: SearchService,private router:Router) { }
   member_id: any;
   demoUrls:any;
-  imageURL='http://103.150.186.33:8080'
+  imageURL='http://103.174.102.195:8080'
   gender:any;
-  genderImageURL='/saathidaar/assets/img';
+  genderImageURL='/saathidaar/assets/img'
   Kyc = "";
   ngOnInit(): void {
     this.member_id = localStorage.getItem('login_credentials');
@@ -41,24 +41,19 @@ export class MyProfileComponent implements OnInit {
       .subscribe(
         results => {
           this.viewMemberModels = results.data;
-          // alert(JSON.stringify(results))
-          // alert(this.viewMemberModels.gothra);
         },
         error => {
           console.log(error);
         });
   }
 // **************************my profile**********************************
-
   // ****************************************** STart
   profileIMags:any;
   callIMageForMemberID(member_id:any){
     this.searchService.getDataImageDataByURL(this.member_id)
     .subscribe((results : any) => {
-      // alert(JSON.stringify(results))
      
       this.profileIMags=results.data[0].member_images;
-      // this.demoUrls=results.data;
      });
   }
   // *********************************************** End
@@ -124,19 +119,24 @@ export class MyProfileComponent implements OnInit {
     nakshatra: '',
     Aadhaar_card: '',
     pan_card: '',
-    Kyc_Upload: ''
+    Kyc_Upload: '',
+    ug_education: ''
   };
   // urls=[];
   myForm: any;
   images: any;
   urls : string[] = [];
+  namefile:any
+
+  
   onselectFile(event:any) {
-   if (event.target.files &&  event.target.files[0]) {
+   if (event.target.files &&  event.target.files[0].name) {
      var File = event.target.files.length;
+     const target = event.target as HTMLInputElement
      for(let i=0; i<File; i++){
        var reader = new FileReader();
+       this.namefile =event.target.files[0].name;
        reader.onload=(events:any)=>{
-         //  alert(events.target.result) 
          this.urls.push(events.target.result);
          this.myForm.patchValue({
            fileSource: this.images
@@ -146,15 +146,19 @@ export class MyProfileComponent implements OnInit {
      }
    }
  }
+
+ 
   saveImages(){
+
     const data={
       image_base_urls:this.urls,
       member_id:this.member_id,
       Aadhaar_card:this.updateMemberModels.Aadhaar_card,
       document_type:this.updateMemberModels.Aadhaar_card,
-      // document_name:'abc.pdf',
+      document_name:this.namefile,
       headers: { 'Content-Type': 'multipart/form-data' }
     }
+
    this.searchService.uploadKycDetails(data)
     .subscribe(
      results => {
@@ -163,12 +167,20 @@ export class MyProfileComponent implements OnInit {
         console.log(error);
     });
   }
+
+
   kycDoumrntMember:any;
+  documtName:any;
+  documtPath:any;
+  documtType:any;
+
   callKycDoucument(member_id:any){
     this.searchService.callKycDoucument(member_id)
-    .subscribe((results : any) => { 
-    //  alert(JSON.stringify(results))
+    .subscribe((results : any) => {
+     if(results.data!= '' )
+     {
       this.kycDoumrntMember=results.data[0];
-     });
+     }
+       });
   }
 }

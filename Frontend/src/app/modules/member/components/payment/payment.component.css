@@ -1,6 +1,7 @@
-* {
-    font-family: 'Times New Roman', Times, serifs;font-style: italic;
- }
+*
+{
+    font-family: 'Times New Roman', Times, serif;
+}
 .bgmain
 {
     border: 2px solid #742041;padding: 10px;;box-shadow: 0 0 11px rgb(33, 33, 33); 

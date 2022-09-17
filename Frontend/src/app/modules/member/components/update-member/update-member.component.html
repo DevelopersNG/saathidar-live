@@ -7,7 +7,7 @@
       <!-- Religion -->
       <div class="col-md-9 col-lg-9">
         <hr >
-        <p>Basic Info</p>
+        <p>Basic & Lifestyle</p>
         <hr >
         <li class="list-group-item col-sm-12 mt-1">
           <label class="registration_label">Profile created by</label>
@@ -29,18 +29,20 @@
           </label>
           <span>
             <select name="gender" class="forminput js-religion" [(ngModel)]="updateMemberModels.gender">
-              <option value="Male">male</option>
+              <option value="male">male</option>
               <option value="Female">female</option>
             </select>
           </span>
         </li> 
-        <label class="bir ab">Date of Birth</label>
+        <li class="list-group-item col-sm-12 mt-1">
+        <label class="">Date of Birth</label>
         <input type="date" class="" name="birthday" [(ngModel)]="updateMemberModels.date_of_birth">
+        </li>
         <li class="list-group-item col-sm-12 mt-1">
           <label class="registration_label">Age </label>
           <span>
             <select name="age" class="forminput js-religion" [(ngModel)]="updateMemberModels.age">
-            <option value="">------------Select---------------</option>
+            <!-- <option value="">------------Select---------------</option> -->
             <option value="18">18</option>
             <option value="19">19</option>
             <option value="20">20</option>
@@ -125,17 +127,24 @@
           <label class="registration_label">Health Information
           </label>
           <span>
-            <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="updateMemberModels.health_info">
+            <select name="religion" class="forminput js-religion" id="religion" value="{{updateMemberModels.health_info}}"  (change)="OtherOption($event)" [(ngModel)]="updateMemberModels.health_info">
               <option value="" label="Select">Select</option>
-              <option value="No Health Problems" label="No Health Problems" selected="selected">No Health Problems
+              <option value="No Health Issues" label="No Health Issues" selected="selected">No Health Issues
               </option>
-              <option value="HIV positive" label="HIV positive">HIV positive</option>
+              <!-- <option value="HIV positive" label="HIV positive">HIV positive</option>
               <option value="Diabetes" label="Diabetes">Diabetes</option>
               <option value="Low BP" label="Low BP">Low BP</option>
               <option value="High BP" label="High BP">High BP</option>
-              <option value="Heart Ailments" label="Heart Ailments">Heart Ailments</option>
-              <option value="Other" label="Other">Other</option>
+              <option value="Heart Ailments" label="Heart Ailments">Heart Ailments</option> -->
+              <option  value="Other" label="Other">Other</option>
             </select>
+          </span>
+        </li>
+        <li class="list-group-item col-sm-12 mt-1" *ngIf="Other">
+          <label class="registration_label">
+          </label>
+          <span>
+              <input class="ab" type="text"   placeholder="Health Information" class="form control"  [(ngModel)]="updateMemberModels.health_info">
           </span>
         </li>
         <li class="list-group-item col-sm-12 mt-1">
@@ -156,7 +165,28 @@
             </select>
           </span>
         </li>
-
+        <li class="list-group-item col-sm-12 mt-1">
+      
+          <label class="registration_label">Diet</label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" [(ngModel)]="updateMemberModels.lifestyles" name="inlineRadioOptionsLifeStyle" id="inlineRadio1" value="Veg">
+            <label class="form-check-label" for="inlineRadio1">Veg</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" [(ngModel)]="updateMemberModels.lifestyles" name="inlineRadioOptionsLifeStyle" id="inlineRadio2" value="Non-veg">
+            <label class="form-check-label" for="inlineRadio2">Non-veg</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" [(ngModel)]="updateMemberModels.lifestyles" name="inlineRadioOptionsLifeStyle" id="inlineRadio3" value="Jain">
+            <label class="form-check-label" for="inlineRadio3">Jain
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio"  [(ngModel)]="updateMemberModels.lifestyles" name="inlineRadioOptionsLifeStyle" id="inlineRadio4" value="Occasionally Non-Veg">
+            <label class="form-check-label" for="inlineRadio4">Occasionally Non-Veg
+            </label>
+          </div>
+        </li>
         <li class="list-group-item col-sm-12 mt-1">
           <hr>
           <p>Religious Background
@@ -169,7 +199,6 @@
               <option *ngFor="let relName of religionName" [value]="relName.religion_name">{{relName.religion_name}}</option>            </select>
           </span>
         </li>
-
         <li class="list-group-item col-sm-12 mt-1">
           <label class="registration_label">Mother Tongue
           </label>
@@ -328,7 +357,7 @@
               <option value="Employed" label="Employed">Employed</option>
               <option value="Business" label="Business" selected="selected">Business</option>
               <option value="Retired" label="Retired">Retired</option>
-              <option value="House Wife" label="House Wife">House Wife</option>
+              <option value="House Wife" label="House Wife">Home  Maker</option>
               <option value="Not Employed" label="Not Employed">Not Employed</option>
               <option value="Passed Away" label="Passed Away">Passed Away</option>
             </select>
@@ -508,7 +537,29 @@ Sister
             </span>
           </li>
         </div>
-        <li class="list-group-item col-sm-12 mt-1">
+
+    <li class="list-group-item col-sm-12 mt-1">
+          <hr>
+          <p>Education & Career
+          </p>
+          <hr>
+            <label class="registration_label">PG education</label>
+            <span>
+              <input class="ab" type="text" value="{{updateMemberModels.highest_qualification}}" placeholder="education" [(ngModel)]="updateMemberModels.highest_qualification">
+            </span>
+          </li>
+
+          
+    <li class="list-group-item col-sm-12 mt-1">
+ 
+        <label class="registration_label">UG education</label>
+        <span>
+          <input class="ab" type="text" value="{{updateMemberModels.ug_education}}" placeholder="education" [(ngModel)]="updateMemberModels.ug_education">
+        </span>
+      </li>
+
+
+        <!-- <li class="list-group-item col-sm-12 mt-1">
           <hr>
           <p>Education & Career
           </p>
@@ -524,7 +575,7 @@ Sister
               <option value="M.S Engineering" label="M.S Engineering">M.S Engineering</option>
               <option value="B.Eng (Hons)" label="B.Eng (Hons)">B.Eng (Hons)</option>
               <option value="M.Eng (Hons)" label="M.Eng (Hons)">M.Eng (Hons)</option>
-              <option value="Engineering Diploma" label="Engineering Diploma">Engineering Diploma</option>
+             <option value="Engineering Diploma" label="Engineering Diploma">Engineering Diploma</option>
               <option value="AE" label="AE">AE</option>
               <option value="AET" label="AET">AET</option>
               <optgroup id="educationlevel-optgroup--ARTS / DESIGN-" label="-ARTS / DESIGN-">
@@ -623,7 +674,7 @@ Sister
               </optgroup>
               <option value="Bachelor" label="Bachelor">Bachelor</option>
               <option value="Master" label="Master">Master</option>
-              <option value="Diploma" label="Diploma">Diploma</option>
+              <option value="Diploma" label="Diploma">Diploma</option> 
               <option value="Honours" label="Honours">Honours</option>
               <option value="Doctorate" label="Doctorate">Doctorate</option>
               <option value="Associate" label="Associate">Associate</option>
@@ -633,12 +684,12 @@ Sister
               <option value="Less than high school" label="Less than high school">Less than high school</option>
             </select>
           </span>
-        </li>
+        </li> -->
         <li class="list-group-item col-sm-12 mt-1">
 
           <label class="registration_label">College Attended</label>
           <span>
-            <input class="ab" type="text" value="{{updateMemberModels.college_attended}}" placeholder="text" [(ngModel)]="updateMemberModels.college_attended">
+            <input class="ab" type="text" value="{{updateMemberModels.college_attended}}" placeholder="" [(ngModel)]="updateMemberModels.college_attended">
           </span>
         </li>
 
@@ -656,7 +707,7 @@ Sister
               </option>
               <option value="Business / Self Employed" label="Business / Self Employed" selected="selected">Business /
                 Self Employed</option>
-              <option value="Not Working" label="Not Working">Not Working</option>
+              <!-- <option value="Not Working" label="Not Working">Not Working</option> -->
             </select>
           </span>
         </li>
@@ -841,7 +892,7 @@ Sister
               </optgroup>
               <option value="Student" label="Student">Student</option>
               <option value="Retired" label="Retired">Retired</option>
-              <option value="Not working" label="Not working">Not working</option>
+              <!-- <option value="Not working" label="Not working">Not working</option> -->
             </select>
           </span>
         </li>
@@ -864,7 +915,7 @@ Sister
               <option value="INR 50 Lakh to 75 Lakh" label="INR 50 Lakh to 75 Lakh">INR 50 Lakh to 75 Lakh</option>
               <option value="INR 75 Lakh to 1 Crore" label="INR 75 Lakh to 1 Crore">INR 75 Lakh to 1 Crore</option>
               <option value="INR 1 Crore above" label="INR 1 Crore &amp; above">INR 1 Crore &amp; above</option>
-              <option value="Not applicable" label="Not applicable">Not applicable</option>
+              <option value="Not applicable" label="Not applicable">Don't want to specify</option>
             </select>
           </span>
         </li>
@@ -924,12 +975,21 @@ Sister
           <label class="registration_label">City Living In
             (Nearest City) </label>
           <span>
-            <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="updateMemberModels.city_name">
+            <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="updateMemberModels.city_name"  (change)="FranchiesOption($event)">
               <option value="">Select</option>
               <option *ngFor="let ctName of cityName" [value]="ctName.city_name">{{ctName.city_name}}</option>
+              <option value="Other">Other</option>
             </select>
           </span>
         </li>
+
+        <li class="list-group-item col-sm-12 mt-1" *ngIf="OtherShow">
+          <label class="registration_label"></label>
+          <span>
+            <input  type="text"  placeholder="City Name" [(ngModel)]="updateMemberModels.city_name">
+          </span>
+        </li>
+
         <li class="list-group-item col-sm-12 mt-1">
           <label class="registration_label">Ethnic Origin</label>
           <span>
@@ -939,7 +999,7 @@ Sister
         <li class="list-group-item col-sm-12 mt-1">
           <label class="registration_label">Zip/Pin Code</label>
           <span>
-            <input class="ab" type="text" value="{{updateMemberModels.pincode}}" placeholder="text" [(ngModel)]="updateMemberModels.pincode">
+            <input class="ab" type="" value="{{updateMemberModels.pincode}}" placeholder="text" [(ngModel)]="updateMemberModels.pincode">
           </span>
         </li>
       

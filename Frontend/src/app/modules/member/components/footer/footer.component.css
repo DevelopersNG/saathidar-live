@@ -33,9 +33,7 @@ a:hover
 {
   color: #ffff;font-size: 25px; background-color: black; padding: 20px;
 } */
-* {
-  font-family: 'Times New Roman', Times, serifs;font-style: italic;
-}
+
 .po{
   font-size: 15px;
   font-family: "Nunito Sans" , sans-serif ;

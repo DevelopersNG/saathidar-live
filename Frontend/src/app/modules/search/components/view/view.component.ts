@@ -19,6 +19,9 @@ export class ViewComponent implements OnInit {
   memberIDs: any;
   viewRecently:any;
   gender:any;
+  imageURL='http://103.174.102.195:8080'
+  demoUrls:any;
+profileIMags:any;
   genderImageURL='/saathidaar/assets/img'
   constructor(private router:Router ,private matchesService:MatchesService) { }
   ngOnInit(): void {
@@ -97,9 +100,7 @@ export class ViewComponent implements OnInit {
 
   // ****************************************get images******************************
     // ****************************************** STart
-    imageURL='http://103.150.186.33:8080'
-    demoUrls:any;
-profileIMags:any;
+
 getIMagesForMembers(member_id: any) {
   this.matchesService.getData(member_id)
   .subscribe((results : any) => {

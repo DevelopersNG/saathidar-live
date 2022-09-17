@@ -13,7 +13,7 @@ export class PremiumMemberComponent implements OnInit {
     demoUrlsActive : string[] = [];
     demoUrls:any;
     gender:any;
-    imageURL='http://103.150.186.33:8080'
+    imageURL='http://103.174.102.195:8080'
     genderImageURL='/saathidaar/assets/img'
     loader = false;
     searchMemberDetails: any;
@@ -21,6 +21,10 @@ export class PremiumMemberComponent implements OnInit {
     member_id: any;  
     memberIDs: any;
     premiumMemberDetails: any;
+
+    upgrade=false
+    blockMasseage=false
+    sendRequest=false
   constructor(private router:Router,private matchesService:MatchesService) { }
 
   ngOnInit(): void {
@@ -43,15 +47,11 @@ export class PremiumMemberComponent implements OnInit {
       this.genderImageURL=this.genderImageURL+"/No_image_male.jpg";
     }
     // end
-
-
     this.callSearchDetails(this.member_id); 
     this.callNewPreiumMatchesDetails(this.member_id); 
     // alert(JSON.stringify(this.callNewPreiumMatchesDetails))
-   
   }
 
- 
  // ****************************************** STart
  profileIMags:any;
  demoUrlsModal:any;
@@ -68,19 +68,10 @@ export class PremiumMemberComponent implements OnInit {
    }
     });
  }
-
  // *********************************************** End
- 
-
- 
- 
-  
-
   singleViewMemberDetails(member_id: string) {
     this.router.navigate(['/members/profile/' + member_id]);
   }
-
-
   callSearchDetails(member_id: any) {
     this.loader = true;
     this.matchesService.searchNewMatchesAllMember( member_id)
@@ -111,37 +102,46 @@ export class PremiumMemberComponent implements OnInit {
           console.log(error);
         });
   }
+  
+  addToShortList(member_to_id: string,my_premium_status:string) {
+   
+    if(my_premium_status == '2')
+    { 
 
-  addToShortList(member_to_id: string) {
-    const data = {
-      shortlist_from_id: this.member_id,
-      shortlist_to_id: member_to_id,
-      shortlist_status: "add"
+      const data = {
+        shortlist_from_id: this.member_id,
+        shortlist_to_id: member_to_id,
+        shortlist_status: "add"
+      }
+
+      this.matchesService.sentShortListData(data)
+        .subscribe(
+          results => {
+            // if requests are send successfully then call member details again
+            if (results != null) {
+              this.callSearchDetails(this.member_id);
+            }
+          },
+          error => {
+            this.loader = false;
+            console.log(error);
+            window.location.reload();
+          });
+    }else
+    {
+     this.upgrade=true;
     }
-
-    this.matchesService.sentShortListData(data)
-      .subscribe(
-        results => {
-          // if requests are send successfully then call member details again
-          if (results != null) {
-            this.callSearchDetails(this.member_id);
-          }
-        },
-        error => {
-          this.loader = false;
-          console.log(error);
-        });
   }
-
-  sentRequests(member_to_id: string) {
+  sentRequests(member_to_id: string,my_premium_status:string) {
+    if(my_premium_status == '2')
+    { 
+    
     const data = {
       request_from_id: this.member_id,
       request_to_id: member_to_id,
       request_status: "Pending"
     }
-
 // alert(JSON.stringify(data))
-
     this.matchesService.sentRequests(data)
       .subscribe(
         results => {
@@ -154,6 +154,10 @@ export class PremiumMemberComponent implements OnInit {
           this.loader = false;
           console.log(error);
         });
+      }else
+      {
+        this.sendRequest=true;
+      }
 
     // alert(JSON.stringify(data));
   }
@@ -175,14 +179,13 @@ export class PremiumMemberComponent implements OnInit {
    this.seturl=url;
    this.loadTIme=true;
   }
-
   check(val:any){
 // alert(val)
-
     }
 
-  blockmemberID(member_to_id: string) {
-
+  blockmemberID(member_to_id: string,my_premium_status:string) {
+    if(my_premium_status == '2')
+    {
     const data = {
       request_from_id:member_to_id,
       request_to_id:this.member_id,
@@ -198,6 +201,10 @@ export class PremiumMemberComponent implements OnInit {
         error => {
           console.log(error);
         });
+      }else
+      {
+       this.blockMasseage=true;
+      }
   }
   callNewPreiumMatchesDetails(member_id:any){
     this.loader = true;
@@ -221,6 +228,5 @@ export class PremiumMemberComponent implements OnInit {
           console.log(error);
         });
   }
-  
- 
+
 }

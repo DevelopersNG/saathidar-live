@@ -37,9 +37,9 @@
           <!-- 2!=0 -->
           <div *ngIf="search.photo_privacy!=search.my_premium_status">   
             <div *ngIf="search.profile_photo!=''">
-              <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Visible to Premium Members
+              <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Image Shown to Premium Member's Only
                 <br>
-                <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans </a>
+                <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans ></a>
               </span>
               <i *ngIf="search.premium_status=='1'" class="fa-solid fa-crown"></i>
               <img style="border: 2px solid black;" data-toggle="modal" data-target="#exampleModal"
@@ -56,9 +56,9 @@
         <!-- keep all private , blur to all-->
         <div *ngIf="search.photo_privacy=='3'">
           <div *ngIf="search.profile_photo!=''">
-            <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Visible to Premium Members
+            <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Image Shown to Premium Member's Only
               <br>
-              <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans </a>
+              <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans ></a>
             </span>
             <i *ngIf="search.premium_status=='1'" class="fa-solid fa-crown"></i>
             <img style="border: 2px solid black;" data-toggle="modal" data-target="#exampleModal"
@@ -83,7 +83,7 @@
           <label for="">Income:  </label>  <label for=""> {{search.income}}	</label><br>
         <label for=""> <a [routerLink]="" (click)="singleViewMemberDetails(search.member_id)" style="color: blue;">read more...</a></label><br>
         <tr>
-          <th tabindex="0" data-toggle="tooltip" title="Add to ShortListsed"  *ngIf="search.shortlist_status=='0'">
+          <th tabindex="0" data-toggle="tooltip" title="Add to ShortList"  *ngIf="search.shortlist_status=='0'">
             <button style="border: none;margin-top: 10px;" [routerLink]="" (click)="addToShortList(search.member_id)" > <i
                 style="pointer-events: none;" class="fa fa-star" aria-hidden="true"></i></button>
           </th>
@@ -110,7 +110,7 @@
           </tr>
           <tr style="margin-top: 10px;" class="d-flex justify-content-center">
             <th>
-              <button>Connect Now</button>
+              <button>Send Request</button>
             </th>
           </tr>
         </div>
@@ -125,7 +125,7 @@
           </tr>
           <tr style="margin-top: 10px;" class="d-flex justify-content-center">
             <th>
-              <button>Connected </button>
+              <button>Request sent</button>
             </th>
           </tr>
         </div>

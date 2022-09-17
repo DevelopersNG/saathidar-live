@@ -1,6 +1,6 @@
 * 
 {
-    font-family: 'Times New Roman', Times, serifs;font-style: italic; 
+  font-family:  'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
  }
 
 #colourchange{
@@ -23,6 +23,10 @@
     text-align: center;border-radius: 20px; margin-bottom: 5px;background-color: #742041;
   }
   
+  .btn-hover.color-1 {
+    background-image: linear-gradient(to right,#680F32,#D11861);
+    /* box-shadow: 0 4px 15px 0 rgba(69, 3, 49, 0.75); */
+}
   .card-title
   {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;

@@ -18,6 +18,8 @@ import { HideDeleteProfileComponent } from './components/hide-delete-profile/hid
 import { AlbumComponent } from './components/album/album.component';
 import { MultipalpicComponent } from './components/multipalpic/multipalpic.component';
 import { ProfileAlldetailsComponent } from './components/profile-alldetails/profile-alldetails.component';
+import { AgmCoreModule} from '@agm/core'
+
 
 const routes: Routes = [
   {
@@ -44,8 +46,12 @@ const routes: Routes = [
     ]
   }
 ];
+
+
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
+
 })
+
 export class MemberRoutingModule { }

@@ -13,8 +13,11 @@ export class MyMatchesComponent implements OnInit {
   searchByJSONDetails: any;
   member_id: any;  
   memberIDs: any;
-  imageURL='http://103.150.186.33:8080'
+  imageURL='http://103.174.102.195:8080'
   genderImageURL='/saathidaar/assets/img'
+  upgrade=false
+  blockMasseage=false
+  sendRequest=false
   constructor(private router:Router,private matchesService:MatchesService) { }
   // demoUrls : string[] = [];
   demoUrlsActive : string[] = [];
@@ -81,7 +84,9 @@ export class MyMatchesComponent implements OnInit {
           console.log(error);
         });
   }
-  addToShortList(member_to_id: string) {
+  addToShortList(member_to_id: string,my_premium_status:string) {
+    if(my_premium_status == '2')
+    {
     const data = {
       shortlist_from_id: this.member_id,
       shortlist_to_id: member_to_id,
@@ -101,8 +106,14 @@ export class MyMatchesComponent implements OnInit {
           window.location.reload();
 
         });
+      }else
+      {
+        this.upgrade=true;
+      }
   }
-  sentRequests(member_to_id: string) {
+  sentRequests(member_to_id: string,my_premium_status:string) {
+    if(my_premium_status == '2')
+    {
     const data = {
       request_from_id: this.member_id,
       request_to_id: member_to_id,
@@ -123,6 +134,10 @@ export class MyMatchesComponent implements OnInit {
           window.location.reload();
 
         });
+    }else
+    {
+      this.sendRequest=true;
+    }
 
     // alert(JSON.stringify(data));
   }
@@ -146,7 +161,9 @@ check(val:any){
 
   }
 // ************************************block*************************
-blockmemberID(member_to_id: string) {
+blockmemberID(member_to_id: string,my_premium_status:string) {
+  if(my_premium_status == '2')
+  {
   const data = {
     request_from_id:member_to_id,
     request_to_id:this.member_id,
@@ -164,5 +181,11 @@ blockmemberID(member_to_id: string) {
         // window.location.reload();
 
       });
+    }
+    else
+    {
+      this.blockMasseage=true;
+    }
 }
+
 }

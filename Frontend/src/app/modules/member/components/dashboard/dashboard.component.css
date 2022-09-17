@@ -1,12 +1,10 @@
-* {
-  font-family: 'Times New Roman', Times, serifs;font-style: italic;
-}
 
 .navbar {
     background-color: #742041;
 }
 
-.btn:not(:disabled):not(.disabled) {
+.btn:not(:disabled):not(.disabled) 
+{
     color: #fff;
 }
 
@@ -30,28 +28,23 @@
     margin-top: 10px;
 }
 
-
-
-
 .Notifications {
     margin-top: 50px;
 }
-
-
-
+.btn-hover.color-1 {
+  background-image: linear-gradient(to right,#680F32,#D11861);
+  /* box-shadow: 0 4px 15px 0 rgba(69, 3, 49, 0.75); */
+}
 
 .btn99
 {
     background-color: #742041;
 }
 
-
-
 .bgcolor {
     padding: 5px;
     background: seashell;
 }
-
 
 .media img {
     width: 79px;
@@ -67,7 +60,6 @@
 
 }
 
-
 .media ul {
     float: right;
     overflow: hidden;
@@ -76,22 +68,21 @@
 .stretched-link {
     float: right;
     color: #fff;
-  
-   
-  
- 
     font-size: 10px;
 }
+
 span
 {
     margin-left: 5px;
 }
+
 .badge-light
 {
     background-color: #fff;padding: 5px;color: black;
 }
 
-a {
+a
+{
   margin-top:10px ;padding-right: 5px;
 }
 
@@ -103,7 +94,6 @@ a {
 {
   background-color: #742041;
 }
-
 
 .media li {
     float: left;
@@ -119,7 +109,6 @@ a {
     width: 100px;
     height: auto;
 }
-
 
 span[_ngcontent-dkq-c81]
 {
@@ -142,13 +131,9 @@ span[_ngcontent-dkq-c81]
 {
     background-color: #742041;border-radius: 50%;  
 }
-
-
 /* footer */
 
-* {
-    font-family: Verdana, Geneva, Tahoma, sans-serif
-}
+
 
 footer {
     height: 150px;
@@ -157,7 +142,6 @@ footer {
     margin: auto;
     background-color: #742041
 }
-
 
 li {
     float: right;
@@ -195,15 +179,16 @@ footer ul {
 {
    margin-top: -50px;
 }
+
 .vs
 {
     margin: auto;text-align: center;border-radius: 10px;padding-left: 40px;padding-right: 40px;
 }
+
 .btn
 {
      background-color:#742041;color: #fff;border: #fff 1px solid;
 }
-
 
   /* .carousel-item img {
     object-fit: cover;
@@ -450,10 +435,6 @@ input[type="file"] {
     /* padding: 6px 12px; */
     cursor: pointer;
 }
-.w-100
-{
-    height: 300px;width: 100%;
-}
 
 .modal-content
 {
@@ -477,7 +458,6 @@ input[type="file"] {
 {
     background-color: black;
 }
-
 .premiumimg {
  
   filter: blur(3px);
@@ -494,6 +474,14 @@ input[type="file"] {
 .fa-crown
 {
   z-index: 1; position: absolute;font-size: 19px;color: #d8aa3c;padding: 6px;text-shadow: 2px 2px black;
+}
+.w-100
+{
+  height: 300px;
+}
+.d-block
+{
+  width: 300px;
 }
 
 @media (min-width: 576px) and (max-width: 767.98px) { 

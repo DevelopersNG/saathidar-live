@@ -7,30 +7,25 @@ import {Router} from '@angular/router';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  
-    
   constructor(private router:Router) { }
 
   ngOnInit(): void {
+
     this.mySaathidar=true;
     this.myMatches= false;
     this.myInbox= false;
     this.myProfile= false;
-
   }
-  //  isMenuOpened: boolean =false;
+  //  isMenuOpened: boolean = false;
   isMySaathidarDiv = false;
   isShowDivIf = false;
   isClosedDiv=false;
   navbar=false;
   
-  
   mySaathidar:boolean= false;
   myMatches:boolean= false;
   myInbox:boolean= false;
   myProfile:boolean= false;
-
-  
 
   addEventHandler(){
     // let element = document.getElementsByClassName('ps__rail-y')[0] as HTMLElement;
@@ -41,6 +36,7 @@ export class HeaderComponent implements OnInit {
     this.myProfile= false;
     this.router.navigate(['members/dashboard']);
   }
+
   addEventMatches(){
     // let element = document.getElementsByClassName('ps__rail-y')[0] as HTMLElement;
     // element.addEventListener('click', this.scroll, true);
@@ -50,6 +46,7 @@ export class HeaderComponent implements OnInit {
     this.mySaathidar=false;
     this.router.navigate(['matches/new']);
   }
+
   addEventInbox(){
     this.myInbox=true;
     this.myMatches=false;
@@ -57,6 +54,7 @@ export class HeaderComponent implements OnInit {
     this.mySaathidar=false;
     this.router.navigate(['inbox/invitations']);
   }
+
   addEventProfile(){
     this.myProfile=true;
     this.myInbox=false;
@@ -68,16 +66,19 @@ export class HeaderComponent implements OnInit {
   scroll(e:Event){
     e.stopPropagation();
   }
+  
   // Togglemenu():void{
   //   this. isMenuOpened = !this. isMenuOpened;
   // }
   // clickOutSide():void{
   //   this. isMenuOpened = !this. isMenuOpened;
   // }
+
+
   showDashboard(){
     this.router.navigate(['members/dashboard']);
   }
-  
+
   showMyProfile(){
     this.router.navigate(['members/my-profile']);
   }
@@ -102,13 +103,15 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['member/membersearch']);
   }
 
-  showUpgradeNow(){
+  showUpgradeNow()
+  {
     this.router.navigate(['upgrade/plan']);
   }
  
   showHorosscope(){
     this.router.navigate(['members/astro']);
   }
+
 // ************** Inbox Start*********************
 
 showInvitations(){
@@ -123,10 +126,12 @@ showRequests(){
   this.router.navigate(['inbox/requests']);
 }
 
-showSent(){
+showSent()
+{
     this.router.navigate(['inbox/sent']);
-  }
-  logout(): void {
+}
+
+logout(): void {
     localStorage.setItem('login_credentials', "");
     localStorage.setItem('login_credentials_email', "");
     localStorage.setItem('setUserName', "");
@@ -134,32 +139,37 @@ showSent(){
   }
 
 
-  showDeleted(){
+  showDeleted()
+  {
     this.router.navigate(['inbox/deleted']);
   }
 
 // ************** Inbox End***********************
 // ************** profile Start***********************
+
+
 showAccount(){
   this.router.navigate(['account/setting']);
 }
+
 showContact(){
   this.router.navigate(['account/email-sms']);
 }
+
 showHidedeleteprofile(){
   this.router.navigate(['account/HideDeleteProfile']);
 }
+
 showhelp()
 {
   this.router.navigate(['account/help'])
 }
-privacyshow()
-{
+
+privacyshow(){
   this.router.navigate(['account/privacy']) 
 }
 // ************** profileEnd***********************
 // ************** Matches Start***********************
-
 showNewMatches(){
   this.router.navigate(['matches/new']);
 }
@@ -174,10 +184,9 @@ showTodaysMatches(){
 
 showShortLists(){
   this.router.navigate(['matches/shortlists']);
-  
 }
-showView()
-{
+
+showView(){
   this.router.navigate(['matches/view']);
 }
 // ************** Matches End***********************

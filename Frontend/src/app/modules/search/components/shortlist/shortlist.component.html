@@ -4,15 +4,16 @@
       <div style="height: 200px;"  class="col-lg-3 col-md-12 col-sm-12"  >
          <!-- **********************************image*************************** -->
       <!-- visible to all -->
+
       <div *ngIf="search.photo_privacy=='1'">
         <div *ngIf="search.profile_photo!=''">
+          
           <i *ngIf="search.premium_status=='1'" class="fa-solid fa-crown"></i>
           <img style="border: 2px solid black;" data-toggle="modal" data-target="#exampleModal" class="imgnew "
             (click)="callIMageForMemberID(search.member_id)" [src]='imageURL+search.profile_photo' alt="">
           <button style="background-color: #742041;color: #fff;border: none;" type="submit" data-toggle="modal"
             data-target="#exampleModal" (click)="callIMageForMemberID(search.member_id)">See All Photo</button>
         </div>
-
         <div *ngIf="search.profile_photo==''">
           <i *ngIf="search.premium_status=='1'" class="fa-solid fa-crown"></i>
           <img data-toggle="modal" data-target="#exampleModal" class="imgnew"
@@ -22,33 +23,57 @@
 
       <!-- visible to premium members -->
       <div *ngIf="search.photo_privacy=='2'">
-        <div *ngIf="search.profile_photo!=''">
-          <i *ngIf="search.premium_status=='1'" class="fa-solid fa-crown"></i>
-          <img style="border: 2px solid black;" data-toggle="modal" data-target="#exampleModal"
-            class="imgnew premiumimg" (click)="callIMageForMemberID(search.member_id)"
-            [src]='imageURL+search.profile_photo' alt="">
+                <!-- 2==2 -->
+        <div *ngIf="search.photo_privacy==search.my_premium_status">
+          <div *ngIf="search.profile_photo!=''">
+            <i *ngIf="search.premium_status=='1'" class="fa-solid fa-crown"></i>
+            <img style="border: 2px solid black;" data-toggle="modal" data-target="#exampleModal"
+              class="imgnew " (click)="callIMageForMemberID(search.member_id)"
+              [src]='imageURL+search.profile_photo' alt="">
+          </div>
+          <div *ngIf="search.profile_photo==''">
+            <i *ngIf="search.premium_status=='1'" class="fa-solid fa-crown"></i>
+            <img data-toggle="modal" data-target="#exampleModal" class="imgnew"
+              (click)="callIMageForMemberID(search.member_id)" src="{{genderImageURL}}" alt=''>
+          </div>
+        </div>
+
+        <!-- 2!=0 -->
+        <div *ngIf="search.photo_privacy!=search.my_premium_status">   
+          <div *ngIf="search.profile_photo!=''">
+            <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Visible to Premium Members
+              <br>
+              <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans > </a>
+            </span>
+            <i *ngIf="search.premium_status=='1'" class="fa-solid fa-crown"></i>
+            <img style="border: 2px solid black;" data-toggle="modal" data-target="#exampleModal"
+              class="imgnew premiumimg" (click)="callIMageForMemberID(search.member_id)"
+              [src]='imageURL+search.profile_photo' alt="">
+          </div>
+          <div *ngIf="search.profile_photo==''">
+            <i *ngIf="search.premium_status=='1'" class="fa-solid fa-crown"></i>
+            <img data-toggle="modal" data-target="#exampleModal" class="imgnew"
+              (click)="callIMageForMemberID(search.member_id)" src="{{genderImageURL}}" alt=''>
+          </div>
         </div>
       </div>
-
       <!-- keep all private , blur to all-->
       <div *ngIf="search.photo_privacy=='3'">
         <div *ngIf="search.profile_photo!=''">
           <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Visible to Premium Members
             <br>
-            <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans </a>
+            <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans > </a>
           </span>
           <i *ngIf="search.premium_status=='1'" class="fa-solid fa-crown"></i>
           <img style="border: 2px solid black;" data-toggle="modal" data-target="#exampleModal"
-            class="imgnew premiumimg " (click)="callIMageForMemberID(search.member_id)"
+            class="imgnew premiumimg "
             [src]='imageURL+search.profile_photo' alt="">
         </div>
-
         <div *ngIf="search.profile_photo==''">
           <i *ngIf="search.premium_status=='1'" class="fa-solid fa-crown"></i>
           <img data-toggle="modal" data-target="#exampleModal" class="imgnew"
-            (click)="callIMageForMemberID(search.member_id)" src="{{genderImageURL}}" alt=''>
+             src="{{genderImageURL}}" alt=''>
         </div>
-      
       </div>
       <!-- ***************************************image ***************************************************** -->
 
@@ -62,7 +87,7 @@
         <label  for="">Age :</label>  <label for=""> {{search.mage}}	</label><br>
         <label for="">Religion </label>  <label for="">{{search.religion}}</label><br>
         <label for="">Marital Status:  </label>  <label for=""> {{search.maritalStatus}}	</label><br>
-        <label for="">Income:  </label>  <label for=""> {{search.income}}	</label><br>
+        <label for="">city :  </label>  <label for=""> {{search.city}}	</label><br>
        
         
       <label for=""> <a [routerLink]="" (click)="singleViewMemberDetails(search.member_id)" style="color: blue;">read more...</a></label><br>
@@ -90,7 +115,7 @@
         </tr>
         <tr style="margin-top: 10px;" class="d-flex justify-content-center">
           <th>
-            <button>Connect Now</button>
+            <button>Send Request</button>
           </th>
         </tr>
       </div>
@@ -105,7 +130,7 @@
         </tr>
         <tr style="margin-top: 10px;" class="d-flex justify-content-center">
           <th>
-            <button>Connected </button>
+            <button>Request sent</button>
           </th>
         </tr>
       </div>
@@ -203,7 +228,7 @@
       </div>
       <div class="modal-body modal-body2">
       <div class="text-center">
-        <p style="font-size: 20px;"> You are Connect </p>
+        <p style="font-size: 20px;">Request sent </p>
       </div>
       </div>
     </div>

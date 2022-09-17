@@ -3,34 +3,39 @@
     <div class="container">
         <div class="row">
             <div class=" col-sm-12 col-lg-4">
-                <ul>
-                  <li> <a class="nav-link" [routerLink]="" (click)="showAccount()"> Account Settings</a>
-                  </li>
-                  <li><a class="nav-link" [routerLink]=""  (click)="showContact()">Email/ SMS Alerts</a>
-                  </li>
-                  <li><a class="nav-link" [routerLink]="" (click)="showHidedeleteprofile()">Hide / Delete Profile</a>
-                  </li>
-                  <li><a class="nav-link" [routerLink]=""  (click)="showHelp()">Help</a>
-                  </li>
-                  <li><a class="nav-link" [routerLink]=""  (click)="showPrivacyOption()">Privacy Option</a>
-                  </li>
-                  <li><a class="nav-link" [routerLink]=""  (click)="showPrivacyPolicy()" >Privacy Policy</a>
-                  </li>
-                  <li><a class="nav-link" [routerLink]="" (click)="showTermConditions()">Term & Conditions</a>
-                  </li>
-                </ul>
+              <div class="linkAllColor">
+                <a class="nav-link" [routerLink]="" (click)="showAccount()"> Account Settings</a>
+              </div>
+              <div class="linkAllColor">
+                <a class="nav-link" [routerLink]=""  (click)="showContact()">Email Alerts</a>
+              </div>
+              <div class="linkAllColor">
+                <a class="nav-link" [routerLink]="" (click)="showHidedeleteprofile()">Hide / Unhide</a>
+              </div>
+              <div class="linkAllColor">
+                <a class="nav-link" [routerLink]=""  (click)="showHelp()">Help</a>
+              </div>
+              <div class="linkAllColor">
+                <a class="nav-link" [routerLink]=""  (click)="showPrivacyOption()">Privacy Option</a>
+              </div>
+              <div class="linkAllColor">
+                <a class="nav-link" [routerLink]=""  (click)="showPrivacyPolicy()" >Privacy Policy</a>
+              </div>
+              <div class="linkAllColor">
+                <a class="nav-link" [routerLink]="" (click)="showTermConditions()">Term & Conditions</a>
+              </div>
             </div>
             <div class=" col-sm-12 col-lg-8 mt-3">
                             <div class="row">
                     <div class="col-6">
-                <p><i class="fa-solid fa-address-book"></i>Premium Match Mail</p>
-                Alerts you receive every time someone contacts you or you receive a response to a contact initiated by you Get 
+                <p><i class="fa-solid fa-address-book"></i>Premium Match Email</p>
+             Alerts you receive every time a premium match contact you or you receive a response to a premium contact initiated by you.
              
                 <p><i class="fa-solid fa-comment-dots"></i>Recent Visitors Email</p>
-                All Email alerts will be sent to you on this email
+                Recent Visitors Email : People who have visited your profile will be displayed through this email alert
              
-                <p style="margin-top: 50px;"><i class="fa-solid fa-comment-dots"></i>Todays Matches Email</p>
-                All Email alerts will be sent to you on this mobile Email
+                <p style="margin-top: 30px;"><i class="fa-solid fa-comment-dots"></i>Todays Matches Email</p>
+                Today's matches will be sent through this email alert.
                 <!-- <p style="margin-top: 20px;"><i class="fa-solid fa-comment-dots"></i>Contact Alert</p>
                 All SMS alerts will be sent to you on this mobile phone number 9730524352
               
@@ -208,13 +213,13 @@
                             </div>-->
                     </div>           
             <!-- Message end -->
+                    <button  (click)="updateEmailSettings()" style="margin: 3px;  background-color:#742041;color: #fff;width: 70px;" type="button" class="btn btn-primary">Save</button>
                     <div *ngIf="success_message" style="color:green">
                       {{success_message}}
                     </div>
                     <div *ngIf="error_message" style="color:red">
                       {{error_message}}
                     </div>
-                    <button  (click)="updateEmailSettings()" style="margin: 3px;  background-color:#742041;color: #fff;width: 70px;" type="button" class="btn btn-primary">Save</button>
                     </div>
                     </div>
         </div>

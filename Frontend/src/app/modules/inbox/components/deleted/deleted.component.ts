@@ -20,7 +20,7 @@ export class DeletedComponent implements OnInit {
    
 loader = false;
 rejectedDetails:any=0; 
-imageURL='http://103.150.186.33:8080'
+imageURL='http://103.174.102.195:8080'
 gender:any;
 genderImageURL='/saathidaar/assets/img'
   
@@ -77,6 +77,7 @@ getRejectedDetails(member_id:any){
   this.inbox_service.getdeletedMemberRequests(member_id)
   .subscribe(
     (results: any) => {
+      // alert(JSON.stringify(results))
 // Canceled Pending Accepted
       this.rejectedDetails=results.data;
       // alert(JSON.stringify(this.rejectedDetails[0].request_message))
@@ -113,44 +114,37 @@ showimage(url:any)
 
 check(val:any){
 // alert(val)
-
   }
-
   acceptMemberRequests(memberID:string){
     const data={
       request_from_id:memberID,
       request_to_id: this.member_id,
       request_status:"Accepted"
     }
-    // alert(JSON.stringify(memberID))
-  
     this.inbox_service.acceptMemberRequests(data)
     .subscribe(
       (results: any) => {
-      
+    // alert(JSON.stringify(results))
         window.location.reload();
         // this.getInvitationsDetails(this.member_id);
       },
       (error: any) => {
         console.log(error);
         // window.location.reload();
-
       });
   }
+  
   blockmemberID(member_to_id: string) {
-
     const data = {
       request_from_id:member_to_id,
       request_to_id:this.member_id,
       block_by_id:this.member_id,
       block_status:"Block"
     }
-   
     this.inbox_service.blockmember(data)
       .subscribe(
         results => {
           window.location.reload();
-
           // alert(JSON.stringify(results))
         },
         error => {

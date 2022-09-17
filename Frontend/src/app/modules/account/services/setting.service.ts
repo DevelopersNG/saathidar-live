@@ -3,12 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 
-// const baseUrl = 'http://localhost:9094/api';
-// const baseUrl = 'http://192.168.1.38:9094/api';
-// const baseUrl ="http://103.150.186.33:8080/saathidaar_backend/api"
-// const baseUrl ="http://69.49.247.33:8080/saathidaar_backend"
+//
+const baseUrl = 'http://103.174.102.195:8080/saathidaar_backend/api'
 // const baseUrl = 'http://103.150.186.33:8080/kidzee_server/api'
-const baseUrl = 'http://103.150.186.33:8080/saathidaar_backend/api'
+// const baseUrl = 'http://103.150.186.33:8080/saathidaar_backend/api'
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +18,7 @@ export class SettingService {
   changePassword(data: any): Observable<any> {
     return this.http.post(baseUrl+"/users/changepwd",data);
   }
+  
   saveProfile(data: any): Observable<any> {
     return this.http.post(baseUrl+"/member/hide/",data);
   }
@@ -33,7 +32,11 @@ export class SettingService {
     return this.http.get(baseUrl+"/member/get/activate/"+member_id);
   }
 
+  hideProfile(member_id: any): Observable<any> {
+    return this.http.get(baseUrl+"/member/get/hide/"+member_id);
+  }
 
+  
   saveprofiledata(member_id: any): Observable<any> {
     return this.http.get(baseUrl+"/member/get/activate/"+member_id);
   }

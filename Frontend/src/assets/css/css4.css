@@ -1,5 +1,6 @@
-* {
-   font-family: 'Times New Roman', Times, serifs;font-style: italic;
+*
+{
+    font-family: 'Times New Roman', Times, serif;
 }
 h1
 {
@@ -9,6 +10,10 @@ h2
 {
     font-family: 'Times New Roman', Times, serifs;font-style: italic;  
 }
+button
+{
+    font-style: normal;
+}
 .navbar-expand-lg
 {
     margin-top: 0px;padding-top: 0px;
@@ -17,56 +22,41 @@ h2
 {
     background: transparent;border: none;
 }
-
 .navbar-brand img {
-    width:150px;
-
-   
-  
+    width:250px;
     border-radius: 20px;
 }
 .navbar-brand img:hover
 {
     background-color: none;
 }
-
-
-
 .navbar-brand1 {
     width: 200px;
-   
     border-radius: 20px;
 }
-
 .login {
     background-color: #742041;
     padding: 20px 30px;
     border-radius: 30px;
     border: none;
 }
-
-.navbar-dark .navbar-toggler-icon {
+/* .navbar-dark .navbar-toggler-icon {
     background-color: rgb(228, 93, 43);
     border-radius: 10px;
-}
-
+} */
 .form-control {
     height: 30px;
     width: 230px;
 }
-
 .us {
     padding-top: 70px;
 }
-
 .com {
     color: black;
 }
-
 h1 {
     text-align: center;
 }
-
 .radio img {
     width: 50px;
     height: 50px;
@@ -74,8 +64,6 @@ h1 {
     margin-left: 40px;
     background-color: pink;
 }
-
-
 /* HIDE RADIO */
 [type=radio] {
     position: absolute;
@@ -95,7 +83,7 @@ strong {
     padding-right: 10px;
 }
 .bg {
-    background-image: url('/saathidaar/assets/img/main-bg-new.jpeg');
+    background-image: url('/assets/img/main-bg-new.jpeg');
     background-size: cover;
     padding-bottom: 10px;
 }
@@ -217,7 +205,7 @@ a {
 }
 
 .errorMessage {
-    color: red;
+    color: #ffff;
 }
 
 /* ----------------------------------
@@ -511,11 +499,6 @@ active:hover {
     margin-left: 112px;
 }
 
-
-
-
-
-
 .buttons {
     margin: 10%;
     text-align: center;
@@ -524,13 +507,13 @@ active:hover {
 }
 
 .btn-hover {
-    width: 200px;
+    width: 210px;
     font-size: 16px;
     font-weight: 600;
     color: #fff;
     cursor: pointer;
-    margin: 23px;
-    height: 55px;
+    margin: 10px;
+    height: 40px;
     text-align:center;
     border: none;
     background-size: 300% 100%;
@@ -556,10 +539,13 @@ active:hover {
 
 
 .btn-hover.color-1 {
-    background-image: linear-gradient(to right, #742041, #381633, #941262, #200220);
-    box-shadow: 0 4px 15px 0 rgba(69, 3, 49, 0.75);
+    background-image: linear-gradient(to right,#680F32,#D11861);
+    /* box-shadow: 0 4px 15px 0 rgba(69, 3, 49, 0.75); */
 }
-
+.buttonDonload.color-1
+{
+    background-image: linear-gradient(to right,#680F32,#D11861);color: #fff;padding: 10px;
+}
 .ok:hover {
     background-color: select;
     color: white;
@@ -838,7 +824,10 @@ float: left;padding: 5px;
 {
     color: #ffffff;
 }
-
+.modal
+{
+    background-color: rgba(0, 0, 0, 0.715);
+}
 
 
 @media (max-width: 575.98px) {

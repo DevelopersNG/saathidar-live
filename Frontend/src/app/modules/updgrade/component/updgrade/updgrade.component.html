@@ -12,7 +12,7 @@
               <p class="card-text">{{ plans.plan_price}}</p>
               <p class="card-text">{{ plans.plan_validity }}</p>
               <div class="text-center">
-              <a routerLink="" (click)="callPayment( plans.plan_name,plans.plan_price)" class="btn btn-primary">Continue</a>
+              <a routerLink="" (click)="callPayment( plans.plan_name,plans.plan_price)" class="btn btn-primary btn-hover color-1">Continue</a>
             </div>
           <div style="padding-left: 10px;" *ngFor="let feature of plans.features">
               <p *ngIf="feature.features_valid=='1'"><i class="fa-solid fa-circle-check"></i>{{feature.features_name}}</p>
@@ -36,7 +36,7 @@
         <div class="col-sm-6">
           <div class="card  card-hv  text-left">
             <div class="card-body">
-              <h5 class="card-title text-left">What are some of the benefits of Premium plans?</h5>
+              <h2 class="card-title text-left">What are some of the benefits of Premium plans?</h2>
               <p class="card-text text-left">What are some of the benefits of Premium plans?
                 As a Premium member, you can chat unlimited with your Matches, view their contact numbers and view hidden
                 photos. You also get
@@ -48,7 +48,7 @@
         <div class="col-sm-6">
           <div class="card card-hv text-left">
             <div class="card-body">
-              <h5 class="card-title text-left">What offers and discounts can I avail?</h5>
+              <h2 class="card-title text-left">What offers and discounts can I avail?</h2>
               <p class="card-text text-left">What are some of the benefits of Premium plans?
                 As a Premium member, you can chat unlimited with your Matches, view their contact numbers and view hidden
                 photos. You also get
@@ -64,7 +64,7 @@
         <div class="col-sm-6">
           <div class="card card-hv  text-left">
             <div class="card-body">
-              <h5 class="card-title text-left">What payment options do you offer?</h5>
+              <h2 class="card-title text-left">What payment options do you offer?</h2>
               <p class="card-text text-left">What are some of the benefits of Premium plans?
                 As a Premium member, you can chat unlimited with your Matches, view their contact numbers and view hidden
                 photos. You also get
@@ -76,7 +76,7 @@
         <div class="col-sm-6">
           <div class="card card-hv text-left">
             <div class="card-body">
-              <h5 class="card-title text-left">How can I be safe on saathidar.com?</h5>
+              <h2 class="card-title text-left">How can I be safe on saathidar.com?</h2>
               <p class="card-text text-left">What are some of the benefits of Premium plans?
                 As a Premium member, you can chat unlimited with your Matches, view their contact numbers and view hidden
                 photos. You also get </p>

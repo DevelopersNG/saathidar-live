@@ -36,9 +36,9 @@
         <!-- 2!=0 -->
         <div *ngIf="premium.photo_privacy!=premium.my_premium_status">   
           <div *ngIf="premium.profile_photo!=''">
-            <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Visible to Premium Members
+            <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Image Shown to Premium Member's Only
               <br>
-              <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans </a>
+              <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans ></a>
             </span>
             <i *ngIf="premium.premium_status=='1'" class="fa-solid fa-crown"></i>
             <img style="border: 2px solid black;" data-toggle="modal" data-target="#exampleModal"
@@ -55,9 +55,9 @@
       <!-- keep all private , blur to all-->
       <div *ngIf="premium.photo_privacy=='3'">
         <div *ngIf="premium.profile_photo!=''">
-          <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Visible to Premium Members
+          <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Image Shown to Premium Member's Only
             <br>
-            <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans </a>
+            <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans ></a>
           </span>
           <i *ngIf="premium.premium_status=='1'" class="fa-solid fa-crown"></i>
           <img style="border: 2px solid black;" data-toggle="modal" data-target="#exampleModal"
@@ -81,40 +81,52 @@
       <label for="">Age :</label> <label for=""> {{premium.mage}} </label><br>
       <label for="">Religion </label> <label for="">{{premium.religion}}</label><br>
       <label for="">Marital Status: </label> <label for=""> {{premium.maritalStatus}} </label><br>
-      <label for="">Income: </label> <label for=""> {{premium.income}} </label><br>
+      <label for="">City :  </label>  <label for=""> {{premium.city}}	</label><br>
       <label for=""> <a [routerLink]="" (click)="singleViewMemberDetails(premium.member_id)" style="color: blue;">read
           more...</a></label><br>
           <tr>
-            <th tabindex="0" data-toggle="tooltip" title="Add to ShortListsed"  *ngIf="premium.shortlist_status=='0'">
-              <button style="border: none;margin-top: 10px;" [routerLink]="" (click)="addToShortList(premium.member_id)" > <i
+            <th tabindex="0" data-toggle="tooltip" title="Add to ShortList"  *ngIf="premium.shortlist_status=='0'">
+              <button style="border: none;margin-top: 10px;" [routerLink]="" (click)="addToShortList(premium.member_id,premium.my_premium_status)" > <i
                   style="pointer-events: none;" class="fa fa-star" aria-hidden="true"></i></button>
             </th>
             <th tabindex="0" data-toggle="tooltip" title=" ShortListsed"  *ngIf="premium.shortlist_status=='1'">
-              <button style="border: none;margin-top: 10px;" [routerLink]="" (click)="addToShortList(premium.member_id)"> <i
+              <button style="border: none;margin-top: 10px;" [routerLink]="" (click)="addToShortList(premium.member_id,premium.my_premium_status)"> <i
                   style="pointer-events: none;color: #742041;" class="fa fa-star" aria-hidden="true"></i></button>
             </th>
+          
             <!-- <th  tabindex="0" data-toggle="tooltip" title="Decline">
                 <button style="border: none;margin-top: 10px;" type="button"  (click)="deletedMemberRequests(search.member_id)" >  <i class="fa fa-times-circle" aria-hidden="true"></i></button> 
             </th> -->
             <th tabindex="0" data-toggle="tooltip" title="Block">
-              <button style="border: none;margin-top: 10px;" type="button" (click)="blockmemberID(premium.member_id)"><i
+              <button style="border: none;margin-top: 10px;" type="button" (click)="blockmemberID(premium.member_id,premium.my_premium_status)"><i
                   class="fa fa-ban" aria-hidden="true"></i></button>
             </th>
           </tr>
+          <div *ngIf="upgrade">
+            Upgrade to add the profile in shortlist 
+          </div>
+          <div *ngIf="blockMasseage">
+            Upgrade to add the profile in block 
+          </div>
     </div>
     <div style="height: 200px;" class="col-lg-3 col-md-12  col-sm-12  borderleft" *ngIf="premium.request_status==''">
+      <div *ngIf="sendRequest" style="text-align: center;">
+        Upgrade to Premium if you want connect 
+      </div>
       <tr class="d-flex justify-content-center">
+       
         <th>
           <button type="button" style="border-radius: 50%;padding: 2px; border: none;"
-            (click)="sentRequests(premium.member_id)"><i style="font-size: 40px;" class="fa fa-check-circle"
-              aria-hidden="true" data-toggle="modal" data-target="#exampleModal1"></i></button>
+            (click)="sentRequests(premium.member_id,premium.my_premium_status)"><i style="font-size: 40px;" class="fa fa-check-circle"
+              ></i></button>
         </th>
       </tr>
       <tr style="margin-top: 10px;" class="d-flex justify-content-center">
         <th>
-          <button>Connect Now</button>
+          <button>Send Request</button>
         </th>
       </tr>
+
     </div>
 
     <div style="height: 200px;" class="col-lg-3 col-md-12  col-sm-12  borderleft" *ngIf="premium.request_status!=''">
@@ -127,7 +139,7 @@
       </tr>
       <tr style="margin-top: 10px;" class="d-flex justify-content-center">
         <th>
-          <button>Connected </button>
+          <button>Request sent</button>
         </th>
       </tr>
     </div>
@@ -215,10 +227,11 @@
       </div>
       <div class="modal-body modal-body2">
       <div class="text-center">
-        <p style="font-size: 20px;"> You are Connect </p>
+        <p style="font-size: 20px;">Request sent</p>
       </div>
       </div>
     </div>
   </div>
 </div>
+
 <!-- ***************************************connect Now *************************** -->

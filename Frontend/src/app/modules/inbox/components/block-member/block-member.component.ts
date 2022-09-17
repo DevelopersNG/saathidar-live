@@ -27,7 +27,7 @@ export class BlockMemberComponent implements OnInit {
   gender:any;
   genderImageURL='/saathidaar/assets/img'
   blockDetails:any;
-imageURL='http://103.150.186.33:8080'
+  imageURL='http://103.174.102.195:8080'
 
   ngOnInit(): void {
 
@@ -166,8 +166,9 @@ blockhMemberDetails(member_id:any){
   this.inbox_service.blockhMemberDetails(member_id)
   .subscribe(
     results => {
-      // alert(JSON.stringify(results.data))
       this.blockDetails = results.data;
+      // alert(JSON.stringify(this.blockDetails.length))
+
     },
     error => {
       console.log(error);

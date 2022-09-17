@@ -15,14 +15,11 @@
   {
      text-align: center;
   }
-  .btn
-  {
-    text-align: center ;border-radius: 20px; margin-bottom: 5px;background-color: #742041;color: #ffff;
-  }
-  .btn-primary
-  {
-    color: #ffff;
-  }
+ 
+ .btn-primary
+ {
+  margin: 4px; background-image: linear-gradient(to right,#680F32,#D11861);
+ }
   .card-title
   {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
@@ -38,7 +35,11 @@
   {
     font-size: 20px;text-align: center;
   }
-  .fa-circle-check
+  .fa-check-circle
+  {
+    margin: 5px;
+  }
+  .fa-times-circle
   {
     margin: 5px;
   }
@@ -85,6 +86,15 @@
    {
     color: black;
    }
+input
+{
+  padding: 10px; width: 100%;
+}
+.cardedit
+{
+  background-color: #D11861;
+}
+   
   @media (min-width: 576px) and (max-width: 767.98px) { 
   
   }

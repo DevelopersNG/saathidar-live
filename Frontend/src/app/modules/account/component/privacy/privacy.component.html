@@ -2,24 +2,27 @@
     <div class="container">
         <div class="row">
             <div class=" col-sm-12 col-lg-4">
-              <ul>
-                  
-                <li> <a class="nav-link" [routerLink]="" (click)="showAccount()"> Account Settings</a>
-                </li>
-                <li><a class="nav-link" [routerLink]=""  (click)="showContact()">Email/ SMS Alerts</a>
-                </li>
-                <li><a class="nav-link" [routerLink]="" (click)="showHidedeleteprofile()">Hide / Delete Profile</a>
-                </li>
-                <li><a class="nav-link" [routerLink]=""  (click)="showHelp()">Help</a>
-                </li>
-                <li><a class="nav-link" [routerLink]=""  (click)="showPrivacyOption()">Privacy Option</a>
-                </li>
-                <li><a class="nav-link" [routerLink]=""  (click)="showPrivacyPolicy()" >Privacy Policy</a>
-                </li>
-                <li><a class="nav-link" [routerLink]="" (click)="showTermConditions()">Term & Conditions</a>
-                </li>
-                
-                    </ul>
+              <div class="linkAllColor">
+                <a class="nav-link" [routerLink]="" (click)="showAccount()"> Account Settings</a>
+              </div>
+              <div class="linkAllColor">
+                <a class="nav-link" [routerLink]=""  (click)="showContact()">Email Alerts</a>
+              </div>
+              <div class="linkAllColor">
+                <a class="nav-link" [routerLink]="" (click)="showHidedeleteprofile()">Hide / Unhide</a>
+              </div>
+              <div class="linkAllColor">
+                <a class="nav-link" [routerLink]=""  (click)="showHelp()">Help</a>
+              </div>
+              <div class="linkAllColor">
+                <a class="nav-link" [routerLink]=""  (click)="showPrivacyOption()">Privacy Option</a>
+              </div>
+              <div class="linkAllColor">
+                <a class="nav-link" [routerLink]=""  (click)="showPrivacyPolicy()" >Privacy Policy</a>
+              </div>
+              <div class="linkAllColor">
+                <a class="nav-link" [routerLink]="" (click)="showTermConditions()">Term & Conditions</a>
+              </div>
             </div>
           <div class="col-sm-12 col-lg-8 maindiv">
                 <div id="accordion">
@@ -37,19 +40,18 @@
                           </button>
                         </h5>
                       </div>
-                  
                       <div id="collapseOne" class="collapse " aria-labelledby="headingOne" data-parent="#accordion">
                         <div class="card-body">
                          <div class="row">
                              <div class="col-4"></div>
                              <div class="col-4">
                                
-                                  <div class="form-check">
+                                  <!-- <div class="form-check">
                                     <input class="form-check-input" type="radio" [(ngModel)]="privacyDetails.phone" name="phone" id="exampleRadios2" value="Visible to all Member">
                                     <label class="form-check-label" for="exampleRadios2">
                                       Visible to all Member
                                     </label>
-                                  </div>
+                                  </div> -->
                                   <div class="form-check">
                                     <input class="form-check-input" type="radio" name="phone"  [(ngModel)]="privacyDetails.phone"  id="exampleRadios2" value="Visible to all Premium Members">
                                     <label class="form-check-label" for="exampleRadios2">
@@ -64,8 +66,8 @@
                                   </div>
                                   </div>
                              <div class="col-4">
-                              <button (click)="phoneDetails()" style="margin: 3px; background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Save</button>
-                                <button style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Cancel</button>
+                              <button (click)="phoneDetails()" style="margin: 3px;color: #fff;padding: 5px; width: 60px;" type="button" class="btn-hover color-1">Save</button>
+                              <button data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="margin: 3px;color: #fff;padding: 5px;" type="button" class="btn-hover color-1">Cancel</button>
                          <!-- Start Error Success -->
                          <div *ngIf="phoneSuccess" style="color:green">
                           {{phoneSuccess}}
@@ -108,12 +110,12 @@
          <div class="col-4">
            
            
-              <div class="form-check">
+              <!-- <div class="form-check">
                 <input class="form-check-input" type="radio" name="photo" [(ngModel)]="privacyDetails.photo"   id="exampleRadios2" value="Visible to all Member">
                 <label class="form-check-label" for="exampleRadios2">
                   Visible to all Member
                 </label>
-              </div>
+              </div> -->
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="photo" [(ngModel)]="privacyDetails.photo"  id="exampleRadios2" value="Visible to all Premium Members">
                 <label class="form-check-label" for="exampleRadios2">
@@ -134,8 +136,8 @@
               </div> -->
               </div>
          <div class="col-4">
-          <button (click)="photoDetails()" style="margin: 3px; background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Save</button>
-            <button style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Cancel</button>
+          <button (click)="photoDetails()" style="margin: 3px;color: #fff;padding: 5px; width: 60px;" type="button" class="btn-hover color-1">Save</button>
+            <button style="margin: 3px;color: #fff;padding: 5px;" type="button" class="btn-hover color-1" data-toggle="collapse" data-target="#photoOption" aria-expanded="true" aria-controls="photoOption">Cancel</button>
      <!-- Start Error Success -->
      <div *ngIf="photoSuccess" style="color:green">
       {{photoSuccess}}
@@ -149,19 +151,6 @@
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
                     <div class="card">
                       <div style="background-color: #742041;color: #fff;" class="card-header" id="headingTwo">
                         <h5 class="mb-0">
@@ -180,12 +169,12 @@
                             <div class="row">
                                 <div class="col-4"></div>
                                 <div class="col-4">
-                                   <div class="form-check">
+                                   <!-- <div class="form-check">
                                        <input class="form-check-input" type="radio" value=" Visible to all Member" [(ngModel)]="privacyDetails.email" name="Email" id="exampleRadios1">
                                        <label class="form-check-label" for="exampleRadios1">
                                         Visible to all Member
                                        </label>
-                                     </div>
+                                     </div> -->
                                      <div class="form-check">
                                        <input class="form-check-input" type="radio" name="Email" value="Visible to all Premium Members" [(ngModel)]="privacyDetails.email" id="exampleRadios2">
                                        <label class="form-check-label" for="exampleRadios2">
@@ -199,17 +188,17 @@
 
                                        </label>
                                      </div>
-                                     <div class="form-check">
+                                     <!-- <div class="form-check">
                                        <input class="form-check-input" type="radio" name="Email" value="Visible to all your Matches (Expires with Membership)" [(ngModel)]="privacyDetails.email" id="exampleRadios2">
                                        <label class="form-check-label" for="exampleRadios2">
                                         Visible to all your Matches (Expires with Membership)
                                        </label>
-                                     </div>
+                                     </div> -->
                                    
                                 </div>
                                 <div class="col-4">
-                                   <button (click)="EmailDetails()" style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Save</button>                                     
-                                   <button style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Cancel</button>
+                                   <button (click)="EmailDetails()" style="margin: 3px;color: #fff;padding: 5px; width: 60px;" type="button" class="btn-hover color-1">Save</button>                                     
+                                   <button style="margin: 3px;color: #fff;padding: 5px;" type="button" class="btn-hover color-1" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Cancel</button>
                                 <!-- Start Error Success -->
                          <div *ngIf="emailSuccess" style="color:green">
                           {{emailSuccess}}
@@ -260,8 +249,8 @@
                                    
                                 </div>
                                 <div class="col-4">   
-                                   <button (click)="DOBDetails()" style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Save</button>                                   
-                                   <button style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Cancel</button>
+                                   <button (click)="DOBDetails()" style="margin: 3px;color: #fff;padding: 5px;width: 60px;" type="button" class="btn-hover color-1">Save</button>                                   
+                                   <button style="margin: 3px;color: #fff;padding: 5px;" type="button" class="btn-hover color-1" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">Cancel</button>
                                
                       <!-- Start Error Success -->
                          <div *ngIf="dobSuccess" style="color:green">
@@ -303,12 +292,12 @@
                             <div class="row">
                                 <div class="col-4"></div>
                                 <div class="col-4">
-                                   <div class="form-check">
+                                   <!-- <div class="form-check">
                                        <input class="form-check-input" type="radio" name="annual_income" value="Visible to all Members" [(ngModel)]="privacyDetails.annual_income" id="exampleRadios1">
                                        <label class="form-check-label" for="exampleRadios1">
                                         Visible to all Members
                                        </label>
-                                     </div>
+                                     </div> -->
                                      <div class="form-check">
                                        <input class="form-check-input" type="radio" name="annual_income" value="Visible to all Premium Members" [(ngModel)]="privacyDetails.annual_income" id="exampleRadios2">
                                        <label class="form-check-label" for="exampleRadios2">
@@ -323,8 +312,8 @@
                                     </div>                     
                                 </div>
                                 <div class="col-4">
-                                   <button (click)="AnnualDetails()" style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Save</button>
-                                   <button style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Cancel</button>
+                                   <button (click)="AnnualDetails()" style="margin: 3px;color: #fff;padding: 5px; width: 60px;" type="button" class="btn-hover color-1">Save</button>
+                                   <button style="margin: 3px;color: #fff;padding: 5px;" type="button" class="btn-hover color-1"  data-toggle="collapse" data-target="#collapseThree4" aria-expanded="false" aria-controls="collapseThree">Cancel</button>
                                
                       <!-- Start Error Success -->
                          <div *ngIf="annual_incomeSuccess" style="color:green">
@@ -342,20 +331,18 @@
                       </div>
 
 
-
+<!-- 
 
                       <div class="card">
                         <div style="background-color: #742041;color: #fff;" class="card-header" id="headingThree10">
                           <h5 class="mb-0">
                             <button class="btn btn-link collapsed col-12" (click)="getMessageClear()" data-toggle="collapse" data-target="#collapseThree10" aria-expanded="false" aria-controls="collapseThree">
                               <div class="row">
-                                <!-- <label style="color: black;" for="">Horoscope</label><label  style="color: black;margin-left: 40px;" for="">  -->
                                   <div class="col-4" style="color: #fff;">Horoscope</div>
                                 <div class="col-4"  style="color: #fff;">{{privacyDetails.horoscope}}</div>
                                 <div class="col-4"  style="color: #fff;">Edit</div>
                             </div>
-                                <!-- <label style="color: black;" for="">Horoscope</label><label  style="color: black;margin-left: 40px;" for="">  -->
-                                    <!-- Visible to all Members </label><label style="float: right;margin-left:40px;" for=""> Edit</label> -->
+                               
                             </button>
                           </h5>
                         </div>
@@ -390,20 +377,20 @@
                                    <button (click)="HoroscopeDetails()" style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Save</button>                                
                                    <button style="margin: 3px;  background-color:#742041;color: #fff;" type="button" class="btn btn-primary">Cancel</button>
                       
-                      <!-- Start Error Success -->
+                     
                          <div *ngIf="horoscopeSuccess" style="color:green">
                           {{horoscopeSuccess}}
                         </div>
                         <div *ngIf="horoscopeError" style="color:red">
                           {{horoscopeError}}
                         </div>
-                      <!-- End Error Success -->
+                 
                                   </div>
                             </div>
                           </div>
                         </div>
                       </div>
-
+ -->
 
 
 <!-- 

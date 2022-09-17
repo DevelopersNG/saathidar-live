@@ -16,13 +16,17 @@ export class NewMatchesComponent implements OnInit {
   searchByJSONDetails: any;
   member_id: any;  
   memberIDs: any;
+  upgrade=false
+  blockMasseage=false
+  sendRequest=false
+  showBlankPageImage=false
   constructor( private router:Router,private matchesService:MatchesService) { 
   }
   // demoUrls : string[] = [];
   demoUrlsActive : string[] = [];
   demoUrls:any;
   gender:any;
-  imageURL='http://103.150.186.33:8080'
+  imageURL='http://103.174.102.195:8080'
   genderImageURL='/saathidaar/assets/img'
   ngOnInit(): void {
     // alert(window.location.origin)
@@ -89,8 +93,9 @@ export class NewMatchesComponent implements OnInit {
         });
   }
 
-
-  addToShortList(member_to_id: string) {
+  addToShortList(member_to_id: string,my_premium_status:string) {
+    if(my_premium_status == '2')
+    {
     const data = {
       shortlist_from_id: this.member_id,
       shortlist_to_id: member_to_id,
@@ -109,14 +114,19 @@ export class NewMatchesComponent implements OnInit {
           console.log(error);
           window.location.reload();
         });
+        }else
+        {
+          this.upgrade=true;
+        }
   }
-  sentRequests(member_to_id: string) {
+  sentRequests(member_to_id: string,my_premium_status:string) {
+    if(my_premium_status == '2')
+    {
     const data = {
       request_from_id: this.member_id,
       request_to_id: member_to_id,
       request_status: "Pending"
     }
-
     this.matchesService.sentRequests(data)
       .subscribe(
         results => {
@@ -132,6 +142,10 @@ export class NewMatchesComponent implements OnInit {
           console.log(error);
           window.location.reload();
         });
+      }else
+      {
+        this.sendRequest=true;
+      }
 
     // alert(JSON.stringify(data));
   }
@@ -159,11 +173,13 @@ export class NewMatchesComponent implements OnInit {
 
     }
 
-  blockmemberID(member_to_id: string) {
+  blockmemberID(member_to_id: string,my_premium_status:string) {
+    if(my_premium_status == '2')
+    {
     const data = {
       request_from_id:member_to_id,
       request_to_id:this.member_id,
-      block_by_id:member_to_id,
+      block_by_id:this.member_id,
       block_status:"Block"
     }
     this.matchesService.blockmember(data)
@@ -178,6 +194,10 @@ export class NewMatchesComponent implements OnInit {
           console.log(error);
          
         });
+      }else
+      {
+        this.blockMasseage=true;
+      }
   }
 
 

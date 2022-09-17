@@ -1,10 +1,16 @@
-* {
-    font-family: 'Times New Roman', Times, serifs;font-style: italic;
- }
+*
+{
+    font-family: 'Times New Roman', Times, serif;
+}
 label {
     display: inline-block;
     margin-bottom: 0.5rem;
     width: 200px;
+}
+
+button {
+    background-image: linear-gradient(to right,#680F32,#D11861);
+    /* box-shadow: 0 4px 15px 0 rgba(69, 3, 49, 0.75); */
 }
 .dashbord {
     margin-left: 431px;
@@ -24,7 +30,8 @@ h1
 {
     background-color: #742041;color: #fff;padding: 10px; font-family: 'Times New Roman', Times, serifs;font-style: italic;
 }
-h3{
+h3
+{
     font-style: italic;
 }
 .ab
@@ -35,7 +42,8 @@ h3{
 {
     background-color: #742041; margin-bottom: 10px; padding-top: 10px;
 }
-select {
+select 
+{
     word-wrap: normal;
     width: 200px;
     border: 1px solid black;
@@ -74,7 +82,8 @@ h5
 {
     border-bottom: #742041 2px solid;
 }
-ul{
+ul
+{
     list-style: none; 
 }
 li
@@ -111,7 +120,6 @@ li
     {
         width: 40px;
     }
-    
 
 
     

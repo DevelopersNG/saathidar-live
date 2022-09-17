@@ -13,9 +13,13 @@ export class AdminDashboardComponent implements OnInit {
   images: any;
   data:any;
   UploadPhotoThree:boolean =true;
+  imageURL='http://103.174.102.195:8080'
   constructor(private landingPageServices: LandingPageService,) { }
   ngOnInit(): void {
-    this.callIMageForMemberID(this.data)
+    this.callIMageForStory(this.data)
+    this.callIMageForAdv()
+    // this.LandingPageService.deleteAvd(this.images)
+ 
 
   }
   adminLoginModel: AdminLoginModel = {
@@ -46,44 +50,113 @@ export class AdminDashboardComponent implements OnInit {
    }
  }
 
- saveImages(){
+
+ saveImagesSuccessStoris(){
   const data={
-    detailsSuccessStoris:this.adminLoginModel.detailsSuccessStoris,
+    success_photo:this.adminLoginModel.detailsSuccessStoris,
     image_base_urls:this.urls,
-    // headers: { 'Content-Type': 'multipart/form-data' }
+    headers: { 'Content-Type': 'multipart/form-data' }
   }
-  alert(JSON.stringify(data))
-  
- this.landingPageServices.uploadImagesAdmin(data)
+  // alert(JSON.stringify(data))
+ this.landingPageServices.uploadImagesSuccessStoris(data)
   .subscribe(
    results => {
+    window.location.reload();
     },
     error => {
       console.log(error);
   });
 }
-// **************************my profile**********************************
-  // ****************************************** STart
-  profileIMags:any;
-  callIMageForMemberID(data:any){
-    this.landingPageServices.getImageSuccessStory(data)
+  
+  getStoryprofileIMags:any;
+  callIMageForStory(data:any){
+    this.landingPageServices.getImageSuccessStory()
     .subscribe((results : any) => {
-     
-      this.profileIMags=results.data[0].member_images;
+      this.getStoryprofileIMags=results.data;
       // this.demoUrls=results.data;
      });
   }
-  // *********************************************** End
+  deletestory(image_id:any) {
+    const data={
+      image_id:image_id
+      // detailsSuccessStoris:this.adminLoginModel.detailsSuccessStoris
+    }
+    
+    this.landingPageServices.deletestory(data,image_id)
+    .subscribe(d => {
+      
+            window.location.reload();
+      // this.callIMageForStory(data);
+   }, error => {
+     console.log(error);
+   });
+  }
 
 // **********************************delete story**********************
-deleteStory(image_id:any,) {
+
+// *************************************************************************************************************************************
+//  avd*********************************************************************
+urlss : string[] = [];
+onselectFileAd(event:any) {
+ if (event.target.files &&  event.target.files[0]) {
+   if (event.target.files[0].size < 500000) {
+   var File = event.target.files.length;
+   for(let i=0; i<File; i++){
+     var reader = new FileReader();
+     reader.onload=(events:any)=>{
+        // alert(events.target.result) 
+       this.urlss.push(events.target.result);
+       this.myForm.patchValue({
+         fileSource: this.images
+      });
+     }  
+     reader.readAsDataURL(event.target.files[i]);       
+   }
+ }else
+ {
+   alert('Each photo must be less than 50KB')
+ }
+ }
+}
+
+saveImagesAd(){
   const data={
-    id:image_id
+    // detailsSuccessStoris:this.adminLoginModel.detailsSuccessStoris,
+    image_base_urls:this.urlss,
+    headers: { 'Content-Type': 'multipart/form-data' }
+  }
+ this.landingPageServices.uploadImagesAdv(data)
+  .subscribe(
+   results => {
+    window.location.reload();
+    // alert(JSON.stringify(results))
+    },
+    error => {
+      console.log(error);
+  });
+}
+// ****************************************** STart
+getAdvprofileIMags:any;
+callIMageForAdv(){
+  this.landingPageServices.getImageAvd()
+  .subscribe((results : any) => {
+    // alert(JSON.stringify(results))
+    this.getAdvprofileIMags=results.data;
+    // this.demoUrls=results.data;
+   });
+}
+// *********************************************** End
+// **********************************delete story**********************
+deleteAdv(image_id:any) {
+  const data={
+    image_id:image_id
     // detailsSuccessStoris:this.adminLoginModel.detailsSuccessStoris
   }
-  alert(data)
-  this.landingPageServices.deleteStory(data).subscribe(d => {
-    this.callIMageForMemberID(data);
+  this.landingPageServices.deleteAvd(data,image_id)
+  .subscribe(d => {
+    window.location.reload();
+
+    // this.callIMageForStory(data);
  }, error => {
    console.log(error);
  });

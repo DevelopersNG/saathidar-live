@@ -11,11 +11,10 @@ export class ShortlistComponent implements OnInit {
  
   searchMemberDetails: any;
   searchByJSONDetails: any;
-  
   memberIDs: any;
   matchesService: any;
   callSearchDetails: any;
-  imageURL='http://103.150.186.33:8080'
+  imageURL='http://103.174.102.195:8080'
   gender:any;
   genderImageURL='/saathidaar/assets/img'
   constructor( private router: Router,private matches_service:MatchesService
@@ -26,16 +25,18 @@ export class ShortlistComponent implements OnInit {
     member_id:any;
   ngOnInit(): void {
     this.member_id=localStorage.getItem('login_credentials');
-    this.getShortListMember(this.member_id);
+   
      // start
      this.gender = localStorage.getItem('login_credentials_gender');
   
-     if(this.gender=='male' || this.gender=='Male'){
+     this.gender = localStorage.getItem('login_credentials_gender');
+    if(this.gender=='male' || this.gender=='Male'){
       this.genderImageURL=this.genderImageURL+"/No_image_female.jpg";
     }
     if(this.gender=='female' || this.gender=='Female'){
       this.genderImageURL=this.genderImageURL+"/No_image_male.jpg";
     }
+    this.getShortListMember(this.member_id);
     // alert(JSON.stringify(this.genderImageURL))
     // end
     $(document).ready(function(){

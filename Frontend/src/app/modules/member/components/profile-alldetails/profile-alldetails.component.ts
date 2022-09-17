@@ -18,9 +18,10 @@ export class ProfileAlldetailsComponent implements OnInit {
   memberDetails: any;
   preferenceDetails: any;
   login_id: any;
-  imageURL='http://103.150.186.33:8080'
+  imageURL='http://103.174.102.195:8080'
   loader = false;
   memberIDs: any;
+  sendRequest=false
   
   private routeSub: Subscription;
   constructor(private route: ActivatedRoute,
@@ -82,6 +83,9 @@ export class ProfileAlldetailsComponent implements OnInit {
   }
   // end
     });
+
+
+    
   }
   i: any;
   previous() {
@@ -103,7 +107,7 @@ export class ProfileAlldetailsComponent implements OnInit {
     this.searchServices.getMemberDetailsByMemberID(member_id, this.login_id)
       .subscribe(
         results => {
-          // alert((results.data.my_profile_photo))
+          // alert((results))
           this.memberDetails = results.data;
           // alert(JSON.stringify(this.memberDetails.email_id))
           console.log(this.memberDetails);
@@ -175,13 +179,7 @@ export class ProfileAlldetailsComponent implements OnInit {
   // alert(val)
   
     }
-
-
   // ********************************prpfile details*********************
-
-  
-  
-  
   profileIMagsOther:any;
 
   getOtherImage(member_id: any) {
@@ -204,7 +202,9 @@ export class ProfileAlldetailsComponent implements OnInit {
 
      
   }
-  sentRequests(member_to_id: string) {
+  sentRequests(member_to_id: string,my_premium_status:string) {
+    if(my_premium_status == '2')
+    {
     const data = {
       request_from_id: this.member_id,
       request_to_id: member_to_id,
@@ -218,14 +218,18 @@ export class ProfileAlldetailsComponent implements OnInit {
           if (results != null) {
             this.callSearchDetails(this.member_id);
           }
+          window.location.reload();
         },
         error => {
           this.loader = false;
           console.log(error);
           window.location.reload();
-
         });
-
+      }
+        else
+    {
+      this.sendRequest=true;
+    }
     // alert(JSON.stringify(data));
   }
   searchMemberDetails:any;
@@ -252,6 +256,9 @@ export class ProfileAlldetailsComponent implements OnInit {
           console.log(error);
         });
   }
+
+
+
 
 }
 function x(x: any, arg1: (any: any) => boolean) {

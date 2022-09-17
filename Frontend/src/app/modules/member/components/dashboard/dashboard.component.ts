@@ -14,7 +14,7 @@ export class DashboardComponent implements OnInit {
  premiumMemberDetails: any;
  memberIDs: any;
  loader = false;
- imageURL='http://103.150.186.33:8080'
+ imageURL='http://103.174.102.195:8080'
  
   constructor(private router:Router,
     private searchService: SearchService) { }
@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
     loadTIme:boolean=false;
     name = 'Test display image';
     thumbnail: any;
-
+    
     fullname:any;
     email:any;
     phone:any;
@@ -36,7 +36,6 @@ export class DashboardComponent implements OnInit {
     gender:any;
     genderImageURL='/saathidaar/assets/img'
   ngOnInit(): void {
-    
     this.fullname=localStorage.getItem('login_credentials_firstname') + " "+ localStorage.getItem('login_credentials_lastname');
     this.email=localStorage.getItem('login_credentials_email');
     this.phone=localStorage.getItem('login_credentials_phone');
@@ -57,29 +56,17 @@ export class DashboardComponent implements OnInit {
         $(this).addClass("imageb");
     });
     });
-    
-    
     this.member_id = localStorage.getItem('login_credentials');
-    
-   
     this.getAllCount(this.member_id); 
-  
     this.callSearchDetails(this.member_id);  
     this.callNewPreiumMatchesDetails(this.member_id);
     this.callIMageForMemberID(this.member_id)
-
-
-
   }
-       
-  
-
   // ****************************************** STart
   profileIMags:any;
   callIMageForMemberID(member_id:any){
     this.searchService.getDataImageDataByURL(this.member_id)
     .subscribe((results : any) => {
-     
       this.profileIMags=results.data[0].member_images;
       this.demoUrls=results.data;
       // alert(JSON.stringify(this.demoUrls))
@@ -121,7 +108,6 @@ check(val:any){
 callAcceptRequest(){
   this.router.navigate(['/inbox/accepted']);
 }
-
 callSendRequest(){
   this.router.navigate(['/inbox/sent']);
 }

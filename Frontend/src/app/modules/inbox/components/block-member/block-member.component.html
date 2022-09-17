@@ -42,7 +42,7 @@
         <!-- 2!=0 -->
         <div *ngIf="search.photo_privacy!=search.my_premium_status">   
           <div *ngIf="search.profile_photo!=''">
-            <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Visible to Premium Members
+            <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Image Shown to Premium Member's Only
               <br>
               <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans </a>
             </span>
@@ -63,7 +63,7 @@
       <!-- keep all private , blur to all-->
       <div *ngIf="search.photo_privacy=='3'">
         <div *ngIf="search.profile_photo!=''">
-          <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Visible to Premium Members
+          <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Image Shown to Premium Member's Only
             <br>
             <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans </a>
           </span>
@@ -112,7 +112,21 @@
        </div>
      
       </div> 
-  
+   
+      <div class="row  Requests-hide"*ngIf="blockDetails.length == 0">
+        <div class="col-lg-4">
+        </div>
+        <div class="col-lg-4">
+            <img  style="width: 200px;height: 200px;"   src="/saathidaar/assets/img/sad-image.jpg" alt="">
+            <p style="color:darkcyan ;">
+                There are no block details<br>
+                <!-- <a href="">View My Matches</a> -->
+            </p>
+        </div>
+        <div class="col-lg-4">
+        </div>
+    </div>
+    <!-- <img  style="width: 200px;height: 200px;"   src="/assets/img/sad-image.jpg" alt=""> -->
 
     <!-- *********************************************new line***************************************************** -->
 

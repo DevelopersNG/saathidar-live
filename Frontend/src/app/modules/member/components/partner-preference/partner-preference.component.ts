@@ -7,6 +7,7 @@ import { SearchService } from '../../services/search.service';
 import { PartnerPreferenceModel } from '../../models/partner-preference-model';
 import * as $ from 'jquery';
 import {Router} from '@angular/router';
+import { SearchMember } from '../../models/search-member.model';
 
 @Component({
   selector: 'app-partner-preference',
@@ -15,10 +16,9 @@ import {Router} from '@angular/router';
 })
 export class PartnerPreferenceComponent implements OnInit {
 
-
   constructor(private searchService: SearchService, private router:Router) { }
 
-
+  erroeMessageProfileId=false;
   dropdownList: any;
   selectedItems: any;
   dropdownSettings: IDropdownSettings;
@@ -87,6 +87,14 @@ export class PartnerPreferenceComponent implements OnInit {
     message:''
   };
 
+  search_member: SearchMember = {
+    search_from_age: '',
+    search_to_age: '',
+    search_from_height: '',
+    search_to_height: '',
+    message: '',
+    profile_id:''
+  }
 
   updatePartnerPreference() {
 
@@ -223,7 +231,6 @@ export class PartnerPreferenceComponent implements OnInit {
       partner_profile_created: this.partner_preference_model.partner_profile_created,
       partner_lifestyles: this.partner_preference_model.partner_lifestyles
     }
-    // alert(JSON.stringify(data));
 
     // save the data
    
@@ -246,7 +253,7 @@ export class PartnerPreferenceComponent implements OnInit {
     $(".overlay").show();
     // ***************************** marital status *****************************
     this.dropdownList = [
-      { item_id: 1, item_text: 'Married' },
+      // { item_id: 1, item_text: 'Married' },
       { item_id: 2, item_text: 'Divorce' },
       { item_id: 3, item_text: 'single' },
       { item_id: 4, item_text: 'widowed' },
@@ -537,12 +544,12 @@ export class PartnerPreferenceComponent implements OnInit {
       { item_id: 87, item_text: 'Politician' },
       { item_id: 88, item_text: 'Social Worker / Volunteer / NGO' },
       { item_id: 89, item_text: 'Sportsman' },
-      { item_id: 90, item_text: 'Travel' },
+      // { item_id: 90, item_text: 'Travel' },
 
       { item_id: 91, item_text: 'Writer' },
-      { item_id: 92, item_text: 'Student' },
-      { item_id: 93, item_text: 'Retired' },
-      { item_id: 94, item_text: 'Not working' }
+      // { item_id: 92, item_text: 'Student' },
+      // { item_id: 93, item_text: 'Retired' },
+      // { item_id: 94, item_text: 'Not working' }
     ];
   
     this.dropdownSettingsProfessionArea = {
@@ -581,14 +588,14 @@ export class PartnerPreferenceComponent implements OnInit {
 
     // ***************************** get all State*****************************
     
-    this.searchService.getAllStateName()
-    .subscribe(
-      results => {
-        this.dropdownListState = results.state;
-      },
-      error => {
-        console.log(error);
-      });
+    // this.searchService.getAllStateName()
+    // .subscribe(
+    //   results => {
+    //     this.dropdownListState = results.state;
+    //   },
+    //   error => {
+    //     console.log(error);
+    //   });
 
     this.dropdownSettingsState = {
       singleSelection: false,
@@ -620,9 +627,7 @@ export class PartnerPreferenceComponent implements OnInit {
       // itemsShowLimit: 3,
       allowSearchFilter: true
     };
-
     // ***************************** get all Religions *****************************
-    
     this.searchService.getReligionName()
       .subscribe(
         results => {
@@ -642,7 +647,6 @@ export class PartnerPreferenceComponent implements OnInit {
       // itemsShowLimit: 3,
       allowSearchFilter: true
     };
-
 
     // ***************************** get all cast *****************************
   
@@ -751,8 +755,6 @@ export class PartnerPreferenceComponent implements OnInit {
         }
     }
 
-
-
     // set professional_area
     var getValue=results.partner_professional_area;
     this.selectedItemsProfessionArea=[];
@@ -770,7 +772,6 @@ export class PartnerPreferenceComponent implements OnInit {
           this.selectedItemsProfessionArea.push(this.item);
         }
     }
-    
 
     // set country 
     var getValue=results.partner_country;
@@ -870,42 +871,76 @@ export class PartnerPreferenceComponent implements OnInit {
         console.log(error);
         $(".overlay").hide();
       });
-
   }
-
+  setStateItamByid:any[]=[];
+  setItamByid:any[]=[];
   item:any;
-
-  //  ************** country *************************8
-  onItemSelectCountry(item: any) {
-    // this.searchService.getStateNameByCountryID(item.country_id)
-    //   .subscribe(
-    //     results => {
-    //       this.dropdownListState = results;
-    //     },
-    //     error => {
-    //       console.log(error);
-    //     });
-    // console.log(JSON.stringify(item));
-    // alert(item.country_id);
+  
+  onRemove(item:any) {
+    var index=this.setItamByid.indexOf(item.country_id);
+    this.setItamByid.splice(index,index)
+    let country_ids=this.setItamByid;
+    this.searchService.getStateNameByCountryID(country_ids)
+    .subscribe(
+      results => {
+        this.dropdownListState = results.state;
+      },
+      error => {   
+        console.log(error);
+      });
   }
+
+  
+  onItemSelectCountry(item: any) {
+var setItamByid=[];
+ this.setItamByid.push(item.country_id);
+let country_ids=this.setItamByid;
+
+    this.searchService.getStateNameByCountryID(country_ids)
+    .subscribe(
+      results => {
+        this.dropdownListState = results.state;
+      },
+      error => {   
+        console.log(error);
+      });
+  }
+
+
+
   onSelectAllCountry(items: any) {
     // console.log(items);
   }
-
-
   //  ************** state *************************8
   onItemSelectState(item: any) {
-    // get city list by state name  
-    // this.searchService.getCityNameByStateID(item.state_id)
-    //   .subscribe(
-    //     results => {
-    //       this.dropdownListCity = results;
-    //     },
-    //     error => {
-    //       console.log(error);
-    //     });
-    // alert(item.state_name);
+    var setStateItamByid=[];
+ this.setStateItamByid.push(item.state_id);
+let state_ids=this.setStateItamByid;
+    this.searchService.getCityNameByStateID(state_ids)
+      .subscribe(
+        results => {
+          this.dropdownListCity = results.cities;
+        },
+        error => {
+          console.log(error);
+        });
   }
+
+  onRemoveState(item:any) {
+    var index=this.setItamByid.indexOf(item.state_id);
+    this.setStateItamByid.splice(index,index)
+    let state_ids=this.setStateItamByid;
+    this.searchService.getCityNameByStateID(state_ids)
+    .subscribe(
+      results => {
+        this.dropdownListState = results.state;
+      },
+      error => {   
+        console.log(error);
+      });
+  }
+
+  
   onSelectAllState(items: any) {
     console.log(items);
   }
@@ -921,14 +956,14 @@ export class PartnerPreferenceComponent implements OnInit {
 
   // *************** religions *************
   onItemSelectReligions(item: any) {
-    // this.searchService.getCastNameBYCountryID(item.religion_id)
-    //   .subscribe(
-    //     results => {
-    //       this.dropdownListCast = results;
-    //     },
-    //     error => {
-    //       console.log(error);
-    //     });
+    this.searchService.getCastNameBYCountryID(item.religion_id)
+      .subscribe(
+        results => {
+          this.dropdownListCast = results;
+        },
+        error => {
+          console.log(error);
+        });
   }
   onSelectAllReligions(items: any) {
     console.log(items);
@@ -937,7 +972,6 @@ export class PartnerPreferenceComponent implements OnInit {
   // *************** caste name *************
   onItemSelectCast(item: any) {
     console.log(item);
-    // alert(item);
   }
   onSelectAllCast(items: any) {
     console.log(items);
@@ -952,6 +986,32 @@ export class PartnerPreferenceComponent implements OnInit {
   onSelectAll(items: any) {
     console.log(items);
   }
+    // call member details by profile id
+
+    getMemberDetailsByProfileID(){
+      var val=this.search_member.profile_id;
+      // if(val.indexOf("MSD") !== -1 || val.indexOf("FSD") !== -1){
+      //   var getID = val.substring(3,6); 
+      if(val!=''){
+        this.searchService.checkProfileIDIsAvailable(val)
+        .subscribe(
+          results => {
+            // alert(JSON.stringify(results))
+            if(results.message=='success'){
+              this.router.navigate(['members/profile/'+results.member_id]);
+            }else{
+              this.erroeMessageProfileId=true;
+            }
+          },
+          error => {
+            console.log(error);
+          });
+      }
+      else{
+        this.erroeMessageProfileId=true;
+      }
+     
+    }
 }
 
 

@@ -1,12 +1,9 @@
 <link href="/assets/icon/css/all.css" rel="stylesheet"> 
     <div class="row bg-img "  id="eachRow"  *ngFor="let search of rejectedDetails">
       <div style="height: 200px;" class="col-lg-3 col-md-4 col-sm-4 imgnew">
-
-        
-
       <!-- **********************************image*************************** -->
-
       <!-- visible to all -->
+      
       <div *ngIf="search.photo_privacy=='1'">
         <div *ngIf="search.profile_photo!=''">
           <i *ngIf="search.premium_status=='1'" class="fa-solid fa-crown"></i>
@@ -43,7 +40,7 @@
         <!-- 2!=0 -->
         <div *ngIf="search.photo_privacy!=search.my_premium_status">   
           <div *ngIf="search.profile_photo!=''">
-            <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Visible to Premium Members
+            <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Image Shown to Premium Member's Only
               <br>
               <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans </a>
             </span>
@@ -64,7 +61,7 @@
       <!-- keep all private , blur to all-->
       <div *ngIf="search.photo_privacy=='3'">
         <div *ngIf="search.profile_photo!=''">
-          <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Visible to Premium Members
+          <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Image Shown to Premium Member's Only
             <br>
             <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans </a>
           </span>
@@ -115,7 +112,7 @@
               </div>
               <div  class="city-state" id="padding-class">
                 
-                  Income: {{search.income}}
+                  City: {{search.city}}
                
                   <a [routerLink]="" (click)="singleViewMemberDetails(search.member_id)"
                       style="color: blue;">read more...</a>
@@ -144,30 +141,22 @@
            <tr *ngIf="button">
               <th>
                   <button    type="button" style="border-radius: 50%;padding: 2px;"  (click)="acceptMemberRequests(search.member_id)" >  <i style="font-size: 40px;" class="fa fa-check-circle" aria-hidden="true"></i></button> 
-      
               </th>
           </tr>
-  
           <tr>
               <th>
                   <!-- <button type="button" style="border-radius: 50%;padding: 2px;"  (click)="deletedMemberRequests(search.member_id)" >  <i style="font-size: 40px;" class="fa fa-times-circle" aria-hidden="true"></i></button>  -->
-                   
               </th>
           </tr>
-  
           <tr >
               <th>
-                  <button type="button" > Connact Now</button> 
+                  <button type="button" >Send Request</button> 
               </th>
           </tr>
-         
-          
           <tr>
        <th >
-      
        </th>
   </tr>
-  
           </div>
       </div>
   
@@ -177,7 +166,7 @@
       <div class="col-lg-4">
           <img  style="width: 200px;height: 200px;"   src="/saathidaar/assets/img/sad-image.jpg" alt="">
           <p style="color:darkcyan ;">
-              There are no accepted invitations<br>
+              There are no Delete details<br>
               <!-- <a href="">View My Matches</a> -->
           </p>
       </div>

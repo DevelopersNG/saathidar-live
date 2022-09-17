@@ -7,25 +7,24 @@
                 <option value="" label="Select">Select</option>
                 <option value="Primium_Member" label="Primium Member">Primium Member</option>
                 <option value="Non_premimum member" label="Non premimum member">Non premimum member</option>
-          
               </select>
             </span>
           </li>
-          
     </div>
+
     <div class="col-3">
         <li class="list-group-item ">
             <label class="registration_label"> Gender </label><br>
             <span>
-              <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="ShowDetailsMember.gendar" >
+              <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="ShowDetailsMember.gender" >
                 <option value="" label="Select">Select</option>
                 <option value="Male" label="Male">Male</option>
                 <option value="Female" label="Female">Female</option>
-          
               </select>
             </span>
           </li>
     </div>
+
     <div class="col-3">
         <li class="list-group-item ">
             <label class="registration_label"> Date </label><br>
@@ -34,6 +33,7 @@
             </span>
           </li>
     </div>
+
     <div class="col-3">
         <li class="list-group-item ">
             <label class="registration_label"> Date </label><br>
@@ -41,9 +41,8 @@
           <input style="padding: 10px;" type="date" [(ngModel)]="ShowDetailsMember. search_date_to">
             </span>
           </li>
-
     </div>
-    
+
 </div>
 
 <div class="row">
@@ -51,6 +50,7 @@
     <button type="button" class="btn btn-primary" (click)="getMemberData()">Search</button>
   </div>
 </div>
+
 <div class="row mt-3">
 <div class="col-12">
     <table class="table">
@@ -68,38 +68,21 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
+          <tr *ngFor="let data of allMembertDetails  paginate: { id: 'listing_pagination',
+          itemsPerPage: 10,
+          currentPage: page,
+          totalItems: totalRecords } let i= index">
+          <th scope="col" *ngIf="page==1">{{i+1}}</th>
+
+          <th scope="col" *ngIf="page>1">{{((page-1)*10)+(i+1)}}</th>
+            <td>{{data.first_name}}</td>
+            <td>{{data.last_name}}</td>
+            <td>{{data.mage}}</td>
+            <td>{{data.gender}}</td>
+            <td></td>
             <td>@mdo</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td><button (click)="alldetails()" type="button" class="btn  btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button></td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td><button type="button" class="btn  btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button></td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td><button type="button" class="btn  btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button></td>
+            <td>{{data.maritalStatus}}</td>
+            <td><button (click)="singleViewMemberDetails(data.member_id)" type="button" class="btn  btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button></td>
           </tr>
         </tbody>
       </table>

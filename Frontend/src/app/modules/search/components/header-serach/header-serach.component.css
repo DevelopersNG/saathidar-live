@@ -1,11 +1,10 @@
 * {
-  font-family: 'Times New Roman', Times, serifs;font-style: italic;
+  font-family:  'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
 }
 
 
   .im1{
-    width: 335px;
-    height: 43px;
+   width: 200px;
   }
   .navbar {
     overflow:visible;
@@ -103,6 +102,18 @@ font-size: 16px;
 .header1 > .active > a:focus {
     color: #FFF;
     background-color: #AA0000;
+}
+.header1 a:focus
+{
+  background-color: #ffff;color: black; border: 1px solid #742041;
+}
+span
+{
+  border: #742041 1px solid;
+}
+.navbar-toggler-icon
+{
+   color: #FFF;border: 1px solid #fff;
 }
 @media (max-width: 575.98px) {
   .header1

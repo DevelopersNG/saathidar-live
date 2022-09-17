@@ -2,11 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-// const baseUrl = 'http://103.150.186.37:8080/api';
-// const baseUrl = 'http://192.168.1.37:8080/api';
+
 // const baseUrl ="http://103.150.186.33:8080/saathidaar_backend/api"
 // const baseUrl ="http://69.49.247.33:8080/saathidaar_backend"
-const baseUrl = 'http://103.150.186.33:8080/saathidaar_backend/api'
+// const baseUrl = 'http://103.150.186.33:8080/saathidaar_backend/api'
+const baseUrl = 'http://103.174.102.195:8080/saathidaar_backend/api'
 
 @Injectable({
   providedIn: 'root'

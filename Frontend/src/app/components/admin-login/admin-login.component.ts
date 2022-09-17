@@ -20,39 +20,38 @@ export class AdminLoginComponent implements OnInit {
     detailsSuccessStoris: '',
   
   };
+  showMasseage=false
 
+  Adminlogin(): void {
+    const data = {
+      username: this.adminLoginModel.usernameAdmin,
+      password: this.adminLoginModel.passwordAdmin
+    };
+    this.landingPageServices.AdminUserLogin(data)
+    .subscribe(
+      results => {
+        if(results='')
+        {
+          this.showMasseage=true
+        }
+      this.router.navigate(['/admin/setting']);
+      },
+      error => {
+        console.log(error);
+      });
+    }
 
-  // Adminlogin(): void {
-  //   const data = {
-  //     username: this.adminLoginModel.usernameAdmin,
-  //     password: this.adminLoginModel.passwordAdmin
-  //   };
-  //   alert(JSON.stringify(data))
-  //   this.landingPageServices.Adminlogin(data)
-  //   .subscribe(
-  //     results => {
-  //     this.router.navigate(['/admin/setting']);
-  //     },
-  //     error => {
-  //       console.log(error);
-  //     });
-  //   }
-
-  Adminlogin()
-  {
-    this.router.navigate(['/admin/setting']);
-  }
+  // Adminlogin()
+  // {
+  //   this.router.navigate(['/admin/setting']);
+  // }
 
     getAdmindetataiLogin:any
   getAdminDetails(data:any){
     this.landingPageServices.getAdminDetails(data)
     .subscribe(
       (results: any) => {
-        // alert(JSON.stringify(results))
-  
         this.getAdmindetataiLogin =results.data;
-      
-  
       },
       (      error: any) => {
         console.log(error);

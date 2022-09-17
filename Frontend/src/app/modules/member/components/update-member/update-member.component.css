@@ -1,6 +1,11 @@
-* {
-    font-family: 'Times New Roman', Times, serifs;font-style: italic;
- }
+*
+{
+    font-family: 'Times New Roman', Times, serif;
+}
+button {
+    background-image: linear-gradient(to right,#680F32,#D11861);
+    /* box-shadow: 0 4px 15px 0 rgba(69, 3, 49, 0.75); */
+}
 .navbar-brand img
 {
     width: 70px;height: 70px;

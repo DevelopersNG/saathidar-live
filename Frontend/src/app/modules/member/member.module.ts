@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { MemberRoutingModule } from './member-routing.module';
 import { MemberDashboardComponent } from './components/member-dashboard/member-dashboard.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -28,9 +27,13 @@ import { AlbumComponent } from './components/album/album.component';
 import { MultipalpicComponent } from './components/multipalpic/multipalpic.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ProfileAlldetailsComponent } from './components/profile-alldetails/profile-alldetails.component';
+import { AgmCoreModule } from '@agm/core';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { AppRoutingModule } from 'src/app/app-routing.module';
 
 @NgModule({
-  declarations: [
+  declarations: 
+  [
     MemberDashboardComponent,
     HeaderComponent,
     FooterComponent,
@@ -60,6 +63,12 @@ import { ProfileAlldetailsComponent } from './components/profile-alldetails/prof
     HttpClientModule,
     ReactiveFormsModule,
     RouterModule,
+    AppRoutingModule,
+    GooglePlaceModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDdQLS_ABcDRAWxmCvaLlYTmyoMOO1LdrU',
+      libraries: ['Places']
+    }),
     NgMultiSelectDropDownModule.forRoot(),
     
    

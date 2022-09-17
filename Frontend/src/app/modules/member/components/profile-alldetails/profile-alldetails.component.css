@@ -1,6 +1,7 @@
-* {
-    font-family: 'Times New Roman', Times, serifs;font-style: italic;
-  }
+*
+{
+    font-family: 'Times New Roman', Times, serif;
+}
   .container
   {
       padding: 0px;margin: 0px;
@@ -21,9 +22,13 @@
   {
     border: 2px solid #742041;width: 180px;
   }
+  label
+  {
+  width: 200px;
+  }
   .labelcol
   {
-      width: 200px;
+      width: 170px;
   }
   .labelcol2
   {
@@ -34,9 +39,13 @@
   {
       border-bottom: #742041 2px solid;padding: 0px;
   }
-  button
+  .buttontow
   {
       width: auto;background-color: #742041;color: #fff;border: none;padding: 10px;    box-shadow: 0 0 4px  black; 
+  }
+  .buttontowGold
+  {
+    width: auto;background-color: #d8aa3c;color: #fff;border: none;padding: 10px;    box-shadow: 0 0 4px  black; 
   }
    
   .hidden-menu   
@@ -220,7 +229,7 @@
   
     .fa-circle-check
   {
-      float: right;color: #742041;font-size: 20px;
+      float: right;color: green;font-size: 20px;
   }
   .fa-xmark
   {
@@ -435,8 +444,14 @@
     .primiumIMageBuler
     {
       position: absolute;left: 0px;top: 0px;z-index: 2;text-align: center;color: #fff;text-shadow: 2px 2px black;padding: 20px;
+      width: 220px;
     }
     .fa-crown
     {
       z-index: 3; position: absolute;font-size: 19px;color: #d8aa3c;padding: 6px;text-shadow: 2px 2px black;
     }
+    .btn-hover.color-1 {
+      background-image: linear-gradient(to right,#680F32,#D11861);color: #ffff;
+      /* box-shadow: 0 4px 15px 0 rgba(69, 3, 49, 0.75); */
+    }
+    

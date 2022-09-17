@@ -1,28 +1,21 @@
-
-* 
+*
 {
-    font-family: 'Times New Roman', Times, serifs;font-style: italic; 
- }
-
-
+    font-family: 'Times New Roman', Times, serif;
+}
 .navbar {
     background-color: #742041;
 }
-
 .btn:not(:disabled):not(.disabled) {
     color: #fff;
 }
-
 .navbar a {
     color: #fff;
 
 }
-
 .card input {
     margin-top: 10px;
     border: 1px #742041 solid;
 }
-
 .card {
     border: 1px #742041 solid;
     background-color: #742041;
@@ -74,8 +67,6 @@
     box-shadow: 0 0 11px rgba(33, 33, 33, 0.964); 
 
 }
-
-
 .media ul {
     float: right;
     overflow: hidden;
@@ -83,12 +74,6 @@
 
 .stretched-link {
     float: right;
-
-
-  
-   
-  
- 
     font-size: 10px;
 }
 span
@@ -99,7 +84,6 @@ span
 {
     background-color: #fff;padding: 5px;color: black;
 }
-
 a {
   margin-top:10px ;padding-right: 5px;
 }
@@ -112,8 +96,6 @@ a {
 {
   background-color: #742041;
 }
-
-
 .media li {
     float: left;
     color: #fff;
@@ -123,13 +105,10 @@ a {
     overflow: hidden;
     margin-top: -3px;
 }
-
 .Expectation {
     width: 100px;
     height: auto;
 }
-
-
 span[_ngcontent-dkq-c81]
 {
     background-color: black;
@@ -138,7 +117,6 @@ span[_ngcontent-dkq-c81]
     margin-left: 0px;
     background-color: black;
 }
-
 .top {
   margin: 10px;
 }
@@ -151,14 +129,11 @@ span[_ngcontent-dkq-c81]
 {
     background-color: #742041;border-radius: 50%;  
 }
-
-
 /* footer */
 
 * {
     font-family: Verdana, Geneva, Tahoma, sans-serif
 }
-
 footer {
     height: 150px;
     width: 100%;
@@ -167,17 +142,19 @@ footer {
     background-color: #742041
 }
 
-
-li {
+li 
+{
     float: right;
     padding-left: 35px;
     padding-top: 10px;
     color: #fff;
+    width: 100%;
+  
 }
-
 ul {
     float: left;
     list-style: none;
+    
 }
 
 footer ul {

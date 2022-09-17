@@ -51,6 +51,7 @@ export class AccountComponent implements OnInit {
     this.settingsService.changePassword(data)
     .subscribe(
       results => {
+        // alert(JSON.stringify(results))
       //  alert(JSON.stringify(results))
       if(results.results=="1"){
         this.success_message="Password Updated...";

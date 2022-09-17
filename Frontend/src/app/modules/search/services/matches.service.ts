@@ -4,10 +4,9 @@ import { Observable } from 'rxjs';
 
 
 
-// const baseUrl = 'http://localhost:9094/api';
-// const baseUrl = 'http://192.168.1.37:9094/api';
+const baseUrl = 'http://103.174.102.195:8080/saathidaar_backend/api'
 // const baseUrl = 'http://192.168.1.38:9094/api';
-const baseUrl = 'http://103.150.186.33:8080/saathidaar_backend/api'
+// const baseUrl = 'http://103.150.186.33:8080/saathidaar_backend/api'
 // const baseUrl ="http://69.49.247.33:8080/saathidaar_backend"
 
 @Injectable({

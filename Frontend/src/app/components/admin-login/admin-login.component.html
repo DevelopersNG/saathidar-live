@@ -19,15 +19,19 @@
             <div class="form-group">
               <label for="exampleInputEmail1">Email address</label>
               <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"  [(ngModel)]="adminLoginModel.usernameAdmin">
-              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+              <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
             </div>
             <div class="form-group">
               <label for="exampleInputPassword1">Password</label>
               <input type="password" class="form-control" id="exampleInputPassword1"  [(ngModel)]="adminLoginModel.passwordAdmin">
             </div>
+            <div class="form-group" *ngIf="showMasseage">
+            <p style="color: red;">Invalid user name and password combination.</p>
+            </div>
+         
         </div>
         <div class="modal-footer text-center">
-            <button type="submit" style="background-color: #742041;" class="btn " (click)="Adminlogin()"  data-dismiss="modal" aria-label="Close">Login </button>
+            <button type="submit" style="background-color: #742041;" class="btn " (click)="Adminlogin()"  >Login </button>
         </div>
       </div>
     </div>

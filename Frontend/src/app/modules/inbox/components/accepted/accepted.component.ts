@@ -10,7 +10,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./accepted.component.css']
 })
 export class AcceptedComponent implements OnInit {
-
   constructor(private router: Router,private inbox_service:InboxService,) { }
   member_id:any;
   member_email_id:any;
@@ -19,7 +18,7 @@ export class AcceptedComponent implements OnInit {
   demoUrls:any;
  
   acceptedDetails:any=0;
-  imageURL='http://103.150.186.33:8080'
+  imageURL='http://103.174.102.195:8080'
   gender:any;
   genderImageURL='/saathidaar/assets/img'
   ngOnInit(): void { 
@@ -141,7 +140,7 @@ check(val:any){
       },
       (error: any) => {
         console.log(error);
-        // window.location.reload();
+        window.location.reload();
 
       });
   }
@@ -165,7 +164,7 @@ check(val:any){
         },
         error => {
           console.log(error);
-          // window.location.reload();
+          window.location.reload();
 
         });
   }

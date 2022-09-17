@@ -18,10 +18,13 @@ import { ConstantService } from 'src/constant/constant.service';
 })
 export class LandingPageComponent implements OnInit {
   // myForm: FormGroup;
-  assetsImage='/assets/css/css4.css'
+  // assetsImage='/assets/css/css4.css'
+  forgetPasswordM=false;
+  data:any;
   icon:any;
   assets:any;
   loader=false;
+  Franchies=false;
   notifaction= 0;
   showspinner=false;
   member_id: any;
@@ -42,6 +45,7 @@ export class LandingPageComponent implements OnInit {
   checkCValidationForButton: any;
   registerUserMessage: string;
   religionName:any;
+  imageURL='http://103.174.102.195:8080'
   // fetch plan details 
   planDetails: any;
   // fetch serach details on home
@@ -50,6 +54,8 @@ export class LandingPageComponent implements OnInit {
   lastnameError = '';
   emailError = '';
   phoneError = "";
+  FranchiseError="";
+  SendoptMasseage=false
   //create field for login
   loginModel: LoginModel = {
     username: '',
@@ -59,14 +65,18 @@ export class LandingPageComponent implements OnInit {
   shortRegistrationModel: ShortRegistrationModel = {
     firstName: '',
     lastName: '',
-    gender: 'men',
+    gender: '',
     phone: '',
-    profilecreatedby: 'Self',
+    profilecreatedby: '',
     email: '',
     otp: '',
     role: '',
     forgot_pwd_phone: '',
-    forgot_pwd_otp: ''
+    forgot_pwd_otp: '',
+    franchise_code: '',
+    otp_main_registration: '',
+    mobile_number_registration: '',
+    franchiseCode: ''
   };
   // model for member plans
   memberPlans: MemberPlanModels = {
@@ -83,7 +93,6 @@ export class LandingPageComponent implements OnInit {
     religion_name: '',
     marital_status: ''
   };
- 
   constructor(private landingPageServices: LandingPageService,
     private constant:ConstantService,
     private router: Router,
@@ -98,13 +107,12 @@ export class LandingPageComponent implements OnInit {
     //    setTimeout(()=>{
     //      this.showspinner= false;
     //    },5000);
-    //  }
+    //  }4
   ngOnInit() {
-// alert(window.location.origin)
+    // ***************************Franchies
     $('.box1').on('click', function() {
       $('.box5').fadeToggle("slow");
         });
-    // alert(this.location.path());
     if (localStorage) {
       if (localStorage.getItem('login_credentials') != null && localStorage.getItem('login_credentials') != "") {
         this.setUserName = localStorage.getItem('setUserName');
@@ -118,7 +126,7 @@ export class LandingPageComponent implements OnInit {
     this.icon=this.constant.icon;
     // this.icon=this.constant.icon;
     this.assets=this.constant.assets;
-    // alert(this.assets)
+    this.IMageForMemberID(this.data)
   }
   callReligionList() {
     this.landingPageServices.getReligionName()
@@ -141,36 +149,36 @@ export class LandingPageComponent implements OnInit {
     localStorage.setItem('login_credentials', "");
     localStorage.setItem('login_credentials_email', "");
     localStorage.setItem('setUserName', "");
+    localStorage.setItem('user_id',"");
+    localStorage.setItem('login_credentials_phone',"");
     this.isLoggedin = false;
   }
   getMemberPlansDetails() {
     this.landingPageServices.getMemberPlansDetails()
       .subscribe(
         results => {
-          // alert(JSON.stringify(results))
           this.planDetails = results.data;
         },
         error => {
           console.log(error);
         });
   }
+
   login(): void {
     const data = {
       username: this.loginModel.username,
       password: this.loginModel.password
     };
-
     if(this.loginModel.username=='' || this.loginModel.password=='' )
     {
       this.loginFailedMessage = "fields should not blank";
-    }else
+    }
+    else
     {
       this.showspinner=true;
-      // alert(data.username+"-"+data.password);
       this.landingPageServices.doLogin(data)
         .subscribe(
           response => {
-            // alert(JSON.stringify(response))
             console.log(response);
             // this.submitted = true;
             if (response.results == '1' || response.results == '1') {
@@ -197,22 +205,21 @@ export class LandingPageComponent implements OnInit {
                   },
                   error => {
                     console.log(error);
-                    this.loginFailedMessage = "username and password not match, please try again";
+                    this.loginFailedMessage = "username & password does not matched, please try again";
                   });
                   // KAR HAI 
             }else
             {
-              this.loginFailedMessage = "username and password not match, please try again";
+              this.loginFailedMessage = "username & password does not matched, please try again";
             }
             this.showspinner=false;
             this.onCloseHandled();
           },
           error => {
             console.log(error);
-            this.loginFailedMessage = "username and password not match, please try again";
+            this.loginFailedMessage = "username & password does not matched, please try again";
           });
     }
-
   }
   // open modal for login
   openModal() {
@@ -236,16 +243,21 @@ export class LandingPageComponent implements OnInit {
       profilecreatedby: this.shortRegistrationModel.profilecreatedby,
       email: this.shortRegistrationModel.email,
       phone: this.shortRegistrationModel.phone,
+      franchise_code:this.shortRegistrationModel.franchise_code,
       role: "USER"
     };
-    // alert(results.message);
+    
     this.landingPageServices.shortMemberRegistrations(registrationsData)
       .subscribe(
         results => {
           this.memberRegistrationMessage = results.message;
           this.otpDisplay = "none";
           this.display = "block";
-          this.callShortRegistrationBlank();
+          // this.callShortRegistrationBlank();
+          // if(results== '1')
+          // {
+          //   this.router.navigate(['/member_details_login/'+this.member_id]);
+          // }
         },
         error => {
           console.log(error);
@@ -253,16 +265,15 @@ export class LandingPageComponent implements OnInit {
         });
   }
   // clear the fields
-  callShortRegistrationBlank() {
-    this.shortRegistrationModel.firstName = "";
-    this.shortRegistrationModel.lastName = "";
-    this.shortRegistrationModel.gender = "";
-    this.shortRegistrationModel.profilecreatedby = "";
-    this.shortRegistrationModel.email = "";
-    this.shortRegistrationModel.phone = "";
-    this.shortRegistrationModel.role = "";
-  }
-
+  // callShortRegistrationBlank() {
+  //   this.shortRegistrationModel.firstName = "";
+  //   this.shortRegistrationModel.lastName = "";
+  //   this.shortRegistrationModel.gender = "";
+  //   this.shortRegistrationModel.profilecreatedby = "";
+  //   this.shortRegistrationModel.email = "";
+  //   this.shortRegistrationModel.phone = "";
+  //   this.shortRegistrationModel.role = "";
+  // }
   // onchange event on OTP
   public onChangeOTP(event: Event): void {
     let data = {
@@ -282,8 +293,10 @@ export class LandingPageComponent implements OnInit {
           this.otpErrorMessage = "otp not match..please try again";
         });
   }
+
   // open modal for otp and send otp
   openModalForOTP() {
+    // var fran_code=(<HTMLInputElement>document.getElementById("FranchiesCode")).value;
     this.loader=true;
     this.otpErrorMessage = "";
     this.otpMessage = "";
@@ -291,42 +304,68 @@ export class LandingPageComponent implements OnInit {
     this.checkCValidationForButton = true;
 
     if (this.shortRegistrationModel.firstName == '') {
-      this.firstnameError = 'first name should not blank';
+      this.firstnameError = 'First name should not be blank';
       this.checkCValidationForButton = false;
     }
     if (this.shortRegistrationModel.lastName == '') {
-      this.lastnameError = 'last name should not blank';
+      this.lastnameError = 'Last name should not be blank';
       this.checkCValidationForButton = false;
     }
     if (this.shortRegistrationModel.email == '') {
-      this.emailError = 'email should not blank';
+      this.emailError = 'Email should not be blank';
       this.checkCValidationForButton = false;
     }
     if (this.shortRegistrationModel.phone == '') {
-      this.phoneError = 'phone no should not blank';
+      this.phoneError = 'Mobile number should not be blank';
       this.checkCValidationForButton = false;
     }
+    // if(this.shortRegistrationModel.profilecreatedby=="Franchise")
+    // {
+    //   if (fran_code =='') {
+    //     this.FranchiseError = 'Franchise code should not be blank';
+    //     this.checkCValidationForButton = false;
+    //   }
+    // }
+    // this.router.navigate(['/member_details_login/'+this.member_id]);
     if (this.checkCValidationForButton) {
       const data = {
+        // phone: this.shortRegistrationModel.phone,
+        firstName: this.shortRegistrationModel.firstName,
+        lastName: this.shortRegistrationModel.lastName,
+        gender: this.shortRegistrationModel.gender,
+        profilecreatedby: this.shortRegistrationModel.profilecreatedby,
+        email: this.shortRegistrationModel.email,
         phone: this.shortRegistrationModel.phone,
+        // franchise_code:fran_code,
+        role: "USER"
       };
-      this.landingPageServices.sendOtpForMemberRegistration(data)
+
+      this.landingPageServices.shortMemberRegistrations(data)
         .subscribe(
           results => {
-            // this.registerUserMessage=results.message;
-            // alert(JSON.stringify(results));
-            if (results.message == 'success') {
-              this.otpDisplay = "block";
-            } else if (results.message == 'error') {
-              this.registerUserMessage = "otp not send please try again...";
-              this.otpDisplay = "none";
-              this.otpErrorDisplay = "block";
-            } else if (results.message != 'success') {
-              this.registerUserMessage = results.message;
-              this.otpDisplay = "none";
-              this.otpErrorDisplay = "block";
-            }
-            this.loader=false;
+            if (results.results == '1') {
+              localStorage.setItem('user_id',results.user_id);
+              localStorage.setItem('login_credentials_phone', this.shortRegistrationModel.phone);
+              localStorage.setItem('login_credentials', results.member_id);
+              localStorage.setItem('login_credentials_profile_id', results.profile_id);
+              localStorage.setItem('setUserName', this.setUserName);
+              localStorage.setItem('login_credentials_email',this.shortRegistrationModel.email);
+              localStorage.setItem('login_credentials_phone', this.shortRegistrationModel.phone);
+              localStorage.setItem('login_credentials_firstname', this.shortRegistrationModel.firstName);
+              localStorage.setItem('login_credentials_lastname', this.shortRegistrationModel.lastName);
+              localStorage.setItem('login_credentials_gender', this.shortRegistrationModel.gender);
+              this.router.navigate(['/member_details_login/'+results.user_id,]);
+            } 
+            // else if (results.message == 'error') {
+            //   this.registerUserMessage = "otp not send please try again...";
+            //   this.otpDisplay = "none";
+            //   this.otpErrorDisplay = "block";
+            // } else if (results.message != 'success') {
+            //   this.registerUserMessage = results.message;
+            //   this.otpDisplay = "none";
+            //   this.otpErrorDisplay = "block";
+            // }
+            // this.loader=false;
           },
           error => {
             console.log(error);
@@ -344,32 +383,31 @@ export class LandingPageComponent implements OnInit {
   }
   // validation start
   onKeyUpEventForFirstName(event: any) {
-    // alert(event.target.value);
     var charCode = event.keyCode;
     if ((charCode > 65 && charCode < 90) || (charCode > 97 && charCode < 122)) {
       this.firstnameError = '';
       this.checkCValidationForButton = true;
     } else {
       this.checkCValidationForButton = false;
-      this.firstnameError = 'please provide only alphabet';
+      this.firstnameError = 'Please provide only alphabet';
     }
   }
   onKeyUpEventForLastName(event: any) {
-    // alert(event.target.value);
     var charCode = event.keyCode;
     if ((charCode > 65 && charCode < 90) || (charCode > 97 && charCode < 122)) {
       this.lastnameError = '';
       this.checkCValidationForButton = true;
     } else {
       this.checkCValidationForButton = false;
-      this.lastnameError = 'please provide only alphabet';
+      this.lastnameError = 'Please provide only alphabet';
     }
   }
+
   isValidMailFormat(event: any) {
     let cont = event.target.value;
     let EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
     if (cont != "" && (cont.length <= 7 || !EMAIL_REGEXP.test(cont))) {
-      this.emailError = "please provide a valid email";
+      this.emailError = "Please provide a valid email";
       // return { "Please provide a valid email": true };
       this.checkCValidationForButton = false;
     } else {
@@ -377,6 +415,7 @@ export class LandingPageComponent implements OnInit {
       this.emailError = "";
     }
   }
+
   isValidMobileNumber(event: any) {
     const pattern = /[0-9\+\-\ ]/;
     let cont = event.target.value;
@@ -385,10 +424,11 @@ export class LandingPageComponent implements OnInit {
       this.phoneError = "";
       this.checkCValidationForButton = true;
     } else {
-      this.phoneError = "please provide a valid mobile number";
+      this.phoneError = "Please provide a valid mobile number";
       this.checkCValidationForButton = false;
     }
   }
+  
   // validation end 
   goToSearchPage() {
 
@@ -397,7 +437,6 @@ export class LandingPageComponent implements OnInit {
         this.setUserName = localStorage.getItem('setUserName');
         this.member_id = localStorage.getItem('login_credentials');
         this.isLoggedin = true;
-
         const data = {
           lookingFor: this.searchModel.lookingFor,
           from_age: this.searchModel.from_age,
@@ -405,11 +444,7 @@ export class LandingPageComponent implements OnInit {
           religion_name: this.searchModel.religion_name,
           marital_status: this.searchModel.marital_status
         };
-        // alert(this.searchModel.lookingFor + "\n" +
-        //   this.searchModel.from_age + "\n" +
-        //   this.searchModel.to_age + "\n" +
-        //   this.searchModel.religion_name + "\n" +
-        //   this.searchModel.marital_status + "\n");
+  
         localStorage.setItem("homepage_search_details", JSON.stringify(data));
         this.router.navigate(['/matches/members']);
       } else {
@@ -426,18 +461,19 @@ export class LandingPageComponent implements OnInit {
         this.router.navigate(['']);
       }
     }
-
   }
+
 // *************forgot password*******************
 // onchange event on OTP
+
 public onChangeSendOTP(event: Event): void {
   let data = {
-    phone: this.shortRegistrationModel.forgot_pwd_phone,
+    email: this.shortRegistrationModel.email,
   };
-  alert(this.shortRegistrationModel.forgot_pwd_phone)
   this.landingPageServices.sendOTPForgotpassword(data)
     .subscribe(
       results => {
+       this.SendoptMasseage=true
         if (results.message == null) {    // if otp verify check   
           this.otpErrorMessage = "otp not match..";
         }
@@ -448,24 +484,58 @@ public onChangeSendOTP(event: Event): void {
         this.otpErrorMessage = "otp not match..please try again";
       });
 }
+
 public submitForgotPassword(){
   let data = {
-    phone: this.shortRegistrationModel.forgot_pwd_phone,
+    email: this.shortRegistrationModel.email,
     otp: this.shortRegistrationModel.forgot_pwd_otp,
   };
-  // alert(this.shortRegistrationModel.forgot_pwd_phone)
-  this.landingPageServices.saveForgotPassword(data)
+  this.landingPageServices.saveForgotPassword(this.shortRegistrationModel.forgot_pwd_otp,this.shortRegistrationModel.email)
     .subscribe(
       results => {
-        // if (results.message == null) {    // if otp verify check   
-        //   this.otpErrorMessage = "otp not match..";
-        // }
-        // this.otpMessage = results.message;
+      
+        if (results.results == '1') {    // if otp verify check  
+          let data = {
+            email: this.shortRegistrationModel.email,
+          };
+          this.landingPageServices.sendEmail(data)
+            .subscribe(
+
+              results => {
+                this.forgetPasswordM=true;
+        
+                this.otpMessage = results.message;
+              },
+              error => {
+                console.log(error);
+                this.otpErrorMessage = "otp not match..please try again";
+              });
+          // this.otpErrorMessage = "otp not match..";
+        }
+        this.otpMessage = results.message;
       },
       error => {
         console.log(error);
         this.otpErrorMessage = "otp not match..please try again";
       });
 }
+demoUrls:any
+IMageForMemberID(data:any){
+  this.landingPageServices.getImageSuccessStory()
+  .subscribe((results : any) => { 
+    this.demoUrls=results.data;
+   });
+}
+  
+FranchiesOption()
+{
+  if(this.shortRegistrationModel.profilecreatedby=='Franchies')
+{
+    this.Franchies=true
+}else{
+    this.Franchies=false
+}
+}
+
 }
   

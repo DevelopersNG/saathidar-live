@@ -40,7 +40,7 @@
         <!-- 2!=0 -->
         <div *ngIf="search.photo_privacy!=search.my_premium_status">   
           <div *ngIf="search.profile_photo!=''">
-            <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Visible to Premium Members
+            <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Image Shown to Premium Member's Only
               <br>
               <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans </a>
             </span>
@@ -61,7 +61,7 @@
       <!-- keep all private , blur to all-->
       <div *ngIf="search.photo_privacy=='3'">
         <div *ngIf="search.profile_photo!=''">
-          <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Visible to Premium Members
+          <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Image Shown to Premium Member's Only
             <br>
             <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans </a>
           </span>
@@ -106,13 +106,11 @@
                    
                 </div>
                 <div class="city-state" id="padding-class">
-                   
                     Profession:
-    
                 </div>
                 <div  class="city-state" id="padding-class">
                   
-                    Income: {{search.income}}
+                  City: {{search.city}}
                     <a [routerLink]="" (click)="singleViewMemberDetails(search.member_id)"
                         style="color: blue;">read more...</a>
                         <tr>
@@ -165,7 +163,7 @@
         <div class="col-lg-4">
             <img  style="width: 200px;height: 200px;"   src="/saathidaar/assets/img/sad-image.jpg" alt="">
             <p style="color:darkcyan ;">
-                There are no accepted invitations<br>
+                There are no sent invitations<br>
                 <!-- <a href="">View My Matches</a> -->
             </p>
         </div>

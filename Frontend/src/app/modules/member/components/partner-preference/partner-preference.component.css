@@ -1,9 +1,10 @@
-* {
-    font-family: 'Times New Roman', Times, serifs;font-style: italic;
- }
+*
+{
+    font-family: 'Times New Roman', Times, serif;
+}
 h3
 {
-    background-color: #742041; color:#fff; padding: 10px;
+    background-color: #742041; color:#fff; padding: 10px; font-family: 'Times New Roman', Times, serifs;font-style: italic;
 }
 h1
 {
@@ -14,7 +15,10 @@ body
     box-shadow: 0 0 11px #742041; 
 
 }
-
+button {
+    background-image: linear-gradient(to right,#680F32,#D11861);
+    /* box-shadow: 0 4px 15px 0 rgba(69, 3, 49, 0.75); */
+}
 .chosen-container-multi .chosen-choices
 {
     border: black 1px solid;
@@ -62,4 +66,20 @@ body
      background-color:#742041;color: #fff;border: #fff 1px solid;margin-left: 2px;
      margin-top: 10px;
      margin-bottom: 10px;
+}
+.multiselect-dropdown[_ngcontent-xgy-c52] .dropdown-btn[_ngcontent-xgy-c52] .selected-item-container[_ngcontent-xgy-c52] .selected-item[_ngcontent-xgy-c52]
+{
+    background: #680F32; color:#ffff ;
+    border: 1px solid #337ab7;
+    margin-right: 4px;
+    /* background: #337ab7; */
+    padding: 0 5px;
+    color: #fff;
+    border-radius: 2px;
+    float: left;
+    max-width: 100px;
+}
+select
+{
+    padding: 5px;
 }

@@ -10,4 +10,14 @@ export class Horoscope {
     time_of_birth:string;
     message:string;
     profile_id:string;
+    date_of_birth:string;
+
 }
+export class location{
+    latt:string;
+    longt:string;
+
+    
+
+}
+

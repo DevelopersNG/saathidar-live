@@ -136,7 +136,8 @@ export class UpdateMemberComponent implements OnInit {
     nakshatra: '',
     Aadhaar_card: '',
     pan_card: '',
-    Kyc_Upload: ''
+    Kyc_Upload: '',
+    ug_education: '',
   };
   // ***************************  model end ********************
 
@@ -229,7 +230,7 @@ export class UpdateMemberComponent implements OnInit {
       nakshatra: this.updateMemberModels.nakshatra,
       Aadhaar_card:this.updateMemberModels.Aadhaar_card,
       pan_card:this.updateMemberModels.pan_card,
-      Kyc_Upload:this.updateMemberModels.Kyc_Upload
+      Kyc_Upload:this.updateMemberModels.Kyc_Upload,
       
     };
     // alert(JSON.stringify(this.updateMemberModels.Kyc_Upload))
@@ -295,12 +296,12 @@ export class UpdateMemberComponent implements OnInit {
     this.searchService.updateMemberDetails(data, this.member_id)
       .subscribe(
         results => {
-          
+          alert(JSON.stringify(results))
           this.updateMemberModels = results.message;
           this.setMemberDetails(this.member_id);
           // alert("Member Updated....")
          
-            this.router.navigate(['members/my-profile']);
+            // this.router.navigate(['members/my-profile']);
      
         },
         error => {
@@ -433,16 +434,14 @@ export class UpdateMemberComponent implements OnInit {
     this.searchService.getMemberDetails(this.member_id)
       .subscribe(
         results => {
+         
           this.updateMemberModels = results.data;
-          // alert(JSON.stringify(this.updateMemberModels));
-          // alert(JSON.stringify(this.updateMemberModels));
-        //  alert(this.updateMemberModels.manglik);
-
-          // set dropdown value
+    
           this.updateMemberModels.country_name = results.data.country_name;
 
           // get state list by country name  
           this.searchService.getStateNameByCountryID(results.data.country_id)
+          
             .subscribe(
               results => {
                 this.stateName = results.state;
@@ -505,12 +504,39 @@ export class UpdateMemberComponent implements OnInit {
           }else{
             this.isGothraAndAstroShow = false;
           }
+          if(this.updateMemberModels.health_info!='')
+          {
+            this.Other=true
+            // this.updateMemberModels.health_info="Other"
+          }
 
         },
         error => {
           console.log(error);
         });
   }
-
-
+  Other=false;
+  OtherOption(event:any)
+  {
+  
+    if(event.target.value=='Other')
+    {
+      this.Other=true
+    }else
+    {
+     this.Other=false;
+    }
+  
+  }
+  OtherShow=false;
+  FranchiesOption(event:any)
+  {
+    // alert()
+    if(event.target.value=='Other')
+    {
+      this.OtherShow=true
+    }else{
+      this.OtherShow=false
+    }
+  }
 }

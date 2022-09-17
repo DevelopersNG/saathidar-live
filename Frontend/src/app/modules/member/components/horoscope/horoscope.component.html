@@ -1,20 +1,14 @@
 <body>
-    
-
 <h1 style="border: 1px solid #742041;font-style: italic;">Horoscope</h1>
 <div class="container">
-
     <div class="row">
         <div class="col-3 link-quick">
-
-            <a class="nav-link" routerLink="/members/search">Quick Links</a>
-
+            <!-- <a class="nav-link" routerLink="/members/search">Quick Links</a> -->
             <a class="nav-link" routerLink="/matches/new"> New Matches</a>
-
             <a class="nav-link" routerLink="/matches/my"> My Matches</a>
-
             <a class="nav-link" routerLink="/matches/todays">Today matches</a>
-
+            
+<!-- 
             <li class="list-group-item list-2 ">
                 <label for=""> Profile ID Search</label>
                 <input class="email-i" type="email" placeholder="Enter profile ID"  [(ngModel)]="horoscopeDetails.profile_id" >
@@ -24,38 +18,43 @@
             </li>
             <li *ngIf="erroeMessageProfileId"  style="color:red;">
                 Profile ID Not Found... 
-            </li>
-
+            </li> -->
         </div>
         <div class="col-9">
-            <h3>My Horoscope Details
-            </h3>
-            <br>
-            <h5>Birth & Horoscope Details </h5>
+            <!-- <br>
+            <h5>Birth & Horoscope Details </h5> -->
 
             <li class="list-group-item col-sm-12 mt-1">
-                <label>Country of Birth</label>
+                <label>Country of Birth :</label>
                 <!-- <select name="religion" class="forminput js-religion" id="religion"  [(ngModel)]="horoscopeDetails.country_of_birth">
                     <option *ngFor="let cName of countryName" [ngValue]="cName.country_name">{{cName.country_name}}</option>
                   </select> -->
-
                   <span> 
                     <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="horoscopeDetails.country_of_birth">
                       <option *ngFor="let cName of countryName" [ngValue]="cName.country_name">{{cName.country_name}}</option>
                     </select>
                   </span>
-
             </li>
+           
 
             <li class="list-group-item col-sm-12 mt-1">
-                <label>City of Birth</label>
+                <label>City of Birth :</label>
                 <span>
                     <input class="ab" type="text" value="{{horoscopeDetails.city_of_birth}}" placeholder="city of birth" [(ngModel)]="horoscopeDetails.city_of_birth">
+                
+                  </span>
+                 
+            </li>
+           
+            <li class="list-group-item col-sm-12 mt-1">
+                <label>Date of Birth :</label>
+                <span>
+                    <input class="ab" value="{{horoscopeDetails.date_of_birth}}" [(ngModel)]="horoscopeDetails.date_of_birth" type="date"   placeholder="city of birth" >
                   </span>
             </li>
 
             <li class="list-group-item col-sm-12 mt-1">
-                <label>Time of Birth</label>
+                <label>Time of Birth :</label>
                 <span>
                     <select name="religion" class="label-s js-religion" id="religion" [(ngModel)]="horoscopeDetails.hours">
                         <option selected="selected" value="00">00</option>
@@ -142,7 +141,6 @@
                     <select name="religion" class="label-s js-religion" id="religion" [(ngModel)]="horoscopeDetails.time">
                         <option value="AM">AM</option>
                         <option selected="selected" value="PM">PM</option>
-
                     </select>
                 </span>
                 :
@@ -153,26 +151,32 @@
                     </select>
                 </span>
             </li>
-
             <li class="list-group-item col-sm-12 mt-1">
-                <label>Manglik/Chevvai/Dosham
-                </label>
+                <label>Manglik/Chevvai/Dosham :</label>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="manglik_chevvai_dosham" id="inlineRadio1"
                         value="No" [(ngModel)]="horoscopeDetails.manglik">
                     <label class="form-check-label" for="inlineRadio1">No</label>
                 </div>
+
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="manglik_chevvai_dosham" id="inlineRadio2"
                         value="Yes"  [(ngModel)]="horoscopeDetails.manglik">
                     <label class="form-check-label" for="inlineRadio2">Yes</label>
                 </div>
+
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="manglik_chevvai_dosham" id="inlineRadio1"
                         value="Don't Know"  [(ngModel)]="horoscopeDetails.manglik">
                     <label class="form-check-label" for="inlineRadio1">Don't Know
                     </label>
                 </div>
+
+            </li>
+            <li class="list-group-item col-sm-12 mt-1">
+                <!-- <p>long{{langLocatin}}</p>
+                <p>ltit{{latLocation}}</p> -->
+                    <label>Coordinate of city :</label><label for="">Latitude   {{latLocation}}</label><label for="">Longitude {{langLocatin}}</label>
             </li>
             <div class="vs"><button type="submit" (click)="updateHoroscopeDetails()" class="btn btn-primary vs"> Updated</button></div>
         </div>

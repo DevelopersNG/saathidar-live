@@ -4,58 +4,36 @@
 
         <div class="row">
             <div class=" col-sm-12 col-lg-4">
-
-                <ul>
-
-                    <li> <a class="nav-link" [routerLink]="" (click)="showAccount()"> Account Settings</a>
-                    </li>
-                    <li><a class="nav-link" [routerLink]="" (click)="showContact()">Email/ SMS Alerts</a>
-                    </li>
-                    <li><a class="nav-link" [routerLink]="" (click)="showHidedeleteprofile()">Hide / Delete Profile</a>
-                    </li>
-                     
-                   
-                    <li><a class="nav-link" [routerLink]=""  (click)="showHelp()">Help</a>
-                    </li>
-                    <li><a class="nav-link" [routerLink]=""  (click)="showPrivacyOption()">Privacy Option</a>
-                    </li>
-                    <li><a class="nav-link" [routerLink]=""  (click)="showPrivacyPolicy()" >Privacy Policy</a>
-                    </li>
-                    <li><a class="nav-link" [routerLink]="" (click)="showTermConditions()">Term & Conditions</a>
-                    </li>
-                    
-
-                </ul>
+              <div class="linkAllColor">
+                <a class="nav-link" [routerLink]="" (click)="showAccount()"> Account Settings</a>
+              </div>
+              <div class="linkAllColor">
+                <a class="nav-link" [routerLink]=""  (click)="showContact()">Email Alerts</a>
+              </div>
+              <div class="linkAllColor">
+                <a class="nav-link" [routerLink]="" (click)="showHidedeleteprofile()">Hide / Unhide</a>
+              </div>
+              <div class="linkAllColor">
+                <a class="nav-link" [routerLink]=""  (click)="showHelp()">Help</a>
+              </div>
+              <div class="linkAllColor">
+                <a class="nav-link" [routerLink]=""  (click)="showPrivacyOption()">Privacy Option</a>
+              </div>
+              <div class="linkAllColor">
+                <a class="nav-link" [routerLink]=""  (click)="showPrivacyPolicy()" >Privacy Policy</a>
+              </div>
+              <div class="linkAllColor">
+                <a class="nav-link" [routerLink]="" (click)="showTermConditions()">Term & Conditions</a>
+              </div>
             </div>
 
-
-
             <div class="col-sm-12 col-lg-8 maindiv">
-
                 <div class="row">
-
                     <div class="col-4 btnmaindiv">
-
-                                 
                 <div class="custom-control custom-radio " >
-
-
-
                     <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input"  value="HideProfile" [(ngModel)]="account.hide" >
                     <label  style="color: black;" class="custom-control-label" for="customRadio1">Hide profile</label>
                     <div>
-
-<!-- 
-                <div class="imagebbutton">
-                    <button type="button" (click)="hideData('1')" [(ngModel)]="account.hidedata" class="btn btn-danger imageb ">  One month</button>
-                </div>
-                <div  class="imagebbutton">
-                    <button type="button"  (click)="hideData('3')" value="3" class="btn btn-danger imageb "  [(ngModel)]="account.hidedata">   Three months</button>
-                </div>
-                <div  class="imagebbutton">
-                    <button type="button" (click)="hideData('6')" class="btn btn-danger imageb "  [(ngModel)]="account.hidedata" value="6">  Six months</button>
-                </div> -->
-
                 <div class="form-check">
                     <input class="form-check-input" (click)="hideData('1')" [(ngModel)]="account.hidedata" type="radio" name="exampleRadios" id="exampleRadios1" value="1" >
                     <label class="form-check-label" for="exampleRadios1">
@@ -94,6 +72,7 @@
                     <div *ngIf="success_message" style="color:green">
                         {{success_message}}
                       </div>
+
                       <div *ngIf="error_message" style="color:red">
                         {{error_message}}
                       </div>

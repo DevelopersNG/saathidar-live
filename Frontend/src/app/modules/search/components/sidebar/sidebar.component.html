@@ -47,7 +47,6 @@
     </label>
   </div>
 
-
   <p>Annual Income</p>
   <div class="ScrollStyle">
     <div class="form-check">
@@ -210,7 +209,6 @@
   <p>Religion</p>
   <div class="ScrollStyle">
     <div class="form-check" *ngFor="let relName of religionName">
-    
       
         <input class="form-check-input position-static" type="checkbox" id="blankCheckbox"
           name="{{relName.religion_name}}" value="{{relName.religion_name}}"
@@ -469,13 +467,13 @@
     </div>
 
 
-    <div class="form-check">
+    <!-- <div class="form-check">
       <input class="form-check-input position-static" type="checkbox" value="Jain"
         (change)="selectCheckBox_LifeStyles($event,'eating-habits/jain')">
       <label class="form-check-label" for="exampleRadios1">
         Jain
       </label>
-    </div>
+    </div> -->
   </div>
 
 

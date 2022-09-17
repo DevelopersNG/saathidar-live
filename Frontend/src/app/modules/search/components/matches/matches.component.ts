@@ -26,7 +26,7 @@ export class MatchesComponent implements OnInit {
 
   demoUrlsActive : string[] = [];
   demoUrls:any;
-  imageURL='http://103.150.186.33:8080'
+  imageURL='http://103.174.102.195:8080'
   gender:any;
   genderImageURL='/saathidaar/assets/img'
   ngOnInit(): void {
@@ -98,18 +98,15 @@ export class MatchesComponent implements OnInit {
           console.log(error);
         });
   }
-
   singleViewMemberDetails(member_id: string) {
     this.router.navigate(['/members/profile/' + member_id]);
   }
-
   sentRequests(member_to_id: string) {
     const data = {
       request_from_id: this.member_id,
       request_to_id: member_to_id,
       request_status: "Pending"
     }
-
     this.landingPageServices.sentRequests(data)
       .subscribe(
         results => {
@@ -127,8 +124,8 @@ export class MatchesComponent implements OnInit {
     // alert(JSON.stringify(data));
   }
 
-
   addToShortList(member_to_id: string) {
+    
     const data = {
       shortlist_from_id: this.member_id,
       shortlist_to_id: member_to_id,
@@ -151,8 +148,6 @@ export class MatchesComponent implements OnInit {
           console.log(error);
         });
   }
-
-
     // ***************************************new line modal**********************************
 
     seturl:any;
@@ -165,12 +160,9 @@ export class MatchesComponent implements OnInit {
      this.seturl=url;
      this.loadTIme=true;
     }
-    
     check(val:any){
     // alert(val)
-    
       }
-
       blockmemberID(member_to_id: string) {
 
         const data = {

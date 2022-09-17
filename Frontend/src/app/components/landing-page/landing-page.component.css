@@ -1,13 +1,7 @@
-* {
-  font-family: 'Times New Roman', Times, serifs;font-style: italic;
-}
-h1
+
+button
 {
-font-family: 'Times New Roman', Times, serifs;font-style: italic;
-}
-h2
-{
-    font-family: 'Times New Roman', Times, serifs;font-style: italic;  
+    font-style: normal;
 }
 #control12{
     margin-left: 112px;
@@ -23,6 +17,7 @@ h2
     margin-left: 80px;
    
 }
+
   .navMenu a:hover {
     color: #742041;
   }
@@ -177,34 +172,23 @@ a:focus{
   .form-control {
     margin-right: 12px;
   }
-  
- 
   .cursor {
     cursor: pointer;
   }
-
-
-
   #zoom {
    
     transition: transform .2s;
   
   }
-  
   #zoom:hover {
     -ms-transform: scale(1.1); /* IE 9 */
     -webkit-transform: scale(1.1); /* Safari 3-8 */
     transform: scale(1.1); 
     color: #111;
   }
-
-
-
   #space1{
       width: 197x;
   }
-
-
   .button {
     border-radius: 4px;
     background-color: #742041;
@@ -218,14 +202,12 @@ a:focus{
     cursor: pointer;
     margin: 5px;
   }
-  
   .btn span {
     cursor: pointer;
     display: inline-block;
     position: relative;
     transition: 0.5s;
   }
-  
   .btn span:after {
     content: '\00bb';
     position: absolute;
@@ -243,7 +225,10 @@ a:focus{
     opacity: 1;
     right: 0;
   }
-  
+  .maringImage
+  {
+    margin-top:160px;
+  }
  
 
 #id2{
@@ -273,7 +258,14 @@ active:hover {
 
 }
 
-
+.btn-hover.color-1 {
+  background-image: linear-gradient(to right,#680F32,#D11861);
+  /* box-shadow: 0 4px 15px 0 rgba(69, 3, 49, 0.75); */
+}
+.btn
+{
+  background-image: linear-gradient(to right,#680F32,#D11861);
+}
 
 
 

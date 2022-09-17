@@ -20,7 +20,7 @@ export class InvitationsComponent implements OnInit {
   member_id:any;
   seturl:any;
   loadTIme:boolean=false;
-  imageURL='http://103.150.186.33:8080'
+  imageURL='http://103.174.102.195:8080'
   genderImageURL='/saathidaar/assets/img'
   gender:any;
   
@@ -76,17 +76,14 @@ filterAll()
   this.getInvitationsDetails(this.member_id);
 }
 
-
-
-
-
 getInvitationsDetails(member_id:any){
   this.loader = true;
   this.inbox_service.getInvitationsDetails(member_id)
   .subscribe(
     (results: any) => {
-      // alert(JSON.stringify(results))
       this.invitationsDetails =results.data;
+      // alert(JSON.stringify(results))
+
       this.loader = false;
     },
     (      error: any) => {
@@ -96,6 +93,8 @@ getInvitationsDetails(member_id:any){
 
     });
 }
+
+
 singleViewMemberDetails(member_id:string){
   this.router.navigate(['/members/profile/'+member_id]);
 }
@@ -105,7 +104,7 @@ acceptMemberRequests(memberID:string){
     request_to_id: this.member_id,
     request_status:"Accepted"
   }
-  // alert(JSON.stringify(memberID))
+  // alert(JSON.stringify(memberID.length))
 
   this.inbox_service.acceptMemberRequests(data)
   .subscribe(
@@ -183,14 +182,12 @@ check(val:any){
 
 
   blockmemberID(member_to_id: string) {
-
     const data = {
       request_from_id:member_to_id,
       request_to_id:this.member_id,
       block_by_id:this.member_id,
       block_status:"Block"
     }
-   
     this.inbox_service.blockmember(data)
       .subscribe(
         results => {

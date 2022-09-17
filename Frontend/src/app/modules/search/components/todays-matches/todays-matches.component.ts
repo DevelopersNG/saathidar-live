@@ -15,8 +15,11 @@ export class TodaysMatchesComponent implements OnInit {
   searchByJSONDetails: any;
   member_id: any;  
   memberIDs: any;
-  imageURL='http://103.150.186.33:8080'
+  imageURL='http://103.174.102.195:8080'
   genderImageURL='/saathidaar/assets/img'
+  upgrade=false
+  blockMasseage=false
+  sendRequest=false
   gender:any;
   constructor(private router:Router,private matchesService:MatchesService) { }
   // demoUrls : string[] = [];
@@ -78,9 +81,7 @@ export class TodaysMatchesComponent implements OnInit {
     this.matchesService.searchTodayMatchesAllMember( member_id)
       .subscribe(
         results => {
-
           // alert(JSON.stringify(results.data))
-
          this.searchMemberDetails = results.data;
          
           // this is for next and previous- start
@@ -102,7 +103,9 @@ export class TodaysMatchesComponent implements OnInit {
         });
   }
 
-  addToShortList(member_to_id: string) {
+  addToShortList(member_to_id: string,my_premium_status:string) {
+    if(my_premium_status == '2')
+    {
     const data = {
       shortlist_from_id: this.member_id,
       shortlist_to_id: member_to_id,
@@ -123,9 +126,15 @@ export class TodaysMatchesComponent implements OnInit {
           window.location.reload();
 
         });
+    }
+    {
+      this.upgrade=true;
+    }
   }
 
-  sentRequests(member_to_id: string) {
+  sentRequests(member_to_id: string,my_premium_status:string) {
+    if(my_premium_status == '2')
+    {
     const data = {
       request_from_id: this.member_id,
       request_to_id: member_to_id,
@@ -149,6 +158,10 @@ export class TodaysMatchesComponent implements OnInit {
           window.location.reload();
 
         });
+      }else
+      {
+        this.sendRequest=true;
+      }
 
     // alert(JSON.stringify(data));
   }
@@ -178,7 +191,9 @@ check(val:any){
   // ************************************block*************************
 
 
-  blockmemberID(member_to_id: string) {
+  blockmemberID(member_to_id: string,my_premium_status:string) {
+    if(my_premium_status == '2')
+    {
 
     const data = {
       request_from_id:member_to_id,
@@ -197,6 +212,10 @@ check(val:any){
           window.location.reload();
 
         });
+      }else
+      {
+        this.blockMasseage=true;
+      }
   }
   
 
