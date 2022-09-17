@@ -826,6 +826,7 @@ public class UpdateMemberEntityMangerFactory {
 					json.put("religion", myReligionName);
 					json.put("maritalStatus", myMaritalStatus);
 					json.put("profile_photo", getProfilePath);
+					json.put("country", myCountryName);
 					myAnnualIncome = MembersDetailsAction.getAnnualIncomePrivacy(premiumStatus, memberID,
 							myAnnualIncome);
 
@@ -1153,7 +1154,7 @@ public class UpdateMemberEntityMangerFactory {
 						json.put("mage", myAge);
 						json.put("religion", myReligionName);
 						json.put("maritalStatus", myMaritalStatus);
-
+						json.put("country", myCountryName);
 						myAnnualIncome = MembersDetailsAction.getAnnualIncomePrivacy(premiumStatus, memberID,
 								myAnnualIncome);
 
@@ -1214,28 +1215,6 @@ public class UpdateMemberEntityMangerFactory {
 							block_status=getMemberBlockStatus;
 						}
 						json.put("block_status", block_status);
-						
-//						JSONArray resultRequest = new JSONArray();
-//						// check request are sent to other member
-//						Query query = em.createNativeQuery(
-//								"SELECT request_status,block_status FROM member_request where  request_from_id= :member_from_id and request_to_id= :member_to_id");
-//						query.setParameter("member_from_id", id);
-//						query.setParameter("member_to_id", memberID);
-//						List<Object[]> result = query.getResultList();
-//						int statusRequest = 0;
-//						if (result != null) {
-//							for (Object[] objRequest : result) {
-//								int j = 0;
-//								statusRequest = 1;
-//								json.put("request_status", convertNullToBlank(String.valueOf(objRequest[j])));
-//								json.put("block_status", convertNullToBlank(String.valueOf(objRequest[++j])));
-//							}
-//						}
-//
-//						if (statusRequest == 0) {
-//							json.put("request_status", "");
-//							json.put("block_status", "");
-//						}
 
 						resultArray.put(json);
 
@@ -2357,7 +2336,7 @@ public class UpdateMemberEntityMangerFactory {
 									} 
 									if(castName!=null && !castName.equals("")) {
 										if(religionsName!=null && !religionsName.equals("")) {
-											religionsWithCastName=religionsName  + ":" + castName;
+											religionsWithCastName=religionsName  + "," + castName;
 										}else {
 											religionsWithCastName=castName;
 										} 
@@ -3688,7 +3667,7 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("subcaste", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("religion_name", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("religion_id", convertNullToBlank(String.valueOf(obj[++i])));
-
+					
 					map.put("state", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("state_id", convertNullToBlank(String.valueOf(obj[++i])));
 

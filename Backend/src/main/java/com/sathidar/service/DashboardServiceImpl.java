@@ -728,7 +728,7 @@ public class DashboardServiceImpl implements DashboardService {
 						json.put("religion", myReligionName);
 						json.put("maritalStatus", myMaritalStatus);
 						json.put("city", myCityName);
-						
+						json.put("country", myCountryName);
 						myAnnualIncome = MembersDetailsAction.getAnnualIncomePrivacy(premiumStatus, memberID,
 								myAnnualIncome);
 
