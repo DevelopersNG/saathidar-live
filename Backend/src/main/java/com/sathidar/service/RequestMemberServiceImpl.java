@@ -1998,7 +1998,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 					String request_to_id = convertNullToBlank(String.valueOf(obj[j]));
 					String request_status = convertNullToBlank(String.valueOf(obj[++j]));
 					String creation_date = convertNullToBlank(String.valueOf(obj[++j]));
-
+					
 					String queryString = "SELECT " + columnName + "  FROM memberdetails as md "
 							+ " join member as m on md.member_id=m.member_id"
 							+ " join member_education_career as mec on m.member_id=mec.member_id "
@@ -2349,13 +2349,26 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			
 			String genderFromMessage = "", genderToMessage = "";
 			if (gender != null && !gender.equals("")) {
-				if (gender.equalsIgnoreCase("male")) {
-					genderFromMessage = "she";
-					genderToMessage = "her";
+				
+				if (status_from.equals("from")) {
+					if (gender.equalsIgnoreCase("male")) {
+						genderFromMessage = "she";
+						genderToMessage = "her";
+					}
+					if (gender.equalsIgnoreCase("female")) {
+						genderFromMessage = "he";
+						genderToMessage = "his";
+					}
 				}
-				if (gender.equalsIgnoreCase("female")) {
-					genderFromMessage = "he";
-					genderToMessage = "his";
+				if (status_from.equals("to")) {
+					if (gender.equalsIgnoreCase("male")) {
+						genderFromMessage = "he";
+						genderToMessage = "his";
+					}
+					if (gender.equalsIgnoreCase("female")) {
+						genderFromMessage = "she";
+						genderToMessage = "her";
+					}
 				}
 			}
 

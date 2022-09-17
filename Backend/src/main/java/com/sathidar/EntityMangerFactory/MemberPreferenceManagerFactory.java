@@ -35,7 +35,8 @@ public class MemberPreferenceManagerFactory {
 	 
 		String columnName="partner_from_age,partner_to_age,partner_from_height,partner_to_height,partner_manglik_all,partner_annual_income,partner_profile_created,partner_lifestyles,"
 				+ "partner_marital_status,partner_mother_tongue,partner_qualification,partner_working_with,partner_professional_area,"
-				+ "partner_religions,partner_cast,partner_country,partner_state,partner_city";
+				+ "partner_religions,partner_cast,partner_country,partner_state,partner_city,"
+				+ "partner_religions as religion_ids,partner_cast as caste_ids,partner_country ascountry_ids,partner_state as state_ids,partner_city as city_ids";
 		Query q = em.createNativeQuery("select " + columnName
 				+ " from member_preference where member_id= :memberID and status='ACTIVE'");
 		q.setParameter("memberID", memberID);
@@ -62,7 +63,6 @@ public class MemberPreferenceManagerFactory {
 					map.put("partner_mother_tongue", String.valueOf(obj[++i]));
 					map.put("partner_qualification", String.valueOf(obj[++i]));
 					map.put("partner_working_with", String.valueOf(obj[++i]));
-					
 					map.put("partner_professional_area", String.valueOf(obj[++i]));
 					
 					String religionsName=checkIsQuammaSeperatedValue(String.valueOf(obj[++i]),"religions");
@@ -79,6 +79,13 @@ public class MemberPreferenceManagerFactory {
 					
 					String city=checkIsQuammaSeperatedValue(String.valueOf(obj[++i]),"city");
 					map.put("partner_city",city);
+					
+					map.put("religions_ids", String.valueOf(obj[++i]));
+					map.put("caste_ids", String.valueOf(obj[++i]));
+					map.put("country_ids", String.valueOf(obj[++i]));
+					map.put("state_ids", String.valueOf(obj[++i]));
+					map.put("city_ids", String.valueOf(obj[++i]));
+
 				status = true;
 			}
 		}
