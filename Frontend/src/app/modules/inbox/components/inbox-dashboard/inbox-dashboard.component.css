@@ -1,0 +1,12 @@
+*
+{
+    font-family: 'Times New Roman', Times, serif;
+}
+.row
+{
+    padding-top: 90px;
+}
+.form-check
+{
+    padding-top:5px ;border-bottom: 1px solid black;padding: 5px;
+}

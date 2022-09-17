@@ -1,0 +1,276 @@
+<div class="container">
+    <div class="row">
+        <!-- <div class="col-3">Filter</div> -->
+        <div class="col-lg-8 col=sm-12">
+            <div class="container">
+                <h3>Basic Search</h3>
+
+                <table style="margin:20px">
+                  <tr>
+                    <th style="width: 180px;">Age</th>
+                    <th>
+                      <span>
+                        <select style="width: 215px;" name="religion" class=" js-religion" id="religion-partner-preference" [(ngModel)]="search_member.search_from_age">
+                          <option value="">Select</option>
+                          <option value="18">18</option>
+                          <option value="19">19</option>
+                          <option value="20">20</option>
+                          <option value="21">21</option>
+                          <option value="22">22</option>
+                          <option value="23">23</option>
+                          <option value="24">24</option>
+                          <option value="25">25</option>
+                          <option value="26">26</option>
+                          <option value="27">27</option>
+                          <option value="28">28</option>
+                          <option value="29">29</option>
+                          <option value="30">30</option>
+                          <option value="31">31</option>
+                          <option value="32">32</option>
+                          <option value="33">33</option>
+                          <option value="34">34</option>
+                          <option value="35">35</option>
+                          <option value="36">36</option>
+                          <option value="37">37</option>
+                          <option value="38">38</option>
+                          <option value="39">39</option>
+                          <option value="40">40</option>
+                        </select>
+                      </span>
+                      To
+                      <span>
+                        <select style="width: 220px;" name="religion" class=" js-religion1" id="religion1" [(ngModel)]="search_member.search_to_age">
+            
+                          <option value="">Select</option>
+                          <option value="18">18</option>
+                          <option value="19">19</option>
+                          <option value="20">20</option>
+                          <option value="21">21</option>
+                          <option value="22">22</option>
+                          <option value="23">23</option>
+                          <option value="24">24</option>
+                          <option value="25">25</option>
+                          <option value="26">26</option>
+                          <option value="27">27</option>
+                          <option value="28">28</option>
+                          <option value="29">29</option>
+                          <option value="30">30</option>
+                          <option value="31">31</option>
+                          <option value="32">32</option>
+                          <option value="33">33</option>
+                          <option value="34">34</option>
+                          <option value="35">35</option>
+                          <option value="36">36</option>
+                          <option value="37">37</option>
+                          <option value="38">38</option>
+                          <option value="39">39</option>
+                          <option value="40">40</option>
+                        </select>
+                      </span>
+            
+                      <!-- <div id="select-age"></div>
+                    
+                    </th> -->
+                  </tr>
+                </table>
+            
+                <table style="margin:20px">
+                  <tr>
+                    <th style="width: 180px;">Height
+                    </th>
+                    <th>
+                      <span>
+                        <select style="width: 215px;" name="religion" class=" js-religion" id="religion" [(ngModel)]="search_member.search_from_height">
+                          <option value="" label="Select">Select</option>
+                          <option value="4ft 5in - 134cm" label="4ft 5in - 134cm">4ft 5in - 134cm</option>
+                          <option value="4ft 6in - 137cm" label="4ft 6in - 137cm">4ft 6in - 137cm</option>
+                          <option value="4ft 7in - 139cm" label="4ft 7in - 139cm">4ft 7in - 139cm</option>
+                          <option value="4ft 8in - 142cm" label="4ft 8in - 142cm">4ft 8in - 142cm</option>
+                          <option value="4ft 9in - 144cm" label="4ft 9in - 144cm">4ft 9in - 144cm</option>
+                          <option value="4ft 10in - 147cm" label="4ft 10in - 147cm">4ft 10in - 147cm</option>
+                          <option value="4ft 11in - 149cm" label="4ft 11in - 149cm">4ft 11in - 149cm</option>
+                          <option value="5ft - 152cm" label="5ft - 152cm">5ft - 152cm</option>
+                          <option value="5ft 1in - 154cm" label="5ft 1in - 154cm">5ft 1in - 154cm</option>
+                          <option value="5ft 2in - 157cm" label="5ft 2in - 157cm">5ft 2in - 157cm</option>
+                          <option value="5ft 3in - 160cm" label="5ft 3in - 160cm">5ft 3in - 160cm</option>
+                          <option value="5ft 4in - 162cm" label="5ft 4in - 162cm">5ft 4in - 162cm</option>
+                          <option value="5ft 5in - 165cm" label="5ft 5in - 165cm">5ft 5in - 165cm</option>
+                          <option value="5ft 6in - 167cm" label="5ft 6in - 167cm">5ft 6in - 167cm</option>
+                          <option value="5ft 7in - 170cm" label="5ft 7in - 170cm">5ft 7in - 170cm</option>
+                          <option value="5ft 8in - 172cm" label="5ft 8in - 172cm">5ft 8in - 172cm</option>
+                          <option value="5ft 9in - 175cm" label="5ft 9in - 175cm">5ft 9in - 175cm</option>
+                          <option value="5ft 10in - 177cm" label="5ft 10in - 177cm" selected="selected">5ft 10in - 177cm</option>
+                          <option value="5ft 11in - 180cm" label="5ft 11in - 180cm">5ft 11in - 180cm</option>
+                          <option value="6ft - 182cm" label="6ft - 182cm">6ft - 182cm</option>
+                          <option value="6ft 1in - 185cm" label="6ft 1in - 185cm">6ft 1in - 185cm</option>
+                          <option value="6ft 2in - 187cm" label="6ft 2in - 187cm">6ft 2in - 187cm</option>
+                          <option value="6ft 3in - 190cm" label="6ft 3in - 190cm">6ft 3in - 190cm</option>
+                          <option value="6ft 4in - 193cm" label="6ft 4in - 193cm">6ft 4in - 193cm</option>
+                          <option value="6ft 5in - 195cm" label="6ft 5in - 195cm">6ft 5in - 195cm</option>
+                          <option value="6ft 6in - 198cm" label="6ft 6in - 198cm">6ft 6in - 198cm</option>
+                          <option value="6ft 7in - 200cm" label="6ft 7in - 200cm">6ft 7in - 200cm</option>
+                          <option value="6ft 8in - 203cm" label="6ft 8in - 203cm">6ft 8in - 203cm</option>
+                          <option value="6ft 9in - 205cm" label="6ft 9in - 205cm">6ft 9in - 205cm</option>
+                          <option value="6ft 10in - 208cm" label="6ft 10in - 208cm">6ft 10in - 208cm</option>
+                          <option value="6ft 11in - 210cm" label="6ft 11in - 210cm">6ft 11in - 210cm</option>
+                          <option value="7ft - 213cm" label="7ft - 213cm">7ft - 213cm</option>
+                        </select>
+                      </span >
+                      To
+                      <span>
+                        <select style="width: 220px;" name="religion" class=" js-religion" id="religion2" [(ngModel)]="search_member.search_to_height">
+                          <option value="" label="Select">Select</option>
+                          <option value="4ft 5in - 134cm" label="4ft 5in - 134cm">4ft 5in - 134cm</option>
+                          <option value="4ft 6in - 137cm" label="4ft 6in - 137cm">4ft 6in - 137cm</option>
+                          <option value="4ft 7in - 139cm" label="4ft 7in - 139cm">4ft 7in - 139cm</option>
+                          <option value="4ft 8in - 142cm" label="4ft 8in - 142cm">4ft 8in - 142cm</option>
+                          <option value="4ft 9in - 144cm" label="4ft 9in - 144cm">4ft 9in - 144cm</option>
+                          <option value="4ft 10in - 147cm" label="4ft 10in - 147cm">4ft 10in - 147cm</option>
+                          <option value="4ft 11in - 149cm" label="4ft 11in - 149cm">4ft 11in - 149cm</option>
+                          <option value="5ft - 152cm" label="5ft - 152cm">5ft - 152cm</option>
+                          <option value="5ft 1in - 154cm" label="5ft 1in - 154cm">5ft 1in - 154cm</option>
+                          <option value="5ft 2in - 157cm" label="5ft 2in - 157cm">5ft 2in - 157cm</option>
+                          <option value="5ft 3in - 160cm" label="5ft 3in - 160cm">5ft 3in - 160cm</option>
+                          <option value="5ft 4in - 162cm" label="5ft 4in - 162cm">5ft 4in - 162cm</option>
+                          <option value="5ft 5in - 165cm" label="5ft 5in - 165cm">5ft 5in - 165cm</option>
+                          <option value="5ft 6in - 167cm" label="5ft 6in - 167cm">5ft 6in - 167cm</option>
+                          <option value="5ft 7in - 170cm" label="5ft 7in - 170cm">5ft 7in - 170cm</option>
+                          <option value="5ft 8in - 172cm" label="5ft 8in - 172cm">5ft 8in - 172cm</option>
+                          <option value="5ft 9in - 175cm" label="5ft 9in - 175cm">5ft 9in - 175cm</option>
+                          <option value="5ft 10in - 177cm" label="5ft 10in - 177cm" selected="selected">5ft 10in - 177cm</option>
+                          <option value="5ft 11in - 180cm" label="5ft 11in - 180cm">5ft 11in - 180cm</option>
+                          <option value="6ft - 182cm" label="6ft - 182cm">6ft - 182cm</option>
+                          <option value="6ft 1in - 185cm" label="6ft 1in - 185cm">6ft 1in - 185cm</option>
+                          <option value="6ft 2in - 187cm" label="6ft 2in - 187cm">6ft 2in - 187cm</option>
+                          <option value="6ft 3in - 190cm" label="6ft 3in - 190cm">6ft 3in - 190cm</option>
+                          <option value="6ft 4in - 193cm" label="6ft 4in - 193cm">6ft 4in - 193cm</option>
+                          <option value="6ft 5in - 195cm" label="6ft 5in - 195cm">6ft 5in - 195cm</option>
+                          <option value="6ft 6in - 198cm" label="6ft 6in - 198cm">6ft 6in - 198cm</option>
+                          <option value="6ft 7in - 200cm" label="6ft 7in - 200cm">6ft 7in - 200cm</option>
+                          <option value="6ft 8in - 203cm" label="6ft 8in - 203cm">6ft 8in - 203cm</option>
+                          <option value="6ft 9in - 205cm" label="6ft 9in - 205cm">6ft 9in - 205cm</option>
+                          <option value="6ft 10in - 208cm" label="6ft 10in - 208cm">6ft 10in - 208cm</option>
+                          <option value="6ft 11in - 210cm" label="6ft 11in - 210cm">6ft 11in - 210cm</option>
+                          <option value="7ft - 213cm" label="7ft - 213cm">7ft - 213cm</option>
+                        </select>
+                      </span>
+            
+            
+            
+                    </th>
+                  </tr>
+                </table>
+            
+                <table style="margin:20px">
+                  <tr>
+                    <th style="width: 180px;">Marital status</th>
+            
+                    <th style="width: 75%;">
+            
+                      <ng-multiselect-dropdown class="customClass" [placeholder]="'Marital status'" [settings]="dropdownSettings"
+                        [data]="dropdownList" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)"
+                        (onSelectAll)="onSelectAll($event)">
+                      </ng-multiselect-dropdown>
+                    </th>
+                  </tr>
+                </table>
+            
+                <table style="margin:20px">
+                  <tr>
+                    <th style="width: 180px;">Religion</th>
+                    <th style="width: 75%;">
+                      <ng-multiselect-dropdown class="customClass" [placeholder]="'Religions'" [settings]="dropdownSettingsReligions"
+                        [data]="dropdownListReligions" [(ngModel)]="selectedItemsReligions" (onSelect)="onItemSelectReligions($event)"
+                        (onSelectAll)="onSelectAllReligions($event)">
+                      </ng-multiselect-dropdown>
+                    </th>
+                  </tr>
+                </table>
+                <table style="margin:20px">
+                  <tr>
+                    <th style="width: 180px;">Community</th>
+                    <th style="width: 75%;">
+                      <ng-multiselect-dropdown class="customClass" [placeholder]="'Community'" [settings]="dropdownSettingsCast"
+                        [data]="dropdownListCast" [(ngModel)]="selectedItemsCast" (onSelect)="onItemSelectCast($event)"
+                        (onSelectAll)="onSelectAllCast($event)">
+                      </ng-multiselect-dropdown>
+                    </th>
+                  </tr>
+                </table>
+                <table style="margin:20px">
+                  <tr>
+                    <th style="width: 180px;">Mother Tongue</th>
+                    <th style="width: 75%;">
+                      <ng-multiselect-dropdown class="customClass" [placeholder]="'Mother Tongue'"
+                        [settings]="dropdownSettingsMotherTongue" [data]="dropdownListMotherTongue"
+                        [(ngModel)]="selectedItemsMotherTongue" (onSelect)="onItemSelect($event)"
+                        (onSelectAll)="onSelectAll($event)">
+                      </ng-multiselect-dropdown>
+                    </th>
+                  </tr>
+                </table>
+            
+                <h3>Location Details</h3>
+            
+                <table style="margin:20px">
+                  <tr>
+                    <th style="width: 180px;">Country</th>
+            
+                    <th style="width: 75%;">
+            
+                      <ng-multiselect-dropdown class="customClass" [placeholder]="'Country'"
+                      [settings]="dropdownSettingsCountry" [data]="dropdownListCountry"
+                      [(ngModel)]="selectedItemsCountry" (onSelect)="onItemSelectCountry($event)"
+                      (onSelectAll)="onSelectAllCountry($event)">
+                    </ng-multiselect-dropdown> 
+                    </th>
+                  </tr>
+                </table>
+            
+                <table style="margin:20px">
+                  <tr>
+                    <th style="width: 180px;">State</th>
+                    <th style="width: 75%;">
+                      <ng-multiselect-dropdown class="customClass" [placeholder]="'State'"
+                      [settings]="dropdownSettingsState" [data]="dropdownListState"
+                      [(ngModel)]="selectedItemsState" (onSelect)="onItemSelectState($event)"
+                      (onSelectAll)="onSelectAllState($event)">
+                    </ng-multiselect-dropdown> 
+                    </th>
+                  </tr>
+                </table>
+            
+                <table style="margin:20px">
+                  <tr>
+                    <th style="width: 180px;">City / District</th>
+                    <th style="width: 75%;">
+                      <ng-multiselect-dropdown class="customClass" [placeholder]="'City'"
+                      [settings]="dropdownSettingsCity" [data]="dropdownListCity"
+                      [(ngModel)]="selectedItemsCity" (onSelect)="onItemSelectCity($event)"
+                      (onSelectAll)="onSelectAllCity($event)">
+                    </ng-multiselect-dropdown> 
+                    </th>
+                  </tr>
+                </table>
+                
+                <button style="margin-left: 500px; margin-bottom: 20px;" type="button" class="btn " (click)="callSearchMembers()">Search</button>
+                
+                <div class="overlay">
+                  <div id="loading-img"></div>
+              </div>
+            </div>
+       
+        </div>
+        <div class="col-lg-4 col=sm-12">
+            <p>Profile ID Search</p>
+            <table>
+                <tr>
+                    <th><input type="text" placeholder="Profile ID"  [(ngModel)]="search_member.profile_id"></th>
+                    <th><button type="submit" (click)="getMemberDetailsByProfileID()"> Go</button></th>
+                    <br>
+                    <th *ngIf="erroeMessageProfileId"  style="color:red;">Profile ID not found...</th>
+                </tr>
+            </table>
+        </div>
+   
+</div>

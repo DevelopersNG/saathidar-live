@@ -1,0 +1,80 @@
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-2">
+      <h1>success story</h1>
+    </div>
+    <div class="col-8">
+      <div class="card mb-3">
+        <div *ngFor="let url of urls;  let  i=index">
+        <img  style="height: 300px;" [src]='url' class="card-img-top" alt="...">
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">Example textarea</label>
+            <textarea class="form-control" [(ngModel)]="adminLoginModel.detailsSuccessStoris" id="exampleFormControlTextarea1" rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+  <button style="margin: 5px;" type="button" class="btn btn-primary"  (click)="saveImagesSuccessStoris()">Save</button>
+  <input class="upload" type="file" (change)="onselectFile($event)" multiple/>
+  <!-- <div  class="fileUpload">
+      <span><i style="font-size: 40px;" class="fa fa-plus-circle" aria-hidden="true"></i></span>
+</div> -->
+      </div>
+      <div class="col-2"></div>
+      </div>
+      </div>
+<div class="container mt-3">
+<div class="row">
+  <div class="col-4" *ngFor="let stroy of getStoryprofileIMags">
+    <div class="card mb-3">
+      <!-- [src]='imageURL+search.member_images' -->
+      <img [src]='imageURL+stroy.images_path' class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">{{stroy}}</p>
+        <button type="button" class="btn btn-primary btn-sm" (click)="deletestory(stroy.image_id)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++Adv+++++++++++++++++++++++++++++++++++++++++++++++ -->
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-2">
+      <h1>advertisement </h1>
+    </div>
+    <div class="col-8">
+      <div class="card mb-3">
+        <div *ngFor="let urlad of urlss;  let  i=index">
+        <img  style="height: 300px;" [src]='urlad' class="card-img-top" alt="...">
+        </div>
+        <!-- <div class="card-body">
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">Example textarea</label>
+            <textarea class="form-control" [(ngModel)]="adminLoginModel.detailsSuccessStoris" id="exampleFormControlTextarea1" rows="3"></textarea>
+          </div>
+        </div> -->
+      </div>
+  <button style="margin: 5px;" type="button" class="btn btn-primary"  (click)="saveImagesAd()">Save</button>
+  <input class="upload" type="file" (change)="onselectFileAd($event)" multiple/>
+  <!-- <div  class="fileUpload">
+      <span><i style="font-size: 40px;" class="fa fa-plus-circle" aria-hidden="true"></i></span>
+</div> -->
+      </div>
+      <div class="col-2"></div>
+      </div>
+      </div>
+<div class="container mt-3">
+<div class="row">
+  <div class="col-4 " *ngFor="let search of getAdvprofileIMags">
+    <div class="card mb-3" >
+      <img [src]='imageURL+search.member_images' class="card-img-top" alt="...">
+      <button type="button" class="btn btn-danger" (click)="deleteAdv(search.image_id)">delete</button>
+    
+    </div>
+  </div>
+</div>
+</div>

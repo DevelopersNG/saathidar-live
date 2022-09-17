@@ -1,0 +1,23 @@
+
+h3
+{
+    margin-top: 20px;background-color: rgba(177, 172, 172, 0.575);text-align: center;padding: 10px;
+}
+p
+{
+    background-color:  #742041;color: #fff
+     ;padding: 5px;
+}
+a
+{
+    float: right;
+}
+
+.ScrollStyle
+{
+    max-height: 150px;
+    overflow-y: scroll;
+}
+
+/* +++++++++++++++++++++++++++++++++++++++++++++++++++++++side bar ************************ */
+

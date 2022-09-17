@@ -1,0 +1,225 @@
+<link href="/assets/icon/css/all.css" rel="stylesheet">
+<body>
+      <!-- new modal with angular-start -->
+      <div  class="modal mt-3" tabindex="-1" role="dialog" [ngStyle]="{'display':display}" id="model1">
+        <div style="width: 350px;" class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <h2 class="modal-title " id="exampleModalLabel">Welcome To Member Login</h2> -->
+                    <button style="background-color: transparent;"  type="button" class="close" aria-label="Close" (click)="onCloseHandled()"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div  class="modal-body  " id="modal-body" style="background-color: #fff;" >
+                    <form class="">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email Address</label>
+                            <input type="input" class="form-control" id="exampleInputEmail1"
+                                [(ngModel)]="loginModel.username" aria-describedby="emailHelp">
+                            <small id="emailHelp" class="form-text text-muted">We'll Never Share Your Email With
+                                Anyone
+                                Else.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1"
+                                [(ngModel)]="loginModel.password">
+                                <!-- <button style="background-color: transparent;border-bottom:1px solid black ; color: black;" type="button" class="btn btn-primary buttonclass" data-toggle="modal" data-target="#OTPmodel"  >
+                                    Forgot Password
+                                  </button>  -->
+                                  <label class="errorMessage">{{loginFailedMessage}}</label>
+                        </div>
+                        <button type="submit" class="btn-hover color-1"(click)="login()">Login</button> 
+                        <!-- <button type="submit"  (click)="openotp()" class="btn-hover color-1">Register</button> -->
+                        <!-- <p>New user ? Please Register</p> -->
+                    </form>
+                </div>
+            </div>
+        </div>
+     </div>
+<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++header -->
+<nav class="navbar navbar-expand-lg " style="background-color: black;">
+    <a style="color: #fff;" class="navbar-brand" href="#">Saathidaar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+ 
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        
+        <button style="color: #fff;" class="btn  my-2 my-sm-0" type="submit" (click)="openModal()">Login</button>
+      </form>
+    </div>
+  </nav>
+    <div class="container mt-3">
+      <h1>Upgrade now & Get Premium benefits for upto 4 weeks extra, FREE</h1>
+      <div class="row" *ngIf="planDetails">
+        <div class="col-lg-4 shadow p-3 mb-5 rounded" *ngFor="let plans of planDetails">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title">{{ plans.plan_name }}</h2>
+              <h2 style="color: #742041;">35% off <span class="discount">9321</span></h2>
+              <p class="card-text">{{ plans.plan_price}}</p>
+              <p class="card-text">{{ plans.plan_validity }}</p>
+              <div class="text-center">
+              <a routerLink="" (click)="callPayment( plans.plan_name,plans.plan_price)" class="btn btn-primary">Continue</a>
+            </div>
+          <div style="padding-left: 10px;" *ngFor="let feature of plans.features">
+              <p *ngIf="feature.features_valid=='1'"><i class="fa-solid fa-circle-check"></i>{{feature.features_name}}</p>
+            </div>
+            <div style="padding-left: 10px;" *ngFor="let feature of plans.features">
+              <p class="discount" *ngIf="feature.features_valid=='0'"><i class="fa fa-times-circle" aria-hidden="true"></i>{{feature.features_name}}</p>
+            </div>
+            </div>
+          </div>
+        </div>
+   </div>
+      <!-- <div class="card card-l text-center">
+        <div class="card-body">
+          <h5 class="">SELECT <strong>SAATHIDAR</strong> </h5>
+          <p class="card-text">Experience Personalised Matchmaking starting at ₹32,500</p>
+          <a class="btn btn-primary">View Plans</a>
+        </div>
+      </div> -->
+      <h1 class="mt-3"> You have <strong> questions</strong>. We have the <strong> answers</strong>…</h1>
+      <div class="row mt-3">
+        <div class="col-sm-6">
+          <div class="card  card-hv  text-left">
+            <div class="card-body">
+              <h5 class="card-title text-left">What are some of the benefits of Premium plans?</h5>
+              <p class="card-text text-left">What are some of the benefits of Premium plans?
+                As a Premium member, you can chat unlimited with your Matches, view their contact numbers and view hidden
+                photos. You also get
+              </p>
+  
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="card card-hv text-left">
+            <div class="card-body">
+              <h5 class="card-title text-left">What offers and discounts can I avail?</h5>
+              <p class="card-text text-left">What are some of the benefits of Premium plans?
+                As a Premium member, you can chat unlimited with your Matches, view their contact numbers and view hidden
+                photos. You also get
+              </p>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+  
+  
+      <div class="row mt-3">
+        <div class="col-sm-6">
+          <div class="card card-hv  text-left">
+            <div class="card-body">
+              <h5 class="card-title text-left">What payment options do you offer?</h5>
+              <p class="card-text text-left">What are some of the benefits of Premium plans?
+                As a Premium member, you can chat unlimited with your Matches, view their contact numbers and view hidden
+                photos. You also get
+              </p>
+  
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="card card-hv text-left">
+            <div class="card-body">
+              <h5 class="card-title text-left">How can I be safe on saathidar.com?</h5>
+              <p class="card-text text-left">What are some of the benefits of Premium plans?
+                As a Premium member, you can chat unlimited with your Matches, view their contact numbers and view hidden
+                photos. You also get </p>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <h1 class="mt-3">The safest, smartest and the most secure
+        matchmaking service in India</h1>
+  
+      <div class="row text-center mt-3 matchbg">
+        <div class="col-12">
+          <i class="fa-solid fa-hand-holding-heart"></i><br>
+          <strong> Match Guarantee!</strong><br>
+          <p class="match-p">Get a full refund within 30 days if you dont find a match.</p>
+  
+          <div class="row mt-5 best-matches">
+            <div class="col-4"><i class="fa-solid fa-address-book"></i><br>Best Matches</div>
+            <div class="col-4"><i class="fa-solid fa-unlock"></i><br>100% Privacy</div>
+            <div class="col-4"><i class="fa-solid fa-barcode"></i><br>Verified Profiles</div>
+          </div>
+        </div>
+      </div>
+  
+      <h1 class="mt-5">With <strong>SAATHIDAAR</strong> Premium they found their perfect match and so can you
+      </h1>
+      <!-- <router-outlet></router-outlet> -->
+      
+    </div>
+    
+
+
+<br>
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+
+
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <a href="#" class="navbar-brand footerImage"><img  src="/saathidaar/assets/img/logo.footer.png" alt=""></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                <div class="footer-widget">
+                    <h6>hello</h6>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="http://eshanagroup.com/eg/">About us</a></li>
+                      
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-2  col-md-3 col-sm-6">
+                <div class="footer-widget">
+                    <h6>Links</h6>
+                    <ul>
+                        <!-- <li><a href="#">Member Login</a></li> -->
+                        <li><a href="/account/privacy-policy">Privacy Policy</a></li>
+                        <!-- <li><a href="#">Customer Support</a></li> -->
+                        <li><a href="/account/term-condition">Terms and Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+                <div class="footer-widget">
+                    <h6><i class="fa fa-volume-control-phone" aria-hidden="true"></i>
+                        7030 6000 35</h6>
+                        <p style="color: #fff;"><i class="fa fa-envelope" aria-hidden="true"></i> info@saathidaar.com</p>
+                    <div class="footer-newslatter">
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="footer-copyright-text">
+                    <p class="po">Copyright © 2022 All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</footer>
+  </body>
+

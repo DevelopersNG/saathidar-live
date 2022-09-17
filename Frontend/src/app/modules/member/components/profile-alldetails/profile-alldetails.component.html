@@ -1,0 +1,629 @@
+<link href="/assets/icon/css/all.css" rel="stylesheet">
+<!-- =================================== new================================== -->
+<div class="col-lg-12">
+    <!-- <button type="button" (click)="previous()" style="float: left ;">Previous</button>
+      <button type="button"(click)="Next()" style="float: right;">Next</button> -->
+  
+    <button type="button" (click)="previous()" class="btn btn-hover color-1 ">Previous</button>
+    <button style="float: right;" type="button" (click)="Next()" class="btn btn-hover color-1">Next</button>
+  </div>
+  <div class="container">
+    <div class="col-12"><img style="border: none; width:100%;" src="/assets/img/Scroll_ROD1.png" alt=""></div>
+  
+    <div class="hidden-menu" style="display: none; border: 10px solid #d8aa3c;">
+  
+      <div class="row">
+        <div class="col-lg-4 leftpadding">
+          <div class="col-4 imgt ">
+      <!-- **********************************image*************************** -->
+     <!-- visible to all -->
+     <div *ngIf="memberDetails.photo_privacy=='1'">
+      <div *ngIf="memberDetails.profile_photo!=''">
+        <i *ngIf="memberDetails.premium_status=='1'" class="fa-solid fa-crown"></i>
+        <img style="border-radius:50% ; margin-left: 5px; height: 170px;" data-toggle="modal" data-target="#exampleModal" class="imgnew "
+          (click)="callIMageForMemberID(memberDetails.member_id)" [src]='imageURL+memberDetails.profile_photo' alt="">
+        <!-- <button style="background-color: #742041;color: #fff;border: none;" type="submit" data-toggle="modal"
+          data-target="#exampleModal" (click)="callIMageForMemberID(memberDetails.member_id)">See All Photo</button> -->
+      </div>
+
+      <div *ngIf="memberDetails.profile_photo==''">
+        <i *ngIf="memberDetails.premium_status=='1'" class="fa-solid fa-crown"></i>
+        <img style="border-radius:50% ; margin-left: 5px; height: 170px;" data-toggle="modal" data-target="#exampleModal" class="imgnew"
+          (click)="callIMageForMemberID(memberDetails.member_id)" src="{{genderImageURL}}" alt=''>
+      </div>
+    </div>
+
+    <!-- visible to premium members -->
+    <div *ngIf="memberDetails.photo_privacy=='2'">
+              <!-- 2==2 -->
+      <div *ngIf="memberDetails.photo_privacy==memberDetails.my_premium_status">
+        <div *ngIf="memberDetails.profile_photo!=''">
+          <i *ngIf="memberDetails.premium_status=='1'" class="fa-solid fa-crown"></i>
+          <img style="border-radius:50% ; margin-left: 5px; height: 170px;" data-toggle="modal" data-target="#exampleModal"
+            class="imgnew premiumimg" (click)="callIMageForMemberID(memberDetails.member_id)"
+            [src]='imageURL+memberDetails.profile_photo' alt="">
+        </div>
+
+        <div *ngIf="memberDetails.profile_photo==''">
+          <i *ngIf="memberDetails.premium_status=='1'" class="fa-solid fa-crown"></i>
+          <img data-toggle="modal" data-target="#exampleModal" class="imgnew" style="border-radius:50% ; margin-left: 5px; height: 170px;"
+            (click)="callIMageForMemberID(memberDetails.member_id)" src="{{genderImageURL}}" alt=''>
+        </div>
+      </div>
+      <!-- 2!=0 -->
+      <div *ngIf="memberDetails.photo_privacy!=memberDetails.my_premium_status">   
+        <div *ngIf="memberDetails.profile_photo!=''">
+          <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Image Shown to Premium Member's Only
+            <br>
+            <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans </a>
+          </span>
+          <i *ngIf="memberDetails.premium_status=='1'" class="fa-solid fa-crown"></i>
+          <img style="border-radius:50% ; margin-left: 5px; height: 170px;" data-toggle="modal" data-target="#exampleModal"
+            class="imgnew premiumimg" (click)="callIMageForMemberID(memberDetails.member_id)"
+            [src]='imageURL+memberDetails.profile_photo' alt="">
+        </div>
+
+        <div *ngIf="memberDetails.profile_photo==''">
+          <i *ngIf="memberDetails.premium_status=='1'" class="fa-solid fa-crown"></i>
+          <img data-toggle="modal" data-target="#exampleModal" class="imgnew" style="border-radius:50% ; margin-left: 5px; height: 170px;"
+            (click)="callIMageForMemberID(memberDetails.member_id)" src="{{genderImageURL}}" alt=''>
+        </div>
+      </div>
+    </div>
+
+    <!-- keep all private , blur to all-->
+    <div *ngIf="memberDetails.photo_privacy=='3'">
+      <div *ngIf="memberDetails.profile_photo!=''">
+        <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Visible to Premium Members
+          <br>
+          <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans </a>
+        </span>
+        <i *ngIf="memberDetails.premium_status=='1'" class="fa-solid fa-crown"></i>
+        <img style="border: 2px solid black;border-radius:50% ; margin-left: 5px; height: 170px;" data-toggle="modal" data-target="#exampleModal"
+          class="imgnew premiumimg " (click)="callIMageForMemberID(memberDetails.member_id)"
+          [src]='imageURL+memberDetails.profile_photo' alt="">
+      </div>
+
+      <div *ngIf="memberDetails.profile_photo==''">
+        <i *ngIf="memberDetails.premium_status=='1'" class="fa-solid fa-crown"></i>
+        <img data-toggle="modal" style="border-radius:50% ; margin-left: 5px; height: 170px;" data-target="#exampleModal" class="imgnew"
+          (click)="callIMageForMemberID(memberDetails.member_id)" src="{{genderImageURL}}" alt=''>
+      </div>
+
+    </div>
+
+      <!-- ***************************************image ***************************************************** -->
+
+
+         
+
+    
+              
+          </div>
+     
+        </div>
+        <div class="col-lg-4 mt-3">
+          <label for=""> <strong>Name</strong>  : {{memberDetails.first_name === '' ? 'Not Specified' : memberDetails.first_name}}
+            {{memberDetails.last_name === '' ? 'Not Specified' : memberDetails.last_name}} </label>
+          <hr>
+  
+  
+  
+          <label for="age"><strong>Age</strong>  : {{memberDetails.age === '' ? 'Not Specified' : memberDetails.age}} yrs </label><br>
+          <hr>
+  
+          <label for="marital_status"><strong>Marital Status</strong>   : {{memberDetails.maritalStatus === '' ? 'Not Specified' :
+            memberDetails.maritalStatus}} </label><br>
+          <hr>
+  
+          <label class="labelcol" for="height"><strong>Height</strong>  : {{memberDetails.height === '' ? 'Not Specified' :
+            memberDetails.height}} </label><br>
+          <hr>
+        </div>
+        <div class="col-lg-4 mt-3">
+          
+          <label class="" for="cast_subcast"><strong>Community</strong>  : {{memberDetails.caste === '' ? 'Not Specified' :
+            memberDetails.caste}} </label><br>
+          <hr>
+          <label class="" for="mother_tongue"><strong>Mother Tongue</strong> : {{memberDetails.mother_tounge === '' ? 'Not Specified' :
+            memberDetails.mother_tounge}} </label><br>
+          <hr>
+  
+          <label class="" for="degree"><strong>Qualification</strong> : {{memberDetails.highest_qualification === '' ? 'Not Specified' :
+            memberDetails.highest_qualification}}</label><br>
+          <hr>
+          <label class="" for="city_state"><strong>City</strong> : {{memberDetails.city === '' ? 'Not Specified' :
+            memberDetails.city}}</label>
+          <hr>
+        </div>
+      </div>
+      <hr>
+  <div *ngIf="memberDetails.request_status==''">
+      <div class="col-12 d-flex justify-content-center">
+        <button type="button" class="buttontowGold" style="border-radius: 50%;padding: 2px; border: none;"
+        (click)="sentRequests(memberDetails.member_id,memberDetails.my_premium_status)"><i style="font-size: 40px;" class="fa fa-check-circle"
+          aria-hidden="true"></i></button>
+      </div>
+      <div  class="col-12 d-flex justify-content-center">
+        <strong>Send Request</strong>
+      </div>
+    </div>
+    <div *ngIf="memberDetails.request_status!=''">
+      <div class="col-12 d-flex justify-content-center" >
+        <button type="button" class="buttontow" style="border-radius: 50%;padding: 2px; border: none;"
+        ><i style="font-size: 40px;" class="fa fa-check-circle"
+          aria-hidden="true" data-toggle="modal" data-target="#exampleModal1"></i></button>
+      </div>
+      <div  class="col-12 d-flex justify-content-center">
+        <strong>Request sent</strong>
+      </div>
+    </div>
+    <div *ngIf="sendRequest" style="text-align: center;">
+      upgrade to Premium if you want connect 
+    </div>
+      <div style="padding:10px ;" class="col-12">
+        <!-- {{memberDetails.first_name}} {{memberDetails.last_name}} -->
+        <div>
+          <h1>About </h1>
+          <div style="color:black" [innerHTML]="memberDetails.about_ourself"></div>
+        </div>
+  
+  
+        <hr>
+  
+        <h1>Contact Details</h1>
+  
+        <label class="labelcol" for=""><i class="fa-solid fa-mobile-screen-button"></i><strong>Contact Number</strong>  :</label><label
+          for="">{{memberDetails.contact_number === '' ? 'Not Specified' : memberDetails.contact_number}}</label><br>
+        <label class="labelcol" for=""><i class="fa-solid fa-envelope"></i><strong>Email</strong>  :</label><label
+          for="">{{memberDetails.email_id === '' ? 'Not Specified' : memberDetails.email_id }}</label>
+        <hr>
+  
+        <h1> Lifestyle</h1>
+        <div>
+          {{memberDetails.lifestyles === '' ? 'Not Specified' : memberDetails.lifestyles}}
+        </div>
+  
+  
+        <hr>
+        <h1>Background</h1>
+  <label class="labelcol" for=""><strong>Community</strong>  :</label>
+        <label class="cast">{{memberDetails.caste === '' ? 'Not Specified' :  memberDetails.caste}} </label>
+  
+  
+          <hr>
+          <label for="" class="labelcol"><strong>State</strong>    :</label>
+        <label class="" for="city_state" *ngIf="memberDetails.state">{{memberDetails.state === '' ? 'Not Specified' :  memberDetails.state}}</label>
+   
+        <hr>
+        <h1>Education & Career</h1>
+        <label for="" class="labelcol"><strong>Highest Qualification</strong>  :</label>
+        <label> {{memberDetails.highest_qualification === '' ? 'Not Specified' : memberDetails.highest_qualification}}</label>
+  
+        <hr>
+        <h1>Family Details</h1>
+        <label for=""  class="labelcol"><strong>Family Location</strong>  :</label>
+        <label class="labelcol"> {{memberDetails.family_location === '' ? 'Not Specified' : memberDetails.family_location}}</label>
+        <br>
+
+        <label for=""  class="labelcol"><strong>Native Place</strong> :</label>
+        <label class="labelcol"> {{memberDetails.native_place === '' ? 'Not Specified' : memberDetails.native_place}}
+        </label>
+        <br>
+        <label for="" class="labelcol"><strong>Family Type</strong> :</label>
+        <label class="labelcol"> {{memberDetails.family_type === '' ? 'Not Specified' : memberDetails.family_type}}
+        </label>
+        <br>
+        
+        <label for="" class="labelcol"><strong>Family Values</strong> :</label>
+        <label class="labelcol"> {{memberDetails.familyValues === '' ? 'Not Specified' : memberDetails.familyValues }}
+        </label>
+        <br>
+
+        <label for="" class="labelcol"><strong>Family Affluence</strong> :</label>
+        <label class="labelcol"> {{memberDetails.family_affluence === '' ? 'Not Specified' :
+          memberDetails.family_affluence}}</label><br>
+        
+  
+        <label for="" class="labelcol"><strong>Working With</strong>  :</label>
+        <label class="" for="working" *ngIf="memberDetails.working_with"> {{memberDetails.working_with === ''
+          ? 'Not Specified' : memberDetails.working_with }}</label>
+  
+  
+        <br>
+        <label for="" class="labelcol"><strong>Annual Income</strong>  :</label>
+        <label class="" for="income">  {{memberDetails.annual_income === '' ? 'Not Specified' :
+          memberDetails.annual_income}}</label>
+        <hr>
+  
+  
+        <!-- *********************************** partner preference ************************************************* -->
+        <h1> What She Is Looking For</h1>
+        <div style="padding: 20px;" class="row" *ngIf="preferenceDetails">
+        <div class="col-lg-4">
+          
+      <!-- **********************************image*************************** -->
+
+      <!-- visible to all -->
+      <div *ngIf="memberDetails.photo_privacy=='1'">
+        <div *ngIf="memberDetails.profile_photo!=''">
+          <i *ngIf="memberDetails.premium_status=='1'" class="fa-solid fa-crown"></i>
+          <img style="border-radius:50% ; margin-left: 5px; height: 170px;" data-toggle="modal" data-target="#exampleModal" class="imgnew "
+            (click)="callIMageForMemberID(memberDetails.member_id)" [src]='imageURL+memberDetails.profile_photo' alt="">
+          <!-- <button style="background-color: #742041;color: #fff;border: none;" type="submit" data-toggle="modal"
+            data-target="#exampleModal" (click)="callIMageForMemberID(memberDetails.member_id)">See All Photo</button> -->
+        </div>
+
+        <div *ngIf="memberDetails.profile_photo==''">
+          <i *ngIf="memberDetails.premium_status=='1'" class="fa-solid fa-crown"></i>
+          <img style="border-radius:50% ; margin-left: 5px; height: 170px;" data-toggle="modal" data-target="#exampleModal" class="imgnew"
+            (click)="callIMageForMemberID(memberDetails.member_id)" src="{{genderImageURL}}" alt=''>
+        </div>
+      </div>
+
+      <!-- visible to premium members -->
+      <div *ngIf="memberDetails.photo_privacy=='2'">
+                <!-- 2==2 -->
+        <div *ngIf="memberDetails.photo_privacy==memberDetails.my_premium_status">
+          <div *ngIf="memberDetails.profile_photo!=''">
+            <i *ngIf="memberDetails.premium_status=='1'" class="fa-solid fa-crown"></i>
+            <img style="border-radius:50% ; margin-left: 5px; height: 170px;" data-toggle="modal" data-target="#exampleModal"
+              class="imgnew premiumimg" (click)="callIMageForMemberID(memberDetails.member_id)"
+              [src]='imageURL+memberDetails.profile_photo' alt="">
+          </div>
+
+          <div *ngIf="memberDetails.profile_photo==''">
+            <i *ngIf="memberDetails.premium_status=='1'" class="fa-solid fa-crown"></i>
+            <img data-toggle="modal" data-target="#exampleModal" class="imgnew" style="border-radius:50% ; margin-left: 5px; height: 170px;"
+              (click)="callIMageForMemberID(memberDetails.member_id)" src="{{genderImageURL}}" alt=''>
+          </div>
+        </div>
+        <!-- 2!=0 -->
+        <div *ngIf="memberDetails.photo_privacy!=memberDetails.my_premium_status">   
+          <div *ngIf="memberDetails.profile_photo!=''">
+            <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Image Shown to Premium Member's Only
+              <br>
+              <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans </a>
+            </span>
+            <i *ngIf="memberDetails.premium_status=='1'" class="fa-solid fa-crown"></i>
+            <img style="border-radius:50% ; margin-left: 5px; height: 170px;" data-toggle="modal" data-target="#exampleModal"
+              class="imgnew premiumimg" (click)="callIMageForMemberID(memberDetails.member_id)"
+              [src]='imageURL+memberDetails.profile_photo' alt="">
+          </div>
+
+          <div *ngIf="memberDetails.profile_photo==''">
+            <i *ngIf="memberDetails.premium_status=='1'" class="fa-solid fa-crown"></i>
+            <img data-toggle="modal" data-target="#exampleModal" class="imgnew" style="border-radius:50% ; margin-left: 5px; height: 170px;"
+              (click)="callIMageForMemberID(memberDetails.member_id)" src="{{genderImageURL}}" alt=''>
+          </div>
+        </div>
+      </div>
+
+      <!-- keep all private , blur to all-->
+      <div *ngIf="memberDetails.photo_privacy=='3'">
+        <div *ngIf="memberDetails.profile_photo!=''">
+          <span class="primiumIMageBuler"><i class="fa fa-lock" aria-hidden="true"></i> <br>Visible to Premium Members
+            <br>
+            <a style="color: #fff;" routerLink="/upgrade/plan"> View Plans </a>
+          </span>
+          <i *ngIf="memberDetails.premium_status=='1'" class="fa-solid fa-crown"></i>
+          <img style="border: 2px solid black;border-radius:50% ; margin-left: 5px; height: 170px;" data-toggle="modal" data-target="#exampleModal"
+            class="imgnew premiumimg " (click)="callIMageForMemberID(memberDetails.member_id)"
+            [src]='imageURL+memberDetails.profile_photo' alt="">
+        </div>
+
+        <div *ngIf="memberDetails.profile_photo==''">
+          <i *ngIf="memberDetails.premium_status=='1'" class="fa-solid fa-crown"></i>
+          <img data-toggle="modal" style="border-radius:50% ; margin-left: 5px; height: 170px;" data-target="#exampleModal" class="imgnew"
+            (click)="callIMageForMemberID(memberDetails.member_id)" src="{{genderImageURL}}" alt=''>
+        </div>
+
+      </div>
+
+      <!-- ***************************************connect Now *************************** -->
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button> -->
+<!-- Modal -->
+<div class="modal modal2 fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> -->
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+      </div>
+      <div class="modal-body modal-body2">
+      <div class="text-center">
+        <p style="font-size: 20px;">Request sent</p>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ***************************************connect Now *************************** -->
+      <!-- ***************************************image ***************************************************** -->
+
+<!-- 
+           <div *ngIf="memberDetails.profile_photo==''">
+            <img class="imgnew" style="border-radius:50% ; margin-left: 5px; height: 170px;" src="{{genderImageURL}}" alt=''>
+          </div>
+          <div *ngIf="preferenceDetails.profile_photo!=''">
+            <i *ngIf="memberDetails.premium_status=='1'" class="fa-solid fa-crown"></i>
+            <img  class="imgnew" style="border-radius:50% ; margin-left: 5px; height: 170px;" [src]='imageURL+memberDetails.profile_photo' alt="">
+          </div> -->
+            </div>
+          <div class="col-lg-4">
+            <p class="mt-5" style="font-size: 12px ;text-align: center;">You match
+              {{preferenceDetails.match_count}}/{{preferenceDetails.total_preference}}
+              of {{preferenceDetails.gender_preference}}
+            </p>
+          </div>
+          <div class="col-lg-4"> 
+            <div *ngIf="memberDetails.my_profile_photo==''">
+              <img style="float: right ; border-radius: 50%; margin-right: 5px;  height: 170px;"   class="imgnew"  src="{{genderImageURL}}" alt=''>
+            </div>
+            <div *ngIf="memberDetails.my_profile_photo!=''">
+              <img  style="float: right ; border-radius: 50%; margin-right: 5px;  height: 170px;"   class="imgnew"  [src]='imageURL+memberDetails.my_profile_photo' alt="">
+              <!-- <img class="" data-toggle="modal" data-target="#exampleModal"   class="imgnew" (click)="callIMageForMemberID(search.member_id)" [src]='imageURL+search.images[0].member_images' alt=""> -->
+            </div>
+            <!-- <img style="float: right ; border-radius: 50%; margin-right: 5px;  height: 170px;" [src]='imageURL+profileIMags' alt=""> -->
+          </div>
+          <hr>
+          <div style="padding: 15px ;" class="col-12">
+            <div *ngIf="preferenceDetails.partner_age!=''">
+              <label for=""><strong>Age</strong> </label><br>
+              <label class="age">{{preferenceDetails.partner_age}}</label>
+              <i *ngIf="preferenceDetails.my_age=='Yes'" class="fa-solid fa-circle-check"></i>
+              <i *ngIf="preferenceDetails.my_age=='NO'" class="fa-solid fa-xmark"></i>
+              <i *ngIf="preferenceDetails.my_age=='BLANK'" class="fa-solid fa-minus"></i>
+            </div>
+            <div *ngIf="preferenceDetails.partner_age==''">
+              <label for=""><strong>Age</strong></label><br>
+              <label class="age">{{preferenceDetails.partner_age}}</label>
+              <i *ngIf="preferenceDetails.my_age=='Yes'" class="fa-solid fa-circle-check"></i>
+              <i *ngIf="preferenceDetails.my_age=='NO'" class="fa-solid fa-xmark"></i>
+              <i *ngIf="preferenceDetails.my_age=='BLANK'" class="fa-solid fa-minus"></i>
+            </div>
+            <hr>
+  
+             <div *ngIf="preferenceDetails.partner_height!=''">
+                  <label for=""> <strong>height</strong> </label><br>
+                 <label class="age" >{{preferenceDetails.partner_height}}</label>  
+                <i *ngIf="preferenceDetails.my_height=='Yes'" class="fa-solid fa-circle-check"></i>
+              <i *ngIf="preferenceDetails.my_height=='NO'" class="fa-solid fa-xmark"></i>
+               <i *ngIf="preferenceDetails.my_height=='BLANK'" class="fa-solid fa-minus"></i>
+              
+              </div>
+              
+             <div *ngIf="preferenceDetails.partner_height==''">
+              <label for=""><strong>height</strong> </label><br>
+             <label class="age" >{{preferenceDetails.partner_height}}</label>  
+            <i *ngIf="preferenceDetails.my_height=='Yes'" class="fa-solid fa-circle-check"></i>
+          <i *ngIf="preferenceDetails.my_height=='NO'" class="fa-solid fa-xmark"></i>
+           <i *ngIf="preferenceDetails.my_height=='BLANK'" class="fa-solid fa-minus"></i>
+        
+          </div>
+          <hr>
+
+
+            <div *ngIf="preferenceDetails.partner_marital_status!=''">
+              <label for=""><strong>Marital Status</strong></label><br>
+              <label class="age">{{preferenceDetails.partner_marital_status}}</label>
+              <i *ngIf="preferenceDetails.my_marital_status=='Yes'" class="fa-solid fa-circle-check"></i>
+              <i *ngIf="preferenceDetails.my_marital_status=='NO'" class="fa-solid fa-xmark"></i>
+              <i *ngIf="preferenceDetails.my_marital_status=='BLANK'" class="fa-solid fa-minus"></i>
+              
+            </div>
+            <div *ngIf="preferenceDetails.partner_marital_status==''">
+              <label for=""><strong>Marital Status</strong></label><br>
+              <label class="age">{{preferenceDetails.partner_marital_status}}</label>
+              <i *ngIf="preferenceDetails.my_marital_status=='Yes'" class="fa-solid fa-circle-check"></i>
+              <i *ngIf="preferenceDetails.my_marital_status=='NO'" class="fa-solid fa-xmark"></i>
+              <i *ngIf="preferenceDetails.my_marital_status=='BLANK'" class="fa-solid fa-minus"></i>
+             
+            </div>
+            <hr>
+
+            <div *ngIf="preferenceDetails.partner_marital_status!=''">
+              <label for=""><strong>Religion / Community</strong></label><br>
+              <label class="age">{{preferenceDetails.partner_religions}}</label>
+              <i *ngIf="preferenceDetails.my_religions=='Yes'" class="fa-solid fa-circle-check"></i>
+              <i *ngIf="preferenceDetails.my_religions=='NO'" class="fa-solid fa-xmark"></i>
+              <i *ngIf="preferenceDetails.my_religions=='BLANK'" class="fa-solid fa-minus"></i>
+            </div>
+            <div *ngIf="preferenceDetails.partner_marital_status==''">
+              <label for=""><strong>Religion / Community</strong></label><br>
+              <label class="age">{{preferenceDetails.partner_religions}}</label>
+              <i *ngIf="preferenceDetails.my_religions=='Yes'" class="fa-solid fa-circle-check"></i>
+              <i *ngIf="preferenceDetails.my_religions=='NO'" class="fa-solid fa-xmark"></i>
+              <i *ngIf="preferenceDetails.my_religions=='BLANK'" class="fa-solid fa-minus"></i>
+            </div>
+            <hr>
+
+            <div *ngIf="preferenceDetails.partner_mother_tongue!=''">
+              <label for=""><strong>Mother Tongue</strong></label><br>
+              <label class="age">{{preferenceDetails.partner_mother_tongue}}</label>
+              <i *ngIf="preferenceDetails.my_mother_tongue=='Yes'" class="fa-solid fa-circle-check"></i>
+              <i *ngIf="preferenceDetails.my_mother_tongue=='NO'" class="fa-solid fa-xmark"></i>
+              <i *ngIf="preferenceDetails.my_mother_tongue=='BLANK'" class="fa-solid fa-minus"></i>
+            </div>
+            <div *ngIf="preferenceDetails.partner_mother_tongue==''">
+              <label for=""><strong>Mother Tongue</strong></label><br>
+              <label class="age">{{preferenceDetails.partner_mother_tongue}}</label>
+              <i *ngIf="preferenceDetails.my_mother_tongue=='Yes'" class="fa-solid fa-circle-check"></i>
+              <i *ngIf="preferenceDetails.my_mother_tongue=='NO'" class="fa-solid fa-xmark"></i>
+              <i *ngIf="preferenceDetails.my_mother_tongue=='BLANK'" class="fa-solid fa-minus"></i>
+            </div>
+            <hr>
+
+            <div *ngIf="preferenceDetails.partner_country!=''">
+              <label for=""><strong>Country Living in</strong></label><br>
+              <label class="age">{{preferenceDetails.partner_country}}</label>
+              <i *ngIf="preferenceDetails.my_country=='Yes'" class="fa-solid fa-circle-check"></i>
+              <i *ngIf="preferenceDetails.my_country=='NO'" class="fa-solid fa-xmark"></i>
+              <i *ngIf="preferenceDetails.my_country=='BLANK'" class="fa-solid fa-minus"></i>
+            </div>
+            <div *ngIf="preferenceDetails.partner_country==''">
+              <label for=""><strong>Country Living in</strong></label><br>
+              <label class="age">{{preferenceDetails.partner_country}}</label>
+              <i *ngIf="preferenceDetails.my_country=='Yes'" class="fa-soli
+              
+              d fa-circle-check"></i>
+              <i *ngIf="preferenceDetails.my_country=='NO'" class="fa-solid fa-xmark"></i>
+              <i *ngIf="preferenceDetails.my_country=='BLANK'" class="fa-solid fa-minus"></i>
+            </div>
+            <hr>
+
+            <div *ngIf="preferenceDetails.partner_state!=''">
+              <label for=""><strong>State Living in</strong></label><br>
+              <label class="age">{{preferenceDetails.partner_state}}</label>
+              <i *ngIf="preferenceDetails.my_state=='Yes'" class="fa-solid fa-circle-check"></i>
+              <i *ngIf="preferenceDetails.my_state=='NO'" class="fa-solid fa-xmark"></i>
+              <i *ngIf="preferenceDetails.my_state=='BLANK'" class="fa-solid fa-minus"></i>
+            </div>
+            <div *ngIf="preferenceDetails.partner_state==''">
+              <label for=""><strong>State Living in</strong></label><br>
+              <label class="age">{{preferenceDetails.partner_state}}</label>
+              <i *ngIf="preferenceDetails.my_state=='Yes'" class="fa-solid fa-circle-check"></i>
+              <i *ngIf="preferenceDetails.my_state=='NO'" class="fa-solid fa-xmark"></i>
+              <i *ngIf="preferenceDetails.my_state=='BLANK'" class="fa-solid fa-minus"></i>
+            </div>
+            <hr>
+
+            <div *ngIf="preferenceDetails.partner_city!=''">
+              <label for=""><strong>City Living in</strong></label><br>
+              <label class="age">{{preferenceDetails.partner_city}}</label>
+              <i *ngIf="preferenceDetails.my_city=='Yes'" class="fa-solid fa-circle-check"></i>
+              <i *ngIf="preferenceDetails.my_city=='NO'" class="fa-solid fa-xmark"></i>
+              <i *ngIf="preferenceDetails.my_city=='BLANK'" class="fa-solid fa-minus"></i>
+            </div>
+            <div *ngIf="preferenceDetails.partner_city==''">
+              <label for=""><strong>City Living in</strong></label><br>
+              <label class="age">{{preferenceDetails.partner_city}}</label>
+              <i *ngIf="preferenceDetails.my_city=='Yes'" class="fa-solid fa-circle-check"></i>
+              <i *ngIf="preferenceDetails.my_city=='NO'" class="fa-solid fa-xmark"></i>
+              <i *ngIf="preferenceDetails.my_city=='BLANK'" class="fa-solid fa-minus"></i>
+            </div>
+            <hr>
+
+            <div *ngIf="preferenceDetails.partner_qualification!=''">
+              <label for=""><strong>Qualifications</strong></label><br>
+              <label class="age">{{preferenceDetails.partner_qualification}}</label>
+              <i *ngIf="preferenceDetails.my_qualification=='Yes'" class="fa-solid fa-circle-check"></i>
+              <i *ngIf="preferenceDetails.my_qualification=='NO'" class="fa-solid fa-xmark"></i>
+              <i *ngIf="preferenceDetails.my_qualification=='BLANK'" class="fa-solid fa-minus"></i>
+            </div>
+            <div *ngIf="preferenceDetails.partner_qualification==''">
+              <label for=""><strong>Qualifications</strong></label><br>
+              <label class="age">{{preferenceDetails.partner_qualification}}</label>
+              <i *ngIf="preferenceDetails.my_qualification=='Yes'" class="fa-solid fa-circle-check"></i>
+              <i *ngIf="preferenceDetails.my_qualification=='NO'" class="fa-solid fa-xmark"></i>
+              <i *ngIf="preferenceDetails.my_qualification=='BLANK'" class="fa-solid fa-minus"></i>
+            </div>
+            <hr>
+
+            <div *ngIf="preferenceDetails.partner_working_with!=''">
+              <label for=""><strong>Working With</strong></label><br>
+              <label class="age">{{preferenceDetails.partner_working_with}}</label>
+              <i *ngIf="preferenceDetails.my_working_with=='Yes'" class="fa-solid fa-circle-check"></i>
+              <i *ngIf="preferenceDetails.my_working_with=='NO'" class="fa-solid fa-xmark"></i>
+              <i *ngIf="preferenceDetails.my_working_with=='BLANK'" class="fa-solid fa-minus"></i>
+            </div>
+            <div *ngIf="preferenceDetails.partner_working_with==''">
+              <label for=""><strong>Working With</strong></label><br>
+              <label class="age">{{preferenceDetails.partner_working_with}}</label>
+              <i *ngIf="preferenceDetails.my_working_with=='Yes'" class="fa-solid fa-circle-check"></i>
+              <i *ngIf="preferenceDetails.my_working_with=='NO'" class="fa-solid fa-xmark"></i>
+              <i *ngIf="preferenceDetails.my_working_with=='BLANK'" class="fa-solid fa-minus"></i>
+            </div>
+            <hr>
+
+         <div *ngIf="preferenceDetails.partner_annual_income!=''"> <label for=""><strong>Annual Income</strong></label><br>
+            <label class="age">{{preferenceDetails.partner_annual_income}}</label>
+            <i *ngIf="preferenceDetails.my_annual_income=='Yes'" class="fa-solid fa-circle-check"></i>
+            <i *ngIf="preferenceDetails.my_annual_income=='NO'" class="fa-solid fa-xmark"></i>
+            <i *ngIf="preferenceDetails.my_annual_income=='BLANK'" class="fa-solid fa-minus"></i>
+             </div>
+             <div *ngIf="preferenceDetails.partner_annual_income==''"> <label for=""><strong>Annual Income</strong></label><br>
+              <label class="age">{{preferenceDetails.partner_annual_income}}</label>
+              <i *ngIf="preferenceDetails.my_annual_income=='Yes'" class="fa-solid fa-circle-check"></i>
+              <i *ngIf="preferenceDetails.my_annual_income=='NO'" class="fa-solid fa-xmark"></i>
+              <i *ngIf="preferenceDetails.my_annual_income=='BLANK'" class="fa-solid fa-minus"></i>
+               </div>
+            <hr>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12"><img style="border: none; width:100%;" src="/assets/img/Scroll_ROD1.png" alt=""></div>
+  <!-- ********************************new modal photo***************************** -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10  background">
+              <button
+                style="margin-left: 800px; margin-top: 10px;position: absolute;z-index: 36265654655;background-color: azure;"
+                type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <div><img style="border: none; width:100%;height: 60px;background-color: transparent;"
+                  src="/assets/img/Scroll_ROD1.png" alt=""></div>
+              <div id="carouselExampleControlsNoTouching" class="carousel slide" data-touch="false" data-interval="false">
+                <div class="carousel-inner">
+                  <div *ngIf="!loadTIme">
+                    <div class="carousel-item active" *ngIf="demoUrlsActive">
+                      <img [src]='demoUrlsActive[0]' class="d-block w-100" alt="..." />
+                    </div>
+                    <div class="carousel-item" *ngFor="let url1 of demoUrls;  let  i=index">
+                      <img [src]='url1.member_images' class="d-block w-100" alt="..." (click)="check(url1)">
+                    </div>
+                  </div>
+                  <div *ngIf="loadTIme">
+                    <div class="carousel-item active" *ngIf="loadTIme">
+                      <img [src]='seturl' class="d-block w-100" alt="...">
+                    </div>
+  
+                    <div class="carousel-item" *ngFor="let url1 of demoUrls;  let  i=index">
+                      <img [src]='url1' class="d-block w-100" alt="..." (click)="check(url1)">
+                    </div>
+                  </div>
+  
+                </div>
+                <button class="carousel-control-prev" style="border: none;" type="button"
+                  data-target="#carouselExampleControlsNoTouching" data-slide="prev" (click)="change()">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+                </button>
+                <button class="carousel-control-next" style="border: none;" type="button"
+                  data-target="#carouselExampleControlsNoTouching" data-slide="next" (click)="change()">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+                </button>
+              </div>
+              <div><img style="border: none; width:100%;height: 60px;background-color: transparent;"
+                  src="/assets/img/Scroll_ROD1.png" alt=""></div>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-12">
+              <div class="row rowscroll">
+                <div style="backdrop-filter: blur(5px);" *ngFor="let url of demoUrls;  let  i=index"
+                  class=" mt-1 col-3 mt-1 imageb  live__scroll--box" data-target="#myCarousel" data-slide-to="i">
+                  <img src="{{url.member_images}}" style="height: 70px ;width: 70px;" class=" imagebulae"
+                    (click)="showimage(url.member_images)" alt="...">
+                </div>
+  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ********************************new modal photo***************************** -->

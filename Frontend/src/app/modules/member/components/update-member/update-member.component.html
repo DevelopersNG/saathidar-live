@@ -1,0 +1,1039 @@
+<body>
+  <section class="container">
+    <div class="row">
+      <div class="col-md-3">
+
+      </div>
+      <!-- Religion -->
+      <div class="col-md-9 col-lg-9">
+        <hr >
+        <p>Basic & Lifestyle</p>
+        <hr >
+        <li class="list-group-item col-sm-12 mt-1">
+          <label class="registration_label">Profile created by</label>
+          <span>
+            <select  name="profile" class="forminput js-religion" [(ngModel)]="updateMemberModels.profilecreatedby">
+              <option value="Self">Self</option>
+              <option value="Sibling">Sibling</option>
+              <option value="Parents">Parents</option>
+              <option value="Relatives">Relatives</option>
+              <option value="Friends">Friends</option>
+              <option value="Saathidar.com">Saathidar.com</option>
+              <option value="Franchies">Franchies</option>
+              <option value="Other">Other</option>
+            </select>
+          </span>
+        </li>
+        <li class="list-group-item col-sm-12 mt-1">
+          <label class="registration_label">Gender
+          </label>
+          <span>
+            <select name="gender" class="forminput js-religion" [(ngModel)]="updateMemberModels.gender">
+              <option value="male">male</option>
+              <option value="Female">female</option>
+            </select>
+          </span>
+        </li> 
+        <li class="list-group-item col-sm-12 mt-1">
+        <label class="">Date of Birth</label>
+        <input type="date" class="" name="birthday" [(ngModel)]="updateMemberModels.date_of_birth">
+        </li>
+        <li class="list-group-item col-sm-12 mt-1">
+          <label class="registration_label">Age </label>
+          <span>
+            <select name="age" class="forminput js-religion" [(ngModel)]="updateMemberModels.age">
+            <!-- <option value="">------------Select---------------</option> -->
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+            <option value="24">24</option>
+            <option value="25">25</option>
+            <option value="26">26</option>
+            <option value="27">27</option>
+            <option value="28">28</option>
+            <option value="29">29</option>
+            <option value="30">30</option>
+            <option value="31">31</option>
+            <option value="32">32</option>
+            <option value="33">33</option>
+            <option value="34">34</option>
+            <option value="35">35</option>
+            <option value="36">36</option>
+            <option value="37">37</option>
+            <option value="38">38</option>
+            <option value="39">39</option>
+            <option value="40">40</option>
+            </select>
+          </span>
+      </li>
+     
+        <li class="list-group-item col-sm-12 mt-1">
+          <label class="registration_label">Marital status </label>
+          <span>
+            <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="updateMemberModels.marital_status">
+              <option value="never married">  Never married</option>
+              <option value="married">Married</option>
+              <option selected="selected" value="awaiting divorce">Awaiting divorce </option>
+              <option selected="selected" value="divorce">Divorce</option>
+              <option selected="selected" value="widowed">Widowed</option>
+            </select>
+          </span>
+        </li>
+        <li class="list-group-item col-sm-12 mt-1">
+          <label class="registration_label">Height</label>
+          <span>
+            <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="updateMemberModels.height">
+              <option value="" label="Select">Select</option>
+              <option value="4ft 5in - 134cm" label="4ft 5in - 134cm">4ft 5in - 134cm</option>
+              <option value="4ft 6in - 137cm" label="4ft 6in - 137cm">4ft 6in - 137cm</option>
+              <option value="4ft 7in - 139cm" label="4ft 7in - 139cm">4ft 7in - 139cm</option>
+              <option value="4ft 8in - 142cm" label="4ft 8in - 142cm">4ft 8in - 142cm</option>
+              <option value="4ft 9in - 144cm" label="4ft 9in - 144cm">4ft 9in - 144cm</option>
+              <option value="4ft 10in - 147cm" label="4ft 10in - 147cm">4ft 10in - 147cm</option>
+              <option value="4ft 11in - 149cm" label="4ft 11in - 149cm">4ft 11in - 149cm</option>
+              <option value="5ft - 152cm" label="5ft - 152cm">5ft - 152cm</option>
+              <option value="5ft 1in - 154cm" label="5ft 1in - 154cm">5ft 1in - 154cm</option>
+              <option value="5ft 2in - 157cm" label="5ft 2in - 157cm">5ft 2in - 157cm</option>
+              <option value="5ft 3in - 160cm" label="5ft 3in - 160cm">5ft 3in - 160cm</option>
+              <option value="5ft 4in - 162cm" label="5ft 4in - 162cm">5ft 4in - 162cm</option>
+              <option value="5ft 5in - 165cm" label="5ft 5in - 165cm">5ft 5in - 165cm</option>
+              <option value="5ft 6in - 167cm" label="5ft 6in - 167cm">5ft 6in - 167cm</option>
+              <option value="5ft 7in - 170cm" label="5ft 7in - 170cm">5ft 7in - 170cm</option>
+              <option value="5ft 8in - 172cm" label="5ft 8in - 172cm">5ft 8in - 172cm</option>
+              <option value="5ft 9in - 175cm" label="5ft 9in - 175cm">5ft 9in - 175cm</option>
+              <option value="5ft 10in - 177cm" label="5ft 10in - 177cm" selected="selected">5ft 10in - 177cm</option>
+              <option value="5ft 11in - 180cm" label="5ft 11in - 180cm">5ft 11in - 180cm</option>
+              <option value="6ft - 182cm" label="6ft - 182cm">6ft - 182cm</option>
+              <option value="6ft 1in - 185cm" label="6ft 1in - 185cm">6ft 1in - 185cm</option>
+              <option value="6ft 2in - 187cm" label="6ft 2in - 187cm">6ft 2in - 187cm</option>
+              <option value="6ft 3in - 190cm" label="6ft 3in - 190cm">6ft 3in - 190cm</option>
+              <option value="6ft 4in - 193cm" label="6ft 4in - 193cm">6ft 4in - 193cm</option>
+              <option value="6ft 5in - 195cm" label="6ft 5in - 195cm">6ft 5in - 195cm</option>
+              <option value="6ft 6in - 198cm" label="6ft 6in - 198cm">6ft 6in - 198cm</option>
+              <option value="6ft 7in - 200cm" label="6ft 7in - 200cm">6ft 7in - 200cm</option>
+              <option value="6ft 8in - 203cm" label="6ft 8in - 203cm">6ft 8in - 203cm</option>
+              <option value="6ft 9in - 205cm" label="6ft 9in - 205cm">6ft 9in - 205cm</option>
+              <option value="6ft 10in - 208cm" label="6ft 10in - 208cm">6ft 10in - 208cm</option>
+              <option value="6ft 11in - 210cm" label="6ft 11in - 210cm">6ft 11in - 210cm</option>
+              <option value="7ft - 213cm" label="7ft - 213cm">7ft - 213cm</option>
+            </select>
+          </span>
+        </li>
+
+        <li class="list-group-item col-sm-12 mt-1">
+          <label class="registration_label">Health Information
+          </label>
+          <span>
+            <select name="religion" class="forminput js-religion" id="religion" value="{{updateMemberModels.health_info}}"  (change)="OtherOption($event)" [(ngModel)]="updateMemberModels.health_info">
+              <option value="" label="Select">Select</option>
+              <option value="No Health Issues" label="No Health Issues" selected="selected">No Health Issues
+              </option>
+              <!-- <option value="HIV positive" label="HIV positive">HIV positive</option>
+              <option value="Diabetes" label="Diabetes">Diabetes</option>
+              <option value="Low BP" label="Low BP">Low BP</option>
+              <option value="High BP" label="High BP">High BP</option>
+              <option value="Heart Ailments" label="Heart Ailments">Heart Ailments</option> -->
+              <option  value="Other" label="Other">Other</option>
+            </select>
+          </span>
+        </li>
+        <li class="list-group-item col-sm-12 mt-1" *ngIf="Other">
+          <label class="registration_label">
+          </label>
+          <span>
+              <input class="ab" type="text"   placeholder="Health Information" class="form control"  [(ngModel)]="updateMemberModels.health_info">
+          </span>
+        </li>
+        <li class="list-group-item col-sm-12 mt-1">
+          <label class="registration_label">Blood Group
+          </label>
+          <span>
+            <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="updateMemberModels.blood_group">
+              <option value="" label="Select">Select</option>
+              <option value="Don't Know" label="Don't Know">Don't Know</option>
+              <option value="A+" label="A+">A+</option>
+              <option value="A-" label="A-">A-</option>
+              <option value="B+" label="B+" selected="selected">B+</option>
+              <option value="B-" label="B-">B-</option>
+              <option value="AB+" label="AB+">AB+</option>
+              <option value="AB-" label="AB-">AB-</option>
+              <option value="O+" label="O+">O+</option>
+              <option value="O-" label="O-">O-</option>
+            </select>
+          </span>
+        </li>
+        <li class="list-group-item col-sm-12 mt-1">
+      
+          <label class="registration_label">Diet</label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" [(ngModel)]="updateMemberModels.lifestyles" name="inlineRadioOptionsLifeStyle" id="inlineRadio1" value="Veg">
+            <label class="form-check-label" for="inlineRadio1">Veg</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" [(ngModel)]="updateMemberModels.lifestyles" name="inlineRadioOptionsLifeStyle" id="inlineRadio2" value="Non-veg">
+            <label class="form-check-label" for="inlineRadio2">Non-veg</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" [(ngModel)]="updateMemberModels.lifestyles" name="inlineRadioOptionsLifeStyle" id="inlineRadio3" value="Jain">
+            <label class="form-check-label" for="inlineRadio3">Jain
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio"  [(ngModel)]="updateMemberModels.lifestyles" name="inlineRadioOptionsLifeStyle" id="inlineRadio4" value="Occasionally Non-Veg">
+            <label class="form-check-label" for="inlineRadio4">Occasionally Non-Veg
+            </label>
+          </div>
+        </li>
+        <li class="list-group-item col-sm-12 mt-1">
+          <hr>
+          <p>Religious Background
+          </p>
+          <hr>
+          <label class="registration_label">Religion</label>
+          <span>
+            <select name="religion" class="forminput js-religion" id="religion-details"
+              (change)="gothraShowAndHide($event)" [(ngModel)]="updateMemberModels.religion_name">
+              <option *ngFor="let relName of religionName" [value]="relName.religion_name">{{relName.religion_name}}</option>            </select>
+          </span>
+        </li>
+        <li class="list-group-item col-sm-12 mt-1">
+          <label class="registration_label">Mother Tongue
+          </label>
+          <span>
+            <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="updateMemberModels.mother_tounge">
+              <option value="Hindi">Hindi</option>
+              <option value="Marathi">Marathi</option>
+              <option value="Punjabi">Punjabi</option>
+              <option value="Bengali">Bengali</option>
+              <option value="Gujarati" selected>Gujarati</option>
+              <option value="Urdu">Urdu</option>
+              <option value="Telugu">Telugu</option>
+              <option value="Kannada">Kannada</option>
+              <option value="English">English</option>
+              <option value="Tamil">Tamil</option>
+              <option value="Odia">Odia</option>
+              <option value="Marwari">Marwari</option>
+              <optgroup id='mother_tongue-optgroup-All Mother Tongues' label='All Mother Tongues'>All Mother Tongues
+              </optgroup>
+              <option value="Aka">Aka</option>
+              <option value="Arabic">Arabic</option>
+              <option value="Arunachali">Arunachali</option>
+              <option value="Assamese">Assamese</option>
+              <option value="Awadhi">Awadhi</option>
+              <option value="Baluchi">Baluchi</option>
+              <option value="Bengali">Bengali</option>
+              <option value="Bhojpuri">Bhojpuri</option>
+              <option value="Bhutia">Bhutia</option>
+              <option value="Brahui">Brahui</option>
+              <option value="Brij">Brij</option>
+              <option value="Burmese">Burmese</option>
+              <option value="Chattisgarhi">Chattisgarhi</option>
+              <option value="Chinese">Chinese</option>
+              <option value="Coorgi">Coorgi</option>
+              <option value="Dogri">Dogri</option>
+              <option value="English">English</option>
+              <option value="French">French</option>
+              <option value="Garhwali">Garhwali</option>
+              <option value="Garo">Garo</option>
+              <option value="Gujarati">Gujarati</option>
+              <option value="Haryanavi">Haryanavi</option>
+              <option value="Himachali/Pahari">Himachali/Pahari</option>
+              <option value="Hindi">Hindi</option>
+              <option value="Hindko">Hindko</option>
+              <option value="Kakbarak">Kakbarak</option>
+              <option value="Kanauji">Kanauji</option>
+              <option value="Kannada">Kannada</option>
+              <option value="Kashmiri">Kashmiri</option>
+              <option value="Khandesi">Khandesi</option>
+              <option value="Khasi">Khasi</option>
+              <option value="Konkani">Konkani</option>
+              <option value="Koshali">Koshali</option>
+              <option value="Kumaoni">Kumaoni</option>
+              <option value="Kutchi">Kutchi</option>
+              <option value="Ladakhi">Ladakhi</option>
+              <option value="Lepcha">Lepcha</option>
+              <option value="Magahi">Magahi</option>
+              <option value="Maithili">Maithili</option>
+              <option value="Malay">Malay</option>
+              <option value="Malayalam">Malayalam</option>
+              <option value="Manipuri">Manipuri</option>
+              <option value="Marathi">Marathi</option>
+              <option value="Marwari">Marwari</option>
+              <option value="Miji">Miji</option>
+              <option value="Mizo">Mizo</option>
+              <option value="Monpa">Monpa</option>
+              <option value="Nepali">Nepali</option>
+              <option value="Odia">Odia</option>
+              <option value="Pashto">Pashto</option>
+              <option value="Persian">Persian</option>
+              <option value="Punjabi">Punjabi</option>
+              <option value="Rajasthani">Rajasthani</option>
+              <option value="Russian">Russian</option>
+              <option value="Sanskrit">Sanskrit</option>
+              <option value="Santhali">Santhali</option>
+              <option value="Seraiki">Seraiki</option>
+              <option value="Sindhi">Sindhi</option>
+              <option value="Sinhala">Sinhala</option>
+              <option value="Sourashtra">Sourashtra</option>
+              <option value="Spanish">Spanish</option>
+              <option value="Swedish">Swedish</option>
+              <option value="Tagalog">Tagalog</option>
+              <option value="Tamil">Tamil</option>
+              <option value="Telugu">Telugu</option>
+              <option value="Tulu">Tulu</option>
+              <option value="Urdu">Urdu</option>
+              <option value="Other">Other</option>
+            </select>
+          </span>
+        </li>
+
+        <li class="list-group-item col-sm-12 mt-1" *ngIf="isShowCastAndSubCast">
+          <label class="registration_label">Cast</label>
+          <span>
+            <select name="religion" class="forminput js-religion" id="cast-details" [(ngModel)]="updateMemberModels.caste_name">
+              <option *ngFor="let cstName of casteName" [value]="cstName.cast_name">{{cstName.cast_name}}</option>
+            </select>
+        </span>
+        </li>
+
+        <li class="list-group-item col-sm-12 mt-1" *ngIf="isShowCastAndSubCast">
+          <label class="registration_label">Sub-cast
+          </label>
+          <span>
+              <input class="ab" type="text" value="{{updateMemberModels.sub_caste_name}}" placeholder="sub-cast" class="form control" [(ngModel)]="updateMemberModels.sub_caste_name">
+          </span>
+        </li>
+
+        <li class="list-group-item col-sm-12 mt-1" id="Gothra" *ngIf="isGothraAndAstroShow">
+          <label class="registration_label">Gothra/Gothram</label>
+          <span>
+            <input class="ab" type="text" value="{{updateMemberModels.gothra}}" placeholder="Gothra/Gothram" [(ngModel)]="updateMemberModels.gothra">
+          </span>
+        </li>
+
+        <li class="list-group-item col-sm-12 mt-1">
+          <hr>
+          <p>Family Details</p>
+          <hr>
+          <label class="registration_label">Father's Status</label>
+          <span>
+            <select name="religion" class="forminput js-religion" id="religion" (change)="fatherStatusShowHide($event)" [(ngModel)]="updateMemberModels.father_status">
+              <option value="" label="Select">Select</option>
+              <option value="Employed" label="Employed">Employed</option>
+              <option value="Business" label="Business" selected="selected">Business</option>
+              <option value="Retired" label="Retired">Retired</option>
+              <option value="Not Employed" label="Not Employed">Not Employed</option>
+              <option value="Passed Away" label="Passed Away">Passed Away</option>
+            </select>
+          </span>
+        </li>
+        <li class="list-group-item col-sm-12 mt-1" *ngIf="isFatherEmployedRetiredShow">
+          <label class="registration_label">Company Name</label>
+          <span>
+            <input class="ab" type="text" value="{{updateMemberModels.father_company_name}}" placeholder="Company Name"  [(ngModel)]="updateMemberModels.father_company_name">
+          </span>
+        </li>
+        <li class="list-group-item col-sm-12 mt-1" *ngIf="isFatherEmployedRetiredShow" >
+
+          <label class="registration_label">Designation</label>
+          <span>
+            <input class="ab" type="text" value="{{updateMemberModels.father_designation}}" placeholder="Designation" [(ngModel)]="updateMemberModels.father_designation">
+          </span>
+        </li>
+        <li class="list-group-item col-sm-12 mt-1" *ngIf="isFatherBusiness">
+          <label class="registration_label">Nature Of Business</label>
+          <span>
+            <input class="ab" type="text" value="{{updateMemberModels.father_business_name}}" placeholder="Nature Of Business"  [(ngModel)]="updateMemberModels.father_business_name">
+          </span>
+        </li>
+        <li class="list-group-item col-sm-12 mt-1">
+          <label class="registration_label">Mother's Status</label>
+          <span>
+            <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="updateMemberModels.mother_status" (change)="motherStatusShowHide($event)">
+              <option value="" label="Select">Select</option>
+              <option value="Employed" label="Employed">Employed</option>
+              <option value="Business" label="Business" selected="selected">Business</option>
+              <option value="Retired" label="Retired">Retired</option>
+              <option value="House Wife" label="House Wife">Home  Maker</option>
+              <option value="Not Employed" label="Not Employed">Not Employed</option>
+              <option value="Passed Away" label="Passed Away">Passed Away</option>
+            </select>
+          </span>
+        </li>
+        <li class="list-group-item col-sm-12 mt-1" *ngIf="isMotherEmployedRetiredShow">
+          <label class="registration_label">Company Name</label>
+          <span>
+            <input class="ab" type="text" value="{{updateMemberModels.mother_company_name}}" placeholder="Company Name" [(ngModel)]="updateMemberModels.mother_company_name">
+          </span>
+        </li>
+        <li class="list-group-item col-sm-12 mt-1" *ngIf="isMotherEmployedRetiredShow">
+
+          <label class="registration_label">Designation</label>
+          <span>
+            <input class="ab" type="text" value="{{updateMemberModels.mother_designation}}" placeholder="Designation" [(ngModel)]="updateMemberModels.mother_designation">
+          </span>
+        </li>
+        <li class="list-group-item col-sm-12 mt-1" *ngIf="isMotherBusiness">
+          <label class="registration_label">Nature Of Business</label>
+          <span>
+            <input class="ab" type="text" value="{{updateMemberModels.mother_business_name}}" placeholder="Nature Of Business" [(ngModel)]="updateMemberModels.mother_business_name">
+          </span>
+        </li>
+        <li class="list-group-item col-sm-12 mt-1">
+
+          <label class="registration_label">Family Location</label>
+          <span>
+            <input class="ab" type="text" value="{{updateMemberModels.family_location}}" placeholder="Family Location" [(ngModel)]="updateMemberModels.family_location">
+          </span>
+        </li>
+        <li class="list-group-item col-sm-12 mt-1">
+
+          <label class="registration_label">Native Place</label>
+          <span>
+            <input class="ab" type="text" value="{{updateMemberModels.native_place}}" placeholder="Native Place" [(ngModel)]="updateMemberModels.native_place">
+          </span>
+        </li>
+        <div>
+<!-- **********************start************************** -->
+<li class="list-group-item col-sm-12 mt-1">
+  <label>No.of.sibling</label>
+  <span>
+    <input style="width: 35px;" class="label-s js-religion" id="religion"  type="number" value="{{updateMemberModels.married_male}}"  [(ngModel)]="updateMemberModels.married_male">
+   
+    
+  </span>
+Brother
+  <span>
+    <input style="width: 50px;" class="label-s js-religion" id="religion"  type="number"  value="{{updateMemberModels.unmarried_male}}"  [(ngModel)]="updateMemberModels.unmarried_male">
+
+  </span>
+  :
+  <span>
+    <input style="width: 50px;" class="label-s js-religion" id="religion"  type="number" value="{{updateMemberModels.married_female}}"  [(ngModel)]="updateMemberModels.married_female">
+
+  </span>
+Sister
+  <span>
+    <input style="width: 50px;" class="label-s js-religion" id="religion"  type="number" value="{{updateMemberModels.unmarried_female}}"  [(ngModel)]="updateMemberModels.unmarried_female">
+   
+      <!-- <select name="religion" class="label-s js-religion" id="religion" >
+          <option value="Male">Exact</option>
+          <option selected="selected" value="Female">Approximate</option>
+      </select> -->
+  </span>
+  <table>
+  <tr>
+    <th scope="" class="th1">married</th>
+    <th scope="">unmarried</th>
+    <th scope="">married</th>
+    <th scope="" class="th4">unmarried</th>
+  </tr>
+</table>
+</li>
+
+
+<!-- ***************************end***************************** -->
+
+          <!-- <li class="list-group-item col-sm-12 mt-1">
+            <label class="registration_label">No. of Siblings</label>
+            <span>
+              <input class="ab" type="text" value="{{updateMemberModels.married_male}}" placeholder="married male" [(ngModel)]="updateMemberModels.married_male">
+            </span>
+            <span>
+              <input class="ab" type="text" value="{{updateMemberModels.unmarried_male}}" placeholder="unmarried male" [(ngModel)]="updateMemberModels.unmarried_male">
+            </span>
+            <span>
+              <input class="ab" type="text" value="{{updateMemberModels.married_female}}" placeholder="married female" [(ngModel)]="updateMemberModels.married_female">
+            </span>
+            <span>
+              <input class="ab" type="text" value="{{updateMemberModels.unmarried_female}}" placeholder="unmarried female" [(ngModel)]="updateMemberModels.unmarried_female">
+            </span>
+          </li> -->
+        </div>
+        <li class="list-group-item col-sm-12 mt-1">
+          <label class="registration_label">Family Affluence</label>
+          <span>
+            <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="updateMemberModels.family_affluence">
+              <option value="" label="Select">Select</option>
+              <option value="Affluent" label="Affluent">Affluent</option>
+              <option value="Upper Middle Class" label="Upper Middle Class" selected="selected">Upper Middle Class
+              </option>
+              <option value="Middle Class" label="Middle Class">Middle Class</option>
+              <option value="Lower Middle Class" label="Lower Middle Class">Lower Middle Class</option>
+            </select>
+          </span>
+        </li>
+        <li class="list-group-item col-sm-12 mt-1">
+          <label class="registration_label">Family Type
+          </label>
+          <span>
+            <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="updateMemberModels.family_type">
+              <option value="" label="Select">Select</option>
+              <option value="Joint" label="Joint">Joint</option>
+              <option value="Nuclear" label="Nuclear" selected="selected">Nuclear</option>
+            </select>
+          </span>
+        </li>
+        <div *ngIf="isGothraAndAstroShow">
+          <li class="list-group-item col-sm-12 mt-1">
+            <hr>
+            <p>Astro Details</p>
+            <hr>
+            <label class="registration_label">Manglik/Chevvai dosham</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="manglik_chevvai_dosham" id="inlineRadio1"
+                  value="No" [(ngModel)]="updateMemberModels.manglik">
+              <label class="form-check-label" for="inlineRadio1">No</label>
+          </div>
+          <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="manglik_chevvai_dosham" id="inlineRadio2"
+                  value="Yes"  [(ngModel)]="updateMemberModels.manglik">
+              <label class="form-check-label" for="inlineRadio2">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="manglik_chevvai_dosham" id="inlineRadio1"
+                  value="Don't Know"  [(ngModel)]="updateMemberModels.manglik">
+              <label class="form-check-label" for="inlineRadio1">Don't Know
+              </label>
+          </div>
+          </li>
+          <li class="list-group-item col-sm-12 mt-1">
+            <label class="registration_label">Nakshatra
+            </label>
+            <span>
+              <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="updateMemberModels.nakshatra">
+                <option value="" label="Select" selected="selected">Select</option>
+                <option value="Ashwini" label="Ashwini">Ashwini</option>
+                <option value="Bharani" label="Bharani">Bharani</option>
+                <option value="Krittika" label="Krittika">Krittika</option>
+                <option value="Rohini" label="Rohini">Rohini</option>
+                <option value="Mrigasira" label="Mrigasira">Mrigasira</option>
+                <option value="Ardra" label="Ardra">Ardra</option>
+                <option value="Punarvasu" label="Punarvasu">Punarvasu</option>
+                <option value="Pusya" label="Pusya">Pusya</option>
+                <option value="Aslesa" label="Aslesa">Aslesa</option>
+                <option value="Magha" label="Magha">Magha</option>
+                <option value="Purva Phalguni" label="Purva Phalguni">Purva Phalguni</option>
+                <option value="Uttara Phalguni" label="Uttara Phalguni">Uttara Phalguni</option>
+                <option value="Hasta" label="Hasta">Hasta</option>
+                <option value="Chitra" label="Chitra">Chitra</option>
+                <option value="Swati" label="Swati">Swati</option>
+                <option value="Vishakha" label="Vishakha">Vishakha</option>
+                <option value="Anuradha" label="Anuradha">Anuradha</option>
+                <option value="Jyestha" label="Jyestha">Jyestha</option>
+                <option value="Mula" label="Mula">Mula</option>
+                <option value="Purva Ashadha" label="Purva Ashadha">Purva Ashadha</option>
+                <option value="Uttara Ashadha" label="Uttara Ashadha">Uttara Ashadha</option>
+                <option value="Shravana" label="Shravana">Shravana</option>
+                <option value="Dhanistha" label="Dhanistha">Dhanistha</option>
+                <option value="Shatabhishak" label="Shatabhishak">Shatabhishak</option>
+                <option value="Purva Bhadrapada" label="Purva Bhadrapada">Purva Bhadrapada</option>
+                <option value="Uttara Bhadrapada" label="Uttara Bhadrapada">Uttara Bhadrapada</option>
+                <option value="Revati" label="Revati">Revati</option>
+              </select>
+            </span>
+          </li>
+        </div>
+
+    <li class="list-group-item col-sm-12 mt-1">
+          <hr>
+          <p>Education & Career
+          </p>
+          <hr>
+            <label class="registration_label">PG education</label>
+            <span>
+              <input class="ab" type="text" value="{{updateMemberModels.highest_qualification}}" placeholder="education" [(ngModel)]="updateMemberModels.highest_qualification">
+            </span>
+          </li>
+
+          
+    <li class="list-group-item col-sm-12 mt-1">
+ 
+        <label class="registration_label">UG education</label>
+        <span>
+          <input class="ab" type="text" value="{{updateMemberModels.ug_education}}" placeholder="education" [(ngModel)]="updateMemberModels.ug_education">
+        </span>
+      </li>
+
+
+        <!-- <li class="list-group-item col-sm-12 mt-1">
+          <hr>
+          <p>Education & Career
+          </p>
+          <hr>
+          <label class="registration_label">Highest Qualification</label>
+          <span>
+            <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="updateMemberModels.highest_qualification">
+              <option value="" label="Select">Select</option>
+              <optgroup id="educationlevel-optgroup--ENGINEERING-" label="-ENGINEERING-">
+              </optgroup>
+              <option value="B.E / B.Tech" label="B.E / B.Tech">B.E / B.Tech</option>
+              <option value="M.E / M.Tech" label="M.E / M.Tech">M.E / M.Tech</option>
+              <option value="M.S Engineering" label="M.S Engineering">M.S Engineering</option>
+              <option value="B.Eng (Hons)" label="B.Eng (Hons)">B.Eng (Hons)</option>
+              <option value="M.Eng (Hons)" label="M.Eng (Hons)">M.Eng (Hons)</option>
+             <option value="Engineering Diploma" label="Engineering Diploma">Engineering Diploma</option>
+              <option value="AE" label="AE">AE</option>
+              <option value="AET" label="AET">AET</option>
+              <optgroup id="educationlevel-optgroup--ARTS / DESIGN-" label="-ARTS / DESIGN-">
+              </optgroup>
+              <option value="B.A" label="B.A">B.A</option>
+              <option value="B.Ed" label="B.Ed">B.Ed</option>
+              <option value="BJMC" label="BJMC">BJMC</option>
+              <option value="BFA" label="BFA">BFA</option>
+              <option value="B.Arch" label="B.Arch">B.Arch</option>
+              <option value="B.Des" label="B.Des">B.Des</option>
+              <option value="BMM" label="BMM">BMM</option>
+              <option value="MFA" label="MFA">MFA</option>
+              <option value="M.Ed" label="M.Ed">M.Ed</option>
+              <option value="M.A" label="M.A">M.A</option>
+              <option value="MSW" label="MSW">MSW</option>
+              <option value="MJMC" label="MJMC">MJMC</option>
+              <option value="M.Arch" label="M.Arch">M.Arch</option>
+              <option value="M.Des" label="M.Des">M.Des</option>
+              <option value="BA (Hons)" label="BA (Hons)">BA (Hons)</option>
+              <option value="B.Arch (Hons)" label="B.Arch (Hons)">B.Arch (Hons)</option>
+              <option value="DFA" label="DFA">DFA</option>
+              <option value="D.Ed" label="D.Ed">D.Ed</option>
+              <option value="D.Arch" label="D.Arch">D.Arch</option>
+              <option value="AA" label="AA">AA</option>
+              <option value="AFA" label="AFA">AFA</option>
+              <optgroup id="educationlevel-optgroup--FINANCE / COMMERCE-" label="-FINANCE / COMMERCE-">
+              </optgroup>
+              <option value="B.Com" label="B.Com">B.Com</option>
+              <option value="CA / CPA" label="CA / CPA">CA / CPA</option>
+              <option value="CFA" label="CFA">CFA</option>
+              <option value="CS" label="CS">CS</option>
+              <option value="BSc / BFin" label="BSc / BFin">BSc / BFin</option>
+              <option value="M.Com" label="M.Com">M.Com</option>
+              <option value="MSc / MFin / MS" label="MSc / MFin / MS">MSc / MFin / MS</option>
+              <option value="BCom (Hons)" label="BCom (Hons)">BCom (Hons)</option>
+              <option value="PGD Finance" label="PGD Finance">PGD Finance</option>
+              <optgroup id="educationlevel-optgroup--COMPUTERS / IT-" label="-COMPUTERS / IT-">
+              </optgroup>
+              <option value="BCA" label="BCA">BCA</option>
+              <option value="B.IT" label="B.IT">B.IT</option>
+              <option value="BCS" label="BCS">BCS</option>
+              <option value="BA Computer Science" label="BA Computer Science">BA Computer Science</option>
+              <option value="MCA" label="MCA">MCA</option>
+              <option value="PGDCA" label="PGDCA">PGDCA</option>
+              <option value="IT Diploma" label="IT Diploma">IT Diploma</option>
+              <option value="ADIT" label="ADIT">ADIT</option>
+              <optgroup id="educationlevel-optgroup--SCIENCE-" label="-SCIENCE-">
+              </optgroup>
+              <option value="B.Sc" label="B.Sc">B.Sc</option>
+              <option value="M.Sc" label="M.Sc">M.Sc</option>
+              <option value="BSc (Hons)" label="BSc (Hons)">BSc (Hons)</option>
+              <option value="DipSc" label="DipSc">DipSc</option>
+              <option value="AS" label="AS">AS</option>
+              <option value="AAS" label="AAS">AAS</option>
+              <optgroup id="educationlevel-optgroup--MEDICINE-" label="-MEDICINE-">
+              </optgroup>
+              <option value="MBBS" label="MBBS">MBBS</option>
+              <option value="BDS" label="BDS">BDS</option>
+              <option value="BPT" label="BPT">BPT</option>
+              <option value="BAMS" label="BAMS">BAMS</option>
+              <option value="BHMS" label="BHMS">BHMS</option>
+              <option value="B.Pharma" label="B.Pharma">B.Pharma</option>
+              <option value="BVSc" label="BVSc">BVSc</option>
+              <option value="BSN / BScN" label="BSN / BScN">BSN / BScN</option>
+              <option value="MDS" label="MDS">MDS</option>
+              <option value="MCh" label="MCh">MCh</option>
+              <option value="M.D" label="M.D">M.D</option>
+              <option value="M.S Medicine" label="M.S Medicine">M.S Medicine</option>
+              <option value="MPT" label="MPT">MPT</option>
+              <option value="DM" label="DM">DM</option>
+              <option value="M.Pharma" label="M.Pharma">M.Pharma</option>
+              <option value="MVSc" label="MVSc">MVSc</option>
+              <option value="MMed" label="MMed">MMed</option>
+              <option value="PGD Medicine" label="PGD Medicine">PGD Medicine</option>
+              <option value="ADN" label="ADN">ADN</option>
+              <optgroup id="educationlevel-optgroup--MANAGEMENT-" label="-MANAGEMENT-">
+              </optgroup>
+              <option value="BBA" label="BBA">BBA</option>
+              <option value="BHM" label="BHM">BHM</option>
+              <option value="BBM" label="BBM">BBM</option>
+              <option value="MBA" label="MBA">MBA</option>
+              <option value="PGDM" label="PGDM" selected="selected">PGDM</option>
+              <option value="ABA" label="ABA">ABA</option>
+              <option value="ADBus" label="ADBus">ADBus</option>
+              <optgroup id="educationlevel-optgroup--LAW-" label="-LAW-">
+              </optgroup>
+              <option value="BL / LLB" label="BL / LLB">BL / LLB</option>
+              <option value="ML / LLM" label="ML / LLM">ML / LLM</option>
+              <option value="LLB (Hons)" label="LLB (Hons)">LLB (Hons)</option>
+              <option value="ALA" label="ALA">ALA</option>
+              <optgroup id="educationlevel-optgroup--DOCTORATE-" label="-DOCTORATE-">
+              </optgroup>
+              <option value="Ph.D" label="Ph.D">Ph.D</option>
+              <option value="M.Phil" label="M.Phil">M.Phil</option>
+              <optgroup id="educationlevel-optgroup--OTHERS-" label="-OTHERS-">
+              </optgroup>
+              <option value="Bachelor" label="Bachelor">Bachelor</option>
+              <option value="Master" label="Master">Master</option>
+              <option value="Diploma" label="Diploma">Diploma</option> 
+              <option value="Honours" label="Honours">Honours</option>
+              <option value="Doctorate" label="Doctorate">Doctorate</option>
+              <option value="Associate" label="Associate">Associate</option>
+              <optgroup id="educationlevel-optgroup--NON-GRADUATE-" label="-NON-GRADUATE-">
+              </optgroup>
+              <option value="High school" label="High school">High school</option>
+              <option value="Less than high school" label="Less than high school">Less than high school</option>
+            </select>
+          </span>
+        </li> -->
+        <li class="list-group-item col-sm-12 mt-1">
+
+          <label class="registration_label">College Attended</label>
+          <span>
+            <input class="ab" type="text" value="{{updateMemberModels.college_attended}}" placeholder="" [(ngModel)]="updateMemberModels.college_attended">
+          </span>
+        </li>
+
+        <li class="list-group-item col-sm-12 mt-1">
+
+          <label class="registration_label">Working With
+          </label>
+          <span>
+            <select name="religion" class="forminput js-religion" id="religion" (change)="annualIncomeHideShow($event)" [(ngModel)]="updateMemberModels.working_with">
+              <option value="" label="Select">Select</option>
+              <option value="Private Company" label="Private Company">Private Company</option>
+              <option value="Government / Public Sector" label="Government / Public Sector">Government / Public Sector
+              </option>
+              <option value="Defense / Civil Services" label="Defense / Civil Services">Defense / Civil Services
+              </option>
+              <option value="Business / Self Employed" label="Business / Self Employed" selected="selected">Business /
+                Self Employed</option>
+              <!-- <option value="Not Working" label="Not Working">Not Working</option> -->
+            </select>
+          </span>
+        </li>
+        <li class="list-group-item col-sm-12 mt-1">
+          <label class="registration_label">Working As
+          </label>
+          <span>
+            <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="updateMemberModels.working_as">
+              <option value="" label="Select">Select</option>
+              <option value="Banking Professional" label="Banking Professional">Banking Professional</option>
+              <option value="Chartered Accountant" label="Chartered Accountant">Chartered Accountant</option>
+              <option value="Company Secretary" label="Company Secretary">Company Secretary</option>
+              <option value="Finance Professional" label="Finance Professional">Finance Professional</option>
+              <option value="Investment Professional" label="Investment Professional">Investment Professional</option>
+              <option value="Accounting Professional (Others)" label="Accounting Professional (Others)">Accounting
+                Professional (Others)</option>
+              <optgroup id="occupation-optgroup-Administration &amp; HR" label="Administration &amp; HR"> </optgroup>
+              <option value="Admin Professional" label="Admin Professional">Admin Professional</option>
+              <option value="Human Resources Professional" label="Human Resources Professional">Human Resources
+                Professional</option>
+              <optgroup id="occupation-optgroup-Advertising, Media &amp; Entertainment"
+                label="Advertising, Media &amp; Entertainment">
+              </optgroup>
+              <option value="Actor" label="Actor">Actor</option>
+              <option value="Advertising Professional" label="Advertising Professional">Advertising Professional
+              </option>
+              <option value="Entertainment Professional" label="Entertainment Professional">Entertainment Professional
+              </option>
+              <option value="Event Manager" label="Event Manager">Event Manager</option>
+              <option value="Journalist" label="Journalist">Journalist</option>
+              <option value="Media Professional" label="Media Professional">Media Professional</option>
+              <option value="Public Relations Professional" label="Public Relations Professional">Public Relations
+                Professional</option>
+              <optgroup id="occupation-optgroup-Agriculture" label="Agriculture">
+              </optgroup>
+              <option value="Farming" label="Farming">Farming</option>
+              <option value="Horticulturist" label="Horticulturist">Horticulturist</option>
+              <option value="Agricultural Professional (Others)" label="Agricultural Professional (Others)">Agricultural
+                Professional (Others)</option>
+              <optgroup id="occupation-optgroup-Airline &amp; Aviation" label="Airline &amp; Aviation">
+              </optgroup>
+              <option value="Air Hostess / Flight Attendant" label="Air Hostess / Flight Attendant">Air Hostess / Flight
+                Attendant</option>
+              <option value="Pilot / Co-Pilot" label="Pilot / Co-Pilot">Pilot / Co-Pilot</option>
+              <option value="Other Airline Professional" label="Other Airline Professional">Other Airline Professional
+              </option>
+              <optgroup id="occupation-optgroup-Architecture &amp; Design" label="Architecture &amp; Design">
+              </optgroup>
+              <option value="Architect" label="Architect">Architect</option>
+              <option value="Interior Designer" label="Interior Designer">Interior Designer</option>
+              <option value="Landscape Architect" label="Landscape Architect">Landscape Architect</option>
+              <optgroup id="occupation-optgroup-Artists, Animators &amp; Web Designers"
+                label="Artists, Animators &amp; Web Designers">
+              </optgroup>
+              <option value="Animator" label="Animator">Animator</option>
+              <option value="Commercial Artist" label="Commercial Artist">Commercial Artist</option>
+              <option value="Web / UX Designers" label="Web / UX Designers">Web / UX Designers</option>
+              <option value="Artist (Others)" label="Artist (Others)">Artist (Others)</option>
+              <optgroup id="occupation-optgroup-Beauty, Fashion &amp; Jewellery Designers"
+                label="Beauty, Fashion &amp; Jewellery Designers">
+              </optgroup>
+              <option value="Beautician" label="Beautician">Beautician</option>
+              <option value="Fashion Designer" label="Fashion Designer">Fashion Designer</option>
+              <option value="Hairstylist" label="Hairstylist">Hairstylist</option>
+              <option value="Jewellery Designer" label="Jewellery Designer">Jewellery Designer</option>
+              <option value="Designer (Others)" label="Designer (Others)">Designer (Others)</option>
+              <optgroup id="occupation-optgroup-BPO, KPO, &amp; Customer Support"
+                label="BPO, KPO, &amp; Customer Support">
+              </optgroup>
+              <option value="Customer Support / BPO / KPO Professional"
+                label="Customer Support / BPO / KPO Professional">Customer Support / BPO / KPO Professional</option>
+              <optgroup id="occupation-optgroup-Civil Services / Law Enforcement"
+                label="Civil Services / Law Enforcement">
+              </optgroup>
+              <option value="IAS / IRS / IES / IFS" label="IAS / IRS / IES / IFS">IAS / IRS / IES / IFS</option>
+              <option value="Indian Police Services (IPS)" label="Indian Police Services (IPS)">Indian Police Services
+                (IPS)</option>
+              <option value="Law Enforcement Employee (Others)" label="Law Enforcement Employee (Others)">Law
+                Enforcement Employee (Others)</option>
+              <optgroup id="occupation-optgroup-Defense" label="Defense">
+              </optgroup>
+              <option value="Airforce" label="Airforce">Airforce</option>
+              <option value="Army" label="Army">Army</option>
+              <option value="Navy" label="Navy">Navy</option>
+              <option value="Defense Services (Others)" label="Defense Services (Others)">Defense Services (Others)
+              </option>
+              <optgroup id="occupation-optgroup-Education &amp; Training" label="Education &amp; Training">
+              </optgroup>
+              <option value="Lecturer" label="Lecturer">Lecturer</option>
+              <option value="Professor" label="Professor">Professor</option>
+              <option value="Research Assistant" label="Research Assistant">Research Assistant</option>
+              <option value="Research Scholar" label="Research Scholar">Research Scholar</option>
+              <option value="Teacher" label="Teacher">Teacher</option>
+              <option value="Training Professional (Others)" label="Training Professional (Others)">Training
+                Professional (Others)</option>
+              <optgroup id="occupation-optgroup-Engineering" label="Engineering">
+              </optgroup>
+              <option value="Civil Engineer" label="Civil Engineer">Civil Engineer</option>
+              <option value="Electronics / Telecom Engineer" label="Electronics / Telecom Engineer">Electronics /
+                Telecom Engineer</option>
+              <option value="Mechanical / Production Engineer" label="Mechanical / Production Engineer">Mechanical /
+                Production Engineer</option>
+              <option value="Non IT Engineer (Others)" label="Non IT Engineer (Others)">Non IT Engineer (Others)
+              </option>
+              <optgroup id="occupation-optgroup-Hotel &amp; Hospitality" label="Hotel &amp; Hospitality">
+              </optgroup>
+              <option value="Chef / Sommelier / Food Critic" label="Chef / Sommelier / Food Critic">Chef / Sommelier /
+                Food Critic</option>
+              <option value="Catering Professional" label="Catering Professional">Catering Professional</option>
+              <option value="Hotel &amp; Hospitality Professional (Others)"
+                label="Hotel &amp; Hospitality Professional (Others)">Hotel &amp; Hospitality Professional (Others)
+              </option>
+              <optgroup id="occupation-optgroup-IT &amp; Software Engineering" label="IT &amp; Software Engineering">
+              </optgroup>
+              <option value="Software Developer / Programmer" label="Software Developer / Programmer">Software Developer
+                / Programmer</option>
+              <option value="Software Consultant" label="Software Consultant">Software Consultant</option>
+              <option value="Hardware &amp; Networking professional" label="Hardware &amp; Networking professional">
+                Hardware &amp; Networking professional</option>
+              <option value="Software Professional (Others)" label="Software Professional (Others)">Software
+                Professional (Others)</option>
+              <optgroup id="occupation-optgroup-Legal" label="Legal">
+              </optgroup>
+              <option value="Lawyer" label="Lawyer">Lawyer</option>
+              <option value="Legal Assistant" label="Legal Assistant">Legal Assistant</option>
+              <option value="Legal Professional (Others)" label="Legal Professional (Others)">Legal Professional
+                (Others)</option>
+              <optgroup id="occupation-optgroup-Medical &amp; Healthcare" label="Medical &amp; Healthcare">
+              </optgroup>
+              <option value="Dentist" label="Dentist">Dentist</option>
+              <option value="Doctor" label="Doctor">Doctor</option>
+              <option value="Medical Transcriptionist" label="Medical Transcriptionist">Medical Transcriptionist
+              </option>
+              <option value="Nurse" label="Nurse">Nurse</option>
+              <option value="Pharmacist" label="Pharmacist">Pharmacist</option>
+              <option value="Physician Assistant" label="Physician Assistant">Physician Assistant</option>
+              <option value="Physiotherapist / Occupational Therapist" label="Physiotherapist / Occupational Therapist">
+                Physiotherapist / Occupational Therapist</option>
+              <option value="Psychologist" label="Psychologist">Psychologist</option>
+              <option value="Surgeon" label="Surgeon">Surgeon</option>
+              <option value="Veterinary Doctor" label="Veterinary Doctor">Veterinary Doctor</option>
+              <option value="Therapist (Others)" label="Therapist (Others)">Therapist (Others)</option>
+              <option value="Medical / Healthcare Professional (Others)"
+                label="Medical / Healthcare Professional (Others)">Medical / Healthcare Professional (Others)</option>
+              <optgroup id="occupation-optgroup-Merchant Navy" label="Merchant Navy">
+              </optgroup>
+              <option value="Merchant Naval Officer" label="Merchant Naval Officer">Merchant Naval Officer</option>
+              <option value="Mariner" label="Mariner">Mariner</option>
+              <optgroup id="occupation-optgroup-Sales &amp; Marketing" label="Sales &amp; Marketing">
+              </optgroup>
+              <option value="Marketing Professional" label="Marketing Professional">Marketing Professional</option>
+              <option value="Sales Professional" label="Sales Professional">Sales Professional</option>
+              <optgroup id="occupation-optgroup-Science" label="Science">
+              </optgroup>
+              <option value="Biologist / Botanist" label="Biologist / Botanist">Biologist / Botanist</option>
+              <option value="Physicist" label="Physicist">Physicist</option>
+              <option value="Science Professional (Others)" label="Science Professional (Others)">Science Professional
+                (Others)</option>
+              <optgroup id="occupation-optgroup-Corporate Professionals" label="Corporate Professionals">
+              </optgroup>
+              <option value="CxO / Chairman / Director / President" label="CxO / Chairman / Director / President">CxO /
+                Chairman / Director / President</option>
+              <option value="VP / AVP / GM / DGM" label="VP / AVP / GM / DGM">VP / AVP / GM / DGM</option>
+              <option value="Sr. Manager / Manager" label="Sr. Manager / Manager">Sr. Manager / Manager</option>
+              <option value="Consultant / Supervisor / Team Leads" label="Consultant / Supervisor / Team Leads">
+                Consultant / Supervisor / Team Leads</option>
+              <option value="Team Member / Staff" label="Team Member / Staff">Team Member / Staff</option>
+              <optgroup id="occupation-optgroup-Others" label="Others">
+              </optgroup>
+              <option value="Agent / Broker / Trader / Contractor" label="Agent / Broker / Trader / Contractor">Agent /
+                Broker / Trader / Contractor</option>
+              <option value="Business Owner / Entrepreneur" label="Business Owner / Entrepreneur" selected="selected">
+                Business Owner / Entrepreneur</option>
+              <option value="Politician" label="Politician">Politician</option>
+              <option value="Social Worker / Volunteer / NGO" label="Social Worker / Volunteer / NGO">Social Worker /
+                Volunteer / NGO</option>
+              <option value="Sportsman" label="Sportsman">Sportsman</option>
+              <option value="Travel &amp; Transport Professional" label="Travel &amp; Transport Professional">Travel
+                &amp; Transport Professional</option>
+              <option value="Writer" label="Writer">Writer</option>
+              <optgroup id="occupation-optgroup-Non Working" label="Non Working">
+              </optgroup>
+              <option value="Student" label="Student">Student</option>
+              <option value="Retired" label="Retired">Retired</option>
+              <!-- <option value="Not working" label="Not working">Not working</option> -->
+            </select>
+          </span>
+        </li>
+        <li class="list-group-item col-sm-12 mt-1" *ngIf="isPrivateCompany">
+          <label class="registration_label">Annual Income
+          </label>
+          <span>
+            <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="updateMemberModels.annual_income">
+              <option value="" label="Select">Select</option>
+              <option value="Upto INR 1 Lakh" label="Upto INR 1 Lakh">Upto INR 1 Lakh</option>
+              <option value="INR 1 Lakh to 2 Lakh" label="INR 1 Lakh to 2 Lakh">INR 1 Lakh to 2 Lakh</option>
+              <option value="INR 2 Lakh to 4 Lakh" label="INR 2 Lakh to 4 Lakh">INR 2 Lakh to 4 Lakh</option>
+              <option value="INR 4 Lakh to 7 Lakh" label="INR 4 Lakh to 7 Lakh">INR 4 Lakh to 7 Lakh</option>
+              <option value="INR 7 Lakh to 10 Lakh" label="INR 7 Lakh to 10 Lakh">INR 7 Lakh to 10 Lakh</option>
+              <option value="INR 10 Lakh to 15 Lakh" label="INR 10 Lakh to 15 Lakh">INR 10 Lakh to 15 Lakh</option>
+              <option value="INR 15 Lakh to 20 Lakh" label="INR 15 Lakh to 20 Lakh" selected="selected">INR 15 Lakh to
+                20 Lakh</option>
+              <option value="INR 20 Lakh to 30 Lakh" label="INR 20 Lakh to 30 Lakh">INR 20 Lakh to 30 Lakh</option>
+              <option value="INR 30 Lakh to 50 Lakh" label="INR 30 Lakh to 50 Lakh">INR 30 Lakh to 50 Lakh</option>
+              <option value="INR 50 Lakh to 75 Lakh" label="INR 50 Lakh to 75 Lakh">INR 50 Lakh to 75 Lakh</option>
+              <option value="INR 75 Lakh to 1 Crore" label="INR 75 Lakh to 1 Crore">INR 75 Lakh to 1 Crore</option>
+              <option value="INR 1 Crore above" label="INR 1 Crore &amp; above">INR 1 Crore &amp; above</option>
+              <option value="Not applicable" label="Not applicable">Don't want to specify</option>
+            </select>
+          </span>
+        </li>
+
+        <li class="list-group-item col-sm-12 mt-1">
+          <hr>
+          <p>Lifestyle
+          </p>
+          <hr>
+          <label class="registration_label">Diet</label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" [(ngModel)]="updateMemberModels.lifestyles" name="inlineRadioOptionsLifeStyle" id="inlineRadio1" value="Veg">
+            <label class="form-check-label" for="inlineRadio1">Veg</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" [(ngModel)]="updateMemberModels.lifestyles" name="inlineRadioOptionsLifeStyle" id="inlineRadio2" value="Non-veg">
+            <label class="form-check-label" for="inlineRadio2">Non-veg</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" [(ngModel)]="updateMemberModels.lifestyles" name="inlineRadioOptionsLifeStyle" id="inlineRadio3" value="Jain">
+            <label class="form-check-label" for="inlineRadio3">Jain
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio"  [(ngModel)]="updateMemberModels.lifestyles" name="inlineRadioOptionsLifeStyle" id="inlineRadio4" value="Occasionally Non-Veg">
+            <label class="form-check-label" for="inlineRadio4">Occasionally Non-Veg
+            </label>
+          </div>
+        </li>
+
+        <li class="list-group-item col-sm-12 mt-1">
+          <hr>
+          <p>Location of Groom
+          </p>
+          <hr>
+          <label class="registration_label">Country Living In </label>
+          <span> 
+            <select name="religion" class="forminput js-religion" id="religion" (change)="onCountrySelected($event)" [(ngModel)]="updateMemberModels.country_name">
+              <option value="">Select</option>
+              <option *ngFor="let cName of countryName" [value]="cName.country_name">{{cName.country_name}}</option>
+            </select>
+          </span>
+        </li>
+
+        <li class="list-group-item col-sm-12 mt-1">
+          <label class="registration_label">State Living In </label>
+          <span>
+            <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="updateMemberModels.state_name" (change)="onStateSelected($event)">
+              <option value="">Select</option>
+              <option *ngFor="let sName of stateName" [value]="sName.state_name">{{sName.state_name}}</option>
+
+            </select>
+          </span>
+        </li>
+
+        <li class="list-group-item col-sm-12 mt-1">
+          <label class="registration_label">City Living In
+            (Nearest City) </label>
+          <span>
+            <select name="religion" class="forminput js-religion" id="religion" [(ngModel)]="updateMemberModels.city_name"  (change)="FranchiesOption($event)">
+              <option value="">Select</option>
+              <option *ngFor="let ctName of cityName" [value]="ctName.city_name">{{ctName.city_name}}</option>
+              <option value="Other">Other</option>
+            </select>
+          </span>
+        </li>
+
+        <li class="list-group-item col-sm-12 mt-1" *ngIf="OtherShow">
+          <label class="registration_label"></label>
+          <span>
+            <input  type="text"  placeholder="City Name" [(ngModel)]="updateMemberModels.city_name">
+          </span>
+        </li>
+
+        <li class="list-group-item col-sm-12 mt-1">
+          <label class="registration_label">Ethnic Origin</label>
+          <span>
+            <input  type="text" value="{{updateMemberModels.ethnic_corigin}}" placeholder="Ethnic Origin" [(ngModel)]="updateMemberModels.ethnic_corigin">
+          </span>
+        </li>
+        <li class="list-group-item col-sm-12 mt-1">
+          <label class="registration_label">Zip/Pin Code</label>
+          <span>
+            <input class="ab" type="" value="{{updateMemberModels.pincode}}" placeholder="text" [(ngModel)]="updateMemberModels.pincode">
+          </span>
+        </li>
+      
+
+        <li class="list-group-item col-sm-12 mt-1">
+          <hr>
+          <p>More About Yourself, Partner and Family
+          </p>
+          <hr>
+
+          <angular-editor [placeholder]="'Enter text here...'" [config]="editorConfig" [(ngModel)]="updateMemberModels.about_ourself"></angular-editor>
+
+        
+          <div class="spacer_3 clearfix"></div>
+        </li>
+        <div  class="vs"><button type="submit" class="btn btn-primary vs" style="box-shadow: 0 0 11px rgb(33, 33, 33); " (click)="updateMemberDetails()"> Update</button></div>
+      </div>
+    </div>
+
+    <!-- <script>
+          $(document).ready(function () {
+            $('#religion-details').on('change', function () {
+              if (this.value == 'Hindu')
+              //.....................^.......
+              {
+                $("#Gothra").show();
+              }
+              else {
+                $("#Gothra").hide();
+              }
+            });
+          });
+    
+        </script> -->
+
+  </section>
+</body>

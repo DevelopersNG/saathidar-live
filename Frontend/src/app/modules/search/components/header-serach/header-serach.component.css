@@ -1,0 +1,133 @@
+* {
+  font-family:  'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
+}
+
+
+  .im1{
+   width: 200px;
+  }
+  .navbar {
+    overflow:visible;
+    background-color: #333;
+    position: sticky;
+  }
+.fa-user-plus
+{
+  color: #fff;
+}
+  .navbar a {
+    float: left;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+ 
+  .subnav {
+    float: left;
+    overflow:visible;
+    display: flex;
+    margin-left: -31px;
+  }
+   .subnav .subnavbtn {
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 50px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+  }
+  .subnav-content {
+    display: none;
+    position: absolute;
+    left: 0;
+    background-color: #742041;
+    width: 100%;
+    z-index: 1;
+    overflow:visible;
+  }
+  .subnav-content a {
+    float: left;
+    color: white;
+    text-decoration: none;
+    margin-left: 200px;
+    overflow:visible;
+  }
+  .subnav-content a:hover {
+    /* background-color: #eee; */
+    color: black;
+    display: flex;
+    position:absolute;
+  }
+  /* When you move the mouse over the subnav container, open the subnav content */
+  .topnav a:hover {
+    border-bottom: 3px solid red;
+}
+.header1{
+  text-align: center;
+  /* margin-top: 9px; */
+  /* background-color: seashell; */
+  height: 40px;
+  padding-top: 11px;
+  overflow:visible;
+  /* margin-top: 1px; */
+  /* padding: 22px; */
+}
+.header1 a {
+margin: 5px;
+box-shadow: 0 0 5px rgb(33, 33, 33); 
+color: #fff;
+padding: 7px;
+background-color: #742041;
+text-decoration: none;
+font-size: 16px;
+}
+#header2{
+  margin-top: 20px
+}
+
+ .header1:hover a:hover    {
+  background-color: #742041;
+  /* border-radius: 50px; */
+  color: white;
+  padding: 10px;
+}
+/* /////////////////////////////////////////////////////////////////////////////////// */
+.header1 > .active > a,
+.header1 > .active > a:hover,
+.header1 > .active > a:focus {
+    color: #FFF;
+    background-color: #AA0000;
+}
+.header1 a:focus
+{
+  background-color: #ffff;color: black; border: 1px solid #742041;
+}
+span
+{
+  border: #742041 1px solid;
+}
+.navbar-toggler-icon
+{
+   color: #FFF;border: 1px solid #fff;
+}
+@media (max-width: 575.98px) {
+  .header1
+  {
+    float: left;text-align: left; 
+  }
+ 
+ }
+@media (min-width: 576px) and (max-width: 767.98px) {  }
+
+@media (min-width: 768px) and (max-width: 991.98px) {  }
+
+
+@media (min-width: 992px) and (max-width: 1199.98px) {  }
+
+
+@media (min-width: 1200px) { }

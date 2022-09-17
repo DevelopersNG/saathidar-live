@@ -1,0 +1,147 @@
+img
+{
+ border-radius: 50%;
+}
+.imgt img
+{
+    margin: 30px; border-radius: 0%;height: 300px; border: 3px white solid;
+}
+.colorbg
+{
+    background-color:#742041;
+}
+li
+{
+    list-style: none;font-size: 13px;color: #fff;
+}
+.fa-solid 
+{
+    padding: 10px;
+}
+
+shadow {
+    box-shadow: 5px 5px 5px rgba(0,0,0,.100)!important;
+}
+.colorbg1
+{
+    background-color: #a1395f;
+}
+hr
+{
+ border-bottom: 1px white solid;
+}
+
+#more {display: none;}
+p
+{
+    color: #fff;font-size: 13px;
+}
+input~i
+{
+    font-size: 70px;
+}
+[type=radio] { 
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* IMAGE STYLES */
+  [type=radio] + img {
+    cursor: pointer;
+  }
+  
+  /* CHECKED STYLES */
+  [type=radio]:checked + img {
+    outline: 2px solid #f00;
+  }
+  label img 
+  {
+      width: 70px;height: 70px;margin-top: 30px;
+  }
+  label p
+  {
+      margin-left: 18px;
+  }
+.name
+{ font-size: 20px;}
+.container
+{
+    margin-top: 30px;
+}
+.border
+{
+    border-bottom: 4px black solid;margin-top: 40px;
+}
+.pt
+{padding-top: 80px;}
+.imgb
+{
+    border-left: 1px white solid;
+}
+.p2
+{
+    background-color:  #742041;
+}
+.detaile
+{
+    background-color: #742041; padding: 20px;
+}
+a{
+    font-size: 20px;padding: 10px;color: #fff;
+
+
+}
+a:hover
+{
+    color: #fff;
+}
+h3
+{
+    color: #fff;
+}
+label
+{
+    color: #fff;
+}
+.dd ul
+{
+    border: 1px white solid;
+}
+.Upgrade
+{
+    padding-top: 90px; border:none;
+}
+.dd
+{
+  margin-left: 40px;
+}
+.imglogo img
+{
+    width: 100px; height: 100px;text-align: center;margin: auto;margin-left: 50px;
+}
+img~p
+{
+    margin-left: 15px;
+}
+.imglogop
+{
+    padding: 0px;border-radius: 80px;text-align:center ;margin-top: 30px;
+}
+ 
+.imglogop label
+{
+    background-color: #fff;color: black;padding: 20px;border-radius: 60px;font-size: 15px;
+}
+
+/* -------------------------------- */
+
+.fa-circle-check
+{
+    float: right;color: chartreuse;
+}
+.fa-xmark
+{
+    float: right;color: chartreuse;
+}

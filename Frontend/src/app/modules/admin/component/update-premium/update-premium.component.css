@@ -1,0 +1,110 @@
+* 
+{
+    font-family: 'Times New Roman', Times, serifs;font-style: italic; 
+ }
+ 
+
+#colourchange{
+    background-color: #742041;
+  }
+  *
+  {
+      font-family: sans-serif
+  }
+  h5 
+  {
+     text-align: center;
+  }
+ 
+ .btn-primary
+ {
+  margin: 4px; background-image: linear-gradient(to right,#680F32,#D11861);
+ }
+  .card-title
+  {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  }
+  h1{
+    font-size: 30px;text-align: center;
+  }
+  p
+  {
+    font-size: 12px;
+  }
+  .card-text
+  {
+    font-size: 20px;text-align: center;
+  }
+  .fa-check-circle
+  {
+    margin: 5px;
+  }
+  .fa-times-circle
+  {
+    margin: 5px;
+  }
+  .card
+  {
+    border: #742041 solid 2px;
+  }
+  .card-l
+  {
+    border-top:#742041 5px solid ;
+  }
+  strong
+  {
+    color: #742041;
+  }
+  .card-benefits
+  {
+    height: 400px;
+  }
+  .card-hv:hover
+  {
+    background-color: #742041; color: aliceblue;
+  }
+  .match-p
+  {
+    font-size: 15px;
+  }
+  .fa-hand-holding-heart
+  {
+    font-size: 140px;color: #742041;
+  }
+  .best-matches
+  {
+    font-size: 25px;
+  }
+  .matchbg
+  {
+    border: #742041 2px solid; padding: 30px;
+  }
+  a{
+    color: #ffff;
+   }
+   .fa-pencil
+   {
+    color: black;
+   }
+input
+{
+  padding: 10px; width: 100%;
+}
+.cardedit
+{
+  background-color: #D11861;
+}
+   
+  @media (min-width: 576px) and (max-width: 767.98px) { 
+  
+  }
+  
+  @media (min-width: 768px) and (max-width: 991.98px) { 
+    
+  
+  }
+  
+  @media (min-width: 992px) and (max-width: 1199.98px) {
+  
+  }
+  

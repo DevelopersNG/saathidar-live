@@ -1,0 +1,87 @@
+*
+{
+    font-family: 'Times New Roman', Times, serif;
+}
+h1
+{
+    background-color: #742041;color: #fff;padding: 10px;
+}
+h3{
+    font-family: 'Times New Roman', Times, serifs;font-style: italic;
+}
+img
+{
+    border: #742041 1px solid;  width: 190px;height: 190px;
+}
+body
+{
+    box-shadow: 0 0 11px #742041; 
+
+}
+button {
+    background-image: linear-gradient(to right,#680F32,#D11861);margin-left: 25px;color: #fff;
+    /* box-shadow: 0 4px 15px 0 rgba(69, 3, 49, 0.75); */
+}
+
+.row
+{
+    padding: 0px;margin: 0px;
+}
+tr th
+{
+    width: 100px;font-size: 12px; border: none;
+}
+tr
+{
+    border-right: 1px #742041 solid;
+}
+hr
+{
+    border: 1px #742041  solid;
+}
+.table th
+{
+    padding: 2px;font-size: 15px;
+}
+.table{
+   margin: 10px;
+}
+h3
+{
+    background-color: #742041;color: #fff;padding: 5px; margin: 10px;
+}
+h2{
+    background-color: #742041;color: #fff;
+}
+a
+{
+    float: right;margin: 5px; border: #742041 1px solid;padding: 5px;color: black;
+}
+.PDFlink
+{
+    float: none;margin: 5px; border: #742041 1px solid;padding: 5px;color: black;
+
+}
+a:hover
+{
+ color: black;border-radius: 5px;
+}
+.age-col
+{
+
+  padding-left: 20px;
+}
+.partner-main h3
+{
+    text-align: center;margin: auto; 
+}
+.dashbord {
+    margin-left: 431px;
+    margin-top: -11px;
+    color: #742041;
+}
+.btn-hover.color-1 {
+    background-image: linear-gradient(to right,#680F32,#D11861);
+    /* box-shadow: 0 4px 15px 0 rgba(69, 3, 49, 0.75); */
+  }
+  

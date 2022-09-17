@@ -1,0 +1,68 @@
+* {
+    font-family:  'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
+ }
+
+ button
+{
+    background-image: linear-gradient(to right,#680F32,#D11861);
+    /* box-shadow: 0 4px 15px 0 rgba(69, 3, 49, 0.75); */
+}
+
+.nav-link
+{
+    color: white;
+}
+
+li
+{
+    list-style: none; 
+}
+.fa-solid
+{
+    color: black;
+}
+ul
+{
+     background-color:#742041
+;
+}
+.btn 
+
+{
+     background-color:#742041
+;
+    color:#fff
+   
+}
+.btn:hover
+{
+    color: #fff;border: #fff 1px solid;
+}
+.form-control
+{
+    border: 1px rgb(90, 7, 21) solid ;
+}
+
+h3
+{
+     background-color:#742041
+;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color:white;padding: 10px;
+}
+.form-control
+{
+    width: 50%;
+}
+.container
+{
+    border: 1px rgb(90, 7, 21) solid ;padding: 5px;background: seashell;
+}
+a:hover
+{
+    color: #fff; border: #fff 1px solid;
+}
+.linkAllColor
+{
+    background-color: #742041;border-bottom: 1px solid #ffff;
+}

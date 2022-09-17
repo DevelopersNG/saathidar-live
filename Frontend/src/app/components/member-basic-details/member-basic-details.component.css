@@ -1,0 +1,36 @@
+* {
+  font-family: 'Times New Roman', Times, serifs;font-style: italic;
+}
+body
+{
+  background-image: linear-gradient(to right,#D11861, #680F32);padding: 20px;
+    /* box-shadow: 0 4px 15px 0 rgba(69, 3, 49, 0.75); */ 
+}
+
+  .btn-hover.color-2 {
+    background-image: linear-gradient(to right,#D11861, #680F32);padding: 10px;border: none;border-radius: 3px;color: #fff;
+    /* box-shadow: 0 4px 15px 0 rgba(69, 3, 49, 0.75); */
+  }
+  .navbar
+  {
+    background-color: black;
+  }
+  img
+  {
+    width: 200px;
+  }
+  .js-religion1{
+    width: 50px;
+}
+select
+{
+  padding: 10px;width: 100%;border-radius: 5px;
+}
+label
+{
+  color: black;
+}
+.modal
+{
+  background-color: black;
+}
