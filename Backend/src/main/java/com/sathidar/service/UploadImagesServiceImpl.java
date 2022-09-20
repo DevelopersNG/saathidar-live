@@ -410,4 +410,9 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 	public int checkMemberIdAvailable(String member_id) {
 		return uploadImagesRepository.checkMemberIdAvailable(member_id);
 	}
+
+	@Override
+	public String getPLanName(String memberID) {
+		return uploadImagesRepository.getPlanNamebyMemberID(memberID);
+	}
 }

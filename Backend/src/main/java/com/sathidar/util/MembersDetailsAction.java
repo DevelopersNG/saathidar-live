@@ -145,22 +145,21 @@ public class MembersDetailsAction {
 	@Transactional
 	public String getDateOfBirthPrivacy(int loginPremiumStatus, String thisMemberID, String date_of_birth) {
 		try {
-			String[] dateOfBirth=date_of_birth.split("-");
+			String[] dateOfBirth=date_of_birth.split("/");
 			String year=dateOfBirth[0];
 			String month=dateOfBirth[1];
 			String day=dateOfBirth[2];
-			System.out.println(year+"-"+month+"-"+day);
 			int getStatus = privacyPolicyRepository.findByMember_Id(Integer.parseInt(thisMemberID));
 //			if (getStatus > 0) {
 				String results = privacyPolicyRepository.getDateOfBirthRecords(Integer.parseInt(thisMemberID));
 				if (results != null && !results.equals("") ) {
 					// dd/mm/yyyy format
 					if (Integer.parseInt(results) == 2 && loginPremiumStatus > 0) {
-						return year+"-"+month+"-"+day;
+						return year+"/"+month+"/"+day;
 					} else if (Integer.parseInt(results) == 3) {
 						return "**/**/****";
 					} else if (Integer.parseInt(results) == 1 && loginPremiumStatus > 0) {
-						return year+"-"+month+"-"+day;
+						return year+"/"+month+"/"+day;
 					}else if (Integer.parseInt(results) == 1 && loginPremiumStatus==0) {
 						return "**/**/****";
 					} else if (loginPremiumStatus == 0) {
@@ -168,7 +167,7 @@ public class MembersDetailsAction {
 					}
 				} else {
 					if (loginPremiumStatus>0) {
-						return year+"-"+month+"-"+day;
+						return year+"/"+month+"/"+day;
 					}else {
 						return "**/**/****";
 					}

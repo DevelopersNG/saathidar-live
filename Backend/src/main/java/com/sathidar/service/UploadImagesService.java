@@ -55,4 +55,6 @@ public interface UploadImagesService {
 	String getAnnualIncomePrivacySettings(String thisMemberID);
 
 	int checkMemberIdAvailable(String splitGetMemberID);
+
+	String getPLanName(String memberID);
 }
