@@ -1361,7 +1361,7 @@ public class UserServiceImpl implements UserService {
 		try {
 			String confirmation_token="", email="",first_name="",
 					gender="", last_name="", password="", phone="",profilecreatedby="", 
-					role="", status="",username="", otp_verified="", franchise_code="", short_reg_status="";
+					role="", status="",username="", otp_verified="", franchise_code="", short_reg_status="",annual_income="";
 			
 			String queryColumnName="confirmation_token, email, "
 					+ "first_name, gender,"
@@ -1428,11 +1428,14 @@ public class UserServiceImpl implements UserService {
 						.getCountryIdByName(checkNullValue(updateMember.getCountry_name().trim()));
 				mLifeStyles = checkNullValue(updateMember.getLifestyles().trim());
 				mAge = checkNullValue(updateMember.getAge().toString().trim());
-
+				annual_income=checkNullValue(updateMember.getAnnual_income());
+				
 				memberDetails = updateMemberRepository.UpdateRegistrationDetails(member_id, dateOfBirth, marital_status,
 						mHeight, religionID, countryID, mLifeStyles, mAge);
 				if (memberDetails > 0) {
 //						user_id=updateMemberRepository.getUserIDByMemberID(member_id);
+					int addAnnualIncomeStatus=updateMemberRepository.updateAnnualIncome(member_id,annual_income);
+					
 					int sts = userRepository.updateShortRegstInUserTable(user_id);
 				}
 				

@@ -76,5 +76,9 @@ public interface RequestMemberRepository extends JpaRepository<RequestMemberMode
 	@Modifying    
 	@Query(value="insert into tempsendotp (conactno,otp) values (:phoneNo,:otp)",nativeQuery = true)
 	int saveOTPDB(String phoneNo, String otp);
+
+	@Transactional
+	@Query(value="SELECT gender FROM member where member_id= :current_Member_ID ",nativeQuery = true)
+	String getGenderByMemberID(String current_Member_ID);
 	
 }

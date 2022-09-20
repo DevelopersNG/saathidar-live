@@ -37,6 +37,7 @@ public class RazorPayServiceImpl implements RazorPayService {
 		int plan_id= getNameByIDMangerFactory.getUpgradePlanIdByName(plan_name);
 		
 		int status=razorPayRepository.updatePremiumMemberDetails(member_id,plan_id);
+		int status_update_member=razorPayRepository.updatePremiumMemberDetailsInMemberTable(member_id,plan_id);
 		
 		System.out.println("status plan "+status);
 		if(status>0) {

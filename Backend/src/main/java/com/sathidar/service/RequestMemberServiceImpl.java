@@ -2349,27 +2349,40 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 			
 			String genderFromMessage = "", genderToMessage = "";
 			if (gender != null && !gender.equals("")) {
+			String myGender=requestMemberRepository.getGenderByMemberID(current_Member_ID);	
+			 if (myGender.equalsIgnoreCase("male")){
+								genderFromMessage = "she";
+								genderToMessage = "her";
+					}
 				
-				if (status_from.equals("from")) {
-					if (gender.equalsIgnoreCase("male")) {
-						genderFromMessage = "she";
-						genderToMessage = "her";
-					}
-					if (gender.equalsIgnoreCase("female")) {
-						genderFromMessage = "he";
+				 if (myGender.equalsIgnoreCase("female")){
+							genderFromMessage = "he";
 						genderToMessage = "his";
-					}
-				}
-				if (status_from.equals("to")) {
-					if (gender.equalsIgnoreCase("male")) {
-						genderFromMessage = "he";
-						genderToMessage = "his";
-					}
-					if (gender.equalsIgnoreCase("female")) {
-						genderFromMessage = "she";
-						genderToMessage = "her";
-					}
-				}
+				}	
+				
+				
+				
+				
+//				if (status_from.equals("from")) {
+//					if (gender.equalsIgnoreCase("male")) {
+//						genderFromMessage = "she";
+//						genderToMessage = "her";
+//					}
+//					if (gender.equalsIgnoreCase("female")) {
+//						genderFromMessage = "he";
+//						genderToMessage = "his";
+//					}
+//				}
+//				if (status_from.equals("to")) {
+//					if (gender.equalsIgnoreCase("male")) {
+//						genderFromMessage = "he";
+//						genderToMessage = "his";
+//					}
+//					if (gender.equalsIgnoreCase("female")) {
+//						genderFromMessage = "she";
+//						genderToMessage = "her";
+//					}
+//				}
 			}
 
 			String messgae = "";

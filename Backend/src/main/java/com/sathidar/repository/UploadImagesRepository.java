@@ -88,4 +88,7 @@ public interface UploadImagesRepository extends JpaRepository<UploadImagesModel,
 
 	@Query(value="SELECT count(*) FROM memberdetails as md join member as m on md.member_id=m.member_id where m.member_number= :member_number and m.status='ACTIVE'",nativeQuery=true)
 	int checkMemberIdAvailable(String member_number);
+
+	@Query(value="select plan_name from plans where plan_id= :plan_id and plan_status='ACTIVE'",nativeQuery = true)
+	String getPlanNamebyMemberID(String plan_id);
 }

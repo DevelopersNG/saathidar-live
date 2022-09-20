@@ -27,4 +27,10 @@ public interface RazorPayRepository extends JpaRepository<RazorPayModel, Integer
 	@Query(value="SELECT first_name,last_name,email_id FROM member where member_id= :request_to_id",nativeQuery = true)
 	List<Object[]> getUserNameEmailId(Integer request_to_id);
 
+
+	@Transactional
+	@Modifying
+	@Query(value="update member set plan_id= :plan_id where member_id= :member_id ",nativeQuery = true)
+	int updatePremiumMemberDetailsInMemberTable(String member_id, int plan_id);
+
 }

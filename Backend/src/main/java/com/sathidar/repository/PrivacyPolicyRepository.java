@@ -154,4 +154,10 @@ public interface PrivacyPolicyRepository extends JpaRepository<PrivacyOptionsMod
 
 	@Query(value="select premium_match_mail,recent_visitors_email,contact_alert,sms_alert,message_received_alert,today_match_email from email_sms_alert where member_id= :member_id",nativeQuery = true)
 	List<Object[]> GetAllEmailSMSSetting(String member_id);
+
+	@Query(value="select premium_match_mail,recent_visitors_email,today_match_email,member_id from email_sms_alert",nativeQuery = true)
+	List<Object[]> getAllEmailAlertSettings();
+
+	@Query(value="select daily_count from alert_count where member_id= :member_id and date(datetime)=curdate()",nativeQuery = true)
+	String getDailyMatchesIDS(String member_id);
 }

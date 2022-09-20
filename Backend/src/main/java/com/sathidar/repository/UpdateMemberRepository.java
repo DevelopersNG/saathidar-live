@@ -247,6 +247,11 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 	@Query(value = "update member set status='ACTIVE' where user_id= :user_id", nativeQuery = true)
 	int updateStatusACTIVEToMemberTable(String user_id);
 
+	@Transactional
+	@Modifying
+	@Query(value = "update member_education_career set annual_income= :annual_income where member_id= :member_id", nativeQuery = true)
+	int updateAnnualIncome(int member_id, String annual_income);
+
 //	String getDetailsFromOfInboxIDs(int id);
 //
 //	String getDetailsOfToInboxIDs(int id);
