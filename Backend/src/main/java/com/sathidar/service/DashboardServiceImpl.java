@@ -438,21 +438,14 @@ public class DashboardServiceImpl implements DashboardService {
 		String premiumCount="";
 		try {
 			boolean status = false;
-			String matches_id = "", premium_ids = "";
-
+			String  premium_ids = "";
 			String ids = "";
-			if (matches_status.equals("NEW_MATCHES") || matches_status.equals("MY_MATCHES")
-					|| matches_status.equals("TODAYS_MATCHES")) {
-				ids = getMemberIDForMatches1(Integer.parseInt(id), matches_status);
-				if (!ids.equals("")) {
-					matches_id = " and m.member_id in (" + ids + ")";
-				}
-			}
-			ids = "";
 			if (matches_status.equals("PREMIUM_MATCHES")) {
 				ids = getPremiumMemberIDForMatches(id);
 				if (!ids.equals("")) {
 					premium_ids = " and m.member_id in (" + ids + ")";
+				}else {
+					premium_ids=" and m.member_id in ('') ";
 				}
 			}
 
@@ -523,21 +516,17 @@ public class DashboardServiceImpl implements DashboardService {
 		JSONArray resultArray = new JSONArray();
 		try {
 			boolean status = false;
-			String matches_id = "", premium_ids = "";
+			String premium_ids = "";
 
 			String ids = "";
-			if (matches_status.equals("NEW_MATCHES") || matches_status.equals("MY_MATCHES")
-					|| matches_status.equals("TODAYS_MATCHES")) {
-				ids = getMemberIDForMatches1(Integer.parseInt(id), matches_status);
-				if (!ids.equals("")) {
-					matches_id = " and m.member_id in (" + ids + ")";
-				}
-			}
+		
 			ids = "";
 			if (matches_status.equals("PREMIUM_MATCHES")) {
 				ids = getPremiumMemberIDForMatches(id);
 				if (!ids.equals("")) {
 					premium_ids = " and m.member_id in (" + ids + ")";
+				}else {
+					premium_ids=" and m.member_id in ('') ";
 				}
 			}
 
@@ -566,18 +555,27 @@ public class DashboardServiceImpl implements DashboardService {
 
 			matchesConstants.getMemberMatchPartnerPreference(Integer.parseInt(id));
 //			******************************Column Name*************************************************************************
-//			String columnName = "m.member_id as member_id,height,lifestyles,known_languages,first_name,last_name,"
-//					+ "gender,md.age,contact_number,profilecreatedby,md.marital_status,mother_tounge,"
-//					+ "date_of_birth,mec.annual_income,country_id,cast_id,subcaste_id,religion_id,state_id,city_id";
+//			String columnName = "first_name,last_name, m.member_id, height,lifestyles,md.age,"
+//					+ "md.marital_status as maritalStatus,mother_tounge,gender,profile_photo_id,"
+//					+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :member_id )) as country_name,country_id,"
+//					+ "(select state_name from states where state_id=(select state_id from memberdetails where member_id= :member_id)) as state,state_id,"
+//					+ "(select city_name from city where city_id=(select city_id from memberdetails where member_id= :member_id)) as city,city_id,"
+//					+ "(select religion_name from religion where religion_id=(select religion_id from memberdetails where member_id= :member_id)) as religion,religion_id,"
+//					+ "(select cast_name from cast where cast_id=(select cast_id from memberdetails where member_id= :member_id )) as caste,cast_id,"
+//					+ "edu.highest_qualification as highest_qualification,edu.working_with as working_with,edu.working_as as working_as,edu.annual_income as annual_income";
+//
+//			
 			String columnName = "first_name,last_name, m.member_id, height,lifestyles,md.age,"
 					+ "md.marital_status as maritalStatus,mother_tounge,gender,profile_photo_id,"
-					+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :member_id )) as country_name,country_id,"
-					+ "(select state_name from states where state_id=(select state_id from memberdetails where member_id= :member_id)) as state,state_id,"
-					+ "(select city_name from city where city_id=(select city_id from memberdetails where member_id= :member_id)) as city,city_id,"
-					+ "(select religion_name from religion where religion_id=(select religion_id from memberdetails where member_id= :member_id)) as religion,religion_id,"
-					+ "(select cast_name from cast where cast_id=(select cast_id from memberdetails where member_id= :member_id )) as caste,cast_id,"
+					+ "country_id,"
+					+ "state_id,"
+					+ "city_id,"
+					+ "religion_id,"
+					+ "cast_id,"
 					+ "edu.highest_qualification as highest_qualification,edu.working_with as working_with,edu.working_as as working_as,edu.annual_income as annual_income";
 
+			
+			
 //			******************************Opposite Gender Search*************************************************************************
 			String genderQuery = "";
 			String gender = updateMemberRepository.getGenderByMemberID(Integer.parseInt(id));
@@ -654,45 +652,51 @@ public class DashboardServiceImpl implements DashboardService {
 						getProfilePath = uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
 					}
 
-					String myCountryName = convertNullToBlank(String.valueOf(obj[++i]));
-					String myCountryID = convertNullToBlank(String.valueOf(obj[++i]));
+//					String myCountryName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myCountryID = convertNullToBlank(String.valueOf(obj[++i]).trim());
+					String myCountryName=getNameByIDMangerFactory.getCountryNameByID(myCountryID);
 					if (!myCountryName.equals("")) {
 						if (matchesConstants.COUNTRY.contains(myCountryID)) {
 							matchesStatus = true;
 						}
 					}
-					
-					String myStateName = convertNullToBlank(String.valueOf(obj[++i]));
-					String myStateID = convertNullToBlank(String.valueOf(obj[++i]));
+
+//					String myStateName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myStateID = convertNullToBlank(String.valueOf(obj[++i]).trim());
+					String myStateName=getNameByIDMangerFactory.getStateNameByID(myStateID);
 					if (!myStateID.equals("")) {
-						if (matchesConstants.STATE.contains(myStateName)) {
+						if (matchesConstants.STATE.contains(myStateID)) {
 							matchesStatus = true;
 						}
 					}
-
-					String myCityName = convertNullToBlank(String.valueOf(obj[++i]));
-					String myCityID = convertNullToBlank(String.valueOf(obj[++i]));
+					
+//					String myCityName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myCityID = convertNullToBlank(String.valueOf(obj[++i]).trim());
+					String myCityName=getNameByIDMangerFactory.getCityNameByID(myCityID);
 					if (!myCityID.equals("")) {
-						if (matchesConstants.CITY.contains(myCityName)) {
+						if (matchesConstants.CITY.contains(myCityID)) {
 							matchesStatus = true;
 						}
 					}
 
-					String myReligionName = convertNullToBlank(String.valueOf(obj[++i]));
-					String myReligionID = convertNullToBlank(String.valueOf(obj[++i]));
+//					String myReligionName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myReligionID = convertNullToBlank(String.valueOf(obj[++i]).trim());
+					String myReligionName=getNameByIDMangerFactory.getReligionNameByID(myReligionID);
 					if (!myReligionID.equals("")) {
-						if (matchesConstants.RELIGIONS.contains(myReligionName)) {
+						if (matchesConstants.RELIGIONS.contains(myReligionID)) {
 							matchesStatus = true;
 						}
 					}
 
-					String myCastID = convertNullToBlank(String.valueOf(obj[++i]));
-					String myCastName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myCastID = convertNullToBlank(String.valueOf(obj[++i]).trim());
+//					String myCastName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myCastName=getNameByIDMangerFactory.getCasteNameByID(myCastID);
 					if (!myCastID.equals("")) {
-						if (matchesConstants.CAST.contains(myCastName)) {
+						if (matchesConstants.CAST.contains(myReligionID)) {
 							matchesStatus = true;
 						}
 					}
+
 
 					String myQualifications = convertNullToBlank(String.valueOf(obj[++i]));
 					if (!myQualifications.equals("")) {

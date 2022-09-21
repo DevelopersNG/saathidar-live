@@ -90,7 +90,7 @@ public class UploadImagesController {
 	private String getMemberPhotos(@PathVariable String member_id) {
 		JSONArray jsonResultsArray = new JSONArray();
 		JSONObject jsObject = new JSONObject();
-		jsonResultsArray = uploadImagesService.getMemberPhotos(member_id);
+		jsonResultsArray = uploadImagesService.getMyMemberAppPhotos(member_id);
 		if (jsonResultsArray == null) {
 			jsObject.put("data", jsonResultsArray);
 			jsObject.put("results", "0");
@@ -132,7 +132,7 @@ public class UploadImagesController {
 	private String getMemberPhoto(@PathVariable String member_id) {
 		JSONArray jsonResultsArray = new JSONArray();
 		JSONObject jsObject = new JSONObject();
-		jsonResultsArray = uploadImagesService.getMemberAppPhotos(member_id);
+		jsonResultsArray = uploadImagesService.getMyMemberAppPhotos(member_id);
 		if (jsonResultsArray == null) {
 			jsObject.put("data", jsonResultsArray);
 			jsObject.put("results", "0");

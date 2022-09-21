@@ -1423,21 +1423,26 @@ public class UserServiceImpl implements UserService {
 				System.out.println("save --- " + updateMember.getReligion());
 
 				religionID = getNameByIDMangerFactory.getReligionID(checkNullValue(updateMember.getReligion().trim()));
-				dateOfBirth = checkNullValue(updateMember.getDate_of_birth().trim());
+				dateOfBirth = checkNullValue(updateMember.getDate_of_birth());
 				marital_status = checkNullValue(updateMember.getMarital_status().trim());
 				mHeight = checkNullValue(updateMember.getHeight().trim());
 				countryID = getNameByIDMangerFactory
 						.getCountryIdByName(checkNullValue(updateMember.getCountry_name().trim()));
 				stateID=getNameByIDMangerFactory.getStateIdByName(updateMember.getState_name().trim());
 				cityID=getNameByIDMangerFactory.getCityidByName(updateMember.getCity_name().trim());
+				mAge = checkNullValue(""+updateMember.getAge());
+				mLifeStyles = checkNullValue(updateMember.getLifestyles());
 				
 				memberDetails = updateMemberRepository.UpdateRegistrationDetails(member_id, dateOfBirth, marital_status,
 						mHeight, religionID, countryID, mLifeStyles, mAge,stateID,cityID);
 				if (memberDetails > 0) {
 //						user_id=updateMemberRepository.getUserIDByMemberID(member_id);
-					int addAnnualIncomeStatus=updateMemberRepository.updateAnnualIncome(member_id,annual_income);
-					
-					int sts = userRepository.updateShortRegstInUserTable(user_id);
+//					int addAnnualIncomeStatus=updateMemberRepository.updateAnnualIncome(member_id,annual_income);
+					try {
+						int sts = userRepository.updateShortRegstInUserTable(user_id);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 				
 				// send otp 
@@ -1530,6 +1535,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int isAvailableEmail(String email) {
 		return userRepository.isAvailableEmail(email);
+	}
+
+	@Override
+	public String getUserIDByVerifyNumber(String phone) {
+		return userRepository.getUserIDByVerifyNumber(phone);
+	}
+
+	@Override
+	public int updateStatusACTIVEToMemberTable(String user_id) {
+		return userRepository.updateStatusACTIVEToMemberTable(user_id);
 	}
 	
 //	@Override

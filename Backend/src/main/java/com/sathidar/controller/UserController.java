@@ -155,6 +155,8 @@ public class UserController {
 			// save user otp table verify status=1
 			int updateStatus=userService.updateUSERTable(phone,user_otp);
 			if(updateStatus>0) {
+				String user_id=userService.getUserIDByVerifyNumber(phone);
+				int status=userService.updateStatusACTIVEToMemberTable(user_id);
 				map.put("message", "OTP verified");
 				map.put("results", "1");
 			}else {

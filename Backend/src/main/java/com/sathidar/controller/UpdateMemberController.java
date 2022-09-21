@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sathidar.EntityMangerFactory.GetNameByIDMangerFactory;
 import com.sathidar.EntityMangerFactory.UpdateMemberEntityMangerFactory;
 import com.sathidar.model.FilterSearchModel;
 import com.sathidar.model.UpdateMember;
@@ -43,6 +44,8 @@ public class UpdateMemberController {
 
 	@Autowired
 	private UpdateMemberEntityMangerFactory updateMemberEntityMangerFactory;
+	
+
 
 	@PostMapping(path = "/member/update/{id}")
 	public String updateMember(@Validated @RequestBody UpdateMember updateMember, @PathVariable("id") int id) {
