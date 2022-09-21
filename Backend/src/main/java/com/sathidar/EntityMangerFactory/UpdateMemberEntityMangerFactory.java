@@ -953,6 +953,8 @@ public class UpdateMemberEntityMangerFactory {
 			String getMembersHideIDs = getMembersHideIDs();
 			String hideMemberIdsQuery = "";
 			if (getMembersHideIDs != null && !getMembersHideIDs.equals("")) {
+//				hideMemberIdsQuery = hideMemberIdsQuery + " and m.member_id not in ("
+//						+ getMembersHideIDs.replaceFirst(",", "") + ") ";
 				hideMemberIdsQuery = hideMemberIdsQuery + " and m.member_id not in (" + getMembersHideIDs + ") ";
 			}
 
@@ -996,6 +998,7 @@ public class UpdateMemberEntityMangerFactory {
 			}
 
 //		******************************Query*************************************************************************
+			
 			Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
@@ -1080,7 +1083,7 @@ public class UpdateMemberEntityMangerFactory {
 							matchesStatus = true;
 						}
 					}
-
+					
 					String myCityName = convertNullToBlank(String.valueOf(obj[++i]));
 					String myCityID = convertNullToBlank(String.valueOf(obj[++i]));
 					if (!myCityID.equals("")) {
@@ -1138,6 +1141,8 @@ public class UpdateMemberEntityMangerFactory {
 						json.put("religion", myReligionName);
 						json.put("maritalStatus", myMaritalStatus);
 						json.put("country", myCountryName);
+						json.put("state", myStateName);
+						json.put("city", myCityName);
 						myAnnualIncome = MembersDetailsAction.getAnnualIncomePrivacy(premiumStatus, memberID,
 								myAnnualIncome);
 
@@ -3183,9 +3188,9 @@ public class UpdateMemberEntityMangerFactory {
 			
 						json.put("first_name", first_name);
 						json.put("last_name", last_name);
-						json.put("gender", myGender);
+						json.put("gender", myGender.toUpperCase());
 						if (!myAge.equals(""))
-							myAge = myAge + "yrs";
+							myAge = myAge + " yrs";
 						json.put("mage", myAge);
 						json.put("maritalStatus", myMaritalStatus);
 						json.put("member_id", memberID);

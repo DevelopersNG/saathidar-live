@@ -31,9 +31,9 @@ public interface UserRepository extends JpaRepository<User, Integer>  {
 //	@Query("SELECT count(*) FROM User  WHERE email = :email and phone = :phone and enabled='1' and short_reg_status=1 and otp_verified=1")
 //	int findByPhone(String phone,String email);
 
-	@Query("SELECT count(*) FROM User  WHERE phone = :phone and enabled='1' and short_reg_status=1 and otp_verified=1")
+//	@Query("SELECT count(*) FROM User  WHERE phone = :phone and enabled='1' and short_reg_status=1 and otp_verified=1")
+	@Query("SELECT count(*) FROM User  WHERE phone = :phone and short_reg_status=1 and otp_verified=1")
 	int findByPhone(String phone);
-
 	
 	@Query(value="SELECT count(*) FROM hide_member WHERE member_id = :ID",nativeQuery = true)
 	int isAvaialbeHideMember(int ID);

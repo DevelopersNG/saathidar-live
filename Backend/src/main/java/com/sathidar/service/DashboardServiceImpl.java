@@ -661,7 +661,7 @@ public class DashboardServiceImpl implements DashboardService {
 							matchesStatus = true;
 						}
 					}
-
+					
 					String myStateName = convertNullToBlank(String.valueOf(obj[++i]));
 					String myStateID = convertNullToBlank(String.valueOf(obj[++i]));
 					if (!myStateID.equals("")) {
@@ -727,8 +727,10 @@ public class DashboardServiceImpl implements DashboardService {
 						json.put("mage", myAge);
 						json.put("religion", myReligionName);
 						json.put("maritalStatus", myMaritalStatus);
-						json.put("city", myCityName);
+						json.put("city", myCityName);  
 						json.put("country", myCountryName);
+						json.put("state", myStateName);
+						json.put("city", myCityName);
 						myAnnualIncome = MembersDetailsAction.getAnnualIncomePrivacy(premiumStatus, memberID,
 								myAnnualIncome);
 
