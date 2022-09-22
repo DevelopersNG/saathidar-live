@@ -1496,6 +1496,14 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				json.put("photo_privacy","2");
 			}
 			
+			// check phone privacy
+			String phone_privacy_setting = uploadImagesService.getPhonePrivacySettings(memberID);
+			if(phone_privacy_setting!=null && !phone_privacy_setting.equals("")) {
+					json.put("phone_privacy",phone_privacy_setting);
+			}else {
+					json.put("phone_privacy","2");
+			}
+						
 			JSONArray jsonResultsArray = new JSONArray();
 			jsonResultsArray = uploadImagesService.getMemberAppPhotos("" + memberID);
 			json.put("images", jsonResultsArray);

@@ -103,13 +103,12 @@ public class UpdateMemberEntityMangerFactory {
 		String columnName = "member_number,m.member_id, membernative,height,weight,lifestyles,known_languages,education,job,income,hobbies,expectations,first_name,last_name,gender,md.age,"
 				+ "contact_number,email_id,profilecreatedby,md.marital_status as maritalStatus,no_of_children,mother_tounge,date_of_birth,"
 				+ "health_info,blood_group,gothra,ethnic_corigin,pincode,about_ourself,profile_photo_id,"
-				+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :id )) as country_name,country_id,"
+				+ "country_id,"
 				+ "sub_caste_name,"
-				+ "(select cast_name from cast where cast_id=(select cast_id from memberdetails where member_id= :id )) as caste,cast_id,"
-				+ "(select subcast_name from subcasts where subcast_id=(select subcaste_id from memberdetails where member_id= :id)) as subcaste,"
-				+ "(select religion_name from religion where religion_id=(select religion_id from memberdetails where member_id= :id)) as religion,religion_id,"
-				+ "(select state_name from states where state_id=(select state_id from memberdetails where member_id= :id)) as state,state_id,"
-				+ "(select city_name from city where city_id=(select city_id from memberdetails where member_id= :id)) as city,city_id,"
+				+ "cast_id,"
+				+ "religion_id,"
+				+ "state_id,"
+				+ "city_id,"
 				+ "fd.father_status as father_status,fd.father_company_name as father_company_name,fd.father_designation as father_designation,fd.father_business_name as father_business_name,"
 				+ "fd.mother_status as mother_status, fd.mother_company_name as mother_company_name,fd.mother_designation as mother_designation,fd.mother_business_name as mother_business_name,"
 				+ "fd.family_location as family_location,fd.native_place as native_place,fd.family_type as family_type,fd.family_values as family_values,fd.family_affluence as family_affluence,"
@@ -118,21 +117,12 @@ public class UpdateMemberEntityMangerFactory {
 				+ "mh.manglik,mh.nakshatra,mh.time_of_birth,mh.time_status,mh.city_of_birth,mh.hr_dob as horo,"
 				+ "mh.country_of_birth,mh.hours,mh.minutes,mh.time";
 		try {
-
 			String query = "SELECT " + columnName + "  FROM memberdetails as md "
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_family_details as fd on m.member_id=fd.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
 					+ " join member_horoscope as mh on m.member_id=mh.member_id "
 					+ " where md.member_id= :id order by m.member_id desc";
-//			+ " where md.member_id= :id and m.status='ACTIVE' ";
-
-			// get hide member ids for not showing ids
-//			String getMembersHideIDs = getMembersHideIDs();
-//
-//			if (getMembersHideIDs != null && !getMembersHideIDs.equals("")) {
-//				query = query + " and md.member_id not in (" + getMembersHideIDs.replaceFirst(",", "") + ") ";
-//			}
 
 			String query1 = "SELECT count(*) FROM premium_member where member_id= :id and deleteflag='N'";
 			Query q1 = em.createNativeQuery(query1);
@@ -141,7 +131,6 @@ public class UpdateMemberEntityMangerFactory {
 			System.out.println("************* premiun status - " + premiumStatus);
 
 			Query q = em.createNativeQuery(query);
-//			System.out.println(q);
 			String contact_number = "", email_id = "";
 			q.setParameter("id", id);
 			boolean status = false;
@@ -154,7 +143,7 @@ public class UpdateMemberEntityMangerFactory {
 
 					// first row
 					JSONArray jsonResultsArray = new JSONArray();
-					jsonResultsArray = uploadImagesService.getMemberAppPhotos("" + thisMemberID);
+					jsonResultsArray = uploadImagesService.getMyMemberAppPhotos("" + thisMemberID);
 //					json.put("images",jsonResultsArray);
 					map.put("images_count", "" + jsonResultsArray.length());
 
@@ -288,24 +277,34 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("profile_photo", getProfilePath);
 					map.put("my_profile_photo", my_profile_photo);
 					// forth row
+					
 //					String val= convertNullToBlank(String.valueOf(obj[++i]);
-					map.put("country_name", convertNullToBlank(String.valueOf(obj[++i])));
-					map.put("country_id", convertNullToBlank(String.valueOf(obj[++i])));
+//					map.put("country_name", convertNullToBlank(String.valueOf(obj[++i])));
+					String myCountryID=convertNullToBlank(String.valueOf(obj[++i]));
+					map.put("country_name",getNameByIDMangerFactory.getCountryNameByID(myCountryID));
+					map.put("country_id", myCountryID);
 					map.put("sub_caste_name", convertNullToBlank(String.valueOf(obj[++i])));
 
 					// fifth,sixth,seven,eight,nine row
-					map.put("caste", convertNullToBlank(String.valueOf(obj[++i])));
-					map.put("cast_id", convertNullToBlank(String.valueOf(obj[++i])));
+//					map.put("caste", convertNullToBlank(String.valueOf(obj[++i])));
+					String myCastID=convertNullToBlank(String.valueOf(obj[++i]));
+					map.put("caste", getNameByIDMangerFactory.getCasteNameByID(myCastID));
+					map.put("cast_id", myCastID);
 
-					map.put("subcaste", convertNullToBlank(String.valueOf(obj[++i])));
-					map.put("religion_name", convertNullToBlank(String.valueOf(obj[++i])));
-					map.put("religion_id", convertNullToBlank(String.valueOf(obj[++i])));
-
-					map.put("state", convertNullToBlank(String.valueOf(obj[++i])));
-					map.put("state_id", convertNullToBlank(String.valueOf(obj[++i])));
-
-					map.put("city", convertNullToBlank(String.valueOf(obj[++i])));
-					map.put("city_id", convertNullToBlank(String.valueOf(obj[++i])));
+//					map.put("subcaste", convertNullToBlank(String.valueOf(obj[++i])));
+					String myReligionID=convertNullToBlank(String.valueOf(obj[++i]));
+					map.put("religion_name",getNameByIDMangerFactory.getReligionNameByID(myReligionID));
+					map.put("religion_id", myReligionID);
+					
+//					map.put("state", convertNullToBlank(String.valueOf(obj[++i])));
+					String myStateID=convertNullToBlank(String.valueOf(obj[++i]));
+					map.put("state", getNameByIDMangerFactory.getStateNameByID(myStateID));
+					map.put("state_id",myStateID );
+					
+//					map.put("city", convertNullToBlank(String.valueOf(obj[++i])));
+					String myCityID=convertNullToBlank(String.valueOf(obj[++i]));
+					map.put("city", getNameByIDMangerFactory.getCityNameByID(myCityID));
+					map.put("city_id", myCityID);
 
 					// 10th row
 					// get family details
@@ -417,28 +416,6 @@ public class UpdateMemberEntityMangerFactory {
 						block_status=getMemberBlockStatus;
 					}
 					map.put("block_status", block_status);
-					
-					
-					
-//					Query queryRequest = em.createNativeQuery(
-//							"SELECT request_status,block_status FROM member_request where  request_from_id= :member_from_id and request_to_id= :member_to_id");
-//					queryRequest.setParameter("member_from_id",id);
-//					queryRequest.setParameter("member_to_id",thisMemberID);
-//					JSONArray resultRequest = new JSONArray();
-//					List<Object[]> result = queryRequest.getResultList();
-//					int stsResults = 0;
-//					if (result != null) {
-//						for (Object[] objRequest : result) {
-//							int j = 0;
-//							stsResults = 1;
-//							map.put("request_status", convertNullToBlank(String.valueOf(objRequest[j])));
-//							map.put("block_status", convertNullToBlank(String.valueOf(objRequest[++j])));
-//						}
-//					}
-//					if (stsResults == 0) {
-//						map.put("request_status", "");
-//						map.put("block_status", "");
-//					}
 					status = true;
 				}
 			}
@@ -732,15 +709,27 @@ public class UpdateMemberEntityMangerFactory {
 
 //			********************** begin column names *********************************
 
+//			String columnName = "first_name,last_name, m.member_id, height,lifestyles,md.age,"
+//					+ "md.marital_status as maritalStatus,mother_tounge,gender,profile_photo_id,"
+//					+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :member_id )) as country_name,country_id,"
+//					+ "(select state_name from states where state_id=(select state_id from memberdetails where member_id= :member_id)) as state,state_id,"
+//					+ "(select city_name from city where city_id=(select city_id from memberdetails where member_id= :member_id)) as city,city_id,"
+//					+ "(select religion_name from religion where religion_id=(select religion_id from memberdetails where member_id= :member_id)) as religion,religion_id,"
+//					+ "(select cast_name from cast where cast_id=(select cast_id from memberdetails where member_id= :member_id )) as caste,cast_id,"
+//					+ "edu.highest_qualification as highest_qualification,edu.working_with as working_with,edu.working_as as working_as,edu.annual_income as annual_income";
+
+			
 			String columnName = "first_name,last_name, m.member_id, height,lifestyles,md.age,"
 					+ "md.marital_status as maritalStatus,mother_tounge,gender,profile_photo_id,"
-					+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :member_id )) as country_name,country_id,"
-					+ "(select state_name from states where state_id=(select state_id from memberdetails where member_id= :member_id)) as state,state_id,"
-					+ "(select city_name from city where city_id=(select city_id from memberdetails where member_id= :member_id)) as city,city_id,"
-					+ "(select religion_name from religion where religion_id=(select religion_id from memberdetails where member_id= :member_id)) as religion,religion_id,"
-					+ "(select cast_name from cast where cast_id=(select cast_id from memberdetails where member_id= :member_id )) as caste,cast_id,"
+					+ "country_id,"
+					+ "state_id,"
+					+ "city_id,"
+					+ "religion_id,"
+					+ "cast_id,"
 					+ "edu.highest_qualification as highest_qualification,edu.working_with as working_with,edu.working_as as working_as,edu.annual_income as annual_income";
 
+			
+			
 			String whereClause = setWhereClauseForGetAllMember(updateMember);
 
 			String visitorsIDs = "", viewToIDs = "";
@@ -800,17 +789,28 @@ public class UpdateMemberEntityMangerFactory {
 					if (!profile_photo_id.equals("") && !profile_photo_id.equals("0")) {
 						getProfilePath = uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
 					}
-
-					String myCountryName = convertNullToBlank(String.valueOf(obj[++i]));
+					
+				
+					
+//					String myCountryName = convertNullToBlank(String.valueOf(obj[++i]));
 					String myCountryID = convertNullToBlank(String.valueOf(obj[++i]));
-					String myStateName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myCountryName=getNameByIDMangerFactory.getCountryNameByID(myCountryID);
+					
+//					String myStateName = convertNullToBlank(String.valueOf(obj[++i]));
 					String myStateID = convertNullToBlank(String.valueOf(obj[++i]));
-					String myCityName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myStateName=getNameByIDMangerFactory.getStateNameByID(myStateID);
+					
+//					String myCityName = convertNullToBlank(String.valueOf(obj[++i]));
 					String myCityID = convertNullToBlank(String.valueOf(obj[++i]));
-					String myReligionName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myCityName=getNameByIDMangerFactory.getCityNameByID(myCityID);
+					
+//					String myReligionName = convertNullToBlank(String.valueOf(obj[++i]));
 					String myReligionID = convertNullToBlank(String.valueOf(obj[++i]));
+					String myReligionName=getNameByIDMangerFactory.getReligionNameByID(myReligionID);
+					
 					String myCastID = convertNullToBlank(String.valueOf(obj[++i]));
-					String myCastName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myCastName=getNameByIDMangerFactory.getCasteNameByID(myCastID);
+//					String myCastName = convertNullToBlank(String.valueOf(obj[++i]));
 					String myQualifications = convertNullToBlank(String.valueOf(obj[++i]));
 					String myWorkingWith = convertNullToBlank(String.valueOf(obj[++i]));
 					String myWorkingAs = convertNullToBlank(String.valueOf(obj[++i]));
@@ -827,6 +827,9 @@ public class UpdateMemberEntityMangerFactory {
 					json.put("maritalStatus", myMaritalStatus);
 					json.put("profile_photo", getProfilePath);
 					json.put("country", myCountryName);
+					
+					json.put("state", myStateName);
+					json.put("city", myCityName);
 					myAnnualIncome = MembersDetailsAction.getAnnualIncomePrivacy(premiumStatus, memberID,
 							myAnnualIncome);
 
@@ -953,6 +956,8 @@ public class UpdateMemberEntityMangerFactory {
 			String getMembersHideIDs = getMembersHideIDs();
 			String hideMemberIdsQuery = "";
 			if (getMembersHideIDs != null && !getMembersHideIDs.equals("")) {
+//				hideMemberIdsQuery = hideMemberIdsQuery + " and m.member_id not in ("
+//						+ getMembersHideIDs.replaceFirst(",", "") + ") ";
 				hideMemberIdsQuery = hideMemberIdsQuery + " and m.member_id not in (" + getMembersHideIDs + ") ";
 			}
 
@@ -965,15 +970,25 @@ public class UpdateMemberEntityMangerFactory {
 			}
 
 //		******************************Column Name*************************************************************************
+//			String columnName = "first_name,last_name, m.member_id, height,lifestyles,md.age,"
+//					+ "md.marital_status as maritalStatus,mother_tounge,gender,profile_photo_id,"
+//					+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :member_id )) as country_name,country_id,"
+//					+ "(select state_name from states where state_id=(select state_id from memberdetails where member_id= :member_id)) as state,state_id,"
+//					+ "(select city_name from city where city_id=(select city_id from memberdetails where member_id= :member_id)) as city,city_id,"
+//					+ "(select religion_name from religion where religion_id=(select religion_id from memberdetails where member_id= :member_id)) as religion,religion_id,"
+//					+ "(select cast_name from cast where cast_id=(select cast_id from memberdetails where member_id= :member_id )) as caste,cast_id,"
+//					+ "edu.highest_qualification as highest_qualification,edu.working_with as working_with,edu.working_as as working_as,edu.annual_income as annual_income";
+
 			String columnName = "first_name,last_name, m.member_id, height,lifestyles,md.age,"
 					+ "md.marital_status as maritalStatus,mother_tounge,gender,profile_photo_id,"
-					+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :member_id )) as country_name,country_id,"
-					+ "(select state_name from states where state_id=(select state_id from memberdetails where member_id= :member_id)) as state,state_id,"
-					+ "(select city_name from city where city_id=(select city_id from memberdetails where member_id= :member_id)) as city,city_id,"
-					+ "(select religion_name from religion where religion_id=(select religion_id from memberdetails where member_id= :member_id)) as religion,religion_id,"
-					+ "(select cast_name from cast where cast_id=(select cast_id from memberdetails where member_id= :member_id )) as caste,cast_id,"
+					+ "country_id,"
+					+ "state_id,"
+					+ "city_id,"
+					+ "religion_id,"
+					+ "cast_id,"
 					+ "edu.highest_qualification as highest_qualification,edu.working_with as working_with,edu.working_as as working_as,edu.annual_income as annual_income";
 
+			
 //		******************************begin refine search Filter Data*************************************************************************
 			String whereClause = setWhereClauseForGetAllMember(updateMember);
 
@@ -996,6 +1011,7 @@ public class UpdateMemberEntityMangerFactory {
 			}
 
 //		******************************Query*************************************************************************
+			
 			Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
@@ -1010,7 +1026,7 @@ public class UpdateMemberEntityMangerFactory {
 
 			q.setParameter("member_id", id);
 			String first_name = "", last_name = "";
-
+			
 			List<Object[]> results = q.getResultList();
 			if (results != null) {
 				for (Object[] obj : results) {
@@ -1064,43 +1080,49 @@ public class UpdateMemberEntityMangerFactory {
 					if (!profile_photo_id.equals("") && !profile_photo_id.equals("0")) {
 						getProfilePath = uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
 					}
-
-					String myCountryName = convertNullToBlank(String.valueOf(obj[++i]));
-					String myCountryID = convertNullToBlank(String.valueOf(obj[++i]));
+					
+					
+//					String myCountryName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myCountryID = convertNullToBlank(String.valueOf(obj[++i]).trim());
+					String myCountryName=getNameByIDMangerFactory.getCountryNameByID(myCountryID);
 					if (!myCountryName.equals("")) {
 						if (matchesConstants.COUNTRY.contains(myCountryID)) {
 							matchesStatus = true;
 						}
 					}
 
-					String myStateName = convertNullToBlank(String.valueOf(obj[++i]));
-					String myStateID = convertNullToBlank(String.valueOf(obj[++i]));
+//					String myStateName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myStateID = convertNullToBlank(String.valueOf(obj[++i]).trim());
+					String myStateName=getNameByIDMangerFactory.getStateNameByID(myStateID);
 					if (!myStateID.equals("")) {
-						if (matchesConstants.STATE.contains(myStateName)) {
+						if (matchesConstants.STATE.contains(myStateID)) {
 							matchesStatus = true;
 						}
 					}
-
-					String myCityName = convertNullToBlank(String.valueOf(obj[++i]));
-					String myCityID = convertNullToBlank(String.valueOf(obj[++i]));
+					
+//					String myCityName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myCityID = convertNullToBlank(String.valueOf(obj[++i]).trim());
+					String myCityName=getNameByIDMangerFactory.getCityNameByID(myCityID);
 					if (!myCityID.equals("")) {
-						if (matchesConstants.CITY.contains(myCityName)) {
+						if (matchesConstants.CITY.contains(myCityID)) {
 							matchesStatus = true;
 						}
 					}
 
-					String myReligionName = convertNullToBlank(String.valueOf(obj[++i]));
-					String myReligionID = convertNullToBlank(String.valueOf(obj[++i]));
+//					String myReligionName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myReligionID = convertNullToBlank(String.valueOf(obj[++i]).trim());
+					String myReligionName=getNameByIDMangerFactory.getReligionNameByID(myReligionID);
 					if (!myReligionID.equals("")) {
-						if (matchesConstants.RELIGIONS.contains(myReligionName)) {
+						if (matchesConstants.RELIGIONS.contains(myReligionID)) {
 							matchesStatus = true;
 						}
 					}
 
-					String myCastID = convertNullToBlank(String.valueOf(obj[++i]));
-					String myCastName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myCastID = convertNullToBlank(String.valueOf(obj[++i]).trim());
+//					String myCastName = convertNullToBlank(String.valueOf(obj[++i]));
+					String myCastName=getNameByIDMangerFactory.getCasteNameByID(myCastID);
 					if (!myCastID.equals("")) {
-						if (matchesConstants.CAST.contains(myCastName)) {
+						if (matchesConstants.CAST.contains(myReligionID)) {
 							matchesStatus = true;
 						}
 					}
@@ -1138,6 +1160,8 @@ public class UpdateMemberEntityMangerFactory {
 						json.put("religion", myReligionName);
 						json.put("maritalStatus", myMaritalStatus);
 						json.put("country", myCountryName);
+						json.put("state", myStateName);
+						json.put("city", myCityName);
 						myAnnualIncome = MembersDetailsAction.getAnnualIncomePrivacy(premiumStatus, memberID,
 								myAnnualIncome);
 
@@ -3183,9 +3207,9 @@ public class UpdateMemberEntityMangerFactory {
 			
 						json.put("first_name", first_name);
 						json.put("last_name", last_name);
-						json.put("gender", myGender);
+						json.put("gender", myGender.toUpperCase());
 						if (!myAge.equals(""))
-							myAge = myAge + "yrs";
+							myAge = myAge + " yrs";
 						json.put("mage", myAge);
 						json.put("maritalStatus", myMaritalStatus);
 						json.put("member_id", memberID);

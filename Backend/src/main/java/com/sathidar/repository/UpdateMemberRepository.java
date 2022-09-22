@@ -181,8 +181,6 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 
 	@Query(value ="SELECT gender FROM member where member_id= :id", nativeQuery = true)
 	String getGenderByMemberID(int id);
-
-	
 	
 	@Transactional
 	@Modifying
@@ -190,16 +188,15 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 			+ "  date_of_birth= :date_of_birth where member_id= :id  ", nativeQuery = true)
 	Object updateDateOfBirthInMemberTable(int id, String date_of_birth);
 
-
 	@Transactional
 	@Modifying
 	@Query(value = "update memberdetails set height= :mHeight, lifestyles= :mLifeStyles, "
 			+ "marital_status= :marital_status, date_of_birth= :dateOfBirth,"
 			+ " religion_id= :religionID,"
-			+  " country_id= :countryID, age= :mAge "
+			+  " country_id= :countryID, age= :mAge, city_id= :cityID, state_id= :stateID "
 			+ " where member_id= :member_id  ", nativeQuery = true)
 	int UpdateRegistrationDetails(int member_id, String dateOfBirth, String marital_status, String mHeight,
-			int religionID, int countryID, String mLifeStyles, String mAge);
+			int religionID, int countryID, String mLifeStyles, String mAge,int stateID,int cityID);
 
 	@Query(value="SELECT user_id FROM member where member_id= :member_id ",nativeQuery=true)
 	int getUserIDByMemberID(int member_id);
@@ -221,7 +218,6 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 
 	@Query(value="SELECT block_status FROM member_request where  request_from_id= :login_member_id and request_to_id= :memberID ",nativeQuery=true)
 	String getMemberBlockStatus(int login_member_id, String memberID);
-
 
 	@Transactional
 	@Modifying

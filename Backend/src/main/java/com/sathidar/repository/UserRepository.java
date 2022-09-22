@@ -31,9 +31,9 @@ public interface UserRepository extends JpaRepository<User, Integer>  {
 //	@Query("SELECT count(*) FROM User  WHERE email = :email and phone = :phone and enabled='1' and short_reg_status=1 and otp_verified=1")
 //	int findByPhone(String phone,String email);
 
-	@Query("SELECT count(*) FROM User  WHERE phone = :phone and enabled='1' and short_reg_status=1 and otp_verified=1")
+//	@Query("SELECT count(*) FROM User  WHERE phone = :phone and enabled='1' and short_reg_status=1 and otp_verified=1")
+	@Query("SELECT count(*) FROM User  WHERE phone = :phone and short_reg_status=1 and otp_verified=1")
 	int findByPhone(String phone);
-
 	
 	@Query(value="SELECT count(*) FROM hide_member WHERE member_id = :ID",nativeQuery = true)
 	int isAvaialbeHideMember(int ID);
@@ -110,7 +110,7 @@ public interface UserRepository extends JpaRepository<User, Integer>  {
 
 	@Transactional
 	@Modifying
-	@Query(value = "update users set otp_verified='1' where phone= :phone order by id desc limit 1  ", nativeQuery = true)
+	@Query(value = "update users set otp_verified='1' where phone= :phone and short_reg_status=1 order by id desc limit 1  ", nativeQuery = true)
 	int updateUSERTable(String phone);
 
 	@Transactional
@@ -126,5 +126,13 @@ public interface UserRepository extends JpaRepository<User, Integer>  {
 					
 	@Query(value="SELECT * FROM users WHERE username = :username and role='ADMIN'",nativeQuery = true)
 	User findByUsernameAdmin(String username);
+
+	@Query(value="SELECT id FROM users WHERE phone = :phone and short_reg_status=1 and otp_verified='1'",nativeQuery = true)
+	String getUserIDByVerifyNumber(String phone);
 	
+	@Transactional
+	@Modifying
+	@Query(value = "update member set status='ACTIVE' where user_id= :user_id", nativeQuery = true)
+	int updateStatusACTIVEToMemberTable(String user_id);
+
 }

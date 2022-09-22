@@ -415,4 +415,28 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 	public String getPLanName(String memberID) {
 		return uploadImagesRepository.getPlanNamebyMemberID(memberID);
 	}
+
+	@Override
+	public JSONArray getMyMemberAppPhotos(String member_id) {
+		JSONArray resultArray = new JSONArray();
+		try {
+			JSONObject json = new JSONObject();
+			List<UploadImagesModel> post = uploadImagesRepository.getMyPhotoByMember_Id(member_id);
+			if (post != null) {
+				for (int i = 0; i < post.size(); i++) {
+					JSONObject jsonObj = new JSONObject();
+					jsonObj.put("member_images", post.get(i).getImage_path());
+					jsonObj.put("image_id", "" + post.get(i).getId());
+					jsonObj.put("photo_status", "" + post.get(i).getPhoto_status());
+					resultArray.put(jsonObj);
+				}
+			}else {
+				resultArray=null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultArray=null;
+		}
+		return resultArray;
+	}
 }

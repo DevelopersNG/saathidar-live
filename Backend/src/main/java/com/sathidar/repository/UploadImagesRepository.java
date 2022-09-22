@@ -25,7 +25,7 @@ public interface UploadImagesRepository extends JpaRepository<UploadImagesModel,
 	@Query(value="select image_url from member_photo where member_id= :member_id and deleteflag='N'",nativeQuery = true)
 	List getMemberPhotos(String member_id);
 
-	@Query(value="select *  from member_photo where member_id= :member_id and deleteflag='N'",nativeQuery = true)
+	@Query(value="select *  from member_photo where member_id= :member_id and status='approved' and deleteflag='N'",nativeQuery = true)
 	List<UploadImagesModel> getByMember_Id(String member_id);
 
 	@Transactional
@@ -91,4 +91,7 @@ public interface UploadImagesRepository extends JpaRepository<UploadImagesModel,
 
 	@Query(value="select plan_name from plans where plan_id= :plan_id and plan_status='ACTIVE'",nativeQuery = true)
 	String getPlanNamebyMemberID(String plan_id);
+
+	@Query(value="select *  from member_photo where member_id= :member_id and deleteflag='N'",nativeQuery = true)
+	List<UploadImagesModel> getMyPhotoByMember_Id(String member_id);
 }

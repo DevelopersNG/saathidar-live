@@ -66,5 +66,9 @@ public interface UserService {
 
 	int isAvailableEmail(String email);
 
+	String getUserIDByVerifyNumber(String phone);
+
+	int updateStatusACTIVEToMemberTable(String user_id);
+
 //	User logoutUser(User user);
 }

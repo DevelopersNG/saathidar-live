@@ -269,8 +269,8 @@ public class UserServiceImpl implements UserService {
 //		User userExists = userRepository.findByUsername(user.getUsername());
 		
 		User userExists=new User();
-//		Query q = em.createNativeQuery("SELECT id,role,username,password,enabled,short_reg_status,otp_verified,phone,first_name,last_name,email FROM users WHERE username = :username and short_reg_status=1 and otp_verified=1 and enabled=1 ORDER BY id DESC LIMIT 1");
-		Query q = em.createNativeQuery("SELECT id,role,username,password,enabled,short_reg_status,otp_verified,phone,first_name,last_name,email FROM users WHERE username = :username and short_reg_status=1 and otp_verified=1 and enabled=1");
+//		Query q = em.createNativeQuery("SELECT id,role,username,password,enabled,short_reg_status,otp_verified,phone,first_name,last_name,email FROM users WHERE username = :username and short_reg_status=1 and otp_verified=1 and enabled=1");
+		Query q = em.createNativeQuery("SELECT id,role,username,password,enabled,short_reg_status,otp_verified,phone,first_name,last_name,email FROM users WHERE username = :username and short_reg_status=1 and otp_verified=1");
 		q.setParameter("username", user.getUsername());
 		List<Object[]> results = q.getResultList();
 		boolean status = false;
@@ -314,12 +314,14 @@ public class UserServiceImpl implements UserService {
 //				throw new BadRequestException("Invalid user name.");
 			}
 			
+			// for email verifications
 //			if(!userExists.getEnabled()) {
 //				map.put("results", "0");
 //				map.put("message", "please check your email for verification");
 //				return map;
 //			}
 			
+			// for otp verifications
 //			if(userExists.getOtp_verified()==null && userExists.getOtp_verified().equals("")) {
 //				map.put("results", "0");
 //				map.put("message", "OTP is not verified.");
@@ -1354,7 +1356,7 @@ public class UserServiceImpl implements UserService {
 
 		double dHeight = 0.0;
 		String mHeight = "", marital_status = "", dateOfBirth = "", mLifeStyles = "",mAge="";
-		int religionID = 0, countryID = 0;
+		int religionID = 0, countryID = 0, cityID=0, stateID=0;
 
 		// update member details
 		int memberDetails = 0;
@@ -1421,22 +1423,26 @@ public class UserServiceImpl implements UserService {
 				System.out.println("save --- " + updateMember.getReligion());
 
 				religionID = getNameByIDMangerFactory.getReligionID(checkNullValue(updateMember.getReligion().trim()));
-				dateOfBirth = checkNullValue(updateMember.getDate_of_birth().trim());
+				dateOfBirth = checkNullValue(updateMember.getDate_of_birth());
 				marital_status = checkNullValue(updateMember.getMarital_status().trim());
 				mHeight = checkNullValue(updateMember.getHeight().trim());
 				countryID = getNameByIDMangerFactory
 						.getCountryIdByName(checkNullValue(updateMember.getCountry_name().trim()));
-				mLifeStyles = checkNullValue(updateMember.getLifestyles().trim());
-				mAge = checkNullValue(updateMember.getAge().toString().trim());
-				annual_income=checkNullValue(updateMember.getAnnual_income());
+				stateID=getNameByIDMangerFactory.getStateIdByName(updateMember.getState_name().trim());
+				cityID=getNameByIDMangerFactory.getCityidByName(updateMember.getCity_name().trim());
+				mAge = checkNullValue(""+updateMember.getAge());
+				mLifeStyles = checkNullValue(updateMember.getLifestyles());
 				
 				memberDetails = updateMemberRepository.UpdateRegistrationDetails(member_id, dateOfBirth, marital_status,
-						mHeight, religionID, countryID, mLifeStyles, mAge);
+						mHeight, religionID, countryID, mLifeStyles, mAge,stateID,cityID);
 				if (memberDetails > 0) {
 //						user_id=updateMemberRepository.getUserIDByMemberID(member_id);
-					int addAnnualIncomeStatus=updateMemberRepository.updateAnnualIncome(member_id,annual_income);
-					
-					int sts = userRepository.updateShortRegstInUserTable(user_id);
+//					int addAnnualIncomeStatus=updateMemberRepository.updateAnnualIncome(member_id,annual_income);
+					try {
+						int sts = userRepository.updateShortRegstInUserTable(user_id);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 				
 				// send otp 
@@ -1529,6 +1535,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int isAvailableEmail(String email) {
 		return userRepository.isAvailableEmail(email);
+	}
+
+	@Override
+	public String getUserIDByVerifyNumber(String phone) {
+		return userRepository.getUserIDByVerifyNumber(phone);
+	}
+
+	@Override
+	public int updateStatusACTIVEToMemberTable(String user_id) {
+		return userRepository.updateStatusACTIVEToMemberTable(user_id);
 	}
 	
 //	@Override
