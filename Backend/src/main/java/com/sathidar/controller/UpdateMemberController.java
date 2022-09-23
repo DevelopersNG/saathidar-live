@@ -8,6 +8,7 @@ import org.hibernate.sql.Update;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sathidar.EntityMangerFactory.GetNameByIDMangerFactory;
 import com.sathidar.EntityMangerFactory.UpdateMemberEntityMangerFactory;
+import com.sathidar.config.APISecurityConfig;
 import com.sathidar.model.FilterSearchModel;
 import com.sathidar.model.UpdateMember;
 import com.sathidar.model.User;
@@ -31,6 +33,7 @@ import com.sathidar.service.UploadImagesService;
 //@CrossOrigin(origins = "http://localhost:4200", methods = { RequestMethod.OPTIONS, RequestMethod.GET,
 //		RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE }, allowedHeaders = "*", allowCredentials = "true")
 
+//@Import(APISecurityConfig.class)
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api")
@@ -45,8 +48,6 @@ public class UpdateMemberController {
 	@Autowired
 	private UpdateMemberEntityMangerFactory updateMemberEntityMangerFactory;
 	
-
-
 	@PostMapping(path = "/member/update/{id}")
 	public String updateMember(@Validated @RequestBody UpdateMember updateMember, @PathVariable("id") int id) {
 

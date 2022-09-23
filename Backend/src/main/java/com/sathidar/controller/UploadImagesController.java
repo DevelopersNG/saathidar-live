@@ -144,6 +144,22 @@ public class UploadImagesController {
 		return jsObject.toString();
 	}
 	
+	@GetMapping(value = "/member/app/get/approve/photo/{member_id}")
+	private String getApproveMemberPhoto(@PathVariable String member_id) {
+		JSONArray jsonResultsArray = new JSONArray();
+		JSONObject jsObject = new JSONObject();
+		jsonResultsArray = uploadImagesService.getMemberAppPhotos(member_id);
+		if (jsonResultsArray == null) {
+			jsObject.put("data", jsonResultsArray);
+			jsObject.put("results", "0");
+			jsObject.put("message", "something wrong ! record not fetch...");
+		} else {
+			jsObject.put("data", jsonResultsArray);
+			jsObject.put("results", "1");
+		}
+		return jsObject.toString();
+	}
+	
 	@PostMapping("/member/profile/photo/{member_id}")
 	public HashMap<String, String> setMemberProfilePhoto(@PathVariable String member_id,UploadImagesModel uploadImagesModel) {
 		HashMap<String, String> map = new HashMap<>();

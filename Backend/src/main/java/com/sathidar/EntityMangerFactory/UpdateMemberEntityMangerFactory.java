@@ -143,7 +143,7 @@ public class UpdateMemberEntityMangerFactory {
 
 					// first row
 					JSONArray jsonResultsArray = new JSONArray();
-					jsonResultsArray = uploadImagesService.getMyMemberAppPhotos("" + thisMemberID);
+					jsonResultsArray = uploadImagesService.getMemberAppPhotos("" + thisMemberID);
 //					json.put("images",jsonResultsArray);
 					map.put("images_count", "" + jsonResultsArray.length());
 
@@ -546,7 +546,7 @@ public class UpdateMemberEntityMangerFactory {
 		try {
 			// check request are sent to other member
 			Query query = em.createNativeQuery(
-					"SELECT group_concat(request_to_id) FROM member_request where  request_from_id= :member_from_id");
+					"SELECT group_concat(request_to_id) FROM member_request where  request_from_id= :member_from_id or request_to_id= :member_from_id");
 			query.setParameter("member_from_id", member_id);
 			ids = query.getSingleResult().toString();
 		} catch (Exception e) {
@@ -970,14 +970,6 @@ public class UpdateMemberEntityMangerFactory {
 			}
 
 //		******************************Column Name*************************************************************************
-//			String columnName = "first_name,last_name, m.member_id, height,lifestyles,md.age,"
-//					+ "md.marital_status as maritalStatus,mother_tounge,gender,profile_photo_id,"
-//					+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :member_id )) as country_name,country_id,"
-//					+ "(select state_name from states where state_id=(select state_id from memberdetails where member_id= :member_id)) as state,state_id,"
-//					+ "(select city_name from city where city_id=(select city_id from memberdetails where member_id= :member_id)) as city,city_id,"
-//					+ "(select religion_name from religion where religion_id=(select religion_id from memberdetails where member_id= :member_id)) as religion,religion_id,"
-//					+ "(select cast_name from cast where cast_id=(select cast_id from memberdetails where member_id= :member_id )) as caste,cast_id,"
-//					+ "edu.highest_qualification as highest_qualification,edu.working_with as working_with,edu.working_as as working_as,edu.annual_income as annual_income";
 
 			String columnName = "first_name,last_name, m.member_id, height,lifestyles,md.age,"
 					+ "md.marital_status as maritalStatus,mother_tounge,gender,profile_photo_id,"
