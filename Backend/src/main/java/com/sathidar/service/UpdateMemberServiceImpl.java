@@ -625,4 +625,6 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 	}
 
 	
+
+	
 }

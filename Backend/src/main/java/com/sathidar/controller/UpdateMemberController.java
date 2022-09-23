@@ -33,7 +33,7 @@ import com.sathidar.service.UploadImagesService;
 //@CrossOrigin(origins = "http://localhost:4200", methods = { RequestMethod.OPTIONS, RequestMethod.GET,
 //		RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE }, allowedHeaders = "*", allowCredentials = "true")
 
-@Import(APISecurityConfig.class)
+//@Import(APISecurityConfig.class)
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api")
@@ -48,8 +48,6 @@ public class UpdateMemberController {
 	@Autowired
 	private UpdateMemberEntityMangerFactory updateMemberEntityMangerFactory;
 	
-
-
 	@PostMapping(path = "/member/update/{id}")
 	public String updateMember(@Validated @RequestBody UpdateMember updateMember, @PathVariable("id") int id) {
 

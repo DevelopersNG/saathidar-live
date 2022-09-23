@@ -2419,7 +2419,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 				}
 			}
 			
-			if(status_from.equals("request_accept_sent_from")) {
+			if(status_from.equals("request_accept_sent_from") || status_from.equals("from")) {
 				json.put("request_sent_from", "1");
 			}else {
 				json.put("request_sent_from", "0");

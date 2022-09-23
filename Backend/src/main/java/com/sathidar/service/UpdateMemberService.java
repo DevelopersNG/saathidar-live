@@ -1,7 +1,10 @@
 package com.sathidar.service;
 
 
+import java.util.List;
+
 import com.sathidar.model.UpdateMember;
+import com.sathidar.model.UploadImagesModel;
 
 public interface UpdateMemberService {
 
@@ -28,6 +31,7 @@ public interface UpdateMemberService {
 	String getMemberStatus(int id, String memberID);
 
 	String getMemberBlockStatus(int login_id, String thisMemberID);
+
 
 
 }

@@ -13,46 +13,46 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
-@Configuration
-@EnableWebSecurity
-@Order(1)
+//@Configuration
+//@EnableWebSecurity
+//@Order(1)
 public class APISecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${saathidaar.http.auth-token-header-name}")
-    private String principalRequestHeader;
-    
-    @Value("${saathidaar.http.auth-token}")
-    private String principalRequestValue;
-    
-    
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        APIKeyAuthFilter filter = new APIKeyAuthFilter(principalRequestHeader);
-        filter.setAuthenticationManager(new AuthenticationManager() {
-
-            @Override
-            public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-                String principal = (String) authentication.getPrincipal();
-                if (!principalRequestValue.equals(principal))
-                {
-                    throw new BadCredentialsException("The API key was not found or not the expected value.");
-                }
-                authentication.setAuthenticated(true);
-                return authentication;
-            }
-        });
+//    @Value("${saathidaar.http.auth-token-header-name}")
+//    private String principalRequestHeader;
+//    
+//    @Value("${saathidaar.http.auth-token}")
+//    private String principalRequestValue;
+//    
+//    
+//    @Override
+//    protected void configure(HttpSecurity httpSecurity) throws Exception {
+//        APIKeyAuthFilter filter = new APIKeyAuthFilter(principalRequestHeader);
+//        filter.setAuthenticationManager(new AuthenticationManager() {
+//
+//            @Override
+//            public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+//                String principal = (String) authentication.getPrincipal();
+//                if (!principalRequestValue.equals(principal))
+//                {
+//                    throw new BadCredentialsException("The API key was not found or not the expected value.");
+//                }
+//                authentication.setAuthenticated(true);
+//                return authentication;
+//            }
+//        });
 //        httpSecurity.
 //            antMatcher("/api/**").
 //            csrf().disable().
 //            sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
 //            and().addFilter(filter).authorizeRequests().anyRequest().authenticated();
-        httpSecurity.
-        antMatcher("/api/**").
-        csrf().disable().
-        sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
-        and().addFilter(filter).authorizeRequests().
-        antMatchers(HttpMethod.GET).permitAll().
-        anyRequest().authenticated();
-    }
+////        httpSecurity.
+////        antMatcher("/api/**").
+////        csrf().disable().
+////        sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
+////        and().addFilter(filter).authorizeRequests().
+////        antMatchers(HttpMethod.GET).permitAll().
+////        anyRequest().authenticated();
+//    }
 
 }

@@ -202,9 +202,47 @@ public class UpdateMember {
 	private String time;
 	private String nakshatra;
 	
+	
+//	*************** EMAIL ALERT *********************************************
+	@Transient
+	private String premium_match_mail;
+	
+	@Transient
+	private String recent_visitors_email;
+	
+	@Transient
+	private String today_match_email;
+	
+	
 	public String getUg_education() {
 		return ug_education;
 	}
+	
+	public String getPremium_match_mail() {
+		return premium_match_mail;
+	}
+
+	public void setPremium_match_mail(String premium_match_mail) {
+		this.premium_match_mail = premium_match_mail;
+	}
+
+	public String getRecent_visitors_email() {
+		return recent_visitors_email;
+	}
+
+	public void setRecent_visitors_email(String recent_visitors_email) {
+		this.recent_visitors_email = recent_visitors_email;
+	}
+
+	public String getToday_match_email() {
+		return today_match_email;
+	}
+
+
+	public void setToday_match_email(String today_match_email) {
+		this.today_match_email = today_match_email;
+	}
+
 
 	public void setUg_education(String ug_education) {
 		this.ug_education = ug_education;
