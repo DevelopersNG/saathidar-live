@@ -1,5 +1,7 @@
 package com.sathidar.service;
 
+import java.util.HashMap;
+
 import org.json.JSONArray;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,8 @@ public interface PlanDetailsService {
 	int addPlanDetails(PlanDetailsModel planDetailsModel);
 
 	int deletePlanDetails(int plan_id);
+
+	JSONArray getAllFeatures();
 
 //	int updatePlanDetails(PlanDetailsModel planDetailsModel);
 

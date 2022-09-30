@@ -927,6 +927,7 @@ public class UpdateMemberEntityMangerFactory {
 		try {
 			matchesConstants.getMemberMatchPartnerPreference(id);
 			String requestedIds = getRequestedIDForMember(id);
+			System.out.println("requestedIds - "+ requestedIds);
 //			String shortlistIds = getShortListIDForMember(id);
 			String requestIdQuery = "", shortListIdQuery = "", matches_id = "";
 			String ids = "";

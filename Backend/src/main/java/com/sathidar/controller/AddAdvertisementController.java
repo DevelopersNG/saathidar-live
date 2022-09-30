@@ -63,8 +63,5 @@ public class AddAdvertisementController {
 				map.put("results", "0");
 			}
 			return map;
-		
 	}
-	
-
 }

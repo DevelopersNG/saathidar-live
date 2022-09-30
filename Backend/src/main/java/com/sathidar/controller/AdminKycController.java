@@ -34,7 +34,7 @@ import com.sathidar.service.AdminKycService;
         @Autowired	   
 		private AdminKycService adminKycService;
         
-        @PostMapping("kyc/reject/photo")
+        @PostMapping("/kyc/reject/photo")
         public HashMap<String, String> rejectKYCPhoto(AdminKycModel adminKycModel) {
 			HashMap<String, String> map = new HashMap<>();
 			int status = adminKycService.rejectKYCPhoto(adminKycModel);
@@ -48,7 +48,7 @@ import com.sathidar.service.AdminKycService;
 			return map;
 		}		
         
-        @PostMapping("kyc/approve/photo")
+        @PostMapping("/kyc/approve/photo")
         public HashMap<String, String> approveKYCPhoto(AdminKycModel adminKycModel) {
 			HashMap<String, String> map = new HashMap<>();
 			int status = adminKycService.approveKYCPhoto(adminKycModel);

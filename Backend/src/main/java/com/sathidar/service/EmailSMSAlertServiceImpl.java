@@ -19,4 +19,24 @@ public class EmailSMSAlertServiceImpl implements EmailSMSAlertService{
 		return emailSMSRepository.getEmailAlert();
 	}
 
+	@Override
+	public int getDailyEmailStatusByMemberID(String member_id) {
+		return emailSMSRepository.getDailyEmailStatusByMemberID(member_id);
+	}
+
+	@Override
+	public String getPremiumMatchesIDS(Integer member_id) {
+		return emailSMSRepository.getPremiumMatchesIDS(member_id);
+	}
+
+	@Override
+	public List<Object[]> getMemberDeyailsForMail(String getIDS) {
+		return emailSMSRepository.getMemberDeyailsForMail(getIDS);
+	}
+
+	@Override
+	public List<Object[]> getUserNameEmailId(int member_id) {
+		return emailSMSRepository.getUserNameEmailId(member_id);
+	}
+
 }

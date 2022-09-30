@@ -1,5 +1,6 @@
 package com.sathidar.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -97,6 +98,43 @@ public class PlanDetailsServiceImpl implements PlanDetailsService {
 	@Override
 	public int deletePlanDetails(int plan_id) {
 		return planDetailsRepository.deletePlanDetails(plan_id);
+	}
+
+	@Override
+	public JSONArray getAllFeatures() {
+		JSONArray resultArray = new JSONArray();
+			JSONObject json = new JSONObject();			
+			json.put("id","Accept/ Decline an interest request");
+			resultArray.put(json);
+		 	
+			json = new JSONObject();
+			json.put("id","View Member Contact Details & Photos");
+			resultArray.put(json);
+
+			json = new JSONObject();	
+			json.put("id","Privacy Protection Photos / Contacts");
+			resultArray.put(json);
+		 	
+			json = new JSONObject();	
+			json.put("id","Shortlist Profiles & Chat");
+			resultArray.put(json);
+
+			json = new JSONObject();	
+			json.put("id","Block Members");
+			resultArray.put(json);
+
+			json = new JSONObject();	
+			json.put("id","Profile Booster- Add on Feature");
+			resultArray.put(json);
+
+			json = new JSONObject();	
+			json.put("id","Matchmaking Personalised Service");
+			resultArray.put(json);
+
+			json = new JSONObject();	
+			json.put("id","Customer Support");
+			resultArray.put(json);
+		return resultArray;
 	}
 
 	

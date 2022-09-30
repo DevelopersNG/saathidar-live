@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 	import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.JsonObject;
 import com.sathidar.EntityMangerFactory.PlanDetailsManagerFactory;
 import com.sathidar.model.PlanDetailsModel;
 import com.sathidar.model.UpdateMember;
@@ -75,6 +76,23 @@ import com.sathidar.service.PlanDetailsService;
 			}
 			return map;
 		}
+		
+		@GetMapping(value = "/plan/get/all/features")
+		private String getAllFeatures() {
+			JSONArray jsonResultsArray = new JSONArray();
+			JSONObject jsObject = new JSONObject();
+			jsonResultsArray = planDetailsService.getAllFeatures();
+			if (jsonResultsArray != null) {
+				jsObject.put("data", jsonResultsArray);
+				jsObject.put("results", "1");
+			} else {
+				jsObject.put("data", jsonResultsArray);
+				jsObject.put("results", "0");
+			}
+			return jsObject.toString();
+			
+		}
+		
 		
 		@PostMapping(value = "/plan/update")
 		private String updatePlanDetails(@RequestBody PlanDetailsModel planDetailsModel) {

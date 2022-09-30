@@ -63,17 +63,6 @@ public class AddAdvertisement {
 		return "AddAdvertisement [id=" + id + ", advt_photo=" + advt_photo + ", description=" + description
 				+ ", image_base_urls=" + Arrays.toString(image_base_urls) + "]";
 	}
-
-	public AddAdvertisement() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public String getAdvertise() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	
 	}
 
