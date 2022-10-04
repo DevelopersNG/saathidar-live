@@ -2,6 +2,7 @@ package com.sathidar.repository;
 
 import javax.transaction.Transactional;
 
+import org.json.JSONArray;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -42,4 +43,16 @@ public interface DashboardRepository extends JpaRepository<DashboardModel, Integ
 	@Transactional
 	@Query(value="SELECT count(*) FROM member_shortlists where shortlist_from_id= :member_id and shortlist_status= :shortlist_status",nativeQuery = true)
 	int getShortlistsCount(String member_id, String shortlist_status);
+
+	@Query(value="SELECT count(*) FROM users where otp_verified=1",nativeQuery=true)
+	int GetTotalUserRegister();
+
+	@Query(value="SELECT count(*) FROM premium_member where deleteflag='N'",nativeQuery=true)
+	int GetTotalPremiumMemberCount();
+
+	@Query(value="SELECT group_concat(member_id) FROM premium_member where deleteflag='N'",nativeQuery=true)
+	String GetTotalPremiumMemberIds();
+
+	@Query(value="SELECT count(*) FROM member where member_id not in(:premium_member_ids) and status='ACTIVE'",nativeQuery=true)
+	int GetTotalNonPremiumMemberCount(String premium_member_ids);
 }

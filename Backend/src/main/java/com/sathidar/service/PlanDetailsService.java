@@ -24,6 +24,8 @@ public interface PlanDetailsService {
 
 	JSONArray getAllFeatures();
 
+	int deleteFeaturesPlanDetails(int id);
+
 //	int updatePlanDetails(PlanDetailsModel planDetailsModel);
 
 //	public JSONArray getplanDetails(String string);

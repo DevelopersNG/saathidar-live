@@ -60,4 +60,13 @@ public class DashboardController {
 		}
 		return jsObject.toString();
 	}
+	
+	@GetMapping(value="/admin/dashboard/count")
+	private String GetTotalUserRegister() {
+		JSONArray jsonResultsArray=new JSONArray();
+		jsonResultsArray= dashboardService.GetTotalCountAdminDashboard();
+		JSONObject jsObject = new JSONObject();  
+		jsObject.put("data",jsonResultsArray);
+		return jsObject.toString();
+	}
 }

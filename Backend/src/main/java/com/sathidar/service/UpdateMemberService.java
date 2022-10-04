@@ -32,6 +32,10 @@ public interface UpdateMemberService {
 
 	String getMemberBlockStatus(int login_id, String thisMemberID);
 
+	String getToDatePremiumMemberIDs(String to_date);
+
+	String getFromDatePremiumMemberIDs(String from_date);
+
 
 
 }

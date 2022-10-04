@@ -1,7 +1,9 @@
 package com.sathidar.model;
 
 
-	import javax.persistence.Column;
+	import java.util.List;
+
+import javax.persistence.Column;
 	import javax.persistence.Entity;
 	import javax.persistence.GeneratedValue;
 	import javax.persistence.GenerationType;
@@ -41,6 +43,50 @@ import javax.persistence.Transient;
 		
 		@Transient
 		private String feature_name;
+		
+		@Transient
+		private String valid;
+		
+		@Transient
+		private String[] featureName;
+
+		@Transient
+		private int feature_id;
+		
+		@Transient
+		private List<PlanDetailsModel> information;
+		
+		public int getFeature_id() {
+			return feature_id;
+		}
+
+		public void setFeature_id(int feature_id) {
+			this.feature_id = feature_id;
+		}
+
+		public String getValid() {
+			return valid;
+		}
+
+		public void setValid(String valid) {
+			this.valid = valid;
+		}
+
+		public List<PlanDetailsModel> getInformation() {
+			return information;
+		}
+
+		public void setInformation(List<PlanDetailsModel> information) {
+			this.information = information;
+		}
+
+		public String[] getFeatureName() {
+			return featureName;
+		}
+
+		public void setFeatureName(String[] featureName) {
+			this.featureName = featureName;
+		}
 
 		public PlanDetailsModel(Integer id, String plan_name, String plan_validity, String plan_price,
 				String plan_discount, String member_id, String plan_status) {

@@ -27,7 +27,6 @@ import com.sathidar.service.AdminKycService;
 	@CrossOrigin("*")
 	@RestController
 	@RequestMapping("/api/admin")
-	 @Configuration
 	public class AdminKycController {
 		
 	    

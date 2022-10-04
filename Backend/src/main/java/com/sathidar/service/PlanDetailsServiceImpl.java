@@ -50,14 +50,69 @@ public class PlanDetailsServiceImpl implements PlanDetailsService {
 			String plan_price=planDetailsModel.getPlan_price();
 			String plan_discount=planDetailsModel.getPlan_discount();
 			String discount_price=planDetailsModel.getDiscount_price();
-			
-		    status=planDetailsRepository.updatePlanDetails(plan_id,plan_name,plan_validity,plan_price,plan_discount,discount_price);
+				
+			int isAvailable=planDetailsRepository.isAvailablePlanForUpdate(plan_name,plan_id);
+			if(isAvailable>0) {
+				status=2;
+			}else {
+				status=planDetailsRepository.updatePlanDetails(plan_id,plan_name,plan_validity,plan_price,plan_discount,discount_price);
+				   if(status!=0) {
+//					   int getPlanID=planDetailsRepository.getPlanNameByID(plan_name);
+					   if(planDetailsModel.getInformation()!=null) {
+						   for(int i=0;i<planDetailsModel.getInformation().size();i++) {
+							   String valid=planDetailsModel.getInformation().get(i).getValid();
+							   String features_name=planDetailsModel.getInformation().get(i).getFeature_name();
+							   int featureID=planDetailsModel.getInformation().get(i).getFeature_id();
+							   System.out.println("valid- "+valid +", feature name- "+features_name);
+							   int statusFeatures=planDetailsRepository.updateNewFeaturesName(valid,features_name,featureID);
+						   }
+						}
+				   }
+			}
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return status;
 	}
 	
+//	@Override
+//	public int addPlanDetails(PlanDetailsModel planDetailsModel) {
+//		int status=0;
+//		try {
+////			int plan_id=planDetailsModel.getId();
+//			String plan_name=planDetailsModel.getPlan_name();
+//			String plan_validity=planDetailsModel.getPlan_validity();
+//			String plan_price=planDetailsModel.getPlan_price();
+//			String plan_discount=planDetailsModel.getPlan_discount();
+//			String discount_price=planDetailsModel.getDiscount_price();
+//			
+//			int isAvailable=planDetailsRepository.isAvailablePlan(plan_name);
+//			if(isAvailable>0) {
+//				status=2;
+//			}else {
+//				   status=planDetailsRepository.insertPlanDetails(plan_name,plan_validity,plan_price,plan_discount,discount_price);
+//				   
+//				   if(status!=0) {
+//					   int getPlanID=planDetailsRepository.getPlanNameByID(plan_name);
+//					   if(planDetailsModel.getFeature_name()!=null && !planDetailsModel.getFeature_name().equals("")) {
+//							if(planDetailsModel.getFeature_name().contains(",")) {
+//								String[] arrayList= planDetailsModel.getFeature_name().split(",");
+//								for(int i=0;i<arrayList.length;i++) {
+//									int statusFeatures=planDetailsRepository.insertFeaturesName(arrayList[i],getPlanID);
+//								}
+//							}else {
+//								int statusFeatures=planDetailsRepository.insertFeaturesName(planDetailsModel.getFeature_name(),getPlanID);
+//							}
+//						}
+//				   }
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return status;
+//	}
+
 	@Override
 	public int addPlanDetails(PlanDetailsModel planDetailsModel) {
 		int status=0;
@@ -74,18 +129,17 @@ public class PlanDetailsServiceImpl implements PlanDetailsService {
 				status=2;
 			}else {
 				   status=planDetailsRepository.insertPlanDetails(plan_name,plan_validity,plan_price,plan_discount,discount_price);
-				   
 				   if(status!=0) {
 					   int getPlanID=planDetailsRepository.getPlanNameByID(plan_name);
-					   if(planDetailsModel.getFeature_name()!=null && !planDetailsModel.getFeature_name().equals("")) {
-							if(planDetailsModel.getFeature_name().contains(",")) {
-								String[] arrayList= planDetailsModel.getFeature_name().split(",");
-								for(int i=0;i<arrayList.length;i++) {
-									int statusFeatures=planDetailsRepository.insertFeaturesName(arrayList[i],getPlanID);
-								}
-							}else {
-								int statusFeatures=planDetailsRepository.insertFeaturesName(planDetailsModel.getFeature_name(),getPlanID);
-							}
+					   
+					   if(planDetailsModel.getInformation()!=null) {
+						   for(int i=0;i<planDetailsModel.getInformation().size();i++) {
+							   String valid=planDetailsModel.getInformation().get(i).getValid();
+							   String features_name=planDetailsModel.getInformation().get(i).getFeature_name();
+							   
+							   System.out.println("valid- "+valid +", feature name- "+features_name);
+							   int statusFeatures=planDetailsRepository.insertNewFeaturesName(valid,features_name,getPlanID);
+						   }
 						}
 				   }
 			}
@@ -104,37 +158,50 @@ public class PlanDetailsServiceImpl implements PlanDetailsService {
 	public JSONArray getAllFeatures() {
 		JSONArray resultArray = new JSONArray();
 			JSONObject json = new JSONObject();			
-			json.put("id","Accept/ Decline an interest request");
+			json.put("features_id", 1);
+			json.put("features_name","Accept/ Decline an interest request");
 			resultArray.put(json);
 		 	
 			json = new JSONObject();
-			json.put("id","View Member Contact Details & Photos");
+			json.put("features_id", 2);
+			json.put("features_name","View Member Contact Details & Photos");
 			resultArray.put(json);
 
-			json = new JSONObject();	
-			json.put("id","Privacy Protection Photos / Contacts");
+			json = new JSONObject();
+			json.put("features_id", 3);
+			json.put("features_name","Privacy Protection Photos / Contacts");
 			resultArray.put(json);
 		 	
-			json = new JSONObject();	
-			json.put("id","Shortlist Profiles & Chat");
+			json = new JSONObject();
+			json.put("features_id", 4);
+			json.put("features_name","Shortlist Profiles & Chat");
 			resultArray.put(json);
 
-			json = new JSONObject();	
-			json.put("id","Block Members");
+			json = new JSONObject();
+			json.put("features_id", 5);
+			json.put("features_name","Block Members");
 			resultArray.put(json);
 
-			json = new JSONObject();	
-			json.put("id","Profile Booster- Add on Feature");
+			json = new JSONObject();
+			json.put("features_id", 6);
+			json.put("features_name","Profile Booster- Add on Feature");
 			resultArray.put(json);
 
-			json = new JSONObject();	
-			json.put("id","Matchmaking Personalised Service");
+			json = new JSONObject();
+			json.put("features_id", 7);
+			json.put("features_name","Matchmaking Personalised Service");
 			resultArray.put(json);
 
-			json = new JSONObject();	
-			json.put("id","Customer Support");
+			json = new JSONObject();
+			json.put("features_id", 8);
+			json.put("features_name","Customer Support");
 			resultArray.put(json);
 		return resultArray;
+	}
+
+	@Override
+	public int deleteFeaturesPlanDetails(int id) {
+		return planDetailsRepository.deleteFeaturesPlanDetails(id);
 	}
 
 	

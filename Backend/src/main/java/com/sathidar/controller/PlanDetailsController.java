@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-	import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.JsonObject;
 import com.sathidar.EntityMangerFactory.PlanDetailsManagerFactory;
+import com.sathidar.EntityMangerFactory.UpdateMemberEntityMangerFactory;
 import com.sathidar.model.PlanDetailsModel;
 import com.sathidar.model.UpdateMember;
 import com.sathidar.repository.PlanDetailsRepository;
@@ -37,6 +39,8 @@ import com.sathidar.service.PlanDetailsService;
 		@Autowired 
 		private PlanDetailsService planDetailsService;
 
+		@Autowired
+		private UpdateMemberEntityMangerFactory updateMemberEntityMangerFactory;
 		// List <PlanDetailsModel> planList = new ArrayList<PlanDetailsModel>();	
 //
 //		// get plan details
@@ -90,23 +94,28 @@ import com.sathidar.service.PlanDetailsService;
 				jsObject.put("results", "0");
 			}
 			return jsObject.toString();
-			
 		}
 		
 		
 		@PostMapping(value = "/plan/update")
-		private String updatePlanDetails(@RequestBody PlanDetailsModel planDetailsModel) {
+		private HashMap<String, String> updatePlanDetails(@RequestBody PlanDetailsModel planDetailsModel) {
 			HashMap<String, String> map=new HashMap<String, String>();
 			int status = planDetailsService.updatePlanDetails(planDetailsModel);
 			if (status >0) {
-				map.put("results", "1");
+				if(status==2) {
+					map.put("results", "0");
+					map.put("message", "Plan Name Already Exits");
+				}else {
+					map.put("results", "1");
+				}
 			} else {
 	            map.put("results", "0");
 			}
-			return map.toString();
+			return map;
 		}
 		
-		@PostMapping(value = "/plan/add")
+		@ResponseBody
+		@PostMapping(value = "/plan/add")		
 		private HashMap<String, String> addPlanDetails(@RequestBody PlanDetailsModel planDetailsModel) {
 			HashMap<String, String> map=new HashMap<String, String>();
 			int status = planDetailsService.addPlanDetails(planDetailsModel);
@@ -122,6 +131,7 @@ import com.sathidar.service.PlanDetailsService;
 			}
 			return map;
 		}
+
 		
 		@PostMapping(value = "/plan/delete/{plan_id}")
 		public HashMap<String, String> deletePlanDetails(@PathVariable("plan_id") int plan_id,@RequestBody PlanDetailsModel planDetailsModel) {
@@ -133,6 +143,34 @@ import com.sathidar.service.PlanDetailsService;
 	            map.put("results", "0");
 			}
 			return map;
+		}
+		
+		@PostMapping(value = "/plan/features/delete/{id}")
+		public HashMap<String, String> deleteFeaturesPlanDetails(@PathVariable("id") int id,@RequestBody PlanDetailsModel planDetailsModel) {
+			HashMap<String, String> map=new HashMap<String, String>();
+			int status = planDetailsService.deleteFeaturesPlanDetails(id);
+			if (status >0) {
+				map.put("results", "1");
+			} else {
+	            map.put("results", "0");
+			}
+			return map;
+		}
+		
+		@GetMapping(value = "/member/plans-details/{plan_id}")
+		public String getMembersPlanDetails(@PathVariable("plan_id") int plan_id) {
+			JSONArray jsonResultArray = new JSONArray();
+			JSONObject jsObject = new JSONObject();
+			jsonResultArray = updateMemberEntityMangerFactory.getMembersPlanDetailsByPlanID(plan_id);
+			if (jsonResultArray == null) {
+				jsObject.put("data", jsonResultArray);
+				jsObject.put("results", "0");
+				jsObject.put("message", "Something went wrong ! Record not fetch...");
+			} else {
+				jsObject.put("data", jsonResultArray);
+				jsObject.put("results", "1");
+			}
+			return jsObject.toString();
 		}
 		
 //		private JSONArray GetAllDetails(String plan_id) {

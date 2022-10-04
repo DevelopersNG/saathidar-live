@@ -551,7 +551,7 @@ public class UpdateMemberController {
 //	<------------------------------ add admin filter data -------------------->
 	
 
-	@PostMapping(value="member/filterSearch")
+	@PostMapping(value="/member/filterSearch")
 	public String getNewMatches(@Validated @RequestBody FilterSearchModel filterSearchModel){
 		HashMap<String, String> map = new HashMap<>();
 		JSONObject jsObject = new JSONObject();

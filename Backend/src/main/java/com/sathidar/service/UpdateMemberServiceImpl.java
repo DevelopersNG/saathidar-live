@@ -624,6 +624,16 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 		}
 	}
 
+	@Override
+	public String getToDatePremiumMemberIDs(String to_date) {
+		return updateMemberRepository.getToDatePremiumMemberIDs(to_date);
+	}
+
+	@Override
+	public String getFromDatePremiumMemberIDs(String from_date) {
+		return updateMemberRepository.getFromDatePremiumMemberIDs(from_date);
+	}
+
 	
 
 	

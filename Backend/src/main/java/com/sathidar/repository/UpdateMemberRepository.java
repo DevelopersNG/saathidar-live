@@ -248,6 +248,14 @@ public interface UpdateMemberRepository extends JpaRepository<UpdateMember, Inte
 	@Query(value = "update member_education_career set annual_income= :annual_income where member_id= :member_id", nativeQuery = true)
 	int updateAnnualIncome(int member_id, String annual_income);
 
+
+	@Query(value="SELECT group_concat(member_id) FROM premium_member where date(datetime)<=date(:to_date) AND deleteflag='N' ",nativeQuery=true)
+	String getToDatePremiumMemberIDs(String to_date);
+
+
+	@Query(value="SELECT group_concat(member_id) FROM premium_member where date(datetime)>=date(:from_date) AND deleteflag='N' ",nativeQuery=true)
+	String getFromDatePremiumMemberIDs(String from_date);
+
 //	String getDetailsFromOfInboxIDs(int id);
 //
 //	String getDetailsOfToInboxIDs(int id);

@@ -50,12 +50,12 @@ package com.sathidar.repository;
 
 		@Transactional
 		@Modifying
-		@Query(value="update kyc_document set kyc_status='2' where id= :image_id ",nativeQuery = true)
+		@Query(value="update kyc_document set kyc_status=2 where id= :image_id ",nativeQuery = true)
 		int rejectKYCPhoto(String image_id);
 
 		@Transactional
 		@Modifying
-		@Query(value="update kyc_document set kyc_status='1' where id= :image_id ",nativeQuery = true)
+		@Query(value="update kyc_document set kyc_status=1 where id= :image_id ",nativeQuery = true)
 		int approveKYCPhoto(String image_id);
 	}
 
