@@ -94,4 +94,7 @@ public interface UploadImagesRepository extends JpaRepository<UploadImagesModel,
 
 	@Query(value="select *  from member_photo where member_id= :member_id and deleteflag='N'",nativeQuery = true)
 	List<UploadImagesModel> getMyPhotoByMember_Id(String member_id);
+
+	@Query(value="select datetime from premium_member where member_id= :memberID and deleteflag='N' ",nativeQuery = true)
+	String getPremiumDate(String memberID);
 }

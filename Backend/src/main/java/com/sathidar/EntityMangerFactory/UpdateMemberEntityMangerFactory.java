@@ -927,6 +927,7 @@ public class UpdateMemberEntityMangerFactory {
 		try {
 			matchesConstants.getMemberMatchPartnerPreference(id);
 			String requestedIds = getRequestedIDForMember(id);
+			System.out.println("requestedIds - "+ requestedIds);
 //			String shortlistIds = getShortListIDForMember(id);
 			String requestIdQuery = "", shortListIdQuery = "", matches_id = "";
 			String ids = "";
@@ -1828,6 +1829,62 @@ public class UpdateMemberEntityMangerFactory {
 		return resultArray;
 	}  
 
+	
+	public JSONArray getMembersPlanDetailsByPlanID(int plan_id) {
+		JSONArray resultArray = new JSONArray();
+		try {
+			Query q = em.createNativeQuery(
+					"SELECT plan_id,plan_name,plan_validity,plan_price,plan_discount,discount_price FROM plans where plan_status='ACTIVE' and plan_id=:plan_id");
+			q.setParameter("plan_id", plan_id);
+			List<Object[]> results = q.getResultList();
+			boolean status = false;
+
+			if (results != null) {
+				for (Object[] obj : results) {
+					JSONObject json = new JSONObject();
+					int i = 0;
+					String pln_id = convertNullToBlank(String.valueOf(obj[i]));
+					json.put("plan_id", plan_id);
+					json.put("plan_name", convertNullToBlank(String.valueOf(obj[++i])));
+					json.put("plan_validity", convertNullToBlank(String.valueOf(obj[++i])));
+					json.put("plan_price", convertNullToBlank(String.valueOf(obj[++i])));
+					json.put("plan_discount", convertNullToBlank(String.valueOf(obj[++i])));
+					json.put("plan_discount_price", convertNullToBlank(String.valueOf(obj[++i])));
+					
+
+					// getting plan list as per plan name and id
+					JSONArray jsonArrayPlanList = new JSONArray();
+					Query queryPlanList = em.createNativeQuery(
+							"SELECT id,features,valid FROM plan_list where plan_id= :plan_id and delete_flag='N'");
+					queryPlanList.setParameter("plan_id", plan_id);
+					List<Object[]> resultsPlanList = queryPlanList.getResultList();
+					if (resultsPlanList != null) {
+						for (Object[] objPlanList : resultsPlanList) {
+							int j = 0;
+							JSONObject jsonPlanlist = new JSONObject();
+							String plan_features_id = convertNullToBlank(String.valueOf(objPlanList[j]));
+							String plan_features_name = convertNullToBlank(String.valueOf(objPlanList[++j]));
+							String valid = convertNullToBlank(String.valueOf(objPlanList[++j]));
+
+							jsonPlanlist.put("features_id", plan_features_id);
+							jsonPlanlist.put("features_name", plan_features_name);
+							jsonPlanlist.put("features_valid", valid);
+							jsonArrayPlanList.put(jsonPlanlist);
+						}
+					}
+					json.put("features", jsonArrayPlanList);
+					resultArray.put(json);
+				}
+			} else {
+				resultArray = null;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return resultArray;
+	}  
+
+	
 	public HashMap<String, String> getDetailsByMemberWithLoginID(String MemberNumber,int login_id) {
 		HashMap<String, String> map = new HashMap<>();
 		int checkMemberIdAvailable = uploadImagesService.checkMemberIdAvailable(MemberNumber);
@@ -3138,7 +3195,7 @@ public class UpdateMemberEntityMangerFactory {
 
 //		******************************Column Name*************************************************************************
 			String columnName = "first_name,last_name, m.member_id, height,lifestyles,md.age,"
-					+ "md.marital_status as maritalStatus,mother_tounge,gender,profile_photo_id,m.plan_id,"
+					+ "md.marital_status as maritalStatus,mother_tounge,gender,profile_photo_id,m.plan_id,m.creation_date,"
 //					+ "(select country_name from country where country_id=(select country_id from memberdetails where member_id= :member_id )) as country_name,country_id,"
 //					+ "(select state_name from states where state_id=(select state_id from memberdetails where member_id= :member_id)) as state,state_id,"
 //					+ "(select city_name from city where city_id=(select city_id from memberdetails where member_id= :member_id)) as city,city_id,"
@@ -3182,7 +3239,8 @@ public class UpdateMemberEntityMangerFactory {
 					if (!profile_photo_id.equals("") && !profile_photo_id.equals("0")) {
 						getProfilePath = uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
 					}
-					String plan_id = convertNullToBlank(String.valueOf(obj[++i]));		
+					String plan_id = convertNullToBlank(String.valueOf(obj[++i]));
+					String date_time = convertNullToBlank(String.valueOf(obj[++i]));
 					System.out.println("plan_id -"+ plan_id);
 					String plan_name=uploadImagesService.getPLanName(plan_id);
 					//String myCountryName = convertNullToBlank(String.valueOf(obj[++i]));
@@ -3197,6 +3255,12 @@ public class UpdateMemberEntityMangerFactory {
 					String myWorkingAs = convertNullToBlank(String.valueOf(obj[++i]));
 					String myAnnualIncome = convertNullToBlank(String.valueOf(obj[++i]));
 			
+						String premium_date=uploadImagesService.getPremiumDate(memberID);
+						if(premium_date!=null && !premium_date.equals("")) {
+							date_time=premium_date;
+						}
+					
+						json.put("date_time", date_time);
 						json.put("first_name", first_name);
 						json.put("last_name", last_name);
 						json.put("gender", myGender.toUpperCase());
@@ -3260,21 +3324,21 @@ public class UpdateMemberEntityMangerFactory {
 				}
 				
 				if (filterSearchModel.getFrom_date() != null && !filterSearchModel.getFrom_date().equals("")) {
-					String memberID = MemberFromDate(filterSearchModel.getFrom_date());
+					String memberID = MemberFromDate(filterSearchModel.getFrom_date(),"premium");
 					if (memberID != null && !memberID.equals("")) {
 						whereClause += " and m.member_id in (" + memberID + ")";
 					}
 				}
 
 				if (filterSearchModel.getTo_date() != null && !filterSearchModel.getTo_date().equals("")) {
-					String memberID = MemberToDate(filterSearchModel.getTo_date());
+					String memberID = MemberToDate(filterSearchModel.getTo_date(),"premium");
 					if (memberID != null && !memberID.equals("")) {
 						whereClause += " and m.member_id in (" + memberID + ")";
 					}
 				}
 //				String planID = getPlanId(filterSearchModel.getMembership());
 //				String memberID = MemberShipId(planID);
-//				if (memberID != null && !memberID.equals("")) {
+//				if (memberID != null && !memberID.equals("")) {   
 //					whereClause += " and m.memberID in (" + memberID + ")";
 //				}
 			}
@@ -3286,14 +3350,14 @@ public class UpdateMemberEntityMangerFactory {
 				}
 				
 				if (filterSearchModel.getFrom_date() != null && !filterSearchModel.getFrom_date().equals("")) {
-					String memberID = MemberFromDate(filterSearchModel.getFrom_date());
+					String memberID = MemberFromDate(filterSearchModel.getFrom_date(),"non premium");
 					if (memberID != null && !memberID.equals("")) {
 						whereClause += " and m.member_id in (" + memberID + ")";
 					}
 				}
 
 				if (filterSearchModel.getTo_date() != null && !filterSearchModel.getTo_date().equals("")) {
-					String memberID = MemberToDate(filterSearchModel.getTo_date());
+					String memberID = MemberToDate(filterSearchModel.getTo_date(),"non premium");
 					if (memberID != null && !memberID.equals("")) {
 						whereClause += " and m.member_id in (" + memberID + ")";
 					}
@@ -3349,34 +3413,52 @@ public class UpdateMemberEntityMangerFactory {
 
 	}
 
-	private String MemberToDate(String to_date) {
+	private String MemberToDate(String to_date,String status) {
 		String result = "";
 		try {
+			if(status.equals("premium")) {
+			result=updateMemberService.getToDatePremiumMemberIDs(to_date);
+			if(result==null) {
+				result="";
+			}
+			}
+			if(status.equals("non premium")) {
+				result=updateMemberService.getToDateNonPremiumMemberIDs(to_date);
+				if(result==null) {
+					result="";
+				}
+			}
 //					Query q = em.createNativeQuery("SELECT group_concat(member_id) FROM hide_member where status=0");
-			Query q = em
-					.createNativeQuery("SELECT group_concat(member_id) FROM premium_member where date(datetime)<=date("
-							+ to_date + ") AND deleteflag='N' ");
-			result = q.getSingleResult().toString();
+//			Query q = em
+//					.createNativeQuery("SELECT group_concat(member_id) FROM premium_member where date(datetime)<=date("
+//							+ to_date + ") AND deleteflag='N' ");
+//			result = q.getSingleResult().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
 
-	private String MemberFromDate(String from_date) {
+	private String MemberFromDate(String from_date,String status) {
 		String result = "";
-		try {
-//					Query q = em.createNativeQuery("SELECT group_concat(member_id) FROM hide_member where status=0");
-			Query q = em
-					.createNativeQuery("SELECT group_concat(member_id) FROM premium_member where date(datetime)>=date("
-							+ from_date + ") AND deleteflag='N' ");
-			result = q.getSingleResult().toString();
+		try { 
+			if(status.equals("premium")) {
+				result=updateMemberService.getFromDatePremiumMemberIDs(from_date);
+				if(result==null) {
+					result="";
+				}
+			}
+		if(status.equals("non premium")) {
+			result=updateMemberService.getFromDateNonPremiumMemberIDs(from_date);
+			if(result==null) {
+				result="";
+			}
+		}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
-	
 	
 	@Transactional
 	public HashMap<String, String> getMemberNumber(String member_number, int login_id) {

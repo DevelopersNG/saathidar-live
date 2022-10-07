@@ -44,6 +44,10 @@ public interface PlanDetailsRepository  extends JpaRepository<PlanDetailsModel, 
 		@Query(value="select count(*) from plans where plan_name= :plan_name and plan_status='ACTIVE'",nativeQuery =true )
 		int isAvailablePlan(String plan_name);
 
+		
+		@Query(value="select count(*) from plans where plan_name= :plan_name and plan_id!= :plan_id and plan_status='ACTIVE'",nativeQuery =true )
+		int isAvailablePlanForUpdate(String plan_name,int plan_id);
+
 		@Transactional
 		@Modifying
 		@Query(value="insert into plans (plan_name,plan_validity,plan_price,plan_discount,discount_price) values (:plan_name,:plan_validity,:plan_price,:plan_discount,:discount_price)",nativeQuery = true)
@@ -61,4 +65,20 @@ public interface PlanDetailsRepository  extends JpaRepository<PlanDetailsModel, 
 		@Modifying
 		@Query(value="insert into plan_list (features,plan_id) values (:features,:getPlanID)",nativeQuery = true)
 		int insertFeaturesName(String features, int getPlanID);
+
+		@Transactional
+		@Modifying
+		@Query(value="insert into plan_list (valid,features,plan_id) values (:valid,:features_name,:getPlanID)",nativeQuery = true)
+		int insertNewFeaturesName(String valid, String features_name, int getPlanID);
+
+		@Transactional
+		@Modifying
+		@Query(value="update plan_list set valid= :valid,features= :features_name where id= :getFeatureID and delete_flag='N'",nativeQuery = true)
+		int updateNewFeaturesName(String valid, String features_name, int getFeatureID);
+
+		@Transactional
+		@Modifying
+		@Query(value="update plan_list set delete_flag='Y' where id= :id and delete_flag='N'",nativeQuery = true)
+		int deleteFeaturesPlanDetails(int id);
+
 }

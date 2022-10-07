@@ -86,7 +86,7 @@ import com.sathidar.model.AdminKycModel;
 //				try {
 //
 //					JSONObject json = new JSONObject();
-////					Optional<UploadImagesModel> post = uploadImagesRepository.getByMember_Id(member_id);
+////					Optional<UploadImagesModel> post = uploadImages~Repository.getByMember_Id(member_id);
 //
 //					List<AdminKycModel> post = adminKycRepository.getById(kyc_id);
 //					if (post != null) {

@@ -43,9 +43,12 @@ public class RazorPayController {
 	/**
 	 * add your secretId and secretValue you got from your RazorPay account.
 	 */
-//	private static final String SECRET_ID = "rzp_test_QHOsVAlUo7NNwl";
-//	private static final String SECRET_KEY = "kilJp0Ez5I45gXHraysPxKUW";
+	private static final String SECRET_ID = "rzp_test_QHOsVAlUo7NNwl";
+	private static final String SECRET_KEY = "kilJp0Ez5I45gXHraysPxKUW";
 
+	public RazorPayController() throws RazorpayException {
+		this.client =  new RazorpayClient(SECRET_ID, SECRET_KEY); 
+	}
 	
 	@PostMapping(path = "/member/upgrade/plan")
 	public String updateMember(@Validated @RequestBody RazorPayModel razorPayModel) {
@@ -74,20 +77,13 @@ public class RazorPayController {
 	@RequestMapping(value="/createPayment", method=RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<String> createOrder(@RequestBody RazorPayModel razorPayModel) {
-			
 		try {
-		
 			/**
 			 * creating an order in RazorPay.
 			 * new order will have order id. you can get this order id by calling  order.get("id")
 			 */
 			Order order = createRazorPayOrder( razorPayModel.getAmount() );
 			RazorPayModel razorPay = getRazorPay((String)order.get("id"), razorPayModel);
-			
-			// sms
-			
-			// email
-			
 			
 			return new ResponseEntity<String>(gson.toJson(getResponse(razorPay, 200)),
 					HttpStatus.OK);
@@ -113,7 +109,8 @@ public class RazorPayController {
 		razorPay.setMerchantName("Live");
 		razorPay.setPurchaseDescription("LIVE PURCHASES");
 		razorPay.setRazorpayOrderId(orderId);
-//		razorPay.setSecretKey(SECRET_ID);
+		razorPay.setSecretKey(SECRET_ID);
+//		razorPay.setSecretKey("rzp_test_QHOsVAlUo7NNwl");
 		razorPay.setImageURL("/logo");
 		razorPay.setTheme("#F37254");
 		razorPay.setNotes("notes"+orderId);

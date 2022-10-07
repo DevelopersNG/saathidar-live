@@ -834,6 +834,46 @@ public class DashboardServiceImpl implements DashboardService {
 		return ids;
 	}
 
+	@Override
+	public JSONArray GetTotalCountAdminDashboard() {
+		JSONArray resultArray = new JSONArray();
+		try {
+			JSONObject json = new JSONObject();
+			int total_user = dashboardRepository.GetTotalUserRegister();
+			json.put("total_user_count", "" + total_user);
+			
+			int premium_member = dashboardRepository.GetTotalPremiumMemberCount();
+			json.put("total_premium_count", "" + premium_member);
+			
+			String premium_member_ids=dashboardRepository.GetTotalPremiumMemberIds();
+			int non_premium_member = GetTotalNonPremiumMemberCount(premium_member_ids);
+			json.put("non_premium_count", "" + non_premium_member);
+			
+			resultArray.put(json);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultArray;
+
+	}
+	
+	
+	private int GetTotalNonPremiumMemberCount(String premium_member_ids) {
+		int result = 0;
+		try {
+//					Query q = em.createNativeQuery("SELECT group_concat(member_id) FROM hide_member where status=0");
+			Query q = em.createNativeQuery(
+					"SELECT count(*) FROM member where member_id not in("+premium_member_ids+") and status='ACTIVE'");
+			result = Integer.parseInt(q.getSingleResult().toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+
+	}
+
+
+
 	
 
 }

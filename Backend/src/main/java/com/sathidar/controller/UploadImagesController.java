@@ -199,6 +199,7 @@ public class UploadImagesController {
 			map.put("results", "0");
 		}
 		return map;
+		
 	}
 	
 	@GetMapping(value = "/member/app/get/kyc/photo/{member_id}")

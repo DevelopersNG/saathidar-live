@@ -2784,5 +2784,24 @@ public class EmailBodyClass {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
+
+	public int sentEmailAlertToPremiumRecentVisitorsAndTodaysMatch(List lst, String sendCriteria, String message,
+			String fullName, String emailId_send_to, String imageLink) {
+		Constant constant=new Constant();
+		
+		for(int i=0;i<lst.size();i++) {
+			int j=0;
+//			String mail_id=constant.convertNullToBlank(lst.get(i).toString());
+			System.out.println(lst.get(j).toString());
+			System.out.println(lst.get(++j).toString());
+			System.out.println(lst.get(++j).toString());
+			System.out.println(lst.get(++j).toString());
+			System.out.println(lst.get(++j).toString());
+		
+		}
+		
+		
+		return 0;
+	}
 }
