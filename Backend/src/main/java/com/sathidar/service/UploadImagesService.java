@@ -59,4 +59,6 @@ public interface UploadImagesService {
 	String getPLanName(String memberID);
 
 	JSONArray getMyMemberAppPhotos(String string);
+
+	String getPremiumDate(String memberID);
 }

@@ -439,4 +439,9 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 		}
 		return resultArray;
 	}
+
+	@Override
+	public String getPremiumDate(String memberID) {
+		return uploadImagesRepository.getPremiumDate(memberID);
+	}
 }

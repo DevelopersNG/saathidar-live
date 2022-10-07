@@ -36,6 +36,10 @@ public interface UpdateMemberService {
 
 	String getFromDatePremiumMemberIDs(String from_date);
 
+	String getToDateNonPremiumMemberIDs(String to_date);
+
+	String getFromDateNonPremiumMemberIDs(String from_date);
+
 
 
 }

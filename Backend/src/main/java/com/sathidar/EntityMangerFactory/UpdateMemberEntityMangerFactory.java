@@ -3255,7 +3255,12 @@ public class UpdateMemberEntityMangerFactory {
 					String myWorkingAs = convertNullToBlank(String.valueOf(obj[++i]));
 					String myAnnualIncome = convertNullToBlank(String.valueOf(obj[++i]));
 			
-					json.put("date_time", date_time);
+						String premium_date=uploadImagesService.getPremiumDate(memberID);
+						if(premium_date!=null && !premium_date.equals("")) {
+							date_time=premium_date;
+						}
+					
+						json.put("date_time", date_time);
 						json.put("first_name", first_name);
 						json.put("last_name", last_name);
 						json.put("gender", myGender.toUpperCase());
@@ -3319,21 +3324,21 @@ public class UpdateMemberEntityMangerFactory {
 				}
 				
 				if (filterSearchModel.getFrom_date() != null && !filterSearchModel.getFrom_date().equals("")) {
-					String memberID = MemberFromDate(filterSearchModel.getFrom_date());
+					String memberID = MemberFromDate(filterSearchModel.getFrom_date(),"premium");
 					if (memberID != null && !memberID.equals("")) {
 						whereClause += " and m.member_id in (" + memberID + ")";
 					}
 				}
 
 				if (filterSearchModel.getTo_date() != null && !filterSearchModel.getTo_date().equals("")) {
-					String memberID = MemberToDate(filterSearchModel.getTo_date());
+					String memberID = MemberToDate(filterSearchModel.getTo_date(),"premium");
 					if (memberID != null && !memberID.equals("")) {
 						whereClause += " and m.member_id in (" + memberID + ")";
 					}
 				}
 //				String planID = getPlanId(filterSearchModel.getMembership());
 //				String memberID = MemberShipId(planID);
-//				if (memberID != null && !memberID.equals("")) {
+//				if (memberID != null && !memberID.equals("")) {   
 //					whereClause += " and m.memberID in (" + memberID + ")";
 //				}
 			}
@@ -3345,14 +3350,14 @@ public class UpdateMemberEntityMangerFactory {
 				}
 				
 				if (filterSearchModel.getFrom_date() != null && !filterSearchModel.getFrom_date().equals("")) {
-					String memberID = MemberFromDate(filterSearchModel.getFrom_date());
+					String memberID = MemberFromDate(filterSearchModel.getFrom_date(),"non premium");
 					if (memberID != null && !memberID.equals("")) {
 						whereClause += " and m.member_id in (" + memberID + ")";
 					}
 				}
 
 				if (filterSearchModel.getTo_date() != null && !filterSearchModel.getTo_date().equals("")) {
-					String memberID = MemberToDate(filterSearchModel.getTo_date());
+					String memberID = MemberToDate(filterSearchModel.getTo_date(),"non premium");
 					if (memberID != null && !memberID.equals("")) {
 						whereClause += " and m.member_id in (" + memberID + ")";
 					}
@@ -3408,12 +3413,20 @@ public class UpdateMemberEntityMangerFactory {
 
 	}
 
-	private String MemberToDate(String to_date) {
+	private String MemberToDate(String to_date,String status) {
 		String result = "";
 		try {
+			if(status.equals("premium")) {
 			result=updateMemberService.getToDatePremiumMemberIDs(to_date);
 			if(result==null) {
 				result="";
+			}
+			}
+			if(status.equals("non premium")) {
+				result=updateMemberService.getToDateNonPremiumMemberIDs(to_date);
+				if(result==null) {
+					result="";
+				}
 			}
 //					Query q = em.createNativeQuery("SELECT group_concat(member_id) FROM hide_member where status=0");
 //			Query q = em
@@ -3426,18 +3439,21 @@ public class UpdateMemberEntityMangerFactory {
 		return result;
 	}
 
-	private String MemberFromDate(String from_date) {
+	private String MemberFromDate(String from_date,String status) {
 		String result = "";
-		try {
-			result=updateMemberService.getFromDatePremiumMemberIDs(from_date);
+		try { 
+			if(status.equals("premium")) {
+				result=updateMemberService.getFromDatePremiumMemberIDs(from_date);
+				if(result==null) {
+					result="";
+				}
+			}
+		if(status.equals("non premium")) {
+			result=updateMemberService.getFromDateNonPremiumMemberIDs(from_date);
 			if(result==null) {
 				result="";
 			}
-//					Query q = em.createNativeQuery("SELECT group_concat(member_id) FROM hide_member where status=0");
-//			Query q = em
-//					.createNativeQuery("SELECT group_concat(member_id) FROM premium_member where date(datetime)>=date("
-//							+ from_date + ") AND deleteflag='N' ");
-//			result = q.getSingleResult().toString();
+		}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
