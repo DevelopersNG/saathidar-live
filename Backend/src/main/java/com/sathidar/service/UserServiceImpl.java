@@ -1395,7 +1395,7 @@ public class UserServiceImpl implements UserService {
 					short_reg_status = convertNullToBlank(String.valueOf(obj[++i]));
 				}
 			}
-
+			
 			user.setConfirmationToken(confirmation_token);
 			user.setEmail(email);
 			user.setFirstName(first_name);
@@ -1421,6 +1421,7 @@ public class UserServiceImpl implements UserService {
 			if (member_id > 0) {
 				updateMember.setId(member_id);
 				System.out.println("save --- " + updateMember.getReligion());
+				System.out.println("country_name  --- " + updateMember.getCountry_name());
 
 				religionID = getNameByIDMangerFactory.getReligionID(checkNullValue(updateMember.getReligion().trim()));
 				dateOfBirth = checkNullValue(updateMember.getDate_of_birth());

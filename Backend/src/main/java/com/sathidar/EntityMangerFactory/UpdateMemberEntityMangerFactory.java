@@ -1,5 +1,7 @@
 package com.sathidar.EntityMangerFactory;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +52,7 @@ public class UpdateMemberEntityMangerFactory {
 
 	@Autowired
 	private UserEntityManagerFactory userEntityManagerFactory;
-	
+
 	@Autowired
 	private UpdateMemberService updateMemberService;
 
@@ -103,12 +105,7 @@ public class UpdateMemberEntityMangerFactory {
 		String columnName = "member_number,m.member_id, membernative,height,weight,lifestyles,known_languages,education,job,income,hobbies,expectations,first_name,last_name,gender,md.age,"
 				+ "contact_number,email_id,profilecreatedby,md.marital_status as maritalStatus,no_of_children,mother_tounge,date_of_birth,"
 				+ "health_info,blood_group,gothra,ethnic_corigin,pincode,about_ourself,profile_photo_id,"
-				+ "country_id,"
-				+ "sub_caste_name,"
-				+ "cast_id,"
-				+ "religion_id,"
-				+ "state_id,"
-				+ "city_id,"
+				+ "country_id," + "sub_caste_name," + "cast_id," + "religion_id," + "state_id," + "city_id,"
 				+ "fd.father_status as father_status,fd.father_company_name as father_company_name,fd.father_designation as father_designation,fd.father_business_name as father_business_name,"
 				+ "fd.mother_status as mother_status, fd.mother_company_name as mother_company_name,fd.mother_designation as mother_designation,fd.mother_business_name as mother_business_name,"
 				+ "fd.family_location as family_location,fd.native_place as native_place,fd.family_type as family_type,fd.family_values as family_values,fd.family_affluence as family_affluence,"
@@ -235,7 +232,7 @@ public class UpdateMemberEntityMangerFactory {
 					contact_number = MembersDetailsAction.getPhonePrivacy(login_premium_status, thisMemberID,
 							contact_number);
 					map.put("contact_number", contact_number);
-					
+
 					// check email for premium member
 					email_id = convertNullToBlank(String.valueOf(obj[++i]));
 					map.put("profile_email_id", email_id);
@@ -277,32 +274,32 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("profile_photo", getProfilePath);
 					map.put("my_profile_photo", my_profile_photo);
 					// forth row
-					
+
 //					String val= convertNullToBlank(String.valueOf(obj[++i]);
 //					map.put("country_name", convertNullToBlank(String.valueOf(obj[++i])));
-					String myCountryID=convertNullToBlank(String.valueOf(obj[++i]));
-					map.put("country_name",getNameByIDMangerFactory.getCountryNameByID(myCountryID));
+					String myCountryID = convertNullToBlank(String.valueOf(obj[++i]));
+					map.put("country_name", getNameByIDMangerFactory.getCountryNameByID(myCountryID));
 					map.put("country_id", myCountryID);
 					map.put("sub_caste_name", convertNullToBlank(String.valueOf(obj[++i])));
 
 					// fifth,sixth,seven,eight,nine row
 //					map.put("caste", convertNullToBlank(String.valueOf(obj[++i])));
-					String myCastID=convertNullToBlank(String.valueOf(obj[++i]));
+					String myCastID = convertNullToBlank(String.valueOf(obj[++i]));
 					map.put("caste", getNameByIDMangerFactory.getCasteNameByID(myCastID));
 					map.put("cast_id", myCastID);
 
 //					map.put("subcaste", convertNullToBlank(String.valueOf(obj[++i])));
-					String myReligionID=convertNullToBlank(String.valueOf(obj[++i]));
-					map.put("religion_name",getNameByIDMangerFactory.getReligionNameByID(myReligionID));
+					String myReligionID = convertNullToBlank(String.valueOf(obj[++i]));
+					map.put("religion_name", getNameByIDMangerFactory.getReligionNameByID(myReligionID));
 					map.put("religion_id", myReligionID);
-					
+
 //					map.put("state", convertNullToBlank(String.valueOf(obj[++i])));
-					String myStateID=convertNullToBlank(String.valueOf(obj[++i]));
+					String myStateID = convertNullToBlank(String.valueOf(obj[++i]));
 					map.put("state", getNameByIDMangerFactory.getStateNameByID(myStateID));
-					map.put("state_id",myStateID );
-					
+					map.put("state_id", myStateID);
+
 //					map.put("city", convertNullToBlank(String.valueOf(obj[++i])));
-					String myCityID=convertNullToBlank(String.valueOf(obj[++i]));
+					String myCityID = convertNullToBlank(String.valueOf(obj[++i]));
 					map.put("city", getNameByIDMangerFactory.getCityNameByID(myCityID));
 					map.put("city_id", myCityID);
 
@@ -378,7 +375,7 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("annual_income", annualIncome);
 
 					// 14th row
-					//+ "mh.country_of_birth,mh.hours,mh.minutes,mh.time,mh.time_of_birth";
+					// + "mh.country_of_birth,mh.hours,mh.minutes,mh.time,mh.time_of_birth";
 					map.put("manglik", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("nakshatra", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("time_of_birth", convertNullToBlank(String.valueOf(obj[++i])));
@@ -389,31 +386,26 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("hours", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("minutes", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("time", convertNullToBlank(String.valueOf(obj[++i])));
-					
-					
-					
+
 					map.put("working_details", getCareerDetails);
 					map.put("FamilyDetails", getFamilyDetailsString);
 
 					map.put("message", "success");
 					map.put("results", "1");
-					
+
 					// check request are sent to other member
 					// get Pending,Rejected,Canceled status
-					String request_status="";
-					String block_status="";
-					String getMemberStatus=updateMemberService.getMemberStatus(login_id,thisMemberID);
-					if(getMemberStatus!=null && !getMemberStatus.equals(""))
-					{
-						request_status=getMemberStatus;
+					String request_status = "";
+					String block_status = "";
+					String getMemberStatus = updateMemberService.getMemberStatus(login_id, thisMemberID);
+					if (getMemberStatus != null && !getMemberStatus.equals("")) {
+						request_status = getMemberStatus;
 					}
 					map.put("request_status", request_status);
-					
-					
-					String getMemberBlockStatus=updateMemberService.getMemberBlockStatus(login_id,thisMemberID);
-					if(getMemberBlockStatus!=null && !getMemberBlockStatus.equals(""))
-					{
-						block_status=getMemberBlockStatus;
+
+					String getMemberBlockStatus = updateMemberService.getMemberBlockStatus(login_id, thisMemberID);
+					if (getMemberBlockStatus != null && !getMemberBlockStatus.equals("")) {
+						block_status = getMemberBlockStatus;
 					}
 					map.put("block_status", block_status);
 					status = true;
@@ -622,9 +614,9 @@ public class UpdateMemberEntityMangerFactory {
 				viewToIDs = getViewedID(id);
 			}
 
-			String getBlockedIDS="";
+			String getBlockedIDS = "";
 			try {
-				getBlockedIDS= getBlockedIDS(id);
+				getBlockedIDS = getBlockedIDS(id);
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
@@ -633,11 +625,11 @@ public class UpdateMemberEntityMangerFactory {
 			if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
 				blockQuery = " and m.member_id not in (" + getBlockedIDS + ")";
 			}
-			
+
 			String l_strQuery = "SELECT count(*) FROM memberdetails as md "
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
-					+ " where md.member_id!= :member_id and m.status='ACTIVE' "+blockQuery+"";
+					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + blockQuery + "";
 
 			if (!visitorsIDs.equals("")) {
 				l_strQuery = l_strQuery + " and md.member_id in (" + visitorsIDs + ")";
@@ -662,8 +654,7 @@ public class UpdateMemberEntityMangerFactory {
 		}
 		return results;
 	}
-	
-	
+
 	private String getBlockedIDS(int member_id) {
 		String ids = "";
 		try {
@@ -681,15 +672,14 @@ public class UpdateMemberEntityMangerFactory {
 		}
 		return ids;
 	}
-	
-	
+
 	public JSONArray getRecentVisitorsFilter(UpdateMember updateMember, int id, String status) {
 		JSONArray resultArray = new JSONArray();
 		try {
 
-			String getBlockedIDS="";
+			String getBlockedIDS = "";
 			try {
-				getBlockedIDS= getBlockedIDS(id);
+				getBlockedIDS = getBlockedIDS(id);
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
@@ -698,7 +688,7 @@ public class UpdateMemberEntityMangerFactory {
 			if (getBlockedIDS != null && !getBlockedIDS.equals("")) {
 				blockQuery = " and m.member_id not in (" + getBlockedIDS + ")";
 			}
-			
+
 //			********************** begin check premium status *********************************
 
 			String query1 = "SELECT count(*) FROM premium_member where member_id= :id and deleteflag='N'";
@@ -718,18 +708,11 @@ public class UpdateMemberEntityMangerFactory {
 //					+ "(select cast_name from cast where cast_id=(select cast_id from memberdetails where member_id= :member_id )) as caste,cast_id,"
 //					+ "edu.highest_qualification as highest_qualification,edu.working_with as working_with,edu.working_as as working_as,edu.annual_income as annual_income";
 
-			
 			String columnName = "first_name,last_name, m.member_id, height,lifestyles,md.age,"
-					+ "md.marital_status as maritalStatus,mother_tounge,gender,profile_photo_id,"
-					+ "country_id,"
-					+ "state_id,"
-					+ "city_id,"
-					+ "religion_id,"
-					+ "cast_id,"
+					+ "md.marital_status as maritalStatus,mother_tounge,gender,profile_photo_id," + "country_id,"
+					+ "state_id," + "city_id," + "religion_id," + "cast_id,"
 					+ "edu.highest_qualification as highest_qualification,edu.working_with as working_with,edu.working_as as working_as,edu.annual_income as annual_income";
 
-			
-			
 			String whereClause = setWhereClauseForGetAllMember(updateMember);
 
 			String visitorsIDs = "", viewToIDs = "";
@@ -746,7 +729,7 @@ public class UpdateMemberEntityMangerFactory {
 			String l_strQuery = "SELECT " + columnName + "  FROM memberdetails as md "
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
-					+ " where md.member_id!= :member_id and m.status='ACTIVE' " +blockQuery + whereClause + "";
+					+ " where md.member_id!= :member_id and m.status='ACTIVE' " + blockQuery + whereClause + "";
 
 			if (!visitorsIDs.equals("")) {
 				l_strQuery = l_strQuery + " and md.member_id in (" + visitorsIDs + ")";
@@ -789,27 +772,25 @@ public class UpdateMemberEntityMangerFactory {
 					if (!profile_photo_id.equals("") && !profile_photo_id.equals("0")) {
 						getProfilePath = uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
 					}
-					
-				
-					
+
 //					String myCountryName = convertNullToBlank(String.valueOf(obj[++i]));
 					String myCountryID = convertNullToBlank(String.valueOf(obj[++i]));
-					String myCountryName=getNameByIDMangerFactory.getCountryNameByID(myCountryID);
-					
+					String myCountryName = getNameByIDMangerFactory.getCountryNameByID(myCountryID);
+
 //					String myStateName = convertNullToBlank(String.valueOf(obj[++i]));
 					String myStateID = convertNullToBlank(String.valueOf(obj[++i]));
-					String myStateName=getNameByIDMangerFactory.getStateNameByID(myStateID);
-					
+					String myStateName = getNameByIDMangerFactory.getStateNameByID(myStateID);
+
 //					String myCityName = convertNullToBlank(String.valueOf(obj[++i]));
 					String myCityID = convertNullToBlank(String.valueOf(obj[++i]));
-					String myCityName=getNameByIDMangerFactory.getCityNameByID(myCityID);
-					
+					String myCityName = getNameByIDMangerFactory.getCityNameByID(myCityID);
+
 //					String myReligionName = convertNullToBlank(String.valueOf(obj[++i]));
 					String myReligionID = convertNullToBlank(String.valueOf(obj[++i]));
-					String myReligionName=getNameByIDMangerFactory.getReligionNameByID(myReligionID);
-					
+					String myReligionName = getNameByIDMangerFactory.getReligionNameByID(myReligionID);
+
 					String myCastID = convertNullToBlank(String.valueOf(obj[++i]));
-					String myCastName=getNameByIDMangerFactory.getCasteNameByID(myCastID);
+					String myCastName = getNameByIDMangerFactory.getCasteNameByID(myCastID);
 //					String myCastName = convertNullToBlank(String.valueOf(obj[++i]));
 					String myQualifications = convertNullToBlank(String.valueOf(obj[++i]));
 					String myWorkingWith = convertNullToBlank(String.valueOf(obj[++i]));
@@ -827,7 +808,7 @@ public class UpdateMemberEntityMangerFactory {
 					json.put("maritalStatus", myMaritalStatus);
 					json.put("profile_photo", getProfilePath);
 					json.put("country", myCountryName);
-					
+
 					json.put("state", myStateName);
 					json.put("city", myCityName);
 					myAnnualIncome = MembersDetailsAction.getAnnualIncomePrivacy(premiumStatus, memberID,
@@ -871,19 +852,17 @@ public class UpdateMemberEntityMangerFactory {
 					}
 
 					// get Pending,Rejected,Canceled status
-					String request_status="";
-					String block_status="";
-					String getMemberStatus=updateMemberService.getMemberStatus(id,memberID);
-					if(getMemberStatus!=null && !getMemberStatus.equals(""))
-					{
-						request_status=getMemberStatus;
+					String request_status = "";
+					String block_status = "";
+					String getMemberStatus = updateMemberService.getMemberStatus(id, memberID);
+					if (getMemberStatus != null && !getMemberStatus.equals("")) {
+						request_status = getMemberStatus;
 					}
 					json.put("request_status", request_status);
-					
-					String getMemberBlockStatus=updateMemberService.getMemberBlockStatus(id,memberID);
-					if(getMemberBlockStatus!=null && !getMemberBlockStatus.equals(""))
-					{
-						block_status=getMemberBlockStatus;
+
+					String getMemberBlockStatus = updateMemberService.getMemberBlockStatus(id, memberID);
+					if (getMemberBlockStatus != null && !getMemberBlockStatus.equals("")) {
+						block_status = getMemberBlockStatus;
 					}
 					json.put("block_status", block_status);
 
@@ -927,7 +906,7 @@ public class UpdateMemberEntityMangerFactory {
 		try {
 			matchesConstants.getMemberMatchPartnerPreference(id);
 			String requestedIds = getRequestedIDForMember(id);
-			System.out.println("requestedIds - "+ requestedIds);
+			System.out.println("requestedIds - " + requestedIds);
 //			String shortlistIds = getShortListIDForMember(id);
 			String requestIdQuery = "", shortListIdQuery = "", matches_id = "";
 			String ids = "";
@@ -973,15 +952,10 @@ public class UpdateMemberEntityMangerFactory {
 //		******************************Column Name*************************************************************************
 
 			String columnName = "first_name,last_name, m.member_id, height,lifestyles,md.age,"
-					+ "md.marital_status as maritalStatus,mother_tounge,gender,profile_photo_id,"
-					+ "country_id,"
-					+ "state_id,"
-					+ "city_id,"
-					+ "religion_id,"
-					+ "cast_id,"
+					+ "md.marital_status as maritalStatus,mother_tounge,gender,profile_photo_id," + "country_id,"
+					+ "state_id," + "city_id," + "religion_id," + "cast_id,"
 					+ "edu.highest_qualification as highest_qualification,edu.working_with as working_with,edu.working_as as working_as,edu.annual_income as annual_income";
 
-			
 //		******************************begin refine search Filter Data*************************************************************************
 			String whereClause = setWhereClauseForGetAllMember(updateMember);
 
@@ -1004,7 +978,7 @@ public class UpdateMemberEntityMangerFactory {
 			}
 
 //		******************************Query*************************************************************************
-			
+
 			Query q = em.createNativeQuery("SELECT " + columnName + "  FROM memberdetails as md "
 					+ " join member as m on md.member_id=m.member_id"
 					+ " join member_education_career as edu on m.member_id=edu.member_id "
@@ -1019,7 +993,7 @@ public class UpdateMemberEntityMangerFactory {
 
 			q.setParameter("member_id", id);
 			String first_name = "", last_name = "";
-			
+
 			List<Object[]> results = q.getResultList();
 			if (results != null) {
 				for (Object[] obj : results) {
@@ -1073,11 +1047,10 @@ public class UpdateMemberEntityMangerFactory {
 					if (!profile_photo_id.equals("") && !profile_photo_id.equals("0")) {
 						getProfilePath = uploadImagesService.getMemberProfilePhotoPath(profile_photo_id);
 					}
-					
-					
+
 //					String myCountryName = convertNullToBlank(String.valueOf(obj[++i]));
 					String myCountryID = convertNullToBlank(String.valueOf(obj[++i]).trim());
-					String myCountryName=getNameByIDMangerFactory.getCountryNameByID(myCountryID);
+					String myCountryName = getNameByIDMangerFactory.getCountryNameByID(myCountryID);
 					if (!myCountryName.equals("")) {
 						if (matchesConstants.COUNTRY.contains(myCountryID)) {
 							matchesStatus = true;
@@ -1086,16 +1059,16 @@ public class UpdateMemberEntityMangerFactory {
 
 //					String myStateName = convertNullToBlank(String.valueOf(obj[++i]));
 					String myStateID = convertNullToBlank(String.valueOf(obj[++i]).trim());
-					String myStateName=getNameByIDMangerFactory.getStateNameByID(myStateID);
+					String myStateName = getNameByIDMangerFactory.getStateNameByID(myStateID);
 					if (!myStateID.equals("")) {
 						if (matchesConstants.STATE.contains(myStateID)) {
 							matchesStatus = true;
 						}
 					}
-					
+
 //					String myCityName = convertNullToBlank(String.valueOf(obj[++i]));
 					String myCityID = convertNullToBlank(String.valueOf(obj[++i]).trim());
-					String myCityName=getNameByIDMangerFactory.getCityNameByID(myCityID);
+					String myCityName = getNameByIDMangerFactory.getCityNameByID(myCityID);
 					if (!myCityID.equals("")) {
 						if (matchesConstants.CITY.contains(myCityID)) {
 							matchesStatus = true;
@@ -1104,7 +1077,7 @@ public class UpdateMemberEntityMangerFactory {
 
 //					String myReligionName = convertNullToBlank(String.valueOf(obj[++i]));
 					String myReligionID = convertNullToBlank(String.valueOf(obj[++i]).trim());
-					String myReligionName=getNameByIDMangerFactory.getReligionNameByID(myReligionID);
+					String myReligionName = getNameByIDMangerFactory.getReligionNameByID(myReligionID);
 					if (!myReligionID.equals("")) {
 						if (matchesConstants.RELIGIONS.contains(myReligionID)) {
 							matchesStatus = true;
@@ -1113,7 +1086,7 @@ public class UpdateMemberEntityMangerFactory {
 
 					String myCastID = convertNullToBlank(String.valueOf(obj[++i]).trim());
 //					String myCastName = convertNullToBlank(String.valueOf(obj[++i]));
-					String myCastName=getNameByIDMangerFactory.getCasteNameByID(myCastID);
+					String myCastName = getNameByIDMangerFactory.getCasteNameByID(myCastID);
 					if (!myCastID.equals("")) {
 						if (matchesConstants.CAST.contains(myReligionID)) {
 							matchesStatus = true;
@@ -1135,14 +1108,41 @@ public class UpdateMemberEntityMangerFactory {
 					}
 
 					String myWorkingAs = convertNullToBlank(String.valueOf(obj[++i]));
-
+					
+					// check multiple annual income
 					String myAnnualIncome = convertNullToBlank(String.valueOf(obj[++i]));
-					if (!myAnnualIncome.equals("")) {
-						if (matchesConstants.ANNUAL_INCOME.contains(myAnnualIncome)) {
-							matchesStatus = true;
+					List<String> anualList  = new ArrayList<String>();
+					if (myAnnualIncome != null && !myAnnualIncome.equals("") && !myAnnualIncome.equals("null")) {
+						if (!myAnnualIncome.contains(",")) {
+							anualList.add(myAnnualIncome);
+						} else {
+							anualList = new ArrayList<String>(Arrays.asList(myAnnualIncome.split(",")));
 						}
 					}
-					matchesStatus = true;
+					
+					List<String> memberAnnualList  = new ArrayList<String>();
+					if (matchesConstants.ANNUAL_INCOME != null && !matchesConstants.ANNUAL_INCOME.equals("") && !matchesConstants.ANNUAL_INCOME.equals("null")) {
+						if (!matchesConstants.ANNUAL_INCOME.contains(",")) {
+							memberAnnualList.add(matchesConstants.ANNUAL_INCOME);
+						} else {
+							memberAnnualList = new ArrayList<String>(Arrays.asList(matchesConstants.ANNUAL_INCOME.split(",")));
+						}
+					}
+					
+					for (int j = 0; j < anualList.size(); j++) {
+						for (int k = 0; k < memberAnnualList.size(); k++) {
+							if(anualList.get(j).equals(memberAnnualList.get(k))) {
+								matchesStatus = true;
+							}
+						}
+					}
+
+//					if (!myAnnualIncome.equals("")) {
+//						if (matchesConstants.ANNUAL_INCOME.contains(myAnnualIncome)) {
+//							matchesStatus = true;
+//						}
+//					}
+					matchesStatus = true; // by default set matches true for first upto 50 member
 					if (matchesStatus) {
 						json.put("first_name", first_name);
 						json.put("last_name", last_name);
@@ -1161,7 +1161,7 @@ public class UpdateMemberEntityMangerFactory {
 						json.put("income", myAnnualIncome);
 						json.put("member_id", memberID);
 //						json.put("request_status", "");
-						json.put("block_status", ""); 
+						json.put("block_status", "");
 						json.put("profile_photo", getProfilePath);
 						json.put("city", myCityName);
 
@@ -1200,19 +1200,17 @@ public class UpdateMemberEntityMangerFactory {
 						}
 
 						// get Pending,Rejected,Canceled status
-						String request_status="";
-						String block_status="";
-						String getMemberStatus=updateMemberService.getMemberStatus(id,memberID);
-						if(getMemberStatus!=null && !getMemberStatus.equals(""))
-						{
-							request_status=getMemberStatus;
+						String request_status = "";
+						String block_status = "";
+						String getMemberStatus = updateMemberService.getMemberStatus(id, memberID);
+						if (getMemberStatus != null && !getMemberStatus.equals("")) {
+							request_status = getMemberStatus;
 						}
 						json.put("request_status", request_status);
-						
-						String getMemberBlockStatus=updateMemberService.getMemberBlockStatus(id,memberID);
-						if(getMemberBlockStatus!=null && !getMemberBlockStatus.equals(""))
-						{
-							block_status=getMemberBlockStatus;
+
+						String getMemberBlockStatus = updateMemberService.getMemberBlockStatus(id, memberID);
+						if (getMemberBlockStatus != null && !getMemberBlockStatus.equals("")) {
+							block_status = getMemberBlockStatus;
 						}
 						json.put("block_status", block_status);
 
@@ -1795,7 +1793,6 @@ public class UpdateMemberEntityMangerFactory {
 					json.put("plan_price", convertNullToBlank(String.valueOf(obj[++i])));
 					json.put("plan_discount", convertNullToBlank(String.valueOf(obj[++i])));
 					json.put("plan_discount_price", convertNullToBlank(String.valueOf(obj[++i])));
-					
 
 					// getting plan list as per plan name and id
 					JSONArray jsonArrayPlanList = new JSONArray();
@@ -1827,9 +1824,8 @@ public class UpdateMemberEntityMangerFactory {
 			// TODO: handle exception
 		}
 		return resultArray;
-	}  
+	}
 
-	
 	public JSONArray getMembersPlanDetailsByPlanID(int plan_id) {
 		JSONArray resultArray = new JSONArray();
 		try {
@@ -1850,7 +1846,6 @@ public class UpdateMemberEntityMangerFactory {
 					json.put("plan_price", convertNullToBlank(String.valueOf(obj[++i])));
 					json.put("plan_discount", convertNullToBlank(String.valueOf(obj[++i])));
 					json.put("plan_discount_price", convertNullToBlank(String.valueOf(obj[++i])));
-					
 
 					// getting plan list as per plan name and id
 					JSONArray jsonArrayPlanList = new JSONArray();
@@ -1882,24 +1877,23 @@ public class UpdateMemberEntityMangerFactory {
 			// TODO: handle exception
 		}
 		return resultArray;
-	}  
+	}
 
-	
-	public HashMap<String, String> getDetailsByMemberWithLoginID(String MemberNumber,int login_id) {
+	public HashMap<String, String> getDetailsByMemberWithLoginID(String MemberNumber, int login_id) {
 		HashMap<String, String> map = new HashMap<>();
 		int checkMemberIdAvailable = uploadImagesService.checkMemberIdAvailable(MemberNumber);
-		
-		if(checkMemberIdAvailable>0) {
-				map = this.getMemberNumber(MemberNumber, login_id);
-			}
+
+		if (checkMemberIdAvailable > 0) {
+			map = this.getMemberNumber(MemberNumber, login_id);
+		}
 		return map;
 	}
-	
+
 	public HashMap<String, String> getDetailsByMemberID(String MemberNumber) {
 		HashMap<String, String> map = new HashMap<>();
 		int checkMemberIdAvailable = uploadImagesService.checkMemberIdAvailable(MemberNumber);
-		
-		if(checkMemberIdAvailable>0) {
+
+		if (checkMemberIdAvailable > 0) {
 //			int member_length = MemberNumber.length();
 //			int splitGetMemberID = Integer.parseInt(MemberNumber.substring(2, member_length));
 //			int firstDigit = Integer.parseInt(Integer.toString(splitGetMemberID).substring(0, 1));
@@ -1908,9 +1902,9 @@ public class UpdateMemberEntityMangerFactory {
 //				splitGetMemberID = Integer.parseInt(MemberNumber.substring(3, member_length));
 //			}
 //			System.out.println("id------------------------ " + splitGetMemberID);
-				int login_id = 0;
-				map = this.getMemberNumber(MemberNumber, login_id);
-			}
+			int login_id = 0;
+			map = this.getMemberNumber(MemberNumber, login_id);
+		}
 		return map;
 	}
 
@@ -2360,7 +2354,7 @@ public class UpdateMemberEntityMangerFactory {
 							String partner_religions_ids = convertNullToBlank(String.valueOf(objPartner[++j]));
 							if (!partner_religions_ids.equals("")) {
 								religionsName = checkIsQuammaSeperatedValue(partner_religions_ids, "religions");
-								
+
 								if (partner_religions_ids.contains(myReligionID)) {
 									checkBothKeywordsForReligionAndCast = "Yes";
 								} else {
@@ -2386,18 +2380,18 @@ public class UpdateMemberEntityMangerFactory {
 
 							if (!checkBothKeywordsForReligionAndCast.equals("")) {
 								if (checkBothKeywordsForReligionAndCast.contains("Yes")) {
-									String religionsWithCastName="";
-									if(religionsName!=null && !religionsName.equals("")) {
-										religionsWithCastName=religionsName;
-									} 
-									if(castName!=null && !castName.equals("")) {
-										if(religionsName!=null && !religionsName.equals("")) {
-											religionsWithCastName=religionsName  + "," + castName;
-										}else {
-											religionsWithCastName=castName;
-										} 
+									String religionsWithCastName = "";
+									if (religionsName != null && !religionsName.equals("")) {
+										religionsWithCastName = religionsName;
 									}
-									
+									if (castName != null && !castName.equals("")) {
+										if (religionsName != null && !religionsName.equals("")) {
+											religionsWithCastName = religionsName + "," + castName;
+										} else {
+											religionsWithCastName = castName;
+										}
+									}
+
 									map.put("partner_religions", religionsWithCastName);
 									map.put("my_religions", "Yes");
 									++matchCount;
@@ -2478,8 +2472,8 @@ public class UpdateMemberEntityMangerFactory {
 							if (!p_from_age.equals("") && !p_to_age.equals("")) {
 								int partner_from_age = Integer.parseInt(p_from_age);
 								int partner_to_age = Integer.parseInt(p_to_age);
-								
-								if(!myAge.equals("")) {
+
+								if (!myAge.equals("")) {
 									int my_age = Integer.parseInt(myAge);
 
 									if (partner_from_age <= my_age && partner_to_age >= my_age) {
@@ -2490,11 +2484,11 @@ public class UpdateMemberEntityMangerFactory {
 										map.put("partner_age", p_from_age + " to " + p_to_age);
 										map.put("my_age", "NO");
 									}
-								}else {
+								} else {
 									map.put("partner_age", "");
 									map.put("my_age", "BLANK");
 								}
-								
+
 								++matchPreference;
 							} else {
 								map.put("partner_age", "");
@@ -2624,27 +2618,27 @@ public class UpdateMemberEntityMangerFactory {
 
 					} else {
 						if (category.equals("religions")) {
-							if(splitArray[i]!=null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
+							if (splitArray[i] != null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
 								results = results + "," + getNameByIDMangerFactory.getReligionNameByID(splitArray[i]);
 							}
 						}
 						if (category.equals("cast")) {
-							if(splitArray[i]!=null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
+							if (splitArray[i] != null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
 								results = results + "," + getNameByIDMangerFactory.getCasteNameByID(splitArray[i]);
 							}
 						}
 						if (category.equals("country")) {
-							if(splitArray[i]!=null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
+							if (splitArray[i] != null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
 								results = results + "," + getNameByIDMangerFactory.getCountryNameByID(splitArray[i]);
-							}	
+							}
 						}
 						if (category.equals("state")) {
-							if(splitArray[i]!=null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
+							if (splitArray[i] != null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
 								results = results + "," + getNameByIDMangerFactory.getStateNameByID(splitArray[i]);
 							}
 						}
 						if (category.equals("city")) {
-							if(splitArray[i]!=null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
+							if (splitArray[i] != null && !splitArray[i].equals("") && !splitArray[i].equals("0")) {
 								results = results + "," + getNameByIDMangerFactory.getCityNameByID(splitArray[i]);
 							}
 						}
@@ -2677,11 +2671,11 @@ public class UpdateMemberEntityMangerFactory {
 		try {
 			String myQuery = "";
 			if (matches_status.equals("NEW_MATCHES")) {
-				myQuery = "SELECT group_concat(member_id) FROM member where  member_id!= :member_id  and user_id in (select id from users where enabled=1 and MONTH(creation_date) >= MONTH(CURRENT_DATE - INTERVAL 1 MONTH))";
+				myQuery = "SELECT group_concat(member_id) FROM member where  member_id!= :member_id  and user_id in (select id from users where otp_verified=1 and MONTH(creation_date) >= MONTH(CURRENT_DATE - INTERVAL 1 MONTH))";
 			} else if (matches_status.equals("MY_MATCHES")) {
-				myQuery = "SELECT group_concat(member_id) FROM member where  member_id!= :member_id  and user_id in (select id from users where enabled=1)";
+				myQuery = "SELECT group_concat(member_id) FROM member where  member_id!= :member_id  and user_id in (select id from users where otp_verified=1)";
 			} else if (matches_status.equals("TODAYS_MATCHES")) {
-				myQuery = "SELECT group_concat(member_id) FROM member where  member_id!= :member_id  and user_id in (select id from users where enabled=1 and DATE(creation_date)= CURDATE())";
+				myQuery = "SELECT group_concat(member_id) FROM member where  member_id!= :member_id  and user_id in (select id from users where otp_verified=1 and DATE(creation_date)= CURDATE())";
 			}
 			Query query = em.createNativeQuery(myQuery);
 			query.setParameter("member_id", member_id);
@@ -3039,27 +3033,25 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("employer_name", employerName);
 
 					// get Pending,Rejected,Canceled status
-					String request_status="";
-					String block_status="";
-					String getMemberStatus=updateMemberService.getMemberStatus(id,thisMemberID);
-					if(getMemberStatus!=null && !getMemberStatus.equals(""))
-					{
-						request_status=getMemberStatus;
+					String request_status = "";
+					String block_status = "";
+					String getMemberStatus = updateMemberService.getMemberStatus(id, thisMemberID);
+					if (getMemberStatus != null && !getMemberStatus.equals("")) {
+						request_status = getMemberStatus;
 					}
 					map.put("request_status", request_status);
-					
-					String getMemberBlockStatus=updateMemberService.getMemberBlockStatus(id,thisMemberID);
-					if(getMemberBlockStatus!=null && !getMemberBlockStatus.equals(""))
-					{
-						block_status=getMemberBlockStatus;
+
+					String getMemberBlockStatus = updateMemberService.getMemberBlockStatus(id, thisMemberID);
+					if (getMemberBlockStatus != null && !getMemberBlockStatus.equals("")) {
+						block_status = getMemberBlockStatus;
 					}
 					map.put("block_status", block_status);
-					
+
 					// check annual income privacy
 					String annualIncome = convertNullToBlank(String.valueOf(obj[++i]));
 					map.put("annual_income", annualIncome);
 					map.put("ug_education", convertNullToBlank(String.valueOf(obj[++i])));
-							// 14th row
+					// 14th row
 					map.put("manglik", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("nakshatra", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("time_of_birth", convertNullToBlank(String.valueOf(obj[++i])));
@@ -3070,8 +3062,7 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("hours", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("minutes", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("time", convertNullToBlank(String.valueOf(obj[++i])));
-					
-					
+
 					map.put("working_details", getCareerDetails);
 					map.put("FamilyDetails", getFamilyDetailsString);
 
@@ -3241,9 +3232,9 @@ public class UpdateMemberEntityMangerFactory {
 					}
 					String plan_id = convertNullToBlank(String.valueOf(obj[++i]));
 					String date_time = convertNullToBlank(String.valueOf(obj[++i]));
-					System.out.println("plan_id -"+ plan_id);
-					String plan_name=uploadImagesService.getPLanName(plan_id);
-					//String myCountryName = convertNullToBlank(String.valueOf(obj[++i]));
+					System.out.println("plan_id -" + plan_id);
+					String plan_name = uploadImagesService.getPLanName(plan_id);
+					// String myCountryName = convertNullToBlank(String.valueOf(obj[++i]));
 //					String myStateName = convertNullToBlank(String.valueOf(obj[++i]));
 //					String myCityName = convertNullToBlank(String.valueOf(obj[++i]));
 //					String myReligionName = convertNullToBlank(String.valueOf(obj[++i]));
@@ -3254,50 +3245,48 @@ public class UpdateMemberEntityMangerFactory {
 					String myWorkingWith = convertNullToBlank(String.valueOf(obj[++i]));
 					String myWorkingAs = convertNullToBlank(String.valueOf(obj[++i]));
 					String myAnnualIncome = convertNullToBlank(String.valueOf(obj[++i]));
-			
-						String premium_date=uploadImagesService.getPremiumDate(memberID);
-						if(premium_date!=null && !premium_date.equals("")) {
-							date_time=premium_date;
-						}
-					
-						json.put("date_time", date_time);
-						json.put("first_name", first_name);
-						json.put("last_name", last_name);
-						json.put("gender", myGender.toUpperCase());
-						if (!myAge.equals(""))
-							myAge = myAge + " yrs";
-						json.put("mage", myAge);
-						json.put("maritalStatus", myMaritalStatus);
-						json.put("member_id", memberID);
-						json.put("block_status", "");
-						json.put("profile_photo", getProfilePath);
-						json.put("qualifications", myQualifications);
-						json.put("working_with", myWorkingWith);
-						json.put("myWorkingAs", myWorkingAs);
-						json.put("annual_income", myAnnualIncome);
-						json.put("plan_name", plan_name);
-						
-					
-						
-						JSONArray jsonResultsArray = new JSONArray();
-						jsonResultsArray = uploadImagesService.getMemberAppPhotos(memberID);
-						json.put("images", jsonResultsArray);
-						json.put("images_count", jsonResultsArray.length());
-						int premium_status = uploadImagesService.getPremiumMemberStatus(memberID);
-						if (premium_status > 0) {
-							json.put("premium_status", "1");
-						} else {
-							json.put("premium_status", "0");
-						}
-						// check photo settings
-						String photo_privacy_setting = uploadImagesService.getPhotoPrivacySettings(memberID);
-						if (photo_privacy_setting != null && !photo_privacy_setting.equals("")) {
-							json.put("photo_privacy", photo_privacy_setting);
-						} else {
-							json.put("photo_privacy", "2");
-						}
-						resultArray.put(json);
-						status = true;
+
+					String premium_date = uploadImagesService.getPremiumDate(memberID);
+					if (premium_date != null && !premium_date.equals("")) {
+						date_time = premium_date;
+					}
+
+					json.put("date_time", date_time);
+					json.put("first_name", first_name);
+					json.put("last_name", last_name);
+					json.put("gender", myGender.toUpperCase());
+					if (!myAge.equals(""))
+						myAge = myAge + " yrs";
+					json.put("mage", myAge);
+					json.put("maritalStatus", myMaritalStatus);
+					json.put("member_id", memberID);
+					json.put("block_status", "");
+					json.put("profile_photo", getProfilePath);
+					json.put("qualifications", myQualifications);
+					json.put("working_with", myWorkingWith);
+					json.put("myWorkingAs", myWorkingAs);
+					json.put("annual_income", myAnnualIncome);
+					json.put("plan_name", plan_name);
+
+					JSONArray jsonResultsArray = new JSONArray();
+					jsonResultsArray = uploadImagesService.getMemberAppPhotos(memberID);
+					json.put("images", jsonResultsArray);
+					json.put("images_count", jsonResultsArray.length());
+					int premium_status = uploadImagesService.getPremiumMemberStatus(memberID);
+					if (premium_status > 0) {
+						json.put("premium_status", "1");
+					} else {
+						json.put("premium_status", "0");
+					}
+					// check photo settings
+					String photo_privacy_setting = uploadImagesService.getPhotoPrivacySettings(memberID);
+					if (photo_privacy_setting != null && !photo_privacy_setting.equals("")) {
+						json.put("photo_privacy", photo_privacy_setting);
+					} else {
+						json.put("photo_privacy", "2");
+					}
+					resultArray.put(json);
+					status = true;
 				}
 			} else {
 				resultArray = null;
@@ -3317,21 +3306,22 @@ public class UpdateMemberEntityMangerFactory {
 	private String setWhereClauseForGetAllMemberforAdmin(FilterSearchModel filterSearchModel) {
 		String whereClause = "";
 		try {
-			if (filterSearchModel.getMembership() != null && !filterSearchModel.getMembership().equals("") && filterSearchModel.getMembership().equals("premium member")) {
+			if (filterSearchModel.getMembership() != null && !filterSearchModel.getMembership().equals("")
+					&& filterSearchModel.getMembership().equals("premium member")) {
 				String getPremiumID = GetMemberShipId();
 				if (getPremiumID != null && !getPremiumID.equals("")) {
 					whereClause += " and m.member_id in (" + getPremiumID + ")";
 				}
-				
+
 				if (filterSearchModel.getFrom_date() != null && !filterSearchModel.getFrom_date().equals("")) {
-					String memberID = MemberFromDate(filterSearchModel.getFrom_date(),"premium");
+					String memberID = MemberFromDate(filterSearchModel.getFrom_date(), "premium");
 					if (memberID != null && !memberID.equals("")) {
 						whereClause += " and m.member_id in (" + memberID + ")";
 					}
 				}
 
 				if (filterSearchModel.getTo_date() != null && !filterSearchModel.getTo_date().equals("")) {
-					String memberID = MemberToDate(filterSearchModel.getTo_date(),"premium");
+					String memberID = MemberToDate(filterSearchModel.getTo_date(), "premium");
 					if (memberID != null && !memberID.equals("")) {
 						whereClause += " and m.member_id in (" + memberID + ")";
 					}
@@ -3342,33 +3332,32 @@ public class UpdateMemberEntityMangerFactory {
 //					whereClause += " and m.memberID in (" + memberID + ")";
 //				}
 			}
-			
-			if (filterSearchModel.getMembership() != null && !filterSearchModel.getMembership().equals("") && filterSearchModel.getMembership().equals("non premium member")) {
+
+			if (filterSearchModel.getMembership() != null && !filterSearchModel.getMembership().equals("")
+					&& filterSearchModel.getMembership().equals("non premium member")) {
 				String getPremiumID = GetMemberShipId();
 				if (getPremiumID != null && !getPremiumID.equals("")) {
 					whereClause += " and m.member_id not in (" + getPremiumID + ")";
 				}
-				
+
 				if (filterSearchModel.getFrom_date() != null && !filterSearchModel.getFrom_date().equals("")) {
-					String memberID = MemberFromDate(filterSearchModel.getFrom_date(),"non premium");
+					String memberID = MemberFromDate(filterSearchModel.getFrom_date(), "non premium");
 					if (memberID != null && !memberID.equals("")) {
 						whereClause += " and m.member_id in (" + memberID + ")";
 					}
 				}
 
 				if (filterSearchModel.getTo_date() != null && !filterSearchModel.getTo_date().equals("")) {
-					String memberID = MemberToDate(filterSearchModel.getTo_date(),"non premium");
+					String memberID = MemberToDate(filterSearchModel.getTo_date(), "non premium");
 					if (memberID != null && !memberID.equals("")) {
 						whereClause += " and m.member_id in (" + memberID + ")";
 					}
 				}
 			}
-			
-			
+
 			if (filterSearchModel.getGender() != null && !filterSearchModel.getGender().equals("")) {
 				whereClause += " and gender ='" + filterSearchModel.getGender() + "'";
 			}
-
 
 			/*
 			 * if (filterSearchModel.getMember() != null &&
@@ -3385,7 +3374,6 @@ public class UpdateMemberEntityMangerFactory {
 		return whereClause;
 	}
 
-	
 	private String GetMemberShipId() {
 		String result = "";
 		try {
@@ -3397,7 +3385,6 @@ public class UpdateMemberEntityMangerFactory {
 		}
 		return result;
 	}
-	
 
 	private String getPlanId(String membership) {
 		String result = "";
@@ -3413,19 +3400,19 @@ public class UpdateMemberEntityMangerFactory {
 
 	}
 
-	private String MemberToDate(String to_date,String status) {
+	private String MemberToDate(String to_date, String status) {
 		String result = "";
 		try {
-			if(status.equals("premium")) {
-			result=updateMemberService.getToDatePremiumMemberIDs(to_date);
-			if(result==null) {
-				result="";
+			if (status.equals("premium")) {
+				result = updateMemberService.getToDatePremiumMemberIDs(to_date);
+				if (result == null) {
+					result = "";
+				}
 			}
-			}
-			if(status.equals("non premium")) {
-				result=updateMemberService.getToDateNonPremiumMemberIDs(to_date);
-				if(result==null) {
-					result="";
+			if (status.equals("non premium")) {
+				result = updateMemberService.getToDateNonPremiumMemberIDs(to_date);
+				if (result == null) {
+					result = "";
 				}
 			}
 //					Query q = em.createNativeQuery("SELECT group_concat(member_id) FROM hide_member where status=0");
@@ -3439,27 +3426,27 @@ public class UpdateMemberEntityMangerFactory {
 		return result;
 	}
 
-	private String MemberFromDate(String from_date,String status) {
+	private String MemberFromDate(String from_date, String status) {
 		String result = "";
-		try { 
-			if(status.equals("premium")) {
-				result=updateMemberService.getFromDatePremiumMemberIDs(from_date);
-				if(result==null) {
-					result="";
+		try {
+			if (status.equals("premium")) {
+				result = updateMemberService.getFromDatePremiumMemberIDs(from_date);
+				if (result == null) {
+					result = "";
 				}
 			}
-		if(status.equals("non premium")) {
-			result=updateMemberService.getFromDateNonPremiumMemberIDs(from_date);
-			if(result==null) {
-				result="";
+			if (status.equals("non premium")) {
+				result = updateMemberService.getFromDateNonPremiumMemberIDs(from_date);
+				if (result == null) {
+					result = "";
+				}
 			}
-		}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
-	
+
 	@Transactional
 	public HashMap<String, String> getMemberNumber(String member_number, int login_id) {
 		HashMap<String, String> map = new HashMap<>();
@@ -3501,7 +3488,7 @@ public class UpdateMemberEntityMangerFactory {
 			Query q2 = em.createNativeQuery(query2);
 			q2.setParameter("member_number", member_number);
 			int id = Integer.parseInt(q2.getSingleResult().toString());
-			
+
 			String query1 = "SELECT count(*) FROM premium_member where member_id= :id and deleteflag='N'";
 			Query q1 = em.createNativeQuery(query1);
 			q1.setParameter("id", member_number);
@@ -3668,7 +3655,7 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("subcaste", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("religion_name", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("religion_id", convertNullToBlank(String.valueOf(obj[++i])));
-					
+
 					map.put("state", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("state_id", convertNullToBlank(String.valueOf(obj[++i])));
 
@@ -3761,19 +3748,17 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("results", "1");
 
 					// get Pending,Rejected,Canceled status
-					String request_status="";
-					String block_status="";
-					String getMemberStatus=updateMemberService.getMemberStatus(login_id,thisMemberID);
-					if(getMemberStatus!=null && !getMemberStatus.equals(""))
-					{
-						request_status=getMemberStatus;
+					String request_status = "";
+					String block_status = "";
+					String getMemberStatus = updateMemberService.getMemberStatus(login_id, thisMemberID);
+					if (getMemberStatus != null && !getMemberStatus.equals("")) {
+						request_status = getMemberStatus;
 					}
 					map.put("request_status", request_status);
-					
-					String getMemberBlockStatus=updateMemberService.getMemberBlockStatus(login_id,thisMemberID);
-					if(getMemberBlockStatus!=null && !getMemberBlockStatus.equals(""))
-					{
-						block_status=getMemberBlockStatus;
+
+					String getMemberBlockStatus = updateMemberService.getMemberBlockStatus(login_id, thisMemberID);
+					if (getMemberBlockStatus != null && !getMemberBlockStatus.equals("")) {
+						block_status = getMemberBlockStatus;
 					}
 					map.put("block_status", block_status);
 
@@ -3805,5 +3790,5 @@ public class UpdateMemberEntityMangerFactory {
 		}
 		return map;
 	}
-	
+
 }
