@@ -32,11 +32,16 @@ public class RazorPayServiceImpl implements RazorPayService {
 		
 		String member_id=razorPayModel.getMember_id();
 		String plan_name=razorPayModel.getPlan_name();
-		String plan_amount=razorPayModel.getPlan_amount();
+		String plan_amount=razorPayModel.getPlan_amount();	
+		
+		String razorpay_order_id=razorPayModel.getRazorpay_order_id();		
+		String razorpay_payment_id=razorPayModel.getRazorpay_payment_id();	
+		String razorpay_signature=razorPayModel.getRazorpay_signature();
 		
 		int plan_id= getNameByIDMangerFactory.getUpgradePlanIdByName(plan_name);
 		
-		int status=razorPayRepository.updatePremiumMemberDetails(member_id,plan_id);
+//		int status=razorPayRepository.updatePremiumMemberDetails(member_id,plan_id);
+		int status=razorPayRepository.updatePremiumMemberDetails(member_id,plan_id,razorpay_order_id,razorpay_payment_id,razorpay_signature);
 		int status_update_member=razorPayRepository.updatePremiumMemberDetailsInMemberTable(member_id,plan_id);
 		
 		System.out.println("status plan "+status);

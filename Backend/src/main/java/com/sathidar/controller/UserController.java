@@ -369,7 +369,7 @@ public class UserController {
 					map.put("results", "0");
 				}
 			}else {
-				map.put("message", "email doesn't exits");
+				map.put("message", "email doesn't registered");
 				map.put("results", "0");
 			}
 		} catch (Exception e) {

@@ -81,6 +81,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	UpdateMemberRepository updateMemberRepository;
 	
+	@Autowired
+	private Constant constant;
+	
 	private static final Random RANDOM = new SecureRandom();
 	private static final String ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
@@ -309,7 +312,7 @@ public class UserServiceImpl implements UserService {
 		try {
 			if (userExists == null) {
 				map.put("results", "0");
-				map.put("message", "User name does not exits.");
+				map.put("message", "User name does not registered.");
 				return map;
 //				throw new BadRequestException("Invalid user name.");
 			}
@@ -359,7 +362,7 @@ public class UserServiceImpl implements UserService {
 			map.put("username", userExists.getUsername());
 			map.put("phone", userExists.getPhone());
 			map.put("member_id", memberID);
-			map.put("gender", gender);
+			map.put("gender", constant.FirstLetterCapital(gender));
 			map.put("profile_id", profile_id);
 			map.put("email", userExists.getEmail());
 			map.put("enabled",""+ userExists.getEnabled());
@@ -429,8 +432,10 @@ public class UserServiceImpl implements UserService {
 
 //			int userByPhoneExists = userRepository.findByPhone(user.getPhone(),user.getEmail());
 			int userByPhoneExists = userRepository.findByPhone(user.getPhone());
-			if (userByPhoneExists>0) {
-					map.put("message"," Member Already Registered.");
+			int userByEmailExits = userRepository.findByEmailCheck(user.getEmail());
+			
+			if (userByPhoneExists>0 || userByEmailExits>0) {
+					map.put("message","Member Already Registered.");
 					map.put("results","0");
 					return map;
 //					message=user.getEmail() + " already registered.";
@@ -1395,7 +1400,7 @@ public class UserServiceImpl implements UserService {
 					short_reg_status = convertNullToBlank(String.valueOf(obj[++i]));
 				}
 			}
-
+			
 			user.setConfirmationToken(confirmation_token);
 			user.setEmail(email);
 			user.setFirstName(first_name);
@@ -1421,6 +1426,7 @@ public class UserServiceImpl implements UserService {
 			if (member_id > 0) {
 				updateMember.setId(member_id);
 				System.out.println("save --- " + updateMember.getReligion());
+				System.out.println("country_name  --- " + updateMember.getCountry_name());
 
 				religionID = getNameByIDMangerFactory.getReligionID(checkNullValue(updateMember.getReligion().trim()));
 				dateOfBirth = checkNullValue(updateMember.getDate_of_birth());

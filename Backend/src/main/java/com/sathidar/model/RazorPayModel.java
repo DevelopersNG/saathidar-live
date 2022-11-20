@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity
 public class RazorPayModel {
@@ -15,6 +16,7 @@ public class RazorPayModel {
 	
 	private String applicationFee;
 
+	@Transient
 	private String razorpayOrderId;
 
 	private String secretKey;
@@ -47,6 +49,38 @@ public class RazorPayModel {
 	
 	private String plan_amount;
 	
+	
+	private String razorpay_order_id;
+	
+	private String razorpay_payment_id;
+	
+	private String razorpay_signature;
+	
+	
+	public String getRazorpay_order_id() {
+		return razorpay_order_id;
+	}
+
+	public void setRazorpay_order_id(String razorpay_order_id) {
+		this.razorpay_order_id = razorpay_order_id;
+	}
+
+	public String getRazorpay_payment_id() {
+		return razorpay_payment_id;
+	}
+
+	public void setRazorpay_payment_id(String razorpay_payment_id) {
+		this.razorpay_payment_id = razorpay_payment_id;
+	}
+
+	public String getRazorpay_signature() {
+		return razorpay_signature;
+	}
+
+	public void setRazorpay_signature(String razorpay_signature) {
+		this.razorpay_signature = razorpay_signature;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -191,19 +225,15 @@ public class RazorPayModel {
 		this.customerContact = customerContact;
 	}
 
-	@Override
-	public String toString() {
-		return "RazorPayModel [applicationFee=" + applicationFee + ", razorpayOrderId=" + razorpayOrderId
-				+ ", secretKey=" + secretKey + ", paymentId=" + paymentId + ", notes=" + notes + ", imageURL="
-				+ imageURL + ", theme=" + theme + ", merchantName=" + merchantName + ", purchaseDescription="
-				+ purchaseDescription + ", customerName=" + customerName + ", customerEmail=" + customerEmail
-				+ ", customerContact=" + customerContact + "]";
-	}
 
-	public RazorPayModel(String applicationFee, String razorpayOrderId, String secretKey, String paymentId,
+
+	public RazorPayModel(int id, String applicationFee, String razorpayOrderId, String secretKey, String paymentId,
 			String notes, String imageURL, String theme, String merchantName, String purchaseDescription,
-			String customerName, String customerEmail, String customerContact) {
+			String customerName, String customerEmail, String customerContact, String amount, String email,
+			String member_id, String plan_name, String plan_amount, String razorpay_order_id,
+			String razorpay_payment_id, String razorpay_signature) {
 		super();
+		this.id = id;
 		this.applicationFee = applicationFee;
 		this.razorpayOrderId = razorpayOrderId;
 		this.secretKey = secretKey;
@@ -216,6 +246,14 @@ public class RazorPayModel {
 		this.customerName = customerName;
 		this.customerEmail = customerEmail;
 		this.customerContact = customerContact;
+		this.amount = amount;
+		this.email = email;
+		this.member_id = member_id;
+		this.plan_name = plan_name;
+		this.plan_amount = plan_amount;
+		this.razorpay_order_id = razorpay_order_id;
+		this.razorpay_payment_id = razorpay_payment_id;
+		this.razorpay_signature = razorpay_signature;
 	}
 
 	public RazorPayModel() {

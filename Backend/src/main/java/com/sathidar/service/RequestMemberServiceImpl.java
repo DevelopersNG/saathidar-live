@@ -53,6 +53,9 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 	@Autowired
 	private UserEntityManagerFactory userEntityManagerFactory;
 
+	@Autowired
+	private Constant constant;
+	
 	@Override
 	public JSONArray SendRequestToMember(RequestMemberModel requestMemberModel) {
 
@@ -1263,7 +1266,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 
 			int count = requestMemberRepository.getBlockMembers(request_from_id, request_to_id);
 			if (count > 0) {
-				if (block_status.equals("Block")) {
+				if (block_status.equals("Block")) {	
 					status = requestMemberRepository.requestBlockToMember(request_from_id, request_to_id, block_by_id,
 							block_status);
 				} else {
@@ -1439,7 +1442,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 
 			String gender = convertNullToBlank(String.valueOf(obj[++i]));
 
-			json.put("gender", gender);
+			json.put("gender", constant.FirstLetterCapital(gender));
 			json.put("mage", convertNullToBlank(String.valueOf(obj[++i])));
 			json.put("contact_number", convertNullToBlank(String.valueOf(obj[++i])));
 			json.put("profilecreatedby", convertNullToBlank(String.valueOf(obj[++i])));
@@ -2300,7 +2303,7 @@ public class RequestMemberServiceImpl implements RequestMemberService {
 
 			String gender = convertNullToBlank(String.valueOf(obj[++i]));
 
-			json.put("gender", gender);
+			json.put("gender",constant.FirstLetterCapital(gender));
 			json.put("mage", convertNullToBlank(String.valueOf(obj[++i])));
 			json.put("contact_number", convertNullToBlank(String.valueOf(obj[++i])));
 			json.put("profilecreatedby", convertNullToBlank(String.valueOf(obj[++i])));

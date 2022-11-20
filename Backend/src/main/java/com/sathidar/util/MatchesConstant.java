@@ -67,9 +67,6 @@ public class MatchesConstant {
 								TO_AGE=Integer.parseInt(temp_to_age);
 							}
 							
-							
-							
-							
 							String temp_from_height=convertNullToBlank(String.valueOf(objPartner[++j]));
 							String temp_to_height=convertNullToBlank(String.valueOf(objPartner[++j]));
 						if(!temp_from_height.equals("")  && !temp_to_height.equals("") && !temp_from_age.equals("null")) {

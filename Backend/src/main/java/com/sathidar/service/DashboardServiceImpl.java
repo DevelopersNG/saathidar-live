@@ -16,6 +16,7 @@ import com.sathidar.EntityMangerFactory.UpdateMemberEntityMangerFactory;
 import com.sathidar.model.UpdateMember;
 import com.sathidar.repository.DashboardRepository;
 import com.sathidar.repository.UpdateMemberRepository;
+import com.sathidar.util.Constant;
 import com.sathidar.util.MatchesConstant;
 import com.sathidar.util.MembersDetailsAction;
 
@@ -52,6 +53,9 @@ public class DashboardServiceImpl implements DashboardService {
 	@Autowired
 	private UpdateMemberEntityMangerFactory updateMemberEntityMangerFactory;
 
+	@Autowired
+	private Constant constant;
+	
 	@Override
 	public JSONArray GetAllCountDetails(String member_id) {
 		JSONArray resultArray = new JSONArray();
@@ -216,7 +220,7 @@ public class DashboardServiceImpl implements DashboardService {
 			json.put("known_languages", convertNullToBlank(String.valueOf(obj[++i])));
 			json.put("first_name", convertNullToBlank(String.valueOf(obj[++i])));
 			json.put("last_name", convertNullToBlank(String.valueOf(obj[++i])));
-			json.put("gender", convertNullToBlank(String.valueOf(obj[++i])));
+			json.put("gender", constant.FirstLetterCapital(convertNullToBlank(String.valueOf(obj[++i]))));
 			json.put("mage", convertNullToBlank(String.valueOf(obj[++i])));
 			json.put("contact_number", convertNullToBlank(String.valueOf(obj[++i])));
 			json.put("profilecreatedby", convertNullToBlank(String.valueOf(obj[++i])));
@@ -725,7 +729,7 @@ public class DashboardServiceImpl implements DashboardService {
 					if (matchesStatus) {
 						json.put("first_name", first_name);
 						json.put("last_name", last_name);
-						json.put("gender", myGender);
+						json.put("gender", constant.FirstLetterCapital(myGender));
 						if (!myAge.equals(""))
 							myAge = myAge + "yrs";
 						json.put("mage", myAge);

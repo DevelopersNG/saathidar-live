@@ -15,6 +15,7 @@ import com.sathidar.EntityMangerFactory.GetNameByIDMangerFactory;
 import com.sathidar.exception.BadRequestException;
 import com.sathidar.model.ShortListsModel;
 import com.sathidar.repository.ShortListsRepository;
+import com.sathidar.util.Constant;
 
 @Service
 public class ShortListServiceImpl implements ShortListService {
@@ -33,6 +34,9 @@ public class ShortListServiceImpl implements ShortListService {
 
 	@Autowired
 	private UpdateMemberService updateMemberService;
+	
+	@Autowired
+	private Constant constant;
 	
 	@Override
 	public int AddToShortLists(ShortListsModel shortListsModel) {
@@ -185,7 +189,7 @@ public class ShortListServiceImpl implements ShortListService {
 			json.put("known_languages", convertNullToBlank(String.valueOf(obj[++i])));
 			json.put("first_name", convertNullToBlank(String.valueOf(obj[++i])));
 			json.put("last_name", convertNullToBlank(String.valueOf(obj[++i])));
-			json.put("gender", convertNullToBlank(String.valueOf(obj[++i])));
+			json.put("gender", constant.FirstLetterCapital(convertNullToBlank(String.valueOf(obj[++i]))));
 			json.put("mage", convertNullToBlank(String.valueOf(obj[++i])));
 			json.put("contact_number", convertNullToBlank(String.valueOf(obj[++i])));
 			json.put("profilecreatedby", convertNullToBlank(String.valueOf(obj[++i])));
