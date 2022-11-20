@@ -145,7 +145,13 @@ public class MembersDetailsAction {
 	@Transactional
 	public String getDateOfBirthPrivacy(int loginPremiumStatus, String thisMemberID, String date_of_birth) {
 		try {
-			String[] dateOfBirth=date_of_birth.split("/");
+			String[] dateOfBirth=new String[25];
+			if(date_of_birth.contains("/")) {
+				dateOfBirth=date_of_birth.split("/");
+			}else if (date_of_birth.contains("-")) {
+				dateOfBirth=date_of_birth.split("-");
+			}
+			
 			String year=dateOfBirth[0];
 			String month=dateOfBirth[1];
 			String day=dateOfBirth[2];

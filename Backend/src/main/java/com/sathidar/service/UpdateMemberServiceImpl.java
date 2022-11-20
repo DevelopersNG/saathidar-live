@@ -260,10 +260,10 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 		String mhighest_qualification = "", mcollege_attended = "", mworking_with = "", mworking_as = "",
 				memployer_name = "", mannual_income = "",ug_education="";
 
-		// add member details
+		// add member details // comments for website
 		try {
-			prodile_created = checkNullValue(updateMember.getProfilecreatedby().trim());
-			gender = checkNullValue(updateMember.getGender().trim());
+			prodile_created = checkNullValue(updateMember.getProfilecreatedby());
+			gender = checkNullValue(updateMember.getGender());
 			Object memberTbl = updateMemberRepository.UpdateInMemberTable(prodile_created, gender, id);
 			memberUpdateStatus = true;
 		} catch (Exception e) {
@@ -274,48 +274,48 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 		try {
 			updateMember.setId(id);
 			mNative = "";
-			mHeight = checkNullValue(updateMember.getHeight().trim());
+			mHeight = checkNullValue(updateMember.getHeight());
 //			mWeight=checkNullValue(updateMember.getWeight().trim());
-			mLifeStyles = checkNullValue(updateMember.getLifestyles().trim());
-			mKnown_Languages = checkNullValue(updateMember.getKnown_languages().trim());
+			mLifeStyles = checkNullValue(updateMember.getLifestyles());
+			mKnown_Languages = checkNullValue(updateMember.getKnown_languages());
 //			mEducation = checkNullValue(updateMember.getEducation().trim());
 //			mJob = checkNullValue(updateMember.getJob().trim());
 //			mIncome = checkNullValue(updateMember.getIncome().trim());
 //			mHobbies = checkNullValue(updateMember.getHobbies().trim());
 //			mExpectation = checkNullValue(updateMember.getExpectations().trim());
-			mhealth_info = checkNullValue(updateMember.getHealth_info().trim());
-			mblood_group = checkNullValue(updateMember.getBlood_group().trim());
-			mgothra = checkNullValue(updateMember.getGothra().trim());
-			methnic_corigin = checkNullValue(updateMember.getEthnic_corigin().trim());
-			mpincode = checkNullValue(updateMember.getPincode().trim());
-			mabout_ourself = checkNullValue(updateMember.getAbout_ourself().trim());
+			mhealth_info = checkNullValue(updateMember.getHealth_info());
+			mblood_group = checkNullValue(updateMember.getBlood_group());
+			mgothra = checkNullValue(updateMember.getGothra());
+			methnic_corigin = checkNullValue(updateMember.getEthnic_corigin());
+			mpincode = checkNullValue(updateMember.getPincode());
+			mabout_ourself = checkNullValue(updateMember.getAbout_ourself());
 			// ------- 23-3-2022 start------------
 //			religionID = updateMemberRepository.getReligionID(updateMember.getReligion_name().trim());
 //			casteID = updateMemberRepository.getCasteIDByReligionID(updateMember.getCaste_name().trim(), religionID);
 //			subCasteID = updateMemberRepository.getSubCasteID(updateMember.getSub_caste_name().trim(), casteID);
 //			stateID = updateMemberRepository.getStateID(updateMember.getState_name().trim());
 //			cityID = updateMemberRepository.getCityID(updateMember.getCity_name().trim(), stateID);
-
-			casteID = getNameByIDMangerFactory.getCasteID(checkNullValue(updateMember.getCaste_name().trim()));
-//			subCasteID= getNameByIDMangerFactory.getSubCasteIdByName(updateMember.getSub_caste_name().trim());
-			religionID = getNameByIDMangerFactory.getReligionID(checkNullValue(updateMember.getReligion_name().trim()));
-			stateID = getNameByIDMangerFactory.getStateIdByName(checkNullValue(updateMember.getState_name().trim()));
-			cityID = getNameByIDMangerFactory.getCityidByName(checkNullValue(updateMember.getCity_name().trim()));
+			
+			casteID = getNameByIDMangerFactory.getCasteID(checkNullValue(updateMember.getCaste_name()));
+//			subCasteID= getNameByIDMangerFactory.getSubCasteIdByName(updateMember.getSub_caste_name());
+			religionID = getNameByIDMangerFactory.getReligionID(checkNullValue(updateMember.getReligion_name()));
+			stateID = getNameByIDMangerFactory.getStateIdByName(checkNullValue(updateMember.getState_name()));
+			cityID = getNameByIDMangerFactory.getCityidByName(checkNullValue(updateMember.getCity_name()));
 			countryID = getNameByIDMangerFactory
-					.getCountryIdByName(checkNullValue(updateMember.getCountry_name().trim()));
+					.getCountryIdByName(checkNullValue(updateMember.getCountry_name()));
 //			religionID=updateMember.getReligion_id();
 //			casteID=updateMember.getCast_id();
-			subCast = checkNullValue(updateMember.getSub_caste_name().trim());
+			subCast = checkNullValue(updateMember.getSub_caste_name());
 
 //			countryID=updateMember.getCountry_Id();
 //			stateID=updateMember.getState_Id();
 //			cityID=updateMember.getCity_Id();
 
-			mother_tounge = checkNullValue(updateMember.getMother_tounge().trim());
-			marital_status = checkNullValue(updateMember.getMarital_status().trim());
-			noOfChildren = checkNullValue(updateMember.getNo_of_children().trim());
-			dateOfBirth = checkNullValue(updateMember.getDate_of_birth().trim());
-			age = Integer.parseInt(checkNullValue(updateMember.getAge() + "".trim()));
+			mother_tounge = checkNullValue(updateMember.getMother_tounge());
+			marital_status = checkNullValue(updateMember.getMarital_status());
+			noOfChildren = checkNullValue(updateMember.getNo_of_children());
+			dateOfBirth = checkNullValue(updateMember.getDate_of_birth());
+			age = Integer.parseInt(checkNullValue(updateMember.getAge() + ""));
 
 			Object memberDetails = updateMemberRepository.UpdateMemberDetails(mNative, mHeight, mWeight, mLifeStyles,
 					mKnown_Languages, mEducation, mJob, mIncome, mHobbies, mExpectation, id, mother_tounge,
@@ -328,21 +328,21 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 
 		// update family details
 		try {
-			mfather_status = checkNullValue(updateMember.getFather_status().trim());
-			mfather_company_name = checkNullValue(updateMember.getFather_company_name().trim());
-			mfather_designation = checkNullValue(updateMember.getFather_designation().trim());
-			mfather_business_name = checkNullValue(updateMember.getFather_business_name().trim());
-			mmother_status = checkNullValue(updateMember.getMother_status().trim());
-			mmother_company_name = checkNullValue(updateMember.getMother_company_name().trim());
-			mmother_designation = checkNullValue(updateMember.getMother_designation().trim());
-			mmother_business_name = checkNullValue(updateMember.getMother_business_name().trim());
+			mfather_status = checkNullValue(updateMember.getFather_status());
+			mfather_company_name = checkNullValue(updateMember.getFather_company_name());
+			mfather_designation = checkNullValue(updateMember.getFather_designation());
+			mfather_business_name = checkNullValue(updateMember.getFather_business_name());
+			mmother_status = checkNullValue(updateMember.getMother_status());
+			mmother_company_name = checkNullValue(updateMember.getMother_company_name());
+			mmother_designation = checkNullValue(updateMember.getMother_designation());
+			mmother_business_name = checkNullValue(updateMember.getMother_business_name());
 
-			mfamily_location = checkNullValue(updateMember.getFamily_location().trim());
-			mnative_place = checkNullValue(updateMember.getNative_place().trim());
-			mfamily_type = checkNullValue(updateMember.getFamily_type().trim());
-//			mfamily_values=checkNullValue(updateMember.getFamily_values().trim());
+			mfamily_location = checkNullValue(updateMember.getFamily_location());
+			mnative_place = checkNullValue(updateMember.getNative_place());
+			mfamily_type = checkNullValue(updateMember.getFamily_type());
+//			mfamily_values=checkNullValue(updateMember.getFamily_values());
 			mfamily_values = "";
-			mfamily_affluence = checkNullValue(updateMember.getFamily_affluence().trim());
+			mfamily_affluence = checkNullValue(updateMember.getFamily_affluence());
 
 			married_male = checkNullValue(updateMember.getMarried_male());
 			unmarried_male = checkNullValue(updateMember.getUnmarried_male());
@@ -362,13 +362,13 @@ public class UpdateMemberServiceImpl implements UpdateMemberService {
 		// mhighest_qualification,
 		// update qualifications
 		try {
-			mhighest_qualification = checkNullValue(updateMember.getHighest_qualification().trim());
-			mcollege_attended = checkNullValue(updateMember.getCollege_attended().trim());
-			mworking_with = checkNullValue(updateMember.getWorking_with().trim());
-			mworking_as = checkNullValue(updateMember.getWorking_as().trim());
-			memployer_name = checkNullValue(updateMember.getEmployer_name().trim());
-			mannual_income = checkNullValue(updateMember.getAnnual_income().trim());
-			ug_education=checkNullValue(updateMember.getUg_education().trim());
+			mhighest_qualification = checkNullValue(updateMember.getHighest_qualification());
+			mcollege_attended = checkNullValue(updateMember.getCollege_attended());
+			mworking_with = checkNullValue(updateMember.getWorking_with());
+			mworking_as = checkNullValue(updateMember.getWorking_as());
+			memployer_name = checkNullValue(updateMember.getEmployer_name());
+			mannual_income = checkNullValue(updateMember.getAnnual_income());
+			ug_education=checkNullValue(updateMember.getUg_education());
 			Object memberEducationCareer = updateMemberRepository.UpdatememberEducationCareerDetails(id,
 					mhighest_qualification, mcollege_attended, mworking_with, mworking_as, memployer_name,
 					mannual_income, ug_education);

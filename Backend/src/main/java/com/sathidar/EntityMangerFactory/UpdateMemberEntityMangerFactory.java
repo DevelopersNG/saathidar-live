@@ -22,6 +22,7 @@ import com.sathidar.model.UpdateMember;
 import com.sathidar.repository.UpdateMemberRepository;
 import com.sathidar.service.UpdateMemberService;
 import com.sathidar.service.UploadImagesService;
+import com.sathidar.util.Constant;
 import com.sathidar.util.MatchesConstant;
 import com.sathidar.util.MembersDetailsAction;
 import com.sathidar.util.SendSMSAction;
@@ -55,6 +56,9 @@ public class UpdateMemberEntityMangerFactory {
 
 	@Autowired
 	private UpdateMemberService updateMemberService;
+	
+	@Autowired
+	private Constant constant;
 
 	public HashMap<String, String> getMemberIdByUserLoginId(int id) {
 		HashMap<String, String> map = new HashMap<>();
@@ -101,7 +105,7 @@ public class UpdateMemberEntityMangerFactory {
 	@Transactional
 	public HashMap<String, String> getMember(int id, int login_id) {
 		HashMap<String, String> map = new HashMap<>();
-
+		
 		String columnName = "member_number,m.member_id, membernative,height,weight,lifestyles,known_languages,education,job,income,hobbies,expectations,first_name,last_name,gender,md.age,"
 				+ "contact_number,email_id,profilecreatedby,md.marital_status as maritalStatus,no_of_children,mother_tounge,date_of_birth,"
 				+ "health_info,blood_group,gothra,ethnic_corigin,pincode,about_ourself,profile_photo_id,"
@@ -222,7 +226,7 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("first_name", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("last_name", convertNullToBlank(String.valueOf(obj[++i])));
 					String gender = convertNullToBlank(String.valueOf(obj[++i]));
-					map.put("gender", gender);
+					map.put("gender",constant.FirstLetterCapital(gender));
 					map.put("age", convertNullToBlank(String.valueOf(obj[++i])));
 
 					// second row
@@ -799,7 +803,7 @@ public class UpdateMemberEntityMangerFactory {
 
 					json.put("first_name", first_name);
 					json.put("last_name", last_name);
-					json.put("gender", myGender);
+					json.put("gender", constant.FirstLetterCapital(myGender));
 					json.put("city", myCityName);
 					if (!myAge.equals(""))
 						myAge = myAge + " yrs";
@@ -957,7 +961,7 @@ public class UpdateMemberEntityMangerFactory {
 					+ "edu.highest_qualification as highest_qualification,edu.working_with as working_with,edu.working_as as working_as,edu.annual_income as annual_income";
 
 //		******************************begin refine search Filter Data*************************************************************************
-			String whereClause = setWhereClauseForGetAllMember(updateMember);
+//			String whereClause = setWhereClauseForGetAllMember(updateMember);
 
 			String refineWhereClause = "";
 			if (matches_status.equals("REFINE-SEARCH")) {
@@ -995,7 +999,8 @@ public class UpdateMemberEntityMangerFactory {
 			String first_name = "", last_name = "";
 
 			List<Object[]> results = q.getResultList();
-			if (results != null) {
+			System.out.println("error1"); 
+			if (!results.isEmpty()) {
 				for (Object[] obj : results) {
 					JSONObject json = new JSONObject();
 					int i = 0;
@@ -1146,7 +1151,7 @@ public class UpdateMemberEntityMangerFactory {
 					if (matchesStatus) {
 						json.put("first_name", first_name);
 						json.put("last_name", last_name);
-						json.put("gender", myGender);
+						json.put("gender", constant.FirstLetterCapital(myGender));
 						if (!myAge.equals(""))
 							myAge = myAge + "yrs";
 						json.put("mage", myAge);
@@ -1344,7 +1349,7 @@ public class UpdateMemberEntityMangerFactory {
 
 			if (updateMember.getFrom_age() != null && !updateMember.getFrom_age().equals("")) {
 				whereClause += " and md.age >=" + updateMember.getFrom_age();
-			}
+			}	
 
 			if (updateMember.getTo_age() != null && !updateMember.getTo_age().equals("")) {
 				whereClause += " and md.age <=" + updateMember.getTo_age();
@@ -1486,7 +1491,7 @@ public class UpdateMemberEntityMangerFactory {
 			setJson.put("expectations", convertNullToBlank(String.valueOf(obj[++i])));
 			setJson.put("first_name", convertNullToBlank(String.valueOf(obj[++i])));
 			setJson.put("last_name", convertNullToBlank(String.valueOf(obj[++i])));
-			setJson.put("gender", convertNullToBlank(String.valueOf(obj[++i])));
+			setJson.put("gender", constant.FirstLetterCapital(convertNullToBlank(String.valueOf(obj[++i]))));
 			setJson.put("mage", convertNullToBlank(String.valueOf(obj[++i])));
 			setJson.put("contact_number", convertNullToBlank(String.valueOf(obj[++i])));
 			setJson.put("email_id", convertNullToBlank(String.valueOf(obj[++i])));
@@ -1595,7 +1600,7 @@ public class UpdateMemberEntityMangerFactory {
 				setJson.put("gender", "");
 				++i;
 			} else
-				setJson.put("gender", convertNullToBlank(String.valueOf(obj[++i])));
+				setJson.put("gender", constant.FirstLetterCapital(convertNullToBlank(String.valueOf(obj[++i]))));
 
 			if (fieldName.contains("mage")) {
 				setJson.put("mage", "");
@@ -1955,7 +1960,7 @@ public class UpdateMemberEntityMangerFactory {
 				json.put("known_languages", convertNullToBlank(String.valueOf(obj[++i])));
 				json.put("first_name", convertNullToBlank(String.valueOf(obj[++i])));
 				json.put("last_name", convertNullToBlank(String.valueOf(obj[++i])));
-				json.put("gender", convertNullToBlank(String.valueOf(obj[++i])));
+				json.put("gender", constant.FirstLetterCapital(convertNullToBlank(String.valueOf(obj[++i]))));
 				json.put("mage", convertNullToBlank(String.valueOf(obj[++i])));
 				json.put("contact_number", convertNullToBlank(String.valueOf(obj[++i])));
 				json.put("profilecreatedby", convertNullToBlank(String.valueOf(obj[++i])));
@@ -2035,12 +2040,20 @@ public class UpdateMemberEntityMangerFactory {
 			}
 			if (updateMember.getAnnualIncome() != null && !updateMember.getAnnualIncome().equals("")) {
 				String annualIncome = "";
-				if (updateMember.getAnnualIncome().equals("All")) {
-					annualIncome = "'INR 2 Lakh to 4 Lakh','INR 4 Lakh to 7 Lakh','INR 7 Lakh to 10 Lakh','INR 10 Lakh to 15 Lakh','INR 15 Lakh to 20 Lakh','INR 20 Lakh to 30 Lakh'";
-				} else {
-					annualIncome = setSpecialQuammaAndSingleQuatoToList(updateMember.getAnnualIncome());
+				try {
+					if (updateMember.getAnnualIncome().equals("All")) {
+//						annualIncome = "'INR 2 Lakh to 4 Lakh','INR 4 Lakh to 7 Lakh','INR 7 Lakh to 10 Lakh','INR 10 Lakh to 15 Lakh','INR 15 Lakh to 20 Lakh','INR 20 Lakh to 30 Lakh'";
+						annualIncome = "'Upto INR 1 Lakh','INR 1 Lakh to 5 Lakh','INR 5 Lakh to 10 Lakh','INR 10 Lakh to 15 Lakh','INR 15 Lakh to 20 Lakh','INR 20 Lakh to 25 Lakh','INR 25 Lakh to 50 Lakh','INR 50 Lakh to 75 Lakh','INR 75 Lakh to 1 Crore','INR 1 Crore above','Don't want to specify'";
+					} else {	
+						annualIncome = setSpecialQuammaAndSingleQuatoToList(updateMember.getAnnualIncome());
+					}
+					whereClause += " and edu.annual_income in (" + annualIncome + ")";
 				}
-				whereClause += " and edu.annual_income in (" + annualIncome + ")";
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				
 			}
 			if (updateMember.getMaritalStatus() != null && !updateMember.getMaritalStatus().equals("")) {
 				String maritalStatus = "";
@@ -2671,11 +2684,11 @@ public class UpdateMemberEntityMangerFactory {
 		try {
 			String myQuery = "";
 			if (matches_status.equals("NEW_MATCHES")) {
-				myQuery = "SELECT group_concat(member_id) FROM member where  member_id!= :member_id  and user_id in (select id from users where otp_verified=1 and MONTH(creation_date) >= MONTH(CURRENT_DATE - INTERVAL 1 MONTH))";
+				myQuery = "SELECT group_concat(member_id) FROM member where  member_id!= :member_id  and user_id in (select id from users where otp_verified=1  and short_reg_status=1 and MONTH(creation_date) >= MONTH(CURRENT_DATE - INTERVAL 1 MONTH))";
 			} else if (matches_status.equals("MY_MATCHES")) {
-				myQuery = "SELECT group_concat(member_id) FROM member where  member_id!= :member_id  and user_id in (select id from users where otp_verified=1)";
+				myQuery = "SELECT group_concat(member_id) FROM member where  member_id!= :member_id  and user_id in (select id from users where otp_verified=1 and short_reg_status=1 )";
 			} else if (matches_status.equals("TODAYS_MATCHES")) {
-				myQuery = "SELECT group_concat(member_id) FROM member where  member_id!= :member_id  and user_id in (select id from users where otp_verified=1 and DATE(creation_date)= CURDATE())";
+				myQuery = "SELECT group_concat(member_id) FROM member where  member_id!= :member_id  and user_id in (select id from users where short_reg_status=1 and otp_verified=1 and DATE(creation_date)= CURDATE())";
 			}
 			Query query = em.createNativeQuery(myQuery);
 			query.setParameter("member_id", member_id);
@@ -2910,7 +2923,7 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("first_name", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("last_name", convertNullToBlank(String.valueOf(obj[++i])));
 					String gender = convertNullToBlank(String.valueOf(obj[++i]));
-					map.put("gender", gender);
+					map.put("gender", constant.FirstLetterCapital(gender));
 					map.put("age", convertNullToBlank(String.valueOf(obj[++i])));
 
 					// second row
@@ -3590,8 +3603,8 @@ public class UpdateMemberEntityMangerFactory {
 					map.put("expectations", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("first_name", convertNullToBlank(String.valueOf(obj[++i])));
 					map.put("last_name", convertNullToBlank(String.valueOf(obj[++i])));
-					String gender = convertNullToBlank(String.valueOf(obj[++i]));
-					map.put("gender", gender);
+					String gender =convertNullToBlank(String.valueOf(obj[++i]));
+					map.put("gender",constant.FirstLetterCapital( gender));
 					map.put("age", convertNullToBlank(String.valueOf(obj[++i])));
 
 					// second row

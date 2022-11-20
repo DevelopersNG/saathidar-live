@@ -25,7 +25,7 @@ public interface UserRepository extends JpaRepository<User, Integer>  {
 	public User getUserByUsername(@Param("username") String username);
 
 //	@Query("SELECT u FROM User u WHERE u.email = :email and u.status='ACTIVE'")
-	@Query("SELECT u FROM User u WHERE u.email = :email and u.enabled='1' and u.short_reg_status=1")
+	@Query("SELECT u FROM User u WHERE u.email = :email and u.otp_verified=1 and u.short_reg_status=1")
 	User findByEmail(String email);
 	
 //	@Query("SELECT count(*) FROM User  WHERE email = :email and phone = :phone and enabled='1' and short_reg_status=1 and otp_verified=1")
@@ -34,6 +34,9 @@ public interface UserRepository extends JpaRepository<User, Integer>  {
 //	@Query("SELECT count(*) FROM User  WHERE phone = :phone and enabled='1' and short_reg_status=1 and otp_verified=1")
 	@Query("SELECT count(*) FROM User  WHERE phone = :phone and short_reg_status=1 and otp_verified=1")
 	int findByPhone(String phone);
+	
+	@Query("SELECT count(*) FROM User WHERE email = :email and short_reg_status=1 and otp_verified=1")
+	int findByEmailCheck(String email);
 	
 	@Query(value="SELECT count(*) FROM hide_member WHERE member_id = :ID",nativeQuery = true)
 	int isAvaialbeHideMember(int ID);

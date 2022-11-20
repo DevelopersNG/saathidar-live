@@ -267,14 +267,23 @@ public class UpdateMemberController {
 	public String getAllMemberByRefineSearch(@Validated @RequestBody UpdateMember updateMember,
 			@PathVariable("id") int id) {
 		JSONArray jsonResultArray = new JSONArray();
+		JSONObject jsObject = new JSONObject();
 		jsonResultArray = updateMemberEntityMangerFactory.getAllMemberByFilter(updateMember, id, "REFINE-SEARCH");
 //		 jsonResultArray=updateMemberEntityMangerFactory.getAllMemberByRefineSearch(updateMember,id);
-		return jsonResultArray.toString();
+		if (jsonResultArray != null) {
+			jsObject.put("data", jsonResultArray);
+			jsObject.put("results", "1");
+		} else {
+			jsObject.put("data", jsonResultArray);
+			jsObject.put("results", "0");
+		}
+		return jsObject.toString();
 	}
 
 	@GetMapping(value = "/member/get-all-member-inside-login/{id}")
 	public String getAllMembers(@PathVariable("id") int id) {
 		JSONArray jsonResultArray = new JSONArray();
+		
 		jsonResultArray = updateMemberEntityMangerFactory.getAllMembers(id);
 		return jsonResultArray.toString();
 	}

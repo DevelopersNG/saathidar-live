@@ -314,7 +314,7 @@ public class EmailBodyClass {
 				"                          <tbody>\r\n" + 
 				"                            <tr style=\"width: 100%;border-radius: 5px;background-color: #ffffff;margin-top: 10px;\">\r\n" + 
 				"                              <td align=\"left\">\r\n" + 
-				"                                <a href=\"\">Saathidaar.com </a><br>\r\n" + 
+				"                                <a href=\"www.Saathidaar.com\">Saathidaar.com </a><br>\r\n" + 
 				"                              </td>\r\n" + 
 				"                                <td>\r\n" + 
 //				"                                <a href=\"http://htmlemail.io\" target=\"_blank\">View Full Profile</a> \r\n" + 
@@ -1974,7 +1974,7 @@ public class EmailBodyClass {
 					"                        <h1><img  src=\""+imageLink+"\" alt=\"\"></h1>\r\n" + 
 					"                        <hr>\r\n" + 
 					"                        <h2> "+fullName+"</h2>\r\n" + 
-					"                        <h5>Thanks you for purchasing "+plan_name+" from <a href=\"saathidaar.com\">Saathidaar.com</a></h5>\r\n" + 
+					"                        <h5>Thanks you for purchasing "+plan_name+" from <a href=\"www.saathidaar.com\">Saathidaar.com</a></h5>\r\n" + 
 					"                        <h5 > Here are your purchase details : </h5>\r\n" + 
 					"                        <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"btn btn-primary\">\r\n" + 
 					"                          <tbody>\r\n" + 
@@ -2339,7 +2339,7 @@ public class EmailBodyClass {
 					"                      <td>\r\n" + 
 					"                        <h1><img src=\""+imageLink+"\" alt=\"\"></h1>\r\n" + 
 					"                        <hr>\r\n" + 
-					"   					 <h4 style=\"text-align: center;\">You have successfully completed user registration on <strong>saathidaar.com</strong></h4>\r\n" + 
+					"   					 <h4 style=\"text-align: center;\">You have successfully completed user registration on <strong><a href=\"www.Saathidaar.com\">Saathidaar.com</a></strong></h4>\r\n" + 
 					"                        <h2>Hi "+firstName+"&nbsp;"+lastName+"</h2>\r\n" + 
 					"                        <h5></h5>\r\n" + 
 					"                        <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"btn btn-primary\">\r\n" + 
@@ -2711,7 +2711,7 @@ public class EmailBodyClass {
 					"                        <h1><img src=\""+imageLink+"\" alt=\"\"></h1>\r\n" + 
 					"                        <hr>\r\n" + 				
 					"                        <h2>Hi "+firstName+"&nbsp;"+lastName+"</h2>\r\n" + 
-					"                        <h5>Your new password is "+newPassword+" on <a href=\"\">Saathidaar.com</a></h5>\r\n" + 
+					"                        <h5>Your new password is "+newPassword+" on <a href=\"www.Saathidaar.com\">Saathidaar.com</a></h5>\r\n" + 
 					"                        <h5></h5>\r\n" + 
 					"                        <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"btn btn-primary\">\r\n" + 
 					"                          <tbody>\r\n" + 
