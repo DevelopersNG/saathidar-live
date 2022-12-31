@@ -157,6 +157,10 @@ public class UserController {
 			if(updateStatus>0) {
 				String user_id=userService.getUserIDByVerifyNumber(phone);
 				int status=userService.updateStatusACTIVEToMemberTable(user_id);
+				// send mail
+				
+				String emailByMobile=userService.sendConfirmationEmailToUSer(user_id);
+				
 				map.put("message", "OTP verified");
 				map.put("results", "1");
 			}else {

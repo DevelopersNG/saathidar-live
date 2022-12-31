@@ -70,5 +70,7 @@ public interface UserService {
 
 	int updateStatusACTIVEToMemberTable(String user_id);
 
+	String sendConfirmationEmailToUSer(String user_id);
+
 //	User logoutUser(User user);
 }

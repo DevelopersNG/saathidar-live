@@ -444,4 +444,9 @@ public class UploadImagesServiceImpl implements UploadImagesService {
 	public String getPremiumDate(String memberID) {
 		return uploadImagesRepository.getPremiumDate(memberID);
 	}
+	
+	@Override
+	public String getAdminPremiumDate(String memberID) {
+		return uploadImagesRepository.getAdminPremiumDate(memberID);
+	}
 }

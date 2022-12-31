@@ -61,4 +61,6 @@ public interface UploadImagesService {
 	JSONArray getMyMemberAppPhotos(String string);
 
 	String getPremiumDate(String memberID);
+	
+	String getAdminPremiumDate(String memberID);
 }

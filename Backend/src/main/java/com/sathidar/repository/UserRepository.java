@@ -138,4 +138,7 @@ public interface UserRepository extends JpaRepository<User, Integer>  {
 	@Query(value = "update member set status='ACTIVE' where user_id= :user_id", nativeQuery = true)
 	int updateStatusACTIVEToMemberTable(String user_id);
 
+	@Query(value="SELECT * FROM users WHERE id = :userID and short_reg_status=1 and otp_verified='1' ",nativeQuery = true)
+	List<User> getEmailByUserID(String userID);
+	
 }

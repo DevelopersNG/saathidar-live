@@ -14,6 +14,8 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sathidar.util.Constant;
+
 @Service
 public class MemberPreferenceManagerFactory {
 
@@ -22,6 +24,9 @@ public class MemberPreferenceManagerFactory {
 	
 	@Autowired
 	public GetNameByIDMangerFactory getNameByIDMangerFactory;
+	
+	@Autowired
+	public Constant constant;
 	
 	public HashMap<String, String> getMemberPreferenceDetails(int memberID) {
 		HashMap<String, String> map = new HashMap<>();
@@ -50,41 +55,41 @@ public class MemberPreferenceManagerFactory {
 		if (results != null) {
 			for (Object[] obj : results) {
 				int i = 0;
-					map.put("partner_from_age", String.valueOf(obj[i]));
-					map.put("partner_to_age", String.valueOf(obj[++i]));
-					map.put("partner_from_height", String.valueOf(obj[++i]));
-					map.put("partner_to_height", String.valueOf(obj[++i]));
-					map.put("partner_manglik_all", String.valueOf(obj[++i]));
-					map.put("partner_annual_income", String.valueOf(obj[++i]));
-					map.put("partner_profile_created", String.valueOf(obj[++i]));
-					map.put("partner_lifestyles", String.valueOf(obj[++i]));
-					map.put("partner_marital_status", String.valueOf(obj[++i]));
+					map.put("partner_from_age",constant.convertNullToBlank(String.valueOf(obj[i])));
+					map.put("partner_to_age", constant.convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("partner_from_height", constant.convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("partner_to_height", constant.convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("partner_manglik_all", constant.convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("partner_annual_income", constant.convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("partner_profile_created", constant.convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("partner_lifestyles", constant.convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("partner_marital_status", constant.convertNullToBlank(String.valueOf(obj[++i])));
 					
-					map.put("partner_mother_tongue", String.valueOf(obj[++i]));
-					map.put("partner_qualification", String.valueOf(obj[++i]));
-					map.put("partner_working_with", String.valueOf(obj[++i]));
-					map.put("partner_professional_area", String.valueOf(obj[++i]));
+					map.put("partner_mother_tongue",constant.convertNullToBlank( String.valueOf(obj[++i])));
+					map.put("partner_qualification", constant.convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("partner_working_with", constant.convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("partner_professional_area", constant.convertNullToBlank(String.valueOf(obj[++i])));
 					
 					String religionsName=checkIsQuammaSeperatedValue(String.valueOf(obj[++i]),"religions");
-					map.put("partner_religions",religionsName);
+					map.put("partner_religions",constant.convertNullToBlank(religionsName));
 					
 					String cast_name=checkIsQuammaSeperatedValue(String.valueOf(obj[++i]),"cast");
-					map.put("partner_cast", cast_name);
+					map.put("partner_cast",constant.convertNullToBlank( cast_name));
 					
 					String country_name=checkIsQuammaSeperatedValue(String.valueOf(obj[++i]),"country");
-					map.put("partner_country", country_name);
+					map.put("partner_country", constant.convertNullToBlank(country_name));
 				
 					String state=checkIsQuammaSeperatedValue(String.valueOf(obj[++i]),"state");
-					map.put("partner_state", state);
+					map.put("partner_state",constant.convertNullToBlank(state));
 					
 					String city=checkIsQuammaSeperatedValue(String.valueOf(obj[++i]),"city");
-					map.put("partner_city",city);
+					map.put("partner_city",constant.convertNullToBlank(city));
 					
-					map.put("religions_ids", String.valueOf(obj[++i]));
-					map.put("caste_ids", String.valueOf(obj[++i]));
-					map.put("country_ids", String.valueOf(obj[++i]));
-					map.put("state_ids", String.valueOf(obj[++i]));
-					map.put("city_ids", String.valueOf(obj[++i]));
+					map.put("religions_ids",constant.convertNullToBlank( String.valueOf(obj[++i])));
+					map.put("caste_ids",constant.convertNullToBlank( String.valueOf(obj[++i])));
+					map.put("country_ids", constant.convertNullToBlank(String.valueOf(obj[++i])));
+					map.put("state_ids",constant.convertNullToBlank( String.valueOf(obj[++i])));
+					map.put("city_ids",constant.convertNullToBlank( String.valueOf(obj[++i])));
 
 				status = true;
 			}

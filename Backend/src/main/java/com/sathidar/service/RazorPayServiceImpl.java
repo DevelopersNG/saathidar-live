@@ -27,16 +27,19 @@ public class RazorPayServiceImpl implements RazorPayService {
 	@Autowired
 	private ServerEmailService serverEmailService;
 	
+	@Autowired
+	private Constant constant;
+	
 	@Override
 	public int updatePremiumMemberDetails(RazorPayModel razorPayModel) {
 		
-		String member_id=razorPayModel.getMember_id();
-		String plan_name=razorPayModel.getPlan_name();
-		String plan_amount=razorPayModel.getPlan_amount();	
+		String member_id=constant.convertNullToBlank(razorPayModel.getMember_id());
+		String plan_name=constant.convertNullToBlank(razorPayModel.getPlan_name());
+		String plan_amount=constant.convertNullToBlank(razorPayModel.getPlan_amount());	
 		
-		String razorpay_order_id=razorPayModel.getRazorpay_order_id();		
-		String razorpay_payment_id=razorPayModel.getRazorpay_payment_id();	
-		String razorpay_signature=razorPayModel.getRazorpay_signature();
+		String razorpay_order_id=constant.convertNullToBlank(razorPayModel.getRazorpay_order_id());		
+		String razorpay_payment_id=constant.convertNullToBlank(razorPayModel.getRazorpay_payment_id());	
+		String razorpay_signature=constant.convertNullToBlank(razorPayModel.getRazorpay_signature());
 		
 		int plan_id= getNameByIDMangerFactory.getUpgradePlanIdByName(plan_name);
 		
@@ -58,6 +61,7 @@ public class RazorPayServiceImpl implements RazorPayService {
 				emailId_to= convertNullToBlank(String.valueOf(obj[++i]));
 			}
 		}
+		
 		String  response="";
 		if(lst!=null) {
 //			 response=sentPlanDetailsByEmail(lst,emailId_to,fullName);

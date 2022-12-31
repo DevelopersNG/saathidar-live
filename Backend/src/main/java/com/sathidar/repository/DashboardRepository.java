@@ -44,12 +44,13 @@ public interface DashboardRepository extends JpaRepository<DashboardModel, Integ
 	@Query(value="SELECT count(*) FROM member_shortlists where shortlist_from_id= :member_id and shortlist_status= :shortlist_status",nativeQuery = true)
 	int getShortlistsCount(String member_id, String shortlist_status);
 
-	@Query(value="SELECT count(*) FROM users where otp_verified=1",nativeQuery=true)
+//	@Query(value="SELECT count(*) FROM users where otp_verified=1 and short_reg_status=1 ",nativeQuery=true)
+	@Query(value="SELECT count(*) FROM member where status='ACTIVE'",nativeQuery=true)
 	int GetTotalUserRegister();
 
 	@Query(value="SELECT count(*) FROM premium_member where deleteflag='N'",nativeQuery=true)
 	int GetTotalPremiumMemberCount();
-
+	
 	@Query(value="SELECT group_concat(member_id) FROM premium_member where deleteflag='N'",nativeQuery=true)
 	String GetTotalPremiumMemberIds();
 

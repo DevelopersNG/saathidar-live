@@ -4,11 +4,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class Constant {
-	public String image_path="http://103.174.102.195:8080/member_images";
+	public String image_path="https://saathidaar.com:8443/member_images";
 	
-	public String document_path="http://103.174.102.195:8080/";
+	public String document_path="https://saathidaar.com:8443/";
 	
-	public String project_logo="http://103.174.102.195:8080/saathidaar_logo/saathidaar_logo.jpeg";
+	public String project_logo="https://saathidaar.com:8443/saathidaar_logo/saathidaar_logo.jpeg";
 //	public String image_path="D:/NG Digital";
 
 	public String convertNullToBlank(String value) {

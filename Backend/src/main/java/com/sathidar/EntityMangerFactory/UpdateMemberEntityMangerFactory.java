@@ -2275,7 +2275,7 @@ public class UpdateMemberEntityMangerFactory {
 					Query queryPartner = em.createNativeQuery(
 							"SELECT partner_marital_status, partner_mother_tongue, partner_qualification, partner_working_with, "
 									+ "partner_religions, partner_cast, partner_country, partner_state, partner_city, partner_from_age, partner_to_age, "
-									+ " partner_from_height, partner_to_height,partner_annual_income "
+									+ " partner_from_height, partner_to_height,partner_annual_income,partner_lifestyles "
 									+ "  FROM member_preference where member_id= :member_id");
 
 					queryPartner.setParameter("member_id", member_id);
@@ -2289,7 +2289,7 @@ public class UpdateMemberEntityMangerFactory {
 							// Match Marital Status
 							String partner_marital_status = convertNullToBlank(String.valueOf(objPartner[j]));
 							if (!partner_marital_status.equals("")) {
-								if (partner_marital_status.contains(myMaritalStatus)) {
+								if (partner_marital_status.contains(myMaritalStatus) || partner_marital_status.contains("Open to all")) {
 									map.put("partner_marital_status", partner_marital_status);
 									map.put("my_marital_status", "Yes");
 									++matchCount;
@@ -2304,10 +2304,10 @@ public class UpdateMemberEntityMangerFactory {
 							}
 							++appMatchPreference;
 
-							// Match Mother Tongue
+							// Match Mother Tongue - open to all
 							String partner_mother_tongue = convertNullToBlank(String.valueOf(objPartner[++j]));
 							if (!partner_mother_tongue.equals("")) {
-								if (partner_mother_tongue.contains(myMotherTongue)) {
+								if (partner_mother_tongue.contains(myMotherTongue) || partner_mother_tongue.contains("Open to all")) {
 									map.put("partner_mother_tongue", partner_mother_tongue);
 									map.put("my_mother_tongue", "Yes");
 									++matchCount;
@@ -2325,7 +2325,7 @@ public class UpdateMemberEntityMangerFactory {
 							// Match Qualifications
 							String partner_qualification = convertNullToBlank(String.valueOf(objPartner[++j]));
 							if (!partner_qualification.equals("")) {
-								if (partner_qualification.contains(myQualifications)) {
+								if (partner_qualification.contains(myQualifications) || partner_qualification.contains("Open to all")) {
 									map.put("partner_qualification", partner_qualification);
 									map.put("my_qualification", "Yes");
 									++matchCount;
@@ -2343,7 +2343,7 @@ public class UpdateMemberEntityMangerFactory {
 							// Match Working With
 							String partner_working_with = convertNullToBlank(String.valueOf(objPartner[++j]));
 							if (!partner_working_with.equals("")) {
-								if (partner_working_with.contains(myWorkingWith)) {
+								if (partner_working_with.contains(myWorkingWith) || partner_working_with.contains("Open to all")) {
 									map.put("partner_working_with", partner_working_with);
 									map.put("my_working_with", "Yes");
 									++matchCount;
@@ -2562,6 +2562,23 @@ public class UpdateMemberEntityMangerFactory {
 							}
 							++appMatchPreference;
 
+							String partner_life_styles = convertNullToBlank(String.valueOf(objPartner[++j]));
+							if (!partner_life_styles.equals("")) {
+								if (partner_life_styles.contains(myLifeStyles)) {
+									map.put("partner_life_styles", partner_life_styles);
+									map.put("my_life_styles", "Yes");
+									++matchCount;
+								} else {
+									map.put("partner_life_styles", partner_life_styles);
+									map.put("my_life_styles", "NO");
+								}
+								++matchPreference;
+							} else {
+								map.put("partner_life_styles", "");
+								map.put("my_life_styles", "BLANK");
+							}
+							++appMatchPreference;
+							
 							map.put("match_count", "" + matchCount);
 							map.put("total_preference", "" + matchPreference);
 							map.put("app_total_preference", "" + appMatchPreference);
@@ -2572,7 +2589,7 @@ public class UpdateMemberEntityMangerFactory {
 									title = "What he is looking for";
 									gender_preference = "his Preferences";
 								}
-								if (myGender.equals("male") || myGender.equals("male")) {
+								if (myGender.equals("male") || myGender.equals("Male")) {
 									title = "What She is looking for";
 									gender_preference = "her Preferences";
 								}
@@ -3259,7 +3276,7 @@ public class UpdateMemberEntityMangerFactory {
 					String myWorkingAs = convertNullToBlank(String.valueOf(obj[++i]));
 					String myAnnualIncome = convertNullToBlank(String.valueOf(obj[++i]));
 
-					String premium_date = uploadImagesService.getPremiumDate(memberID);
+					String premium_date = uploadImagesService.getAdminPremiumDate(memberID);
 					if (premium_date != null && !premium_date.equals("")) {
 						date_time = premium_date;
 					}

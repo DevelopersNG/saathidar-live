@@ -435,7 +435,7 @@ public class UserServiceImpl implements UserService {
 			int userByEmailExits = userRepository.findByEmailCheck(user.getEmail());
 			
 			if (userByPhoneExists>0 || userByEmailExits>0) {
-					map.put("message","Member Already Registered.");
+					map.put("message","User already exist, please login to continue");
 					map.put("results","0");
 					return map;
 //					message=user.getEmail() + " already registered.";
@@ -1451,20 +1451,38 @@ public class UserServiceImpl implements UserService {
 					}
 				}
 				
-				// send otp 
+				// send otp on phone begin
+//				String otp = this.getOTP();
+//				TextLocalSMSSetting textLocalSMSSetting = new TextLocalSMSSetting();
+//				String smsMessage = "Hi, your verification code is "+otp+"\r\n" + 
+//						"Saathidaar.com";
+//				String sender = "SDOTPM";
+//				String phoneNo = user.getPhone().trim();
+//				String response = textLocalSMSSetting.POSTSendSMS(phoneNo, sender, smsMessage);		
+//				System.out.println("sms resonse - " + response);
+				// send otp on phone end				
+				
+				
+				// send otp on email begin
 				String otp = this.getOTP();
-				TextLocalSMSSetting textLocalSMSSetting = new TextLocalSMSSetting();
-				String smsMessage = "Hi, your verification code is "+otp+"\r\n" + 
-						"Saathidaar.com";
-				String sender = "SDOTPM";
-				String phoneNo = user.getPhone().trim();
-				String response = textLocalSMSSetting.POSTSendSMS(phoneNo, sender, smsMessage);		
-				System.out.println("sms resonse - " + response);
+				String subject="Saathidaar OTP";
+				EmailBodyClass emailBodyClass =new EmailBodyClass();
+				 
+				String imageLink=constant.project_logo;
+				String email_body=emailBodyClass.getNewUserOtpOnEmailBody(otp,imageLink);		
+				try {
+					serverEmailService.send(email,subject, email_body);					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}// send otp on email end
+				
 				
 				// save otp  
 				int sts = updateMemberRepository.saveOTPOfUserID(user.getPhone().trim(),user_id,otp);
 				
 				// send email
+				
+				
 //				String to=user.getEmail();
 //				String subject="Saathidaar Registration Confirmation";
 //				try {
@@ -1474,16 +1492,12 @@ public class UserServiceImpl implements UserService {
 //					e.printStackTrace();
 //				}  
 				
-				Constant constant=new Constant();
-				EmailBodyClass emailBodyClass =new EmailBodyClass();
-						 
-				String imageLink=constant.project_logo;
-				String email_body=emailBodyClass.RegistrationMail(user.getFirstName(),user.getLastName(),user.getEmail(),user.getPhone(),user.getConfirmationToken(),imageLink);		
-				try {
-					serverEmailService.send(user.getEmail(), "Saathidaar-Registration Confirmation", email_body);					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+//				email_body=emailBodyClass.RegistrationMail(user.getFirstName(),user.getLastName(),user.getEmail(),user.getPhone(),user.getConfirmationToken(),imageLink);		
+//				try {
+//					serverEmailService.send(user.getEmail(), "Saathidaar-Registration Confirmation", email_body);					
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
 				
 				memberUpdateStatus = true;
 				memberDetails=1;
@@ -1551,6 +1565,29 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int updateStatusACTIVEToMemberTable(String user_id) {
 		return userRepository.updateStatusACTIVEToMemberTable(user_id);
+	}
+
+	@Override
+	public String sendConfirmationEmailToUSer(String user_id) {
+		String status="";
+		try {
+			EmailBodyClass emailBodyClass=new EmailBodyClass();
+			int i=0;
+			List<User> getUser=userRepository.getEmailByUserID(user_id);
+//			System.out.println(getUser.get(i).getId()+"-"+getUser.get(i).getFirstName() + " - "+getUser.get(i).getLastName()+ " - "+getUser.get(i).getEmail()+ " - "+getUser.get(i).getPhone());
+			
+			String imageLink=constant.project_logo;
+			String email_body=emailBodyClass.RegistrationMail(getUser.get(i).getFirstName(),getUser.get(i).getLastName(),getUser.get(i).getEmail(),getUser.get(i).getPhone(),getUser.get(i).getConfirmationToken(),imageLink);		
+	
+			try {
+				serverEmailService.send(getUser.get(i).getEmail(), "Saathidaar-Registration Confirmation", email_body);					
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return status;
 	}
 	
 //	@Override
